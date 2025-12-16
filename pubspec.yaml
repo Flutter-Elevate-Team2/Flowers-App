@@ -28,16 +28,31 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-dev_dependencies:
-  flutter_test:
+  dio: ^5.9.0
+  flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
+  get_it: null
+  go_router: ^16.3.0
+  injectable: ^2.5.2
+  intl: ^0.20.2
+  retrofit: ^4.9.0
+  logger: ^2.6.0  # for logging purpose
+  json_annotation: ^4.9.0
+ 
+  pinput: ^5.0.2
+ 
+  shared_preferences: ^2.5.3
+  skeletonizer: ^2.1.0+1
+  image_picker: ^1.2.1
+ 
+dev_dependencies:
+  retrofit_generator: ^10.0.1
+  build_runner: ^2.6.0
+  json_serializable: ^6.10.0
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -45,9 +60,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-
+  flutter_test:
+    sdk: flutter
+  injectable_generator: null
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+dependency_overrides:
+  analyzer: ^8.3.0
 
 # The following section is specific to Flutter packages.
 flutter:
