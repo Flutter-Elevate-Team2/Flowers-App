@@ -1,50 +1,51 @@
-import 'package:flowers_app/core/app_strings/app_strings.dart';
+import 'package:flowers_app/core/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flowers_app/core/helpers/app_regex.dart';
 
 class FormValidators {
   FormValidators._();
 
-  static String? validateEmail(String? value) {
+  static String? validateEmail(BuildContext context, String? value) {
     final trimmedValue = value?.trim();
     if (trimmedValue == null || trimmedValue.isEmpty) {
-      return AppStrings.emailRequired;
+      return AppLocalizations.of(context)!.emailRequired;
     }
     if (!AppRegex.isEmailValid(trimmedValue)) {
-      return AppStrings.emailInvalid;
+      return AppLocalizations.of(context)!.emailInvalid;
     }
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? validatePassword(BuildContext context, String? value) {
     final trimmedValue = value?.trim();
     if (trimmedValue == null || trimmedValue.isEmpty) {
-      return AppStrings.passwordRequired;
+      return AppLocalizations.of(context)!.passwordRequired;
     }
     if (!AppRegex.hasMinLength(trimmedValue)) {
-      return AppStrings.passwordTooShort;
+      return AppLocalizations.of(context)!.passwordTooShort;
     }
     if (!AppRegex.isPasswordValid(trimmedValue)) {
-      return AppStrings.passwordWeak;
+      return AppLocalizations.of(context)!.passwordWeak;
     }
     return null;
   }
 
-  static String? validateConfirmPassword(String? value, String password) {
+  static String? validateConfirmPassword(BuildContext context, String? value, String password) {
     if (value == null || value.isEmpty) {
-      return AppStrings.passwordRequired;
+      return AppLocalizations.of(context)!.passwordRequired;
     }
     if (value != password) {
-      return AppStrings.passwordMismatch;
+      return AppLocalizations.of(context)!.passwordMismatch;
     }
     return null;
   }
 
-  static String? validatePhone(String? value) {
+  static String? validatePhone(BuildContext context, String? value) {
     if (value == null || value.isEmpty) {
-      return AppStrings.phoneRequired;
+      return AppLocalizations.of(context)!.phoneRequired;
     }
     if (!AppRegex.isPhoneNumberValid(value)) {
-      return AppStrings.phoneInvalid;
+      return AppLocalizations.of(context)!.phoneInvalid;
     }
     return null;
   }

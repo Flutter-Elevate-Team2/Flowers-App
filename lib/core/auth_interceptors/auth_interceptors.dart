@@ -11,28 +11,22 @@ class AuthInterceptor extends Interceptor {
 
   AuthInterceptor(this._prefs, this._sessionController);
 
-  // TODO: [IMPORTANT] Add all public endpoints here (endpoints that DON'T require a token).
-  // Example: Login, Signup, ForgetPassword, Public Home Data, etc.
   final _publicPaths = [
-    ApiConstants.login,
-    ApiConstants.signup,
-    // TODO: Add other public paths from ApiConstants when created
-    // ApiConstants.forgetPassword,
-    // ApiConstants.checkEmail,
+    ApiConstants.signIn,
+    ApiConstants.signUp,
+    ApiConstants.forgetPassword,
+    ApiConstants.verifyResetCode,
+    ApiConstants.resetPassword,
   ];
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // Check if the current path is public
     bool isPublicPath = _publicPaths.any((path) => options.path.endsWith(path));
 
     if (!isPublicPath) {
-      // TODO: Check the key name in SharedPreferences (is it 'token', 'access_token', or 'userToken'?)
       final token = _prefs.getString('token');
 
       if (token != null && token.isNotEmpty) {
-        // TODO: Verify Header Format with Backend Developer
-        // Some backends need "Bearer $token", others just "$token", others need "token": "$token"
         options.headers["Authorization"] = "Bearer $token";
       }
     }
@@ -47,7 +41,6 @@ class AuthInterceptor extends Interceptor {
       );
 
       if (!isPublicPath) {
-        // Session Expired logic
         _sessionController.expireSession();
       }
     }

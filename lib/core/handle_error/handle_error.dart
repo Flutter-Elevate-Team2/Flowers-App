@@ -1,33 +1,36 @@
-import 'dart:async'; // For TimeoutException
-import 'dart:io';    // For SocketException & HandshakeException
+import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart'; // For PlatformException
+import 'package:flowers_app/core/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
-// Ensure this path matches your project structure
-import 'package:flowers_app/core/constants/app_error_messages.dart';
 
 class ErrorHandler {
 
   /// The main entry point to handle all types of errors in the application.
-  static String handleError(dynamic error) {
+  /// Requires [BuildContext] to retrieve localized error messages.
+  static String handleError(BuildContext context, dynamic error) {
+
+    final strings = AppLocalizations.of(context)!;
 
     // -------------------------------------------------------------------------
     // SECTION 1: NETWORK & CONNECTION ERRORS
     // -------------------------------------------------------------------------
     if (error is DioException) {
-      return _handleDioError(error); // Detailed Dio error handling
+      return _handleDioError(strings, error); // Detailed Dio error handling
     }
     else if (error is SocketException) {
-      return AppErrorMessages.noInternetError; // No Internet (Raw Dart Error)
+      return strings.noInternetError; // No Internet (Raw Dart Error)
     }
     else if (error is HandshakeException) {
-      return AppErrorMessages.badCertificateError; // SSL/Security Certificate issue
+      return strings.badCertificateError; // SSL/Security Certificate issue
     }
     else if (error is TimeoutException) {
-      return AppErrorMessages.connectionTimeoutError; // Operation timed out
+      return strings.connectionTimeoutError; // Operation timed out
     }
 
     // -------------------------------------------------------------------------
@@ -35,38 +38,38 @@ class ErrorHandler {
     // -------------------------------------------------------------------------
     else if (error is TypeError) {
       // Occurs when data type differs from expected (e.g., String instead of int)
-      return AppErrorMessages.parsingError;
+      return strings.parsingError;
     }
     else if (error is FormatException) {
       // Occurs when there is a data formatting error (e.g., Malformed JSON)
-      return AppErrorMessages.formatExceptionError;
+      return strings.formatExceptionError;
     }
 
     // -------------------------------------------------------------------------
     // SECTION 3: FIREBASE ERRORS
     // -------------------------------------------------------------------------
     else if (error is FirebaseAuthException) {
-      return _handleFirebaseAuthError(error); // Authentication errors
+      return _handleFirebaseAuthError(strings, error); // Authentication errors
     }
     else if (error is FirebaseException) {
-      return _handleFirebaseGeneralError(error); // General Firebase errors (Firestore/Storage)
+      return _handleFirebaseGeneralError(strings, error); // General Firebase errors (Firestore/Storage)
     }
 
     // -------------------------------------------------------------------------
     // SECTION 4: LOCAL STORAGE ERRORS
     // -------------------------------------------------------------------------
     else if (error is HiveError) {
-      return _handleHiveError(error); // Hive Database errors
+      return _handleHiveError(strings, error); // Hive Database errors
     }
     else if (error is PlatformException) {
-      return _handlePlatformError(error); // SharedPrefs or System/Platform errors
+      return _handlePlatformError(strings, error); // SharedPrefs or System/Platform errors
     }
 
     // -------------------------------------------------------------------------
     // SECTION 5: UNKNOWN / FALLBACK
     // -------------------------------------------------------------------------
     else {
-      return AppErrorMessages.unknownError;
+      return strings.unknownError;
     }
   }
 
@@ -77,30 +80,30 @@ class ErrorHandler {
   // -----------------------
   // 1. Dio Helper
   // -----------------------
-  static String _handleDioError(DioException error) {
+  static String _handleDioError(AppLocalizations strings, DioException error) {
     return switch (error.type) {
-      DioExceptionType.connectionTimeout => AppErrorMessages.connectionTimeoutError,
-      DioExceptionType.sendTimeout => AppErrorMessages.sendTimeoutError,
-      DioExceptionType.receiveTimeout => AppErrorMessages.receiveTimeoutError,
-      DioExceptionType.badResponse => _handleBadResponse(error),
-      DioExceptionType.cancel => AppErrorMessages.requestCancelledError,
-      DioExceptionType.connectionError => AppErrorMessages.connectionError,
-      DioExceptionType.badCertificate => AppErrorMessages.badCertificateError,
-      DioExceptionType.unknown => _handleUnknownError(error),
+      DioExceptionType.connectionTimeout => strings.connectionTimeoutError,
+      DioExceptionType.sendTimeout => strings.sendTimeoutError,
+      DioExceptionType.receiveTimeout => strings.receiveTimeoutError,
+      DioExceptionType.badResponse => _handleBadResponse(strings, error),
+      DioExceptionType.cancel => strings.requestCancelledError,
+      DioExceptionType.connectionError => strings.connectionError,
+      DioExceptionType.badCertificate => strings.badCertificateError,
+      DioExceptionType.unknown => _handleUnknownError(strings, error),
     };
   }
 
-  static String _handleBadResponse(DioException error) {
+  static String _handleBadResponse(AppLocalizations strings, DioException error) {
     final statusCode = error.response?.statusCode;
     return switch (statusCode) {
-      400 => _extractErrorMessage(error, AppErrorMessages.badRequestError),
-      401 => _extractErrorMessage(error, AppErrorMessages.unauthorizedError),
-      403 => AppErrorMessages.forbiddenError,
-      404 => AppErrorMessages.notFoundError,
-      409 => AppErrorMessages.conflictError,
-      500 => AppErrorMessages.internalServerError,
-      503 => AppErrorMessages.serviceUnavailableError,
-      _ => _extractErrorMessage(error, AppErrorMessages.defaultError),
+      400 => _extractErrorMessage(error, strings.badRequestError),
+      401 => _extractErrorMessage(error, strings.unauthorizedError),
+      403 => strings.forbiddenError,
+      404 => strings.notFoundError,
+      409 => strings.conflictError,
+      500 => strings.internalServerError,
+      503 => strings.serviceUnavailableError,
+      _ => _extractErrorMessage(error, strings.defaultError),
     };
   }
 
@@ -120,80 +123,80 @@ class ErrorHandler {
     }
   }
 
-  static String _handleUnknownError(DioException error) {
+  static String _handleUnknownError(AppLocalizations strings, DioException error) {
     // Check if the underlying error is a SocketException
     if (error.error is SocketException) {
-      return AppErrorMessages.noInternetError;
+      return strings.noInternetError;
     }
     // Check if the underlying error is a HandshakeException
     if (error.error is HandshakeException) {
-      return AppErrorMessages.badCertificateError;
+      return strings.badCertificateError;
     }
 
     final message = error.message ?? '';
     // Final check on the message string
     if (message.contains('SocketException')) {
-      return AppErrorMessages.noInternetError;
+      return strings.noInternetError;
     }
-    return AppErrorMessages.networkError;
+    return strings.networkError;
   }
 
   // -----------------------
   // 2. Firebase Auth Helper
   // -----------------------
-  static String _handleFirebaseAuthError(FirebaseAuthException error) {
+  static String _handleFirebaseAuthError(AppLocalizations strings, FirebaseAuthException error) {
     switch (error.code) {
       case 'user-not-found':
-        return AppErrorMessages.firebaseUserNotFound;
+        return strings.firebaseUserNotFound;
       case 'wrong-password':
-        return AppErrorMessages.firebaseWrongPassword;
+        return strings.firebaseWrongPassword;
       case 'email-already-in-use':
-        return AppErrorMessages.firebaseEmailInUse;
+        return strings.firebaseEmailInUse;
       case 'invalid-email':
-        return AppErrorMessages.firebaseInvalidEmail;
+        return strings.firebaseInvalidEmail;
       case 'weak-password':
-        return AppErrorMessages.firebaseWeakPassword;
+        return strings.firebaseWeakPassword;
       case 'user-disabled':
-        return AppErrorMessages.firebaseAccountDisabled;
+        return strings.firebaseAccountDisabled;
       case 'too-many-requests':
-        return AppErrorMessages.firebaseTooManyRequests;
+        return strings.firebaseTooManyRequests;
       case 'network-request-failed':
-        return AppErrorMessages.noInternetError;
+        return strings.noInternetError;
       default:
-        return error.message ?? AppErrorMessages.firebaseAuthUnknown;
+        return error.message ?? strings.firebaseAuthUnknown;
     }
   }
 
   // -----------------------
   // 3. Firebase General Helper
   // -----------------------
-  static String _handleFirebaseGeneralError(FirebaseException error) {
+  static String _handleFirebaseGeneralError(AppLocalizations strings, FirebaseException error) {
     switch (error.code) {
       case 'permission-denied':
-        return AppErrorMessages.firebasePermissionDenied;
+        return strings.firebasePermissionDenied;
       case 'unavailable':
-        return AppErrorMessages.firebaseUnavailable;
+        return strings.firebaseUnavailable;
       case 'network-request-failed':
-        return AppErrorMessages.noInternetError;
+        return strings.noInternetError;
       default:
-        return AppErrorMessages.unknownError;
+        return strings.unknownError;
     }
   }
 
   // -----------------------
   // 4. Hive Helper
   // -----------------------
-  static String _handleHiveError(HiveError error) {
-    return AppErrorMessages.hiveError;
+  static String _handleHiveError(AppLocalizations strings, HiveError error) {
+    return strings.hiveError;
   }
 
   // -----------------------
   // 5. Platform/SharedPrefs Helper
   // -----------------------
-  static String _handlePlatformError(PlatformException error) {
+  static String _handlePlatformError(AppLocalizations strings, PlatformException error) {
     if (error.code == 'network_error') {
-      return AppErrorMessages.noInternetError;
+      return strings.noInternetError;
     }
-    return AppErrorMessages.platformError;
+    return strings.platformError;
   }
 }
