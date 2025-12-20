@@ -591,6 +591,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred.'**
   String get unknownError;
+
+  /// Title for the session expired dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Session Expired'**
+  String get sessionExpiredTitle;
+
+  /// Content message for the session expired dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in again to continue.'**
+  String get sessionExpiredMessage;
+
+  /// Label for the login button
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginButton;
 }
 
 class _AppLocalizationsDelegate

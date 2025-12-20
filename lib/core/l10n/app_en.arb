@@ -182,5 +182,13 @@
   "defaultError": "Something went wrong.",
   "@defaultError": { "description": "Fallback generic error message" },
   "unknownError": "An unexpected error occurred.",
-  "@unknownError": { "description": "Fallback unknown error message" }
+  "@unknownError": { "description": "Fallback unknown error message" },
+  "sessionExpiredTitle": "Session Expired",
+  "@sessionExpiredTitle": { "description": "Title for the session expired dialog" },
+
+  "sessionExpiredMessage": "Please log in again to continue.",
+  "@sessionExpiredMessage": { "description": "Content message for the session expired dialog" },
+
+  "loginButton": "Login",
+  "@loginButton": { "description": "Label for the login button" }
 }

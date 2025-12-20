@@ -263,4 +263,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unknownError => 'An unexpected error occurred.';
+
+  @override
+  String get sessionExpiredTitle => 'Session Expired';
+
+  @override
+  String get sessionExpiredMessage => 'Please log in again to continue.';
+
+  @override
+  String get loginButton => 'Login';
 }
