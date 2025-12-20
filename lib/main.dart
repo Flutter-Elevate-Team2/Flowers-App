@@ -12,11 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flowers App',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: AppTheme.lightTheme,
     );
   }
 }
-

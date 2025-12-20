@@ -1,6 +1,9 @@
 {
   "@@locale": "en",
 
+  "appTitle": "Flowers App",
+  "@appTitle": { "description": "The main title of the application" },
+
   "home": "Home",
   "@home": { "description": "Label for the home navigation tab" },
   "categories": "Categories",
@@ -102,6 +105,7 @@
   "@phoneInvalid": { "description": "Validation message when phone format is wrong" },
   "validationEnterCompleteCode": "Please enter complete 6-digit code",
   "@validationEnterCompleteCode": { "description": "Validation message for incomplete OTP code" },
+
   "invalidEmailError": "This Email is not valid",
   "@invalidEmailError": { "description": "Generic error message for invalid email format" },
   "invalidPasswordError": "Invalid password",

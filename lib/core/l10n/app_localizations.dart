@@ -94,6 +94,12 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
+  /// The main title of the application
+  ///
+  /// In en, this message translates to:
+  /// **'Flowers App'**
+  String get appTitle;
+
   /// Label for the home navigation tab
   ///
   /// In en, this message translates to:
