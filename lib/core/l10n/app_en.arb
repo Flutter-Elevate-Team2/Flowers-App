@@ -59,7 +59,7 @@
   "@genderFemale": { "description": "Option for female gender" },
   "termsConditions": "Creating an account, you agree to our Terms & Conditions",
   "@termsConditions": { "description": "Terms and conditions agreement text" },
-  "haveAccountLogin": "Already have an account? Login",
+  "haveAccountLogin": "Already have an account? ",
   "@haveAccountLogin": { "description": "Text prompting user to login if they have an account" },
 
   "forgotPasswordTitle": "Forget password",
