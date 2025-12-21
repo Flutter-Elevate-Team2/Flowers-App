@@ -1,6 +1,8 @@
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiConstants {
-  static String apiBaseUrl = "https://flower.elevateegy.com/api/v1/";
+  static String apiBaseUrl = dotenv.env['BASE_URL'] ?? "";
 
   // ================= Auth Endpoints =================
   static const String signIn = "/auth/signin";
