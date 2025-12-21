@@ -14,7 +14,6 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
-import '../../Features/auth/api/api_client/auth_api.dart' as _i888;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -41,7 +40,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.singleton<_i361.Dio>(() => dioModule.dio(gh<_i453.AuthInterceptor>()));
-    gh.lazySingleton<_i888.AuthApi>(() => _i888.AuthApi(gh<_i361.Dio>()));
     return this;
   }
 }
