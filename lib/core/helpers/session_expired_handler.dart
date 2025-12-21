@@ -19,7 +19,6 @@ class SessionExpiredHandler {
         builder: (dialogContext) => AlertDialog(
           title: Text(strings.sessionExpiredTitle),
           content: Text(strings.sessionExpiredMessage),
-
           actions: [
             TextButton(
               onPressed: () async {
@@ -42,6 +41,8 @@ class SessionExpiredHandler {
           ],
         ),
       );
+    } else {
+      debugPrint("⚠️ Warning: Context is null or not mounted. Cannot show Session Expired Dialog.");
     }
   }
 }
