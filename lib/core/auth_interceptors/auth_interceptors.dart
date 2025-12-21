@@ -41,9 +41,14 @@ class AuthInterceptor extends Interceptor {
       );
 
       if (!isPublicPath) {
-        _sessionController.expireSession();
+        _performLogout();
       }
     }
     return handler.next(err);
+  }
+
+  void _performLogout() {
+    _prefs.remove('token');
+    _sessionController.expireSession();
   }
 }
