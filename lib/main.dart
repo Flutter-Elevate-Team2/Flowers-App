@@ -6,9 +6,10 @@ import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
 import 'package:flowers_app/core/helpers/session_expired_handler.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await configureDependencies();
   runApp(const MyApp());
 }
