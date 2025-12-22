@@ -1,3 +1,5 @@
+import 'package:flowers_app/Features/auth/data/mappers/signup_mappers.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/helpers/api_execution_mixin.dart';
@@ -15,7 +17,7 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
 
   @override
   Future<BaseResponse<SignupEntity>> signUp(SignupRequest request) async {
-    return execute<dynamic, SignupEntity>(
+    return execute<SignupResponse, SignupEntity>(
       action: () async => await _remoteDataSource.signUp(request),
       mapper: (response) => response.toEntity(),
     );
