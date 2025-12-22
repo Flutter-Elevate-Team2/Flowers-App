@@ -12,6 +12,7 @@
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
@@ -33,13 +34,19 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i306.SessionController>(() => _i306.SessionController());
+    gh.singleton<_i528.PrettyDioLogger>(() => dioModule.prettyDioLogger);
     gh.factory<_i453.AuthInterceptor>(
       () => _i453.AuthInterceptor(
         gh<_i460.SharedPreferences>(),
         gh<_i306.SessionController>(),
       ),
     );
-    gh.singleton<_i361.Dio>(() => dioModule.dio(gh<_i453.AuthInterceptor>()));
+    gh.singleton<_i361.Dio>(
+      () => dioModule.dio(
+        gh<_i453.AuthInterceptor>(),
+        gh<_i528.PrettyDioLogger>(),
+      ),
+    );
     return this;
   }
 }
