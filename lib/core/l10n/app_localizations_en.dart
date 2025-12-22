@@ -72,7 +72,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guestLogin => 'Continue as guest';
 
   @override
-  String get noAccountSignUp => 'Don\'t have an account? Sign up';
+  String get noAccountSignUp => 'Don\'t have an account? ';
 
   @override
   String get signUpTitle => 'Sign up';

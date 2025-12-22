@@ -83,7 +83,20 @@ abstract class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       ),
     ),
-
+    
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.black,
+        textStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          decoration: TextDecoration.underline,
+        ),
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(
         fontSize: 22,

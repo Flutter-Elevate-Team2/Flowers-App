@@ -223,7 +223,7 @@ abstract class AppLocalizations {
   /// Text prompting user to sign up
   ///
   /// In en, this message translates to:
-  /// **'Don\'t have an account? Sign up'**
+  /// **'Don\'t have an account? '**
   String get noAccountSignUp;
 
   /// Title for the sign up screen

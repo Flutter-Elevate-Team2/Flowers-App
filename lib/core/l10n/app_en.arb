@@ -46,7 +46,7 @@
   "@forgotPasswordLink": { "description": "Link text for forgot password" },
   "guestLogin": "Continue as guest",
   "@guestLogin": { "description": "Button text for guest login" },
-  "noAccountSignUp": "Don't have an account? Sign up",
+  "noAccountSignUp": "Don't have an account? ",
   "@noAccountSignUp": { "description": "Text prompting user to sign up" },
 
   "signUpTitle": "Sign up",
