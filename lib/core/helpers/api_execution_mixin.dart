@@ -8,11 +8,12 @@ mixin ApiExecutionMixin {
   }) async {
     try {
       final response = await action();
-
       return SuccessResponse(data: mapper(response));
     } catch (e, s) {
+    
       print('🔥 ApiExecutionMixin Exception: $e');
       print('🔥 ApiExecutionMixin StackTrace: $s');
+
       final errorMessage = ErrorHandler.handleError(e);
       return ErrorResponse(errorMessage: errorMessage);
     }
