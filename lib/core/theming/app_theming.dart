@@ -37,8 +37,8 @@ abstract class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
-      
-  
+
+
       floatingLabelBehavior: FloatingLabelBehavior.always,
 alignLabelWithHint: true,
 
@@ -49,16 +49,18 @@ alignLabelWithHint: true,
         color: AppColors.white[70],
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
+
       ),
       labelStyle: getTextStyle(
         color: AppColors.gray,
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
         fontSize: 18
+        
       ),
       floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
         if (states.contains(WidgetState.error)) {
-          return getTextStyle(color: AppColors.red); 
+          return getTextStyle(color: AppColors.red);
         }
         return getTextStyle(color: AppColors.gray, fontSize: 16);
       }),

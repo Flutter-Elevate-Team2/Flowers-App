@@ -82,10 +82,12 @@ class ErrorHandler {
       400 => _extractErrorMessage(error, ErrorStrings.badRequest),
       401 => _extractErrorMessage(error, ErrorStrings.unauthorized),
       403 => ErrorStrings.forbidden,
-      404 => ErrorStrings.notFound,
-      409 => ErrorStrings.conflict,
+      404 => _extractErrorMessage(error, ErrorStrings.notFound),
+      409 => _extractErrorMessage(error, ErrorStrings.conflict),
+
       500 => ErrorStrings.internalServerError,
       503 => ErrorStrings.serviceUnavailable,
+
       _ => _extractErrorMessage(error, ErrorStrings.defaultError),
     };
   }

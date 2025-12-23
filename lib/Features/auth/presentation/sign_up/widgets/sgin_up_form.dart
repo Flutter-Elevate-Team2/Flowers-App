@@ -55,10 +55,8 @@ class _SignUpFormState extends State<SignUpForm> {
           final signUpState = state.signUpState;
 
           if (signUpState?.data != null) {
-            
             context.goNamed(Routes.homeName);
           } else if (signUpState?.errorMessage != null) {
-           
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(signUpState!.errorMessage!),
@@ -70,7 +68,6 @@ class _SignUpFormState extends State<SignUpForm> {
         child: Column(
           children: [
             Row(
-             
               children: [
                 Expanded(
                   child: TextFormField(
@@ -85,8 +82,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     decoration: InputDecoration(
                       labelText: (context).l10n.firstNameLabel,
                       hintText: (context).l10n.firstNameHint,
-                      
-                      
+                      helperText: "",
                     ),
                   ),
                 ),
@@ -103,7 +99,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     decoration: InputDecoration(
                       labelText: (context).l10n.lastNameLabel,
                       hintText: (context).l10n.lastNameHint,
-                       
+                      helperText: "",
                     ),
                   ),
                 ),
@@ -121,6 +117,7 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 labelText: (context).l10n.emailLabel,
                 hintText: (context).l10n.emailHint,
+                helperText: "",
               ),
             ),
             const SizedBox(height: 24),
@@ -143,10 +140,10 @@ class _SignUpFormState extends State<SignUpForm> {
                     controller: _passwordController,
                     style: Theme.of(context).textTheme.bodySmall,
                     decoration: InputDecoration(
-                     
                       labelText: (context).l10n.passwordLabel,
                       hintText: (context).l10n.passwordHint,
-                     
+                      helperText: "",
+
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -176,9 +173,10 @@ class _SignUpFormState extends State<SignUpForm> {
                     controller: _confirmPasswordController,
                     style: Theme.of(context).textTheme.bodySmall,
                     decoration: InputDecoration(
-                     
                       labelText: (context).l10n.confirmPasswordLabel,
                       hintText: (context).l10n.confirmPasswordHint,
+                      helperText: "",
+
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -206,6 +204,7 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 labelText: (context).l10n.phoneLabel,
                 hintText: (context).l10n.phoneHint,
+                helperText: "",
               ),
               keyboardType: TextInputType.phone,
             ),
@@ -245,7 +244,9 @@ class _SignUpFormState extends State<SignUpForm> {
                                   password: _passwordController.text,
                                   confirmPassword:
                                       _confirmPasswordController.text,
-                                  gender: _selectedGender?.name ?? context.l10n.genderMale,
+                                  gender:
+                                      _selectedGender?.name ??
+                                      context.l10n.genderMale,
                                 ),
                               );
                             }
