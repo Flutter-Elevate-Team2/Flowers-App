@@ -103,7 +103,7 @@
   "@lastNameRequired": { "description": "Validation message when last name is empty" },
   "phoneRequired": "Phone number is required",
   "@phoneRequired": { "description": "Validation message when phone is empty" },
-  "phoneInvalid": "Please enter a valid phone number",
+  "phoneInvalid": "Ensure the number starts with +20",
   "@phoneInvalid": { "description": "Validation message when phone format is wrong" },
   "validationEnterCompleteCode": "Please enter complete 6-digit code",
   "@validationEnterCompleteCode": { "description": "Validation message for incomplete OTP code" },

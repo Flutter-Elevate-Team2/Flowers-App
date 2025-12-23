@@ -197,8 +197,8 @@ class _SignUpFormState extends State<SignUpForm> {
             TextFormField(
               textInputAction: TextInputAction.done,
 
-              // validator: (value) =>
-              //     FormValidators.validatePhone(context, value),
+               validator: (value) =>
+                  FormValidators.validatePhone(context, value),
               controller: _phoneController,
               style: Theme.of(context).textTheme.bodySmall,
               decoration: InputDecoration(

@@ -379,7 +379,7 @@ abstract class AppLocalizations {
   /// Validation message when phone format is wrong
   ///
   /// In en, this message translates to:
-  /// **'Please enter a valid phone number'**
+  /// **'Ensure the number starts with +20'**
   String get phoneInvalid;
 
   /// Validation message for incomplete OTP code
