@@ -153,7 +153,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneRequired => 'Phone number is required';
 
   @override
-  String get phoneInvalid => 'Please enter a valid phone number';
+  String get phoneInvalid => 'Ensure the number starts with +20';
 
   @override
   String get validationEnterCompleteCode =>
