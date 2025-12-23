@@ -4,12 +4,17 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flowers_app/core/constants/error_strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 class ErrorHandler {
   /// Main entry point. NO Context needed anymore!
   static String handleError(dynamic error) {
+    debugPrint('🚨 ErrorHandler caught: ${error.runtimeType} -> $error');
+    if (error is Error) {
+      debugPrint('🚨 StackTrace: ${error.stackTrace}');
+    }
     // -------------------------------------------------------------------------
     // SECTION 1: NETWORK & CONNECTION ERRORS
     // -------------------------------------------------------------------------

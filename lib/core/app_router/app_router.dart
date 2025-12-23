@@ -1,5 +1,6 @@
 
 
+import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,29 +26,32 @@ class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.signUpPath,
     routes: [
       /// ====== LOGIN SCREEN ======
-      GoRoute(
-        path: Routes.signInPath,
-        name: Routes.signInName,
+      // GoRoute(
+      //   path: Routes.signInPath,
+      //   name: Routes.signInName,
 
-      ),
+      // ),
 
       /// ====== SIGN UP SCREEN ======
       GoRoute(
         path: Routes.signUpPath,
         name: Routes.signUpName,
+        builder: (context, state) => const SignUpScreen(),
       ),
       /// ====== FORGET PASSWORD SCREEN ======
-          GoRoute(
-            path: Routes.forgetPasswordPath,
-            name: Routes.forgetPasswordName,
-          ),
+          // GoRoute(
+          //   path: Routes.forgetPasswordPath,
+          //   name: Routes.forgetPasswordName,
+          // ),
       /// ====== HOME SCREEN ======
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
+      builder: (context, state) => const Scaffold(body: Center(child: Text('Home Screen')),
+      ),
       ),
     ],
   );

@@ -37,9 +37,14 @@ abstract class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
+      
+  
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+alignLabelWithHint: true,
+
       filled: true,
       fillColor: AppColors.white,
-      contentPadding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
+      contentPadding: EdgeInsets.only(left: 16, top: 20, bottom: 20),
       hintStyle: getTextStyle(
         color: AppColors.white[70],
         fontFamily: ConstKeys.robotoFont,
@@ -49,14 +54,15 @@ abstract class AppTheme {
         color: AppColors.gray,
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
+        fontSize: 18
       ),
       floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
         if (states.contains(WidgetState.error)) {
           return getTextStyle(color: AppColors.red); 
         }
-        return getTextStyle(color: AppColors.gray);
+        return getTextStyle(color: AppColors.gray, fontSize: 16);
       }),
-      errorStyle: getTextStyle(color: AppColors.red),
+       errorStyle: getTextStyle(color: AppColors.red),
       border: getOutlineInputBorder(color: AppColors.gray),
       focusedBorder: getOutlineInputBorder(color: AppColors.gray),
       enabledBorder: getOutlineInputBorder(color: AppColors.gray),

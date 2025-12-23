@@ -49,6 +49,8 @@
   "noAccountSignUp": "Don't have an account? Sign up",
   "@noAccountSignUp": { "description": "Text prompting user to sign up" },
 
+  "termsAndConditions": "Terms&Conditions",
+  "@termsAndConditions": { "description": "Terms&Conditions link text" },
   "signUpTitle": "Sign up",
   "@signUpTitle": { "description": "Title for the sign up screen" },
   "genderLabel": "Gender",
@@ -57,7 +59,7 @@
   "@genderMale": { "description": "Option for male gender" },
   "genderFemale": "Female",
   "@genderFemale": { "description": "Option for female gender" },
-  "termsConditions": "Creating an account, you agree to our Terms & Conditions",
+  "termsConditions": "Creating an account, you agree to our ",
   "@termsConditions": { "description": "Terms and conditions agreement text" },
   "haveAccountLogin": "Already have an account? ",
   "@haveAccountLogin": { "description": "Text prompting user to login if they have an account" },

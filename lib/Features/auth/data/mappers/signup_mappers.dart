@@ -5,10 +5,7 @@ import '../../domain/entities/signup_entity.dart';
 
 extension SignupResponseMapper on SignupResponse {
   SignupEntity toEntity() {
-    return SignupEntity(
-      token: token,
-      user: user?.toEntity(),
-    );
+    return SignupEntity(token: token, user: user?.toEntity());
   }
 }
 
@@ -23,3 +20,5 @@ extension UserDtoMapper on UserDto {
     );
   }
 }
+
+

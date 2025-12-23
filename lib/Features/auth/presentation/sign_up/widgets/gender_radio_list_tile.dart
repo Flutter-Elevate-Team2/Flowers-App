@@ -5,12 +5,15 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class GenderRadioListTile extends StatefulWidget {
-  const GenderRadioListTile({super.key,});
+  final void Function(Gender?)? onChanged;
+  final Gender? selectedGender;
+
+  const GenderRadioListTile({super.key, this.onChanged, this.selectedGender});
 
   @override
   State<GenderRadioListTile> createState() => _GenderRadioListTileState();
 }
-Gender? selectedGender;
+
 class _GenderRadioListTileState extends State<GenderRadioListTile> {
   @override
   Widget build(BuildContext context) {
@@ -29,12 +32,8 @@ class _GenderRadioListTileState extends State<GenderRadioListTile> {
               style: Theme.of(context).textTheme.bodySmall!.copyWith(),
             ),
             value: Gender.female,
-            groupValue: selectedGender,
-            onChanged: (value) {
-              setState(() {
-                selectedGender = value;
-              });
-            },
+            groupValue: widget.selectedGender,
+            onChanged: widget.onChanged,
             activeColor: AppColors.mainColor,
             fillColor: MaterialStateProperty.resolveWith<Color>((states) {
               if (states.contains(MaterialState.selected)) {
@@ -51,12 +50,8 @@ class _GenderRadioListTileState extends State<GenderRadioListTile> {
               style: Theme.of(context).textTheme.bodySmall,
             ),
             value: Gender.male,
-            groupValue: selectedGender,
-            onChanged: (value) {
-              setState(() {
-                selectedGender = value;
-              });
-            },
+            groupValue: widget.selectedGender,
+            onChanged: widget.onChanged,
             activeColor: AppColors.mainColor,
             fillColor: MaterialStateProperty.resolveWith<Color>((states) {
               if (states.contains(MaterialState.selected)) {
@@ -70,4 +65,5 @@ class _GenderRadioListTileState extends State<GenderRadioListTile> {
     );
   }
 }
+
 enum Gender { female, male }

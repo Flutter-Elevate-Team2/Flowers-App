@@ -75,6 +75,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noAccountSignUp => 'Don\'t have an account? Sign up';
 
   @override
+  String get termsAndConditions => 'Terms&Conditions';
+
+  @override
   String get signUpTitle => 'Sign up';
 
   @override
@@ -87,8 +90,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get genderFemale => 'Female';
 
   @override
-  String get termsConditions =>
-      'Creating an account, you agree to our Terms & Conditions';
+  String get termsConditions => 'Creating an account, you agree to our ';
 
   @override
   String get haveAccountLogin => 'Already have an account? ';

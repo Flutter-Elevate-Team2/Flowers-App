@@ -40,14 +40,14 @@ class MockAuthRepoContract extends _i1.Mock implements _i2.AuthRepoContract {
 
   @override
   _i3.Future<_i4.BaseResponse<_i5.SignupEntity>> signUp(
-    _i6.SignupRequest? requestModel,
+    _i6.SignupRequest? request,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#signUp, [requestModel]),
+            Invocation.method(#signUp, [request]),
             returnValue: _i3.Future<_i4.BaseResponse<_i5.SignupEntity>>.value(
               _i7.dummyValue<_i4.BaseResponse<_i5.SignupEntity>>(
                 this,
-                Invocation.method(#signUp, [requestModel]),
+                Invocation.method(#signUp, [request]),
               ),
             ),
           )

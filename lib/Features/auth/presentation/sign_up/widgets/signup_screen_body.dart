@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class SignupScreenBody extends StatelessWidget {
 
 
-  const SignupScreenBody({super.key});
-
+ const SignupScreenBody({super.key});
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: SingleChildScrollView(

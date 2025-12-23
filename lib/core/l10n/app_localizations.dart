@@ -226,6 +226,12 @@ abstract class AppLocalizations {
   /// **'Don\'t have an account? Sign up'**
   String get noAccountSignUp;
 
+  /// Terms&Conditions link text
+  ///
+  /// In en, this message translates to:
+  /// **'Terms&Conditions'**
+  String get termsAndConditions;
+
   /// Title for the sign up screen
   ///
   /// In en, this message translates to:
@@ -253,7 +259,7 @@ abstract class AppLocalizations {
   /// Terms and conditions agreement text
   ///
   /// In en, this message translates to:
-  /// **'Creating an account, you agree to our Terms & Conditions'**
+  /// **'Creating an account, you agree to our '**
   String get termsConditions;
 
   /// Text prompting user to login if they have an account

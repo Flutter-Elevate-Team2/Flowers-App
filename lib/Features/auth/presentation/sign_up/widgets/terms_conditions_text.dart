@@ -7,27 +7,26 @@ class TermsAndConditionsText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   Row(
-              children: [
-                Text(
-                 "",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall!.copyWith(fontSize: 12),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    context.l10n.termsConditions,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                      decorationColor: AppColors.black,
-                    ),
-                  ),
-                ),
-              ],
-            );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          context.l10n.termsConditions,
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 12),
+        ),
+        InkWell(
+          onTap: () {},
+          child: Text(
+            " ${context.l10n.termsAndConditions}",
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.black,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
