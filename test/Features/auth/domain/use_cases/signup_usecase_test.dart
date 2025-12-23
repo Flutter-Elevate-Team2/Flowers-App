@@ -10,13 +10,18 @@ import 'package:flowers_app/Features/auth/domain/entities/signup_entity.dart';
 
 import 'signup_usecase_test.mocks.dart';
 
-
 @GenerateMocks([AuthRepoContract])
 void main() {
   late SignupUseCase signupUseCase;
   late MockAuthRepoContract mockAuthRepo;
 
   setUp(() {
+    provideDummy<BaseResponse<SignupEntity>>(
+      SuccessResponse(
+        data: SignupEntity(user: null, token: ""),
+      ),
+    );
+
     mockAuthRepo = MockAuthRepoContract();
     signupUseCase = SignupUseCase(mockAuthRepo);
   });
