@@ -1,6 +1,9 @@
+import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_view_model.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/widgets/login_screen_body.dart';
+import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -17,7 +20,10 @@ class LoginScreen extends StatelessWidget {
           child: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: LoginScreenBody(),
+      body: BlocProvider(
+        create: (context) => getIt<LoginViewModel>(),
+        child: LoginScreenBody(),
+      ),
 
     );
   }
