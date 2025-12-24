@@ -39,7 +39,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   Widget build(BuildContext context) {
     final viewModel = context.read<LoginViewModel>();
 
-            return Form(
+            return  SingleChildScrollView(
+                child: Column(
+                  children: [
+                Form(
               key: _formKey,
               autovalidateMode: _autoValidateMode,
               child: Container(
@@ -154,6 +157,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                           ],);
                       }),
               ),
-    ));
+    )
+                )
+                  ],)
+            );
   }
 }
