@@ -1,6 +1,7 @@
 
 
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,13 +30,13 @@ class AppRouter {
     initialLocation: Routes.signInPath,
     routes: [
       /// ====== LOGIN SCREEN ======
-      GoRoute(
-        path: Routes.signInPath,
-        name: Routes.signInName,
-        builder: (context, state) => const LoginScreen(),
-
-
-      ),
+      // GoRoute(
+      //   path: Routes.signInPath,
+      //   name: Routes.signInName,
+      //   builder: (context, state) => const LoginScreen(),
+      //
+      //
+      // ),
 
       // /// ====== SIGN UP SCREEN ======
       // GoRoute(
@@ -47,11 +48,12 @@ class AppRouter {
       //       path: Routes.forgetPasswordPath,
       //       name: Routes.forgetPasswordName,
       //     ),
-      // /// ====== HOME SCREEN ======
-      // GoRoute(
-      //   path: Routes.homePath,
-      //   name: Routes.homeName,
-      // ),
+      /// ====== HOME SCREEN ======
+      GoRoute(
+        path: Routes.homePath,
+        name: Routes.homeName,
+        builder: (context, state) => const HomeScreen(),
+      ),
     ],
   );
 }

@@ -1,3 +1,5 @@
+import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class CustomButtonNavigationBar extends StatelessWidget {
@@ -16,24 +18,24 @@ class CustomButtonNavigationBar extends StatelessWidget {
       currentIndex: currentIndex,
       onTap: onTap,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.pink,
-      unselectedItemColor: Colors.grey,
-      items: const [
+      selectedItemColor: AppColors.mainColor,
+      unselectedItemColor:  AppColors.white.shade800,
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
+          icon: const Icon(Icons.home_outlined),
+          label: (context).l10n.home,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.category_outlined),
-          label: 'Categories',
+          icon: const Icon(Icons.category_outlined),
+          label: (context).l10n.categories,
         ),
-        BottomNavigationBarItem(
+         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart_outlined),
-          label: 'Cart',
+          label: (context).l10n.cart,
         ),
-        BottomNavigationBarItem(
+         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
-          label: 'Profile',
+          label: (context).l10n.profile,
         ),
       ],
     );

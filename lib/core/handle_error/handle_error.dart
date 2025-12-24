@@ -4,12 +4,17 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flowers_app/core/constants/error_strings.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 class ErrorHandler {
   /// Main entry point. NO Context needed anymore!
   static String handleError(dynamic error) {
+    debugPrint('🚨 ErrorHandler caught: ${error.runtimeType} -> $error');
+    if (error is Error) {
+      debugPrint('🚨 StackTrace: ${error.stackTrace}');
+    }
     // -------------------------------------------------------------------------
     // SECTION 1: NETWORK & CONNECTION ERRORS
     // -------------------------------------------------------------------------
@@ -77,18 +82,20 @@ class ErrorHandler {
       400 => _extractErrorMessage(error, ErrorStrings.badRequest),
       401 => _extractErrorMessage(error, ErrorStrings.unauthorized),
       403 => ErrorStrings.forbidden,
-      404 => ErrorStrings.notFound,
-      409 => ErrorStrings.conflict,
+      404 => _extractErrorMessage(error, ErrorStrings.notFound),
+      409 => _extractErrorMessage(error, ErrorStrings.conflict),
+
       500 => ErrorStrings.internalServerError,
       503 => ErrorStrings.serviceUnavailable,
+
       _ => _extractErrorMessage(error, ErrorStrings.defaultError),
     };
   }
 
   static String _extractErrorMessage(
-    DioException error,
-    String defaultMessage,
-  ) {
+      DioException error,
+      String defaultMessage,
+      ) {
     try {
       final data = error.response?.data;
       if (data is Map<String, dynamic>) {
