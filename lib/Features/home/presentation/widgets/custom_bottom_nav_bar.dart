@@ -19,22 +19,22 @@ class CustomButtonNavigationBar extends StatelessWidget {
       onTap: onTap,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: AppColors.mainColor,
-      unselectedItemColor:  AppColors.white.shade800,
+      unselectedItemColor: AppColors.gray,
       items: [
         BottomNavigationBarItem(
-          icon: const Icon(Icons.home_outlined),
+          icon: Icon(Icons.home_outlined, color: AppColors.mainColor),
           label: (context).l10n.home,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.category_outlined),
+          icon: Icon(Icons.category_outlined, color: AppColors.mainColor),
           label: (context).l10n.categories,
         ),
-         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart_outlined, color: AppColors.mainColor),
           label: (context).l10n.cart,
         ),
-         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline, color: AppColors.mainColor),
           label: (context).l10n.profile,
         ),
       ],

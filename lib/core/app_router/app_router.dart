@@ -27,16 +27,16 @@ class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.homePath,
     routes: [
       /// ====== LOGIN SCREEN ======
-      // GoRoute(
-      //   path: Routes.signInPath,
-      //   name: Routes.signInName,
-      //   builder: (context, state) => const LoginScreen(),
-      //
-      //
-      // ),
+      GoRoute(
+        path: Routes.signInPath,
+        name: Routes.signInName,
+        builder: (context, state) => const LoginScreen(),
+
+
+      ),
 
       // /// ====== SIGN UP SCREEN ======
       // GoRoute(
