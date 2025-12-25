@@ -1,28 +1,20 @@
-import 'package:equatable/equatable.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Reset_password_responce.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 
 
-class ForgetPasswordState with EquatableMixin {
-  final BaseState<ForgetPasswordResponce> sendOtpState;
-  final BaseState<VerifyPasswordResponce> verifyOtpState;
-  final BaseState<ResetPasswordResponce> resetPasswordState;
+class ForgetPasswordState {
+  final BaseState<ForgetPasswordResponce>? sendOtpState;
+  final BaseState<VerifyPasswordResponce>? verifyOtpState;
+  final BaseState<ResetPasswordResponce>? resetPasswordState;
 
   ForgetPasswordState({
-    required this.sendOtpState,
-    required this.verifyOtpState,
-    required this.resetPasswordState,
+    this.sendOtpState,
+    this.verifyOtpState,
+    this.resetPasswordState,
   });
 
-  factory ForgetPasswordState.initial() {
-    return ForgetPasswordState(
-      sendOtpState: BaseState(),
-      verifyOtpState: BaseState(),
-      resetPasswordState: BaseState(),
-    );
-  }
 
   ForgetPasswordState copyWith({
     BaseState<ForgetPasswordResponce>? sendOtpState,
@@ -37,10 +29,5 @@ class ForgetPasswordState with EquatableMixin {
     );
   }
 
-  @override
-  List<Object?> get props => [
-    sendOtpState,
-    verifyOtpState,
-    resetPasswordState,
-  ];
+  
 }

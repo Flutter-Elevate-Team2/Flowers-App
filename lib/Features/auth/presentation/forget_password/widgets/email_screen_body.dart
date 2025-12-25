@@ -4,9 +4,14 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class EmailScreenBody extends StatelessWidget {
-  const EmailScreenBody({super.key, required this.onNextPage});
+  const EmailScreenBody({
+    super.key,
+    required this.onNextPage,
+    this.onEmailSubmitted,
+  });
 
   final VoidCallback onNextPage;
+  final void Function(String email)? onEmailSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +19,16 @@ class EmailScreenBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           TextSection(
             tittle: context.l10n.forgotPasswordTitle,
             subTitle: context.l10n.forgotPasswordSubTitle,
           ),
-          SizedBox(height: 32),
-          EmailFormSection(onNextPage: onNextPage),
+          const SizedBox(height: 32),
+          EmailFormSection(
+            onNextPage: onNextPage,
+            onEmailSubmitted: onEmailSubmitted,
+          ),
         ],
       ),
     );

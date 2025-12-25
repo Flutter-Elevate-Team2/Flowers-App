@@ -4,7 +4,9 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class NewPasswordScreenBody extends StatelessWidget {
-  const NewPasswordScreenBody({super.key});
+  const NewPasswordScreenBody({super.key, this.userEmail});
+
+  final String? userEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +14,13 @@ class NewPasswordScreenBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          const SizedBox(height: 40,),
-          TextSection(tittle: context.l10n.resetPasswordTitle, subTitle: context.l10n.resetPasswordSubTitle),
-          const SizedBox(height: 32,),
-         const NewPasswordForm(),
-      
+          const SizedBox(height: 40),
+          TextSection(
+            tittle: context.l10n.resetPasswordTitle,
+            subTitle: context.l10n.resetPasswordSubTitle,
+          ),
+          const SizedBox(height: 32),
+          NewPasswordForm(userEmail: userEmail),
         ],
       ),
     );

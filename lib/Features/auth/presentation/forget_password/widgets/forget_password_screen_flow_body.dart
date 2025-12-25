@@ -13,6 +13,8 @@ class _ForgetPasswordScreenFlowBodyState
     extends State<ForgetPasswordScreenFlowBody> {
   late PageController _pageController;
   var currentPage = 0;
+  String? userEmail; // Store email for later use in reset password
+
   @override
   void initState() {
     _pageController = PageController();
@@ -33,7 +35,7 @@ class _ForgetPasswordScreenFlowBodyState
     if (currentPage < 2) {
       _pageController.animateToPage(
         currentPage + 1,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     }
@@ -43,7 +45,7 @@ class _ForgetPasswordScreenFlowBodyState
     if (currentPage > 0) {
       _pageController.animateToPage(
         currentPage - 1,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     }
@@ -55,6 +57,12 @@ class _ForgetPasswordScreenFlowBodyState
       pageController: _pageController,
       onNextPage: goToNextPage,
       onPreviousPage: goToPreviousPage,
+      onEmailSubmitted: (email) {
+        setState(() {
+          userEmail = email;
+        });
+      },
+      userEmail: userEmail,
     );
   }
 }

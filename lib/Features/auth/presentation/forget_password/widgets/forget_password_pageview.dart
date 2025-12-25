@@ -9,22 +9,32 @@ class ForgetPasswordPageview extends StatelessWidget {
     required this.pageController,
     required this.onNextPage,
     required this.onPreviousPage,
+    this.onEmailSubmitted,
+    this.userEmail,
+    this.otpErrorMessage,
   });
 
   final PageController pageController;
   final VoidCallback onNextPage;
   final VoidCallback onPreviousPage;
+  final void Function(String email)? onEmailSubmitted;
+  final String? userEmail;
+  final String? otpErrorMessage;
 
   @override
   Widget build(BuildContext context) {
     return PageView(
       controller: pageController,
       physics:
-          NeverScrollableScrollPhysics(), // Disable swipe to control navigation
+          const NeverScrollableScrollPhysics(), // Disable swipe to control navigation
       children: [
-        EmailScreen(onNextPage: onNextPage),
-        SendCodeScreen(onPreviousPage: onPreviousPage, onNextPage: onNextPage),
-        NewPasswordScreen(onPreviousPage: onPreviousPage),
+        EmailScreen(onNextPage: onNextPage, onEmailSubmitted: onEmailSubmitted),
+        SendCodeScreen(
+          onPreviousPage: onPreviousPage,
+          onNextPage: onNextPage,
+          errorMessage: otpErrorMessage,
+        ),
+        NewPasswordScreen(onPreviousPage: onPreviousPage, userEmail: userEmail),
       ],
     );
   }

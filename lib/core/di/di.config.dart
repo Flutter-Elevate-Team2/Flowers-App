@@ -31,8 +31,6 @@ import '../../Features/auth/domain/use_cases/verify_password_usecase.dart'
     as _i13;
 import '../../Features/auth/presentation/forget_password/view_model/forget_password_cubit.dart'
     as _i427;
-import '../../Features/auth/presentation/forget_password/view_model/forget_password_states.dart'
-    as _i480;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -83,7 +81,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(
-        gh<_i480.ForgetPasswordState>(),
         gh<_i762.ForgetPasswordUsecase>(),
         gh<_i13.VerifyPasswordUsecase>(),
         gh<_i785.ResetPasswordUsecase>(),

@@ -3,27 +3,31 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class NewPasswordScreen extends StatelessWidget {
-  const NewPasswordScreen({super.key, required this.onPreviousPage});
+  const NewPasswordScreen({
+    super.key,
+    required this.onPreviousPage,
+    this.userEmail,
+  });
 
   final VoidCallback onPreviousPage;
+  final String? userEmail;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 40,
-
         titleSpacing: 0,
         leading: IconButton(
-          icon: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: const Icon(Icons.arrow_back_ios),
+          icon: const Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Icon(Icons.arrow_back_ios),
           ),
-          onPressed: onPreviousPage, 
+          onPressed: onPreviousPage,
         ),
         title: Text(context.l10n.passwordLabel),
       ),
-      body: NewPasswordScreenBody(),
+      body: NewPasswordScreenBody(userEmail: userEmail),
     );
   }
 }

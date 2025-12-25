@@ -3,9 +3,14 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class EmailScreen extends StatelessWidget {
-  const EmailScreen({super.key, required this.onNextPage});
+  const EmailScreen({
+    super.key,
+    required this.onNextPage,
+    this.onEmailSubmitted,
+  });
 
   final VoidCallback onNextPage;
+  final void Function(String email)? onEmailSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +30,10 @@ class EmailScreen extends StatelessWidget {
         ),
         title: Text(context.l10n.passwordLabel),
       ),
-      body: EmailScreenBody(onNextPage: onNextPage),
+      body: EmailScreenBody(
+        onNextPage: onNextPage,
+        onEmailSubmitted: onEmailSubmitted,
+      ),
     );
   }
 }

@@ -23,6 +23,23 @@ class OtpInputWidget extends StatefulWidget {
 class _OtpInputWidgetState extends State<OtpInputWidget> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  String? _localError;
+
+  @override
+  void initState() {
+    super.initState();
+    _localError = widget.errorText;
+  }
+
+  @override
+  void didUpdateWidget(covariant OtpInputWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.errorText != oldWidget.errorText) {
+      setState(() {
+        _localError = widget.errorText;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -33,7 +50,7 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    bool hasError = widget.errorText != null && widget.errorText!.isNotEmpty;
+    bool hasError = _localError != null && _localError!.isNotEmpty;
 
     // Default theme (disabled/unfocused state) - Gray
     final defaultPinTheme = PinTheme(
@@ -105,6 +122,11 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
             ),
           ),
           onChanged: (value) {
+            if (_localError != null) {
+              setState(() {
+                _localError = null;
+              });
+            }
             if (widget.onChanged != null) {
               widget.onChanged!(value);
             }
@@ -125,7 +147,7 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  widget.errorText!,
+                  _localError!,
                   style: const TextStyle(
                     color: AppColors.otpErrorText,
                     fontSize: 12,

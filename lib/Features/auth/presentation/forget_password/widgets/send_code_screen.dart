@@ -7,10 +7,12 @@ class SendCodeScreen extends StatelessWidget {
     super.key,
     required this.onPreviousPage,
     required this.onNextPage,
+    this.errorMessage,
   });
 
   final VoidCallback onPreviousPage;
   final VoidCallback onNextPage;
+  final String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,14 @@ class SendCodeScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: Icon(Icons.arrow_back_ios),
           ),
-          onPressed: onPreviousPage, 
+          onPressed: onPreviousPage,
         ),
         title: Text(context.l10n.passwordLabel),
       ),
-      body: SendCodeScreenBody(onNextPage: onNextPage),
+      body: SendCodeScreenBody(
+        onNextPage: onNextPage,
+        errorMessage: errorMessage,
+      ),
     );
   }
 }

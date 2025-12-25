@@ -21,11 +21,10 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   final ResetPasswordUsecase _resetPasswordUsecase;
 
   ForgetPasswordCubit(
-    super.initialState,
     this._forgetPasswordUsecase,
     this._verifyPasswordUsecase,
     this._resetPasswordUsecase,
-  );
+  ): super(ForgetPasswordState());
 
   Future<void> doIntent(ForgetPasswordIntent intent) async {
     switch (intent) {
