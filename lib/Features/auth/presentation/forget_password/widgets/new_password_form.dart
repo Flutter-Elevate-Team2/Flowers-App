@@ -47,7 +47,7 @@ void dispose() {
               ),
 
               labelText: context.l10n.newPasswordLabel,
-              hintText: context.l10n.newPasswordLabel,
+              hintText: context.l10n.passwordHint,
             ),
           ),
           const SizedBox(height: 24),
@@ -56,7 +56,7 @@ void dispose() {
             controller: _confirmPassword,
             decoration: InputDecoration(
               labelText: context.l10n.confirmPasswordLabel,
-              hintText: context.l10n.confirmPasswordLabel,
+              hintText: context.l10n.confirmPasswordHint,
               suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
