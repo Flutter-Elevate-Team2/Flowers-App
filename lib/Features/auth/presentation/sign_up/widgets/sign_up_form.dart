@@ -21,12 +21,13 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+  Gender? _selectedGender; // Managed State Here
 
   @override
   void dispose() {
@@ -44,7 +45,6 @@ class _SignUpFormState extends State<SignUpForm> {
     return Form(
       key: _formKey,
       autovalidateMode: _autovalidateMode,
-
       child: Column(
         children: [
           Row(
@@ -56,13 +56,12 @@ class _SignUpFormState extends State<SignUpForm> {
                     value,
                     context.l10n.firstNameRequired,
                   ),
-
                   controller: _firstNameController,
                   style: Theme.of(context).textTheme.bodySmall,
                   decoration: InputDecoration(
-                    labelText: (context).l10n.firstNameLabel,
-                    hintText: (context).l10n.firstNameHint,
-                        helperText: ' ',
+                    labelText: context.l10n.firstNameLabel,
+                    hintText: context.l10n.firstNameHint,
+                    helperText: ' ',
                   ),
                 ),
               ),
@@ -77,9 +76,9 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                   style: Theme.of(context).textTheme.bodySmall,
                   decoration: InputDecoration(
-                    labelText: (context).l10n.lastNameLabel,
-                    hintText: (context).l10n.lastNameHint,
-                        helperText: ' ',
+                    labelText: context.l10n.lastNameLabel,
+                    hintText: context.l10n.lastNameHint,
+                    helperText: ' ',
                   ),
                 ),
               ),
@@ -89,24 +88,21 @@ class _SignUpFormState extends State<SignUpForm> {
           TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-
             validator: (value) => FormValidators.validateEmail(context, value),
             controller: _emailController,
             style: Theme.of(context).textTheme.bodySmall,
             decoration: InputDecoration(
-              labelText: (context).l10n.emailLabel,
-              hintText: (context).l10n.emailHint,
+              labelText: context.l10n.emailLabel,
+              hintText: context.l10n.emailHint,
             ),
           ),
           const SizedBox(height: 24),
-
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Expanded(
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
-
                   validator: (value) =>
                       FormValidators.validatePassword(context, value),
                   onChanged: (_) {
@@ -118,8 +114,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   controller: _passwordController,
                   style: Theme.of(context).textTheme.bodySmall,
                   decoration: InputDecoration(
-                    labelText: (context).l10n.passwordLabel,
-                    hintText: (context).l10n.passwordHint,
+                    labelText: context.l10n.passwordLabel,
+                    hintText: context.l10n.passwordHint,
                     helperText: ' ',
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -127,19 +123,20 @@ class _SignUpFormState extends State<SignUpForm> {
                           _isPasswordVisible = !_isPasswordVisible;
                         });
                       },
-                      icon: _isPasswordVisible
-                          ? Icon(Icons.visibility, color: AppColors.gray)
-                          : Icon(Icons.visibility_off, color: AppColors.gray),
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.gray,
+                      ),
                     ),
                   ),
                 ),
               ),
-
               const SizedBox(width: 16),
               Expanded(
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
-
                   validator: (value) => FormValidators.validateConfirmPassword(
                     context,
                     value,
@@ -150,8 +147,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   style: Theme.of(context).textTheme.bodySmall,
                   decoration: InputDecoration(
                     helperText: ' ',
-                    labelText: (context).l10n.confirmPasswordLabel,
-                    hintText: (context).l10n.confirmPasswordHint,
+                    labelText: context.l10n.confirmPasswordLabel,
+                    hintText: context.l10n.confirmPasswordHint,
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -159,9 +156,12 @@ class _SignUpFormState extends State<SignUpForm> {
                               !_isConfirmPasswordVisible;
                         });
                       },
-                      icon: _isConfirmPasswordVisible
-                          ? Icon(Icons.visibility, color: AppColors.gray)
-                          : Icon(Icons.visibility_off, color: AppColors.gray),
+                      icon: Icon(
+                        _isConfirmPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.gray,
+                      ),
                     ),
                   ),
                 ),
@@ -171,22 +171,31 @@ class _SignUpFormState extends State<SignUpForm> {
           const SizedBox(height: 24),
           TextFormField(
             textInputAction: TextInputAction.done,
-
             validator: (value) => FormValidators.validatePhone(context, value),
             controller: _phoneController,
             style: Theme.of(context).textTheme.bodySmall,
             decoration: InputDecoration(
-              labelText: (context).l10n.phoneLabel,
-              hintText: (context).l10n.phoneHint,
+              labelText: context.l10n.phoneLabel,
+              hintText: context.l10n.phoneHint,
             ),
             keyboardType: TextInputType.phone,
           ),
           const SizedBox(height: 24),
-          const GenderRadioListTile(),
+
+          // Fixed: Pass state and handler
+          GenderRadioListTile(
+            selectedGender: _selectedGender,
+            onChanged: (value) {
+              setState(() {
+                _selectedGender = value;
+              });
+            },
+          ),
+
           const SizedBox(height: 16),
           const TermsAndConditionsText(),
+          const SizedBox(height: 48),
 
-          SizedBox(height: 48),
           SizedBox(
             width: double.infinity,
             height: 48,
@@ -195,36 +204,44 @@ class _SignUpFormState extends State<SignUpForm> {
                 setState(() {
                   _autovalidateMode = AutovalidateMode.always;
                 });
-                if (_formKey.currentState!.validate()) {
+
+                // Fixed: Validate Gender and Form
+                if (_formKey.currentState!.validate() && _selectedGender != null) {
                   context.goNamed(Routes.homeName);
+                } else if (_selectedGender == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Please select gender")),
+                  );
                 }
               },
-              child: Text((context).l10n.signUpTitle),
+              child: Text(context.l10n.signUpTitle),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  (context).l10n.haveAccountLogin,
+                  context.l10n.haveAccountLogin,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    // TODO: Navigate to Login
+                    context.goNamed(Routes.signInName);
+                  },
                   child: Text(
-                    (context).l10n.loginButton,
+                    context.l10n.loginButton,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.mainColor,
-                      decoration: TextDecoration.underline,
-                      fontFamily: ConstKeys.interFont,
-                    ),
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.mainColor,
+                          decoration: TextDecoration.underline,
+                          fontFamily: ConstKeys.interFont,
+                        ),
                   ),
                 ),
-               
               ],
             ),
           ),

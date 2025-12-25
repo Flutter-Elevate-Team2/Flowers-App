@@ -9,7 +9,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text((context).l10n.signUpTitle),
+        title: Text(context.l10n.signUpTitle),
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
@@ -17,9 +17,7 @@ class SignUpScreen extends StatelessWidget {
           child: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: SignupScreenBody(),
-
+      body: const SignupScreenBody(),
     );
   }
-
 }

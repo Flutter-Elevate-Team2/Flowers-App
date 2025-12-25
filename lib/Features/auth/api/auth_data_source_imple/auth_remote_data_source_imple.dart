@@ -1,4 +1,3 @@
-
 import 'package:flowers_app/Features/auth/api/api_client/auth_api.dart';
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
@@ -13,6 +12,6 @@ class AuthRemoteDataSourceImple implements AuthRemoteDataSourceContract {
 
   @override
   Future<SignupResponse> signUp(SignupRequest request) async {
-    return await _authApi.signUp(request);
+    return _authApi.signUp(request);
   }
 }
