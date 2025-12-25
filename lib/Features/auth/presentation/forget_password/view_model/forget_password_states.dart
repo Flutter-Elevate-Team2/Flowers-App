@@ -1,32 +1,32 @@
+import 'package:equatable/equatable.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
-
 import '../../../data/models/forget_password/responce/Reset_password_responce.dart';
+class ForgetPasswordState with EquatableMixin {
+  final BaseState<ForgetPasswordResponce>sendOtpState;
+  final BaseState<VerifyPasswordResponce>verifyOtpState;
+  final BaseState<ResetPasswordResponce>resetPasswordState;
+  ForgetPasswordState({required this.sendOtpState,required this.resetPasswordState,required this.verifyOtpState});
 
-class ForgetPasswordStates {
+  factory ForgetPasswordState.initial(){
+    return ForgetPasswordState(sendOtpState: BaseState(),
+        resetPasswordState: BaseState(),
+        verifyOtpState: BaseState());
 
-}
-class SendOtpState extends ForgetPasswordStates{
-  final BaseState<ForgetPasswordResponce>?forgetPassword;
-  SendOtpState({this.forgetPassword});
-  SendOtpState copywith(BaseState<ForgetPasswordResponce>newstate){
-    return SendOtpState(forgetPassword: newstate);
   }
-}
-class VerifyOtp extends ForgetPasswordStates{
-  final BaseState<VerifyPasswordResponce>?verifypassword;
-  VerifyOtp({this.verifypassword});
-  VerifyOtp copywith(BaseState<VerifyPasswordResponce>newstate){
-    return VerifyOtp(verifypassword:newstate);
-  }
-
-}
-class ResetPassword extends ForgetPasswordStates{
-  final BaseState<ResetPasswordResponce>?resetpassword;
-  ResetPassword({this.resetpassword});
-  ResetPassword copywith(BaseState<ResetPasswordResponce>newstate){
-    return ResetPassword(resetpassword:newstate);
+  ForgetPasswordState copyWith({
+    BaseState<ForgetPasswordResponce>? sendOtpState,
+    BaseState<VerifyPasswordResponce>? verifyOtpState,
+    BaseState<ResetPasswordResponce>? resetPasswordState,
+}){
+    return ForgetPasswordState(sendOtpState: sendOtpState??this.sendOtpState,
+        resetPasswordState:resetPasswordState??this.resetPasswordState, verifyOtpState:verifyOtpState??this.verifyOtpState);
   }
 
+  @override
+  List<Object?> get props => [sendOtpState,verifyOtpState,resetPasswordState];
+
 }
+
+
