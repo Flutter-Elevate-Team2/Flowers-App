@@ -1,5 +1,7 @@
 
 
+import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
+import 'package:flowers_app/Features/auth/presentation/forget_password/views/test.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,29 +27,31 @@ class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.forgetPasswordPath,
     routes: [
-      /// ====== LOGIN SCREEN ======
-      GoRoute(
-        path: Routes.signInPath,
-        name: Routes.signInName,
+      // /// ====== LOGIN SCREEN ======
+      // GoRoute(
+      //   path: Routes.signInPath,
+      //   name: Routes.signInName,
 
-      ),
+      // ),
 
       /// ====== SIGN UP SCREEN ======
-      GoRoute(
-        path: Routes.signUpPath,
-        name: Routes.signUpName,
-      ),
-      /// ====== FORGET PASSWORD SCREEN ======
+      // GoRoute(
+      //   path: Routes.signUpPath,
+      //   name: Routes.signUpName,
+      // ),
+      // /// ====== FORGET PASSWORD SCREEN ======
           GoRoute(
             path: Routes.forgetPasswordPath,
             name: Routes.forgetPasswordName,
+            builder: (context, state) => const ForgetPasswordScreenFlow(),
           ),
       /// ====== HOME SCREEN ======
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
+        builder: (context, state) => const Test(),
       ),
     ],
   );

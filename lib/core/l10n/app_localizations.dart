@@ -295,14 +295,26 @@ abstract class AppLocalizations {
   /// Button text to resend verification code
   ///
   /// In en, this message translates to:
-  /// **'Didn\'t receive code? Resend'**
+  /// **'Didn\'t receive code?'**
   String get resendCode;
+
+  /// Button text to resend verification code
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get resend;
 
   /// Title for the reset password screen
   ///
   /// In en, this message translates to:
   /// **'Reset password'**
   String get resetPasswordTitle;
+
+  /// Subtitle instructions for reset password
+  ///
+  /// In en, this message translates to:
+  /// **'Password must not be empty and must contain 6 characters with upper case letter and one number at least '**
+  String get resetPasswordSubTitle;
 
   /// Label for the new password input field
   ///

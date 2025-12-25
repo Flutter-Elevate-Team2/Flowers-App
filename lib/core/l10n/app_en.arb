@@ -73,11 +73,15 @@
   "@verificationTitle": { "description": "Title for the email verification screen" },
   "verificationSubTitle": "Please enter your code that sent to your email address",
   "@verificationSubTitle": { "description": "Subtitle instructions for email verification" },
-  "resendCode": "Didn't receive code? Resend",
+  "resendCode": "Didn't receive code?",
   "@resendCode": { "description": "Button text to resend verification code" },
+  "resend": "Resend",
+  "@resend": { "description": "Button text to resend verification code" },
 
   "resetPasswordTitle": "Reset password",
   "@resetPasswordTitle": { "description": "Title for the reset password screen" },
+  "resetPasswordSubTitle": "Password must not be empty and must contain 6 characters with upper case letter and one number at least ",
+  "@resetPasswordSubTitle": { "description": "Subtitle instructions for reset password" },
   "newPasswordLabel": "New password",
   "@newPasswordLabel": { "description": "Label for the new password input field" },
 

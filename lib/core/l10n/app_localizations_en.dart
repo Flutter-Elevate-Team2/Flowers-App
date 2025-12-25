@@ -111,10 +111,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please enter your code that sent to your email address';
 
   @override
-  String get resendCode => 'Didn\'t receive code? Resend';
+  String get resendCode => 'Didn\'t receive code?';
+
+  @override
+  String get resend => 'Resend';
 
   @override
   String get resetPasswordTitle => 'Reset password';
+
+  @override
+  String get resetPasswordSubTitle =>
+      'Password must not be empty and must contain 6 characters with upper case letter and one number at least ';
 
   @override
   String get newPasswordLabel => 'New password';
