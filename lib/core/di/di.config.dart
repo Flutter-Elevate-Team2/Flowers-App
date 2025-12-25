@@ -42,7 +42,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
-    gh.singleton<_i306.SessionController>(() => _i306.SessionController());
+    gh.singleton<_i306.SessionController>(
+      () => _i306.SessionController(),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i528.PrettyDioLogger>(() => dioModule.prettyDioLogger);
     gh.factory<_i453.AuthInterceptor>(
       () => _i453.AuthInterceptor(
