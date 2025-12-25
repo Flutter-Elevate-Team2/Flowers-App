@@ -23,9 +23,11 @@ abstract class AppTheme {
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
       headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+      headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.white,
+      titleTextStyle: getTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       titleTextStyle: getTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       iconTheme: IconThemeData(color: AppColors.black),
     ),
@@ -50,6 +52,7 @@ abstract class AppTheme {
       ),
       floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
         if (states.contains(WidgetState.error)) {
+          return getTextStyle(color: AppColors.red);
           return getTextStyle(color: AppColors.red);
         }
         return getTextStyle(color: AppColors.gray, fontSize: 16);
@@ -85,6 +88,8 @@ abstract class AppTheme {
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
       contentTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+      contentTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
     ),
   );
 
@@ -109,3 +114,4 @@ abstract class AppTheme {
     );
   }
 }
+

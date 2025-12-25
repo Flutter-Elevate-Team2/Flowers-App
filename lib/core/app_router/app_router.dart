@@ -8,23 +8,22 @@ import 'package:go_router/go_router.dart';
 /// ====== Define all routes and route names ======
 class Routes {
   static const String signInPath = '/signin';
-    static const String signInName = 'signIn';
+  static const String signInName = 'signIn';
 
   static const String signUpPath = '/signup';
-    static const String signUpName = 'signUp';
+  static const String signUpName = 'signUp';
 
   static const String forgetPasswordPath = '/forgetpassword';
   static const String forgetPasswordName = 'forgetPassword';
 
   static const String homePath = '/home';
   static const String homeName = 'home';
-
-
 }
 
 /// ====== Main App Router ======
 class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.forgetPasswordPath,
