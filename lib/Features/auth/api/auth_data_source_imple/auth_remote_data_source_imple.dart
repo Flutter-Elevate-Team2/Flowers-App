@@ -7,61 +7,62 @@ import 'package:flowers_app/Features/auth/data/models/forget_password/responce/F
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Reset_password_responce.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/core/helpers/api_execution_mixin.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: AuthRemoteDataSourceContract)
-class AuthRemoteDataSourceImple implements AuthRemoteDataSourceContract {
-  AuthApi authApi;
-  AuthRemoteDataSourceImple(this.authApi);
+class AuthRemoteDataSourceImple
+    with ApiExecutionMixin
+    implements AuthRemoteDataSourceContract {
+  final AuthApi _authApi;
+
+  AuthRemoteDataSourceImple(this._authApi);
+
   @override
   Future<BaseResponse<ForgetPasswordResponce>> forgetPassword(
     ForgetPasswordRequest request,
   ) async {
-    try {
-      final responce = await authApi.forgetPassword(request);
-      if (responce.message == "success") {
-        return SuccessResponse(data: responce);
-      } else {
-        return ErrorResponse(
-          errorMessage: "There is no account with this email address",
-        );
-      }
-    } catch (error) {
-      return ErrorResponse(errorMessage: error.toString());
-    }
+    return execute<ForgetPasswordResponce, ForgetPasswordResponce>(
+      action: () async => await _authApi.forgetPassword(request),
+      mapper: (response) {
+        if (response.message == "success") {
+          return response;
+        } else {
+          throw Exception("There is no account with this email address");
+        }
+      },
+    );
   }
 
   @override
   Future<BaseResponse<ResetPasswordResponce>> resetPassword(
     ResetPasswordRequest request,
   ) async {
-    try {
-      final responce = await authApi.resetPassword(request);
-      if (responce.message == "success") {
-        return SuccessResponse(data: responce);
-      } else {
-        return ErrorResponse(errorMessage: "reset code not verified");
-      }
-    } catch (error) {
-      return ErrorResponse(errorMessage: error.toString());
-    }
+    return execute<ResetPasswordResponce, ResetPasswordResponce>(
+      action: () async => await _authApi.resetPassword(request),
+      mapper: (response) {
+        if (response.message == "success") {
+          return response;
+        } else {
+          throw Exception("reset code not verified");
+        }
+      },
+    );
   }
 
   @override
   Future<BaseResponse<VerifyPasswordResponce>> verifyPassword(
     VerifyPasswordRequest request,
   ) async {
-    try {
-      final responce = await authApi.verifyPassword(request);
-      if (responce.status == "Success") {
-        return SuccessResponse(data: responce);
-      } else {
-        return ErrorResponse(
-          errorMessage: 'Reset code is invalid or has expired',
-        );
-      }
-    } catch (error) {
-      return ErrorResponse(errorMessage: error.toString());
-    }
+    return execute<VerifyPasswordResponce, VerifyPasswordResponce>(
+      action: () async => await _authApi.verifyPassword(request),
+      mapper: (response) {
+        if (response.status == "Success") {
+          return response;
+        } else {
+          throw Exception('Reset code is invalid or has expired');
+        }
+      },
+    );
   }
 }
