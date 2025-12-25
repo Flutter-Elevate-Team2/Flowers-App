@@ -99,6 +99,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
           child: Column(
             children: [
               TextFormField(
+                 style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) =>
                     FormValidators.validatePassword(context, value),
                 controller: _newPassword,
@@ -124,6 +125,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
               ),
               const SizedBox(height: 24),
               TextFormField(
+                 style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.validateConfirmPassword(
                   context,
                   value,
