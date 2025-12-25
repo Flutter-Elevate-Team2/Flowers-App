@@ -1,13 +1,17 @@
-sealed class ForgetPasswordIntent {
-  const ForgetPasswordIntent();
-}
-class SendOtp extends ForgetPasswordIntent{
-   const SendOtp();
+sealed class ForgetPasswordIntent {}
 
+class SendOtp extends ForgetPasswordIntent {
+  final String email;
+  SendOtp({required this.email});
 }
-class verifyOtp extends ForgetPasswordIntent{
-  const verifyOtp();
+
+class VerifyOtp extends ForgetPasswordIntent {
+  final String otp;
+  VerifyOtp({required this.otp});
 }
-class resetpassword extends ForgetPasswordIntent{
-  const resetpassword();
+
+class ResetPassword extends ForgetPasswordIntent {
+  final String newPassword;
+  final String email;
+  ResetPassword({required this.newPassword, required this.email});
 }
