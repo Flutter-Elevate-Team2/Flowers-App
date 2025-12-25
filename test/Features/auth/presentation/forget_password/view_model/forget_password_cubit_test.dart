@@ -1,4 +1,3 @@
-import 'package:flowers_app/Features/auth/presentation/forget_password/view_model/forget_password_states.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -26,6 +25,7 @@ void main() {
   late ForgetPasswordCubit cubit;
 
   setUp(() {
+    // Provide dummy responses for mockito
     provideDummy<BaseResponse<ForgetPasswordResponce>>(
       ErrorResponse(errorMessage: ''),
     );
@@ -40,117 +40,180 @@ void main() {
     mockVerifyPasswordUsecase = MockVerifyPasswordUsecase();
     mockResetPasswordUsecase = MockResetPasswordUsecase();
 
+    // Fixed: Remove ForgetPasswordState.initial() parameter
     cubit = ForgetPasswordCubit(
-      ForgetPasswordState.initial(),
       mockForgetPasswordUsecase,
       mockVerifyPasswordUsecase,
       mockResetPasswordUsecase,
     );
   });
 
-  test('SendOtp success updates state correctly', () async {
-    final otpResponse = ForgetPasswordResponce();
-    when(
-      mockForgetPasswordUsecase.forgetPassword(any),
-    ).thenAnswer((_) async => SuccessResponse(data: otpResponse));
+  group('SendOtp Intent Tests', () {
+    test('SendOtp success updates state correctly', () async {
+      final otpResponse = ForgetPasswordResponce();
+      when(
+        mockForgetPasswordUsecase.forgetPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: otpResponse));
 
-    final future = cubit.doIntent(SendOtp(email: 'malak@gmail.com'));
+      final future = cubit.doIntent(SendOtp(email: 'test@example.com'));
 
-    expect(cubit.state.sendOtpState.isLoading, true);
+      // Check loading state
+      expect(cubit.state.sendOtpState?.isLoading, true);
 
-    await future;
+      await future;
 
-    expect(cubit.state.sendOtpState.isLoading, false);
-    expect(cubit.state.sendOtpState.data, otpResponse);
-    expect(cubit.state.sendOtpState.errorMessage, null);
+      // Check success state
+      expect(cubit.state.sendOtpState?.isLoading, false);
+      expect(cubit.state.sendOtpState?.data, otpResponse);
+      expect(cubit.state.sendOtpState?.errorMessage, null);
+    });
+
+    test('SendOtp failure updates state correctly', () async {
+      const errorMessage = 'There is no account with this email address';
+      when(
+        mockForgetPasswordUsecase.forgetPassword(any),
+      ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+
+      final future = cubit.doIntent(SendOtp(email: 'test@example.com'));
+
+      // Check loading state
+      expect(cubit.state.sendOtpState?.isLoading, true);
+
+      await future;
+
+      // Check error state
+      expect(cubit.state.sendOtpState?.isLoading, false);
+      expect(cubit.state.sendOtpState?.data, null);
+      expect(cubit.state.sendOtpState?.errorMessage, errorMessage);
+    });
   });
 
-  test('SendOtp failure updates state correctly', () async {
-    const errorMessage = 'SendOtp Failed';
-    when(
-      mockForgetPasswordUsecase.forgetPassword(any),
-    ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+  group('VerifyOtp Intent Tests', () {
+    test('VerifyOtp success updates state correctly', () async {
+      final verifyResponse = VerifyPasswordResponce();
+      when(
+        mockVerifyPasswordUsecase.verifyPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: verifyResponse));
 
-    final future = cubit.doIntent(SendOtp(email: 'malak@gmail.com'));
+      final future = cubit.doIntent(VerifyOtp(otp: '123456'));
 
-    expect(cubit.state.sendOtpState.isLoading, true);
+      // Check loading state
+      expect(cubit.state.verifyOtpState?.isLoading, true);
 
-    await future;
+      await future;
 
-    expect(cubit.state.sendOtpState.isLoading, false);
-    expect(cubit.state.sendOtpState.data, null);
-    expect(cubit.state.sendOtpState.errorMessage, errorMessage);
+      // Check success state
+      expect(cubit.state.verifyOtpState?.isLoading, false);
+      expect(cubit.state.verifyOtpState?.data, verifyResponse);
+      expect(cubit.state.verifyOtpState?.errorMessage, null);
+    });
+
+    test('VerifyOtp failure updates state correctly', () async {
+      const errorMessage = 'Reset code is invalid or has expired';
+      when(
+        mockVerifyPasswordUsecase.verifyPassword(any),
+      ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+
+      final future = cubit.doIntent(VerifyOtp(otp: '123456'));
+
+      // Check loading state
+      expect(cubit.state.verifyOtpState?.isLoading, true);
+
+      await future;
+
+      // Check error state
+      expect(cubit.state.verifyOtpState?.isLoading, false);
+      expect(cubit.state.verifyOtpState?.data, null);
+      expect(cubit.state.verifyOtpState?.errorMessage, errorMessage);
+    });
   });
 
-  test('VerifyOtp success updates state correctly', () async {
-    final verifyResponse = VerifyPasswordResponce();
-    when(
-      mockVerifyPasswordUsecase.verifyPassword(any),
-    ).thenAnswer((_) async => SuccessResponse(data: verifyResponse));
+  group('ResetPassword Intent Tests', () {
+    test('ResetPassword success updates state correctly', () async {
+      final resetResponse = ResetPasswordResponce();
+      when(
+        mockResetPasswordUsecase.resetPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: resetResponse));
 
-    final future = cubit.doIntent(VerifyOtp(otp: '1234'));
+      final future = cubit.doIntent(
+        ResetPassword(email: 'test@example.com', newPassword: 'NewPass@123'),
+      );
 
-    expect(cubit.state.verifyOtpState.isLoading, true);
+      // Check loading state
+      expect(cubit.state.resetPasswordState?.isLoading, true);
 
-    await future;
+      await future;
 
-    expect(cubit.state.verifyOtpState.isLoading, false);
-    expect(cubit.state.verifyOtpState.data, verifyResponse);
-    expect(cubit.state.verifyOtpState.errorMessage, null);
+      // Check success state
+      expect(cubit.state.resetPasswordState?.isLoading, false);
+      expect(cubit.state.resetPasswordState?.data, resetResponse);
+      expect(cubit.state.resetPasswordState?.errorMessage, null);
+    });
+
+    test('ResetPassword failure updates state correctly', () async {
+      const errorMessage = 'reset code not verified';
+      when(
+        mockResetPasswordUsecase.resetPassword(any),
+      ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
+
+      final future = cubit.doIntent(
+        ResetPassword(email: 'test@example.com', newPassword: 'NewPass@123'),
+      );
+
+      // Check loading state
+      expect(cubit.state.resetPasswordState?.isLoading, true);
+
+      await future;
+
+      // Check error state
+      expect(cubit.state.resetPasswordState?.isLoading, false);
+      expect(cubit.state.resetPasswordState?.data, null);
+      expect(cubit.state.resetPasswordState?.errorMessage, errorMessage);
+    });
   });
 
-  test('VerifyOtp failure updates state correctly', () async {
-    const errorMessage = 'VerifyOtp Failed';
-    when(
-      mockVerifyPasswordUsecase.verifyPassword(any),
-    ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
-
-    final future = cubit.doIntent(VerifyOtp(otp: '1234'));
-
-    expect(cubit.state.verifyOtpState.isLoading, true);
-
-    await future;
-
-    expect(cubit.state.verifyOtpState.isLoading, false);
-    expect(cubit.state.verifyOtpState.data, null);
-    expect(cubit.state.verifyOtpState.errorMessage, errorMessage);
+  group('Initial State Tests', () {
+    test('Initial state has all states as null', () {
+      expect(cubit.state.sendOtpState, null);
+      expect(cubit.state.verifyOtpState, null);
+      expect(cubit.state.resetPasswordState, null);
+    });
   });
 
-  test('ResetPassword success updates state correctly', () async {
-    final resetResponse = ResetPasswordResponce();
-    when(
-      mockResetPasswordUsecase.resetPassword(any),
-    ).thenAnswer((_) async => SuccessResponse(data: resetResponse));
+  group('Multiple Intent Execution Tests', () {
+    test('Can execute multiple SendOtp intents', () async {
+      final response1 = ForgetPasswordResponce();
+      final response2 = ForgetPasswordResponce();
 
-    final future = cubit.doIntent(
-      ResetPassword(email: 'malak@gmail.com', newPassword: 'Elevate@123'),
+      when(
+        mockForgetPasswordUsecase.forgetPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: response1));
+
+      await cubit.doIntent(SendOtp(email: 'test1@example.com'));
+      expect(cubit.state.sendOtpState?.data, response1);
+
+      when(
+        mockForgetPasswordUsecase.forgetPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: response2));
+
+      await cubit.doIntent(SendOtp(email: 'test2@example.com'));
+      expect(cubit.state.sendOtpState?.data, response2);
+    });
+
+    test(
+      'States are independent - SendOtp does not affect VerifyOtp state',
+      () async {
+        final otpResponse = ForgetPasswordResponce();
+        when(
+          mockForgetPasswordUsecase.forgetPassword(any),
+        ).thenAnswer((_) async => SuccessResponse(data: otpResponse));
+
+        await cubit.doIntent(SendOtp(email: 'test@example.com'));
+
+        expect(cubit.state.sendOtpState?.data, otpResponse);
+        expect(cubit.state.verifyOtpState, null);
+        expect(cubit.state.resetPasswordState, null);
+      },
     );
-
-    expect(cubit.state.resetPasswordState.isLoading, true);
-
-    await future;
-
-    expect(cubit.state.resetPasswordState.isLoading, false);
-    expect(cubit.state.resetPasswordState.data, resetResponse);
-    expect(cubit.state.resetPasswordState.errorMessage, null);
-  });
-
-  test('ResetPassword failure updates state correctly', () async {
-    const errorMessage = 'Reset Failed';
-    when(
-      mockResetPasswordUsecase.resetPassword(any),
-    ).thenAnswer((_) async => ErrorResponse(errorMessage: errorMessage));
-
-    final future = cubit.doIntent(
-      ResetPassword(email: 'malak@gmail.com', newPassword: 'Elevate@123'),
-    );
-
-    expect(cubit.state.resetPasswordState.isLoading, true);
-
-    await future;
-
-    expect(cubit.state.resetPasswordState.isLoading, false);
-    expect(cubit.state.resetPasswordState.data, null);
-    expect(cubit.state.resetPasswordState.errorMessage, errorMessage);
   });
 }
