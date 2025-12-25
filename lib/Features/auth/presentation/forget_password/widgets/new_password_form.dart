@@ -33,13 +33,11 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
 
   void _handleSubmit() {
     if (_formKey.currentState!.validate()) {
-      // Get email from widget parameter or cubit state
       final email = widget.userEmail ?? '';
-
       if (email.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(context.l10n.emailLabel + ' is required'),
+            content: Text(context.l10n.emailRequired),
             backgroundColor: Colors.red,
           ),
         );
@@ -67,9 +65,9 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
             context: context,
             barrierDismissible: false,
             builder: (context) => AlertDialog(
-              title: const Text('Success'),
-              content: const Text(
-                'Password reset successfully! Please login with your new password.',
+              title: Text(context.l10n.success),
+              content:  Text(
+                context.l10n.resetSuccessfully,
               ),
               actions: [
                 TextButton(
@@ -77,7 +75,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
                     Navigator.pop(context); // Pop dialog
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
-                  child: const Text('OK'),
+                  child:  Text(context.l10n.ok),
                 ),
               ],
             ),

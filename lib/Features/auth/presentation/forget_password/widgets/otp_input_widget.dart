@@ -100,44 +100,47 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
     );
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Pinput(
-          controller: _controller,
-          focusNode: _focusNode,
-          length: widget.length,
-          defaultPinTheme: defaultPinTheme,
-          focusedPinTheme: hasError ? errorPinTheme : focusedPinTheme,
-          submittedPinTheme: hasError ? errorPinTheme : submittedPinTheme,
-          errorPinTheme: errorPinTheme,
-          forceErrorState: hasError,
-          pinputAutovalidateMode: PinputAutovalidateMode.disabled,
-          showCursor: true,
-          cursor: Container(
-            width: 2,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(1),
+        Center(
+          child: Pinput(
+            controller: _controller,
+            focusNode: _focusNode,
+            length: widget.length,
+            defaultPinTheme: defaultPinTheme,
+            focusedPinTheme: hasError ? errorPinTheme : focusedPinTheme,
+            submittedPinTheme: hasError ? errorPinTheme : submittedPinTheme,
+            errorPinTheme: errorPinTheme,
+            forceErrorState: hasError,
+            pinputAutovalidateMode: PinputAutovalidateMode.disabled,
+            showCursor: true,
+            cursor: Container(
+              width: 2,
+              height: 24,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(1),
+              ),
             ),
+            onChanged: (value) {
+              if (_localError != null) {
+                setState(() {
+                  _localError = null;
+                });
+              }
+              if (widget.onChanged != null) {
+                widget.onChanged!(value);
+              }
+            },
+            onCompleted: (value) {
+              widget.onCompleted(value);
+            },
           ),
-          onChanged: (value) {
-            if (_localError != null) {
-              setState(() {
-                _localError = null;
-              });
-            }
-            if (widget.onChanged != null) {
-              widget.onChanged!(value);
-            }
-          },
-          onCompleted: (value) {
-            widget.onCompleted(value);
-          },
         ),
         if (hasError) ...[
           const SizedBox(height: 8),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const Icon(
                 Icons.error_outline,
@@ -145,13 +148,11 @@ class _OtpInputWidgetState extends State<OtpInputWidget> {
                 size: 16,
               ),
               const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  _localError!,
-                  style: const TextStyle(
-                    color: AppColors.otpErrorText,
-                    fontSize: 12,
-                  ),
+              Text(
+                _localError!,
+                style: const TextStyle(
+                  color: AppColors.otpErrorText,
+                  fontSize: 12,
                 ),
               ),
             ],

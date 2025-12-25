@@ -3,6 +3,12 @@
 
   "appTitle": "Flowers App",
   "@appTitle": { "description": "The main title of the application" },
+  "ok": "Ok",
+  "@ok": { "description": "Ok" },
+  "resetSuccessfully": "Password reset successfully! Please login with your new password.",
+  "@resetSuccessfully": { "description": "content of dialog" },
+  "success": "success",
+  "@success": { "description": "success" },
 
   "home": "Home",
   "@home": { "description": "Label for the home navigation tab" },

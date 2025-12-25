@@ -100,6 +100,24 @@ abstract class AppLocalizations {
   /// **'Flowers App'**
   String get appTitle;
 
+  /// Ok
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
+
+  /// content of dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset successfully! Please login with your new password.'**
+  String get resetSuccessfully;
+
+  /// success
+  ///
+  /// In en, this message translates to:
+  /// **'success'**
+  String get success;
+
   /// Label for the home navigation tab
   ///
   /// In en, this message translates to:

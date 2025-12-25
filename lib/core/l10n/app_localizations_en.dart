@@ -12,6 +12,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Flowers App';
 
   @override
+  String get ok => 'Ok';
+
+  @override
+  String get resetSuccessfully =>
+      'Password reset successfully! Please login with your new password.';
+
+  @override
+  String get success => 'success';
+
+  @override
   String get home => 'Home';
 
   @override
