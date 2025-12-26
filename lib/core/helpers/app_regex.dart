@@ -1,7 +1,8 @@
 class AppRegex {
   static bool isEmailValid(String email) {
+    // Fix: More robust email validation
     return RegExp(
-      r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
+      r'^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}$',
     ).hasMatch(email);
   }
 
@@ -12,7 +13,9 @@ class AppRegex {
   }
 
   static bool isPhoneNumberValid(String phoneNumber) {
-    return RegExp(r'^(010|011|012|015)[0-9]{8}$').hasMatch(phoneNumber);
+    // Fix: Accept international phone numbers (e.g., +20..., or just digits)
+    // Allows optional + and 7 to 15 digits
+    return RegExp(r'^\+?[0-9]{7,15}$').hasMatch(phoneNumber);
   }
 
   static bool hasLowerCase(String password) {

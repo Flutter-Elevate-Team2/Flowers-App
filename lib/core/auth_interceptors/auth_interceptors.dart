@@ -48,7 +48,9 @@ class AuthInterceptor extends Interceptor {
   }
 
   void _performLogout() {
-    _prefs.remove('token');
-    _sessionController.expireSession();
+    // Fix: Ensure token is removed before triggering session expiration
+    _prefs.remove('token').then((_) {
+      _sessionController.expireSession();
+    });
   }
 }
