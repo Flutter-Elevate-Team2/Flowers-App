@@ -23,9 +23,9 @@ abstract class DioModule {
 
   @singleton
   Dio dio(
-      AuthInterceptor authInterceptor,
-      PrettyDioLogger dioLogger,
-      ) {
+    AuthInterceptor authInterceptor,
+    PrettyDioLogger dioLogger,
+  ) {
     final dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.apiBaseUrl,
