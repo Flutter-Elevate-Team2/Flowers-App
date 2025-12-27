@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
-import '../../../data/models/forget_password/responce/Reset_password_responce.dart';
+
+import '../../../data/models/forget_password/responce/Forget_Password_Responce.dart';
+import '../../../data/models/forget_password/responce/Reset_Password_Responce.dart';
+import '../../../data/models/forget_password/responce/Verify_Password_Responce.dart';
 class ForgetPasswordState with EquatableMixin {
   final BaseState<ForgetPasswordResponce>sendOtpState;
   final BaseState<VerifyPasswordResponce>verifyOtpState;

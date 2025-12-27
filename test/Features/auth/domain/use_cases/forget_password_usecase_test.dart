@@ -1,5 +1,5 @@
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_Password_Request.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_Password_Responce.dart';
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
 import 'package:flowers_app/Features/auth/domain/use_cases/forget_password_usecase.dart'; // Adjust path
 import 'package:flowers_app/core/base_response/base_response.dart';
