@@ -21,7 +21,7 @@ void main() {
     viewModel = LoginViewModel(mockLoginUseCase);
   });
 
-  final loginEvent = LoginButtonEvent(
+  final loginEvent = LoginButtonClickedEvent(
     email: 'user@example.com',
     password: 'password1234@',
   );
@@ -86,7 +86,7 @@ void main() {
         expect(viewModel.state.isRememberMe, false);
 
         viewModel.doIntent(
-          RememberMeEvent(value: true),
+          ToggleRememberMeEvent(),
         );
 
         expect(viewModel.state.isRememberMe, true);

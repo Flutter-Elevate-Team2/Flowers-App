@@ -48,6 +48,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: BlocListener<LoginViewModel, LoginState>(
+                  listenWhen: (previous, current) {
+                    return previous.loginState != current.loginState;
+                  },
               listener: (context, state) {
                 final loginState = state.loginState;
 
@@ -55,7 +58,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
                   context.goNamed(Routes.homeName);
                 } else if (loginState?.errorMessage != null) {
-
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(loginState!.errorMessage!),
@@ -77,6 +80,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                                     FormValidators.validateEmail(
                                         context, value),
                                 controller: _emailController,
+                                onChanged: (value) {
+                                  viewModel.doIntent(UserTypingEvent());
+                                },
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -93,10 +99,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                               textInputAction: TextInputAction.next,
 
                               validator: (value) =>
-                                  FormValidators.validatePassword(
-                                      context, value),
+                                  FormValidators.validatePassword(context, value),
                               obscureText: !_isPasswordVisible,
                               controller: _passwordController,
+                              onChanged: (value) {
+                                viewModel.doIntent(UserTypingEvent());
+                              },
                               style: Theme
                                   .of(context)
                                   .textTheme
@@ -113,11 +121,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                                       _isPasswordVisible = !_isPasswordVisible;
                                     });
                                   },
-                                  icon: _isPasswordVisible
-                                      ? Icon(Icons.visibility, color: AppColors
-                                      .gray)
-                                      : Icon(
-                                    Icons.visibility_off,
+                                  icon: Icon(
+                                    _isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
                                     color: AppColors.gray,
                                   ),
                                 ),
@@ -126,11 +133,17 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                             RememberMeRow(
                               rememberMe: state.isRememberMe,
                               onChanged: (value) {
-                                viewModel.doIntent(
-                                    RememberMeEvent(value: value!));
+                                viewModel.doIntent(ToggleRememberMeEvent());
                               },
-                              onForgotPassword: () {},
+                        onForgotPassword: () {
+                        context.pushNamed(Routes.forgetPasswordName);},
                             ),
+                            if (state.loginState?.isLoading == true)
+                              const Padding(
+                                padding: EdgeInsets.only(top: 24),
+                                child: CircularProgressIndicator(),
+                              )
+                            else
                             LoginButton(
                               onPressed: () {
                                 setState(() {
@@ -140,7 +153,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                                 if (_formKey.currentState?.validate() ??
                                     false) {
                                   viewModel.doIntent(
-                                    LoginButtonEvent(
+                                    LoginButtonClickedEvent(
                                       email: _emailController.text,
                                       password: _passwordController.text,
                                     ),
@@ -150,7 +163,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                             ),
                             GuestButton(
                               onPressed: () {
-                                viewModel.doIntent(GuestLoginEvent());
+                                viewModel.doIntent(GuestLoginClickedEvent());
                               },
                             ),
                             SignUpRow(),
