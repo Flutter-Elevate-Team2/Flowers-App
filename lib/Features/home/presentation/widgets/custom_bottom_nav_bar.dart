@@ -1,4 +1,3 @@
-import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
