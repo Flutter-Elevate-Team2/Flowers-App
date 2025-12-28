@@ -29,6 +29,7 @@ void main() {
     // Arrange
     const email = 'malak@gmail.com';
     const password = 'Elevate@123';
+    const isRememberMe = true;
 
     final loginEntity = LoginEntity(
       token: 'token',
@@ -36,12 +37,12 @@ void main() {
       user: null,
     );
 
-    when(mockAuthRepo.login(email, password))
+    when(mockAuthRepo.login(email, password, isRememberMe))
         .thenAnswer((_) async => SuccessResponse(data: loginEntity));
 
     // Act
     final result =
-    await loginUseCase(email: email, password: password);
+    await loginUseCase(email: email, password: password, isRememberMe: isRememberMe);
 
     // Assert
     expect(result, isA<SuccessResponse<LoginEntity>>());
@@ -49,6 +50,6 @@ void main() {
       (result as SuccessResponse<LoginEntity>).data.token,
       'token',
     );
-    verify(mockAuthRepo.login(email, password)).called(1);
+    verify(mockAuthRepo.login(email, password, isRememberMe)).called(1);
   });
 }

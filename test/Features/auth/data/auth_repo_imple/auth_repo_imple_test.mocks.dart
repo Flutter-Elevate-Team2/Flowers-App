@@ -5,6 +5,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart'
+    as _i6;
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart'
     as _i3;
 import 'package:flowers_app/Features/auth/data/models/login_models/login_request.dart'
@@ -51,4 +53,57 @@ class MockAuthRemoteDataSourceContract extends _i1.Mock
             ),
           )
           as _i4.Future<_i2.LoginResponse>);
+}
+
+/// A class which mocks [AuthLocalDataSourceContract].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthLocalDataSourceContract extends _i1.Mock
+    implements _i6.AuthLocalDataSourceContract {
+  MockAuthLocalDataSourceContract() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<void> saveToken(String? token) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveToken, [token]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+
+  @override
+  _i4.Future<String?> getToken() =>
+      (super.noSuchMethod(
+            Invocation.method(#getToken, []),
+            returnValue: _i4.Future<String?>.value(),
+          )
+          as _i4.Future<String?>);
+
+  @override
+  _i4.Future<void> saveRememberMe(bool? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveRememberMe, [value]),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
+
+  @override
+  _i4.Future<bool> getRememberMe() =>
+      (super.noSuchMethod(
+            Invocation.method(#getRememberMe, []),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
+
+  @override
+  _i4.Future<void> clearUserData() =>
+      (super.noSuchMethod(
+            Invocation.method(#clearUserData, []),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 }

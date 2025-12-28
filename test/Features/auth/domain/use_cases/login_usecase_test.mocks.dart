@@ -40,15 +40,24 @@ class MockAuthRepoContract extends _i1.Mock implements _i2.AuthRepoContract {
   _i3.Future<_i4.BaseResponse<_i5.LoginEntity>> login(
     String? email,
     String? password,
+    bool? isRememberMe,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#login, [email, password]),
+            Invocation.method(#login, [email, password, isRememberMe]),
             returnValue: _i3.Future<_i4.BaseResponse<_i5.LoginEntity>>.value(
               _i6.dummyValue<_i4.BaseResponse<_i5.LoginEntity>>(
                 this,
-                Invocation.method(#login, [email, password]),
+                Invocation.method(#login, [email, password, isRememberMe]),
               ),
             ),
           )
           as _i3.Future<_i4.BaseResponse<_i5.LoginEntity>>);
+
+  @override
+  _i3.Future<bool> isLoggedIn() =>
+      (super.noSuchMethod(
+            Invocation.method(#isLoggedIn, []),
+            returnValue: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -12,15 +13,19 @@ import 'package:flowers_app/core/constants/error_strings.dart';
 
 import 'auth_repo_imple_test.mocks.dart';
 
-
-@GenerateMocks([AuthRemoteDataSourceContract])
+@GenerateMocks([AuthRemoteDataSourceContract, AuthLocalDataSourceContract])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late AuthRepoImple authRepo;
   late MockAuthRemoteDataSourceContract mockRemoteDataSource;
+  late MockAuthLocalDataSourceContract mockLocalDataSource;
 
   setUp(() {
     mockRemoteDataSource = MockAuthRemoteDataSourceContract();
-    authRepo = AuthRepoImple(mockRemoteDataSource);
+    mockLocalDataSource = MockAuthLocalDataSourceContract();
+
+    authRepo = AuthRepoImple(mockRemoteDataSource, mockLocalDataSource);
 
     provideDummy<BaseResponse<LoginEntity>>(
       SuccessResponse(
@@ -41,27 +46,27 @@ void main() {
 
     test(
       'should return SuccessResponse<LoginEntity> when remote succeeds',
-          () async {
+      () async {
         // Arrange
-        when(mockRemoteDataSource.login(any))
-            .thenAnswer((_) async => tLoginResponse);
+        when(
+          mockRemoteDataSource.login(any),
+        ).thenAnswer((_) async => tLoginResponse);
 
         // Act
-        final result = await authRepo.login(email, password);
+        final result = await authRepo.login(email, password, true);
 
         // Assert
         expect(result, isA<SuccessResponse<LoginEntity>>());
-        expect(
-          (result as SuccessResponse<LoginEntity>).data.token,
-          'token',
-        );
+        expect((result as SuccessResponse<LoginEntity>).data.token, 'token');
         verify(mockRemoteDataSource.login(any)).called(1);
+        verify(mockLocalDataSource.saveToken('token')).called(1);
+        verify(mockLocalDataSource.saveRememberMe(true)).called(1);
       },
     );
 
     test(
       'should return ErrorResponse with backend message when DioException occurs',
-          () async {
+      () async {
         // Arrange
         final dioError = DioException(
           requestOptions: RequestOptions(path: ''),
@@ -76,26 +81,24 @@ void main() {
         when(mockRemoteDataSource.login(any)).thenThrow(dioError);
 
         // Act
-        final result = await authRepo.login(email, password);
+        final result = await authRepo.login(email, password, false);
 
         // Assert
         expect(result, isA<ErrorResponse>());
-        expect(
-          (result as ErrorResponse).errorMessage,
-          'Invalid credentials',
-        );
+        expect((result as ErrorResponse).errorMessage, 'Invalid credentials');
       },
     );
 
     test(
       'should return ErrorResponse with unknownError when generic Exception occurs',
-          () async {
+      () async {
         // Arrange
-        when(mockRemoteDataSource.login(any))
-            .thenThrow(Exception('Unexpected error'));
+        when(
+          mockRemoteDataSource.login(any),
+        ).thenThrow(Exception('Unexpected error'));
 
         // Act
-        final result = await authRepo.login(email, password);
+        final result = await authRepo.login(email, password, false);
 
         // Assert
         expect(result, isA<ErrorResponse>());
