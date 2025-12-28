@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Verify_Password_Request.dart';
+part of 'verify_password_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

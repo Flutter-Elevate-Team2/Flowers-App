@@ -1,7 +1,7 @@
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_Password_Request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_Password_Responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request.dart';
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
-import 'package:flowers_app/Features/auth/domain/use_cases/forget_password_usecase.dart'; // Adjust path
+import 'package:flowers_app/Features/auth/domain/entities/forget_password_entity.dart';
+import 'package:flowers_app/Features/auth/domain/use_cases/forget_password_usecase.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -9,58 +9,54 @@ import 'package:mockito/mockito.dart';
 
 import 'forget_password_usecase_test.mocks.dart';
 
-
 @GenerateMocks([AuthRepoContract])
-
-
 void main() {
-  late ForgetPasswordUsecase usecase;
-  late MockAuthRepoContract mockAuthRepoContract;
-
-  setUpAll(() {
-
-    provideDummy<BaseResponse<ForgetPasswordResponce>>(
-      SuccessResponse(data: ForgetPasswordResponce()),
-    );
-  });
+  late ForgetPasswordUsecase useCase;
+  late MockAuthRepoContract mockRepo;
 
   setUp(() {
-    mockAuthRepoContract = MockAuthRepoContract();
-    usecase = ForgetPasswordUsecase(mockAuthRepoContract);
+    mockRepo = MockAuthRepoContract();
+    useCase = ForgetPasswordUsecase(mockRepo);
   });
 
-  group('ForgetPassword Usecase Tests', () {
-    final request = ForgetPasswordRequest(email: "test@gmail.com");
-    final response = SuccessResponse(data: ForgetPasswordResponce(message: "success"));
+  final tRequest = ForgetPasswordRequest(email: "test@test.com");
+  final tEntity = ForgetPasswordEntity(message: "Success", info: "Check inbox");
 
-    test('should call forgetPassword on the repository and return the response', () async {
-      // Arrange
-      when(mockAuthRepoContract.forgetPassword(any))
-          .thenAnswer((_) async => response);
+  test(
+    'should call AuthRepo.forgetPassword and return SuccessResponse',
+    () async {
+      // ARRANGE
+      when(
+        mockRepo.forgetPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: tEntity));
 
-      // Act
-      final result = await usecase.forgetPassword(request);
+      // ACT
+      final result = await useCase.forgetPassword(tRequest);
 
-      // Assert
-      expect(result, response);
+      // ASSERT
+      expect(result, isA<SuccessResponse<ForgetPasswordEntity>>());
+      expect((result as SuccessResponse).data, tEntity);
+      verify(mockRepo.forgetPassword(tRequest)).called(1);
+    },
+  );
 
-      verify(mockAuthRepoContract.forgetPassword(request)).called(1);
-      verifyNoMoreInteractions(mockAuthRepoContract);
-    });
+  test(
+    'should return ErrorResponse when AuthRepo returns ErrorResponse',
+    () async {
+      // ARRANGE
+      final tError = ErrorResponse<ForgetPasswordEntity>(
+        errorMessage: "No Internet",
+      );
 
-    test('should return ErrorResponse when repository call fails', () async {
-      // Arrange
-      final errorResponse = ErrorResponse<ForgetPasswordResponce>(errorMessage: "Network Error");
-      when(mockAuthRepoContract.forgetPassword(any))
-          .thenAnswer((_) async => errorResponse);
+      when(mockRepo.forgetPassword(any)).thenAnswer((_) async => tError);
 
-      // Act
-      final result = await usecase.forgetPassword(request);
+      // ACT
+      final result = await useCase.forgetPassword(tRequest);
 
-      // Assert
-      expect(result, isA<ErrorResponse>());
-      expect((result as ErrorResponse).errorMessage, "Network Error");
-      verify(mockAuthRepoContract.forgetPassword(request)).called(1);
-    });
-  });
+      // ASSERT
+      expect(result, isA<ErrorResponse<ForgetPasswordEntity>>());
+      expect((result as ErrorResponse).errorMessage, "No Internet");
+      verify(mockRepo.forgetPassword(tRequest)).called(1);
+    },
+  );
 }

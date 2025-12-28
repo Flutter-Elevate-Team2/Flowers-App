@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'Reset_Password_Request.g.dart';
+part 'reset_password_request.g.dart';
 
 @JsonSerializable()
 class ResetPasswordRequest {

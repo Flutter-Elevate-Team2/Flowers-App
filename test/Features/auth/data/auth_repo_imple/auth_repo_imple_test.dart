@@ -1,73 +1,137 @@
-import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/auth/data/auth_repo_imple/auth_repo_imple.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_Password_Request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Reset_Password_Request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Verify_Password_Request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_Password_Responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Reset_Password_Responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_Password_Responce.dart';
-
-import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'auth_repo_imple_test.mocks.dart';
-@GenerateMocks([AuthRemoteDataSourceContract])
 
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
+
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_response.dart';
+import 'package:flowers_app/Features/auth/domain/entities/forget_password_entity.dart';
+
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/responce/reset_password_response.dart';
+import 'package:flowers_app/Features/auth/domain/entities/reset_password_entity.dart';
+
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/responce/verify_password_response.dart';
+import 'package:flowers_app/Features/auth/domain/entities/verify_password_entity.dart';
+
+import 'auth_repo_imple_test.mocks.dart';
+
+@GenerateMocks([AuthRemoteDataSourceContract])
 void main() {
-  late AuthRepoImple repository;
+  late AuthRepoImple authRepo;
   late MockAuthRemoteDataSourceContract mockDataSource;
 
   setUp(() {
     mockDataSource = MockAuthRemoteDataSourceContract();
-    repository = AuthRepoImple(mockDataSource);
+    authRepo = AuthRepoImple(mockDataSource);
   });
 
-  group('AuthRepo Imple Tests', () {
+  // ===========================================================================
+  // 1. Test for Forget Password
+  // ===========================================================================
+  group('forgetPassword', () {
+    final tRequest = ForgetPasswordRequest(email: "test@test.com");
+    final tResponse = ForgetPasswordResponse(message: "Sent", info: "Check Spam");
+    final tEntity = ForgetPasswordEntity(message: "Sent", info: "Check Spam");
 
-    test('forgetPassword should return data from remote data source', () async {
-      // Arrange
-      final request = ForgetPasswordRequest(email: "test@gmail.com");
-      final response = SuccessResponse(data: ForgetPasswordResponce(message: "success"));
+    test('should return SuccessResponse<ForgetPasswordEntity> when DataSource succeeds', () async {
+      // ARRANGE
+      when(mockDataSource.forgetPassword(any)).thenAnswer((_) async => tResponse);
 
-      when(mockDataSource.forgetPassword(any)).thenAnswer((_) async => response);
+      // ACT
+      final result = await authRepo.forgetPassword(tRequest);
 
-      // Act
-      final result = await repository.forgetPassword(request);
+      // ASSERT
+      expect(result, isA<SuccessResponse<ForgetPasswordEntity>>());
+      final successResult = result as SuccessResponse<ForgetPasswordEntity>;
+      expect(successResult.data.message, tEntity.message);
+      expect(successResult.data.info, tEntity.info);
 
-      // Assert
-      expect(result, response);
-      verify(mockDataSource.forgetPassword(request)).called(1);
+      verify(mockDataSource.forgetPassword(tRequest)).called(1);
     });
 
-    test('resetPassword should return data from remote data source', () async {
-      // Arrange
-      final request = ResetPasswordRequest(email: "test@gmail.com", newPassword: "123");
-      final response = SuccessResponse(data: ResetPasswordResponce(message: "success"));
+    test('should return ErrorResponse when DataSource throws Exception', () async {
+      // ARRANGE
+      when(mockDataSource.forgetPassword(any)).thenThrow(Exception('Network Error'));
 
-      when(mockDataSource.resetPassword(any)).thenAnswer((_) async => response);
+      // ACT
+      final result = await authRepo.forgetPassword(tRequest);
 
-      // Act
-      final result = await repository.resetPassword(request);
+      // ASSERT
+      expect(result, isA<ErrorResponse<ForgetPasswordEntity>>());
+      verify(mockDataSource.forgetPassword(tRequest)).called(1);
+    });
+  });
 
-      // Assert
-      expect(result, response);
-      verify(mockDataSource.resetPassword(request)).called(1);
+  // ===========================================================================
+  // 2. Test for Reset Password
+  // ===========================================================================
+  group('resetPassword', () {
+    final tRequest = ResetPasswordRequest(email: "test@test.com", newPassword: "Pass");
+    final tResponse = ResetPasswordResponse(message: "Reset OK", token: "Token123");
+
+    test('should return SuccessResponse<ResetPasswordEntity> when DataSource succeeds', () async {
+      // ARRANGE
+      when(mockDataSource.resetPassword(any)).thenAnswer((_) async => tResponse);
+
+      // ACT
+      final result = await authRepo.resetPassword(tRequest);
+
+      // ASSERT
+      expect(result, isA<SuccessResponse<ResetPasswordEntity>>());
+      final successResult = result as SuccessResponse<ResetPasswordEntity>;
+      expect(successResult.data.token, "Token123");
+
+      verify(mockDataSource.resetPassword(tRequest)).called(1);
     });
 
-    test('verifyPassword should return data from remote data source', () async {
-      // Arrange
-      final request = VerifyPasswordRequest(resetCode: "123456");
-      final response = SuccessResponse(data: VerifyPasswordResponce(status: "success"));
+    test('should return ErrorResponse when DataSource throws Exception', () async {
+      // ARRANGE
+      when(mockDataSource.resetPassword(any)).thenThrow(Exception('Server Error'));
 
-      when(mockDataSource.verifyPassword(any)).thenAnswer((_) async => response);
+      // ACT
+      final result = await authRepo.resetPassword(tRequest);
 
-      // Act
-      final result = await repository.verifyPassword(request);
+      // ASSERT
+      expect(result, isA<ErrorResponse<ResetPasswordEntity>>());
+    });
+  });
 
-      // Assert
-      expect(result, response);
-      verify(mockDataSource.verifyPassword(request)).called(1);
+  // ===========================================================================
+  // 3. Test for Verify Password
+  // ===========================================================================
+  group('verifyPassword', () {
+    final tRequest = VerifyPasswordRequest(resetCode: "123456");
+    final tResponse = VerifyPasswordResponse(status: "Verified");
+
+    test('should return SuccessResponse<VerifyPasswordEntity> when DataSource succeeds', () async {
+      // ARRANGE
+      when(mockDataSource.verifyPassword(any)).thenAnswer((_) async => tResponse);
+
+      // ACT
+      final result = await authRepo.verifyPassword(tRequest);
+
+      // ASSERT
+      expect(result, isA<SuccessResponse<VerifyPasswordEntity>>());
+      final successResult = result as SuccessResponse<VerifyPasswordEntity>;
+      expect(successResult.data.status, "Verified");
+
+      verify(mockDataSource.verifyPassword(tRequest)).called(1);
+    });
+
+    test('should return ErrorResponse when DataSource throws Exception', () async {
+      // ARRANGE
+      when(mockDataSource.verifyPassword(any)).thenThrow(Exception('Wrong Code'));
+
+      // ACT
+      final result = await authRepo.verifyPassword(tRequest);
+
+      // ASSERT
+      expect(result, isA<ErrorResponse<VerifyPasswordEntity>>());
     });
   });
 }

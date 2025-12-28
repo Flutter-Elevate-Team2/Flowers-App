@@ -3,32 +3,49 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/error_strings.dart';
+import 'package:flowers_app/core/l10n/app_localizations.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 class ErrorHandler {
-  /// Main entry point. NO Context needed anymore!
+
+  // === Helper Getter to access Localization Globally ===
+  static AppLocalizations? get _l10n {
+    final context = AppRouter.rootNavigatorKey.currentState?.context;
+    if (context != null) {
+      return AppLocalizations.of(context);
+    }
+    return null;
+  }
+
+  /// Main entry point.
   static String handleError(dynamic error) {
+    debugPrint('🚨 ErrorHandler caught: ${error.runtimeType} -> $error');
+    if (error is Error) {
+      debugPrint('🚨 StackTrace: ${error.stackTrace}');
+    }
     // -------------------------------------------------------------------------
     // SECTION 1: NETWORK & CONNECTION ERRORS
     // -------------------------------------------------------------------------
     if (error is DioException) {
       return _handleDioError(error);
     } else if (error is SocketException) {
-      return ErrorStrings.noInternet;
+      return _l10n?.noInternetError ?? ErrorStrings.noInternet;
     } else if (error is HandshakeException) {
-      return ErrorStrings.badCertificate;
+      return _l10n?.badCertificateError ?? ErrorStrings.badCertificate;
     } else if (error is TimeoutException) {
-      return ErrorStrings.connectionTimeout;
+      return _l10n?.connectionTimeoutError ?? ErrorStrings.connectionTimeout;
     }
     // -------------------------------------------------------------------------
     // SECTION 2: DATA & LOGIC ERRORS
     // -------------------------------------------------------------------------
     else if (error is TypeError) {
-      return ErrorStrings.parsingError;
+      return _l10n?.parsingError ?? ErrorStrings.parsingError;
     } else if (error is FormatException) {
-      return ErrorStrings.formatException;
+      return _l10n?.formatExceptionError ?? ErrorStrings.formatException;
     }
     // -------------------------------------------------------------------------
     // SECTION 3: FIREBASE ERRORS
@@ -42,7 +59,7 @@ class ErrorHandler {
     // SECTION 4: LOCAL STORAGE ERRORS
     // -------------------------------------------------------------------------
     else if (error is HiveError) {
-      return ErrorStrings.hiveError;
+      return _l10n?.hiveError ?? ErrorStrings.hiveError;
     } else if (error is PlatformException) {
       return _handlePlatformError(error);
     }
@@ -50,7 +67,7 @@ class ErrorHandler {
     // SECTION 5: UNKNOWN / FALLBACK
     // -------------------------------------------------------------------------
     else {
-      return ErrorStrings.unknownError;
+      return _l10n?.unknownError ?? ErrorStrings.unknownError;
     }
   }
 
@@ -60,13 +77,13 @@ class ErrorHandler {
 
   static String _handleDioError(DioException error) {
     return switch (error.type) {
-      DioExceptionType.connectionTimeout => ErrorStrings.connectionTimeout,
-      DioExceptionType.sendTimeout => ErrorStrings.sendTimeout,
-      DioExceptionType.receiveTimeout => ErrorStrings.receiveTimeout,
+      DioExceptionType.connectionTimeout => _l10n?.connectionTimeoutError ?? ErrorStrings.connectionTimeout,
+      DioExceptionType.sendTimeout => _l10n?.sendTimeoutError ?? ErrorStrings.sendTimeout,
+      DioExceptionType.receiveTimeout => _l10n?.receiveTimeoutError ?? ErrorStrings.receiveTimeout,
       DioExceptionType.badResponse => _handleBadResponse(error),
-      DioExceptionType.cancel => ErrorStrings.requestCancelled,
-      DioExceptionType.connectionError => ErrorStrings.connectionError,
-      DioExceptionType.badCertificate => ErrorStrings.badCertificate,
+      DioExceptionType.cancel => _l10n?.requestCancelledError ?? ErrorStrings.requestCancelled,
+      DioExceptionType.connectionError => _l10n?.connectionError ?? ErrorStrings.connectionError,
+      DioExceptionType.badCertificate => _l10n?.badCertificateError ?? ErrorStrings.badCertificate,
       DioExceptionType.unknown => _handleUnknownError(error),
     };
   }
@@ -74,21 +91,23 @@ class ErrorHandler {
   static String _handleBadResponse(DioException error) {
     final statusCode = error.response?.statusCode;
     return switch (statusCode) {
-      400 => _extractErrorMessage(error, ErrorStrings.badRequest),
-      401 => _extractErrorMessage(error, ErrorStrings.unauthorized),
-      403 => ErrorStrings.forbidden,
-      404 => ErrorStrings.notFound,
-      409 => ErrorStrings.conflict,
-      500 => ErrorStrings.internalServerError,
-      503 => ErrorStrings.serviceUnavailable,
-      _ => _extractErrorMessage(error, ErrorStrings.defaultError),
+      400 => _extractErrorMessage(error, _l10n?.badRequestError ?? ErrorStrings.badRequest),
+      401 => _extractErrorMessage(error, _l10n?.unauthorizedError ?? ErrorStrings.unauthorized),
+      403 => _l10n?.forbiddenError ?? ErrorStrings.forbidden,
+      404 => _extractErrorMessage(error, _l10n?.notFoundError ?? ErrorStrings.notFound),
+      409 => _extractErrorMessage(error, _l10n?.conflictError ?? ErrorStrings.conflict),
+
+      500 => _l10n?.internalServerError ?? ErrorStrings.internalServerError,
+      503 => _l10n?.serviceUnavailableError ?? ErrorStrings.serviceUnavailable,
+
+      _ => _extractErrorMessage(error, _l10n?.defaultError ?? ErrorStrings.defaultError),
     };
   }
 
   static String _extractErrorMessage(
-    DioException error,
-    String defaultMessage,
-  ) {
+      DioException error,
+      String defaultMessage,
+      ) {
     try {
       final data = error.response?.data;
       if (data is Map<String, dynamic>) {
@@ -104,59 +123,59 @@ class ErrorHandler {
 
   static String _handleUnknownError(DioException error) {
     if (error.error is SocketException) {
-      return ErrorStrings.noInternet;
+      return _l10n?.noInternetError ?? ErrorStrings.noInternet;
     }
     if (error.error is HandshakeException) {
-      return ErrorStrings.badCertificate;
+      return _l10n?.badCertificateError ?? ErrorStrings.badCertificate;
     }
 
     final message = error.message ?? '';
     if (message.contains('SocketException')) {
-      return ErrorStrings.noInternet;
+      return _l10n?.noInternetError ?? ErrorStrings.noInternet;
     }
-    return ErrorStrings.networkError;
+    return _l10n?.networkError ?? ErrorStrings.networkError;
   }
 
   static String _handleFirebaseAuthError(FirebaseAuthException error) {
     switch (error.code) {
       case 'user-not-found':
-        return ErrorStrings.firebaseUserNotFound;
+        return _l10n?.firebaseUserNotFound ?? ErrorStrings.firebaseUserNotFound;
       case 'wrong-password':
-        return ErrorStrings.firebaseWrongPassword;
+        return _l10n?.firebaseWrongPassword ?? ErrorStrings.firebaseWrongPassword;
       case 'email-already-in-use':
-        return ErrorStrings.firebaseEmailInUse;
+        return _l10n?.firebaseEmailInUse ?? ErrorStrings.firebaseEmailInUse;
       case 'invalid-email':
-        return ErrorStrings.firebaseInvalidEmail;
+        return _l10n?.firebaseInvalidEmail ?? ErrorStrings.firebaseInvalidEmail;
       case 'weak-password':
-        return ErrorStrings.firebaseWeakPassword;
+        return _l10n?.firebaseWeakPassword ?? ErrorStrings.firebaseWeakPassword;
       case 'user-disabled':
-        return ErrorStrings.firebaseAccountDisabled;
+        return _l10n?.firebaseAccountDisabled ?? ErrorStrings.firebaseAccountDisabled;
       case 'too-many-requests':
-        return ErrorStrings.firebaseTooManyRequests;
+        return _l10n?.firebaseTooManyRequests ?? ErrorStrings.firebaseTooManyRequests;
       case 'network-request-failed':
-        return ErrorStrings.noInternet;
+        return _l10n?.noInternetError ?? ErrorStrings.noInternet;
       default:
-        return error.message ?? ErrorStrings.firebaseAuthUnknown;
+        return error.message ?? _l10n?.firebaseAuthUnknown ?? ErrorStrings.firebaseAuthUnknown;
     }
   }
 
   static String _handleFirebaseGeneralError(FirebaseException error) {
     switch (error.code) {
       case 'permission-denied':
-        return ErrorStrings.firebasePermissionDenied;
+        return _l10n?.firebasePermissionDenied ?? ErrorStrings.firebasePermissionDenied;
       case 'unavailable':
-        return ErrorStrings.firebaseUnavailable;
+        return _l10n?.firebaseUnavailable ?? ErrorStrings.firebaseUnavailable;
       case 'network-request-failed':
-        return ErrorStrings.noInternet;
+        return _l10n?.noInternetError ?? ErrorStrings.noInternet;
       default:
-        return ErrorStrings.unknownError;
+        return _l10n?.unknownError ?? ErrorStrings.unknownError;
     }
   }
 
   static String _handlePlatformError(PlatformException error) {
     if (error.code == 'network_error') {
-      return ErrorStrings.noInternet;
+      return _l10n?.noInternetError ?? ErrorStrings.noInternet;
     }
-    return ErrorStrings.platformError;
+    return _l10n?.platformError ?? ErrorStrings.platformError;
   }
 }

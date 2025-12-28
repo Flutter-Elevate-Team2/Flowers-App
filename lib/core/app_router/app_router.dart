@@ -26,6 +26,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.signInPath,
+    
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(

@@ -1,16 +1,12 @@
-import 'package:flowers_app/core/base_response/base_response.dart';
-import '../models/forget_password/request/Forget_Password_Request.dart';
-import '../models/forget_password/request/Reset_Password_Request.dart';
-import '../models/forget_password/request/Verify_Password_Request.dart';
-import '../models/forget_password/responce/Forget_Password_Responce.dart';
-import '../models/forget_password/responce/Reset_Password_Responce.dart';
-import '../models/forget_password/responce/Verify_Password_Responce.dart';
-
+import '../models/forget_password/request/forget_password_request.dart';
+import '../models/forget_password/request/reset_password_request.dart';
+import '../models/forget_password/request/verify_password_request.dart';
+import '../models/forget_password/responce/forget_password_response.dart';
+import '../models/forget_password/responce/reset_password_response.dart';
+import '../models/forget_password/responce/verify_password_response.dart';
 
 abstract interface class AuthRemoteDataSourceContract {
-  Future<BaseResponse<ForgetPasswordResponce>>forgetPassword(ForgetPasswordRequest request);
-  Future<BaseResponse<VerifyPasswordResponce>>verifyPassword(VerifyPasswordRequest request);
-  Future<BaseResponse<ResetPasswordResponce>>resetPassword(ResetPasswordRequest request);
-
-
+  Future<ForgetPasswordResponse> forgetPassword(ForgetPasswordRequest request);
+  Future<VerifyPasswordResponse> verifyPassword(VerifyPasswordRequest request);
+  Future<ResetPasswordResponse> resetPassword(ResetPasswordRequest request);
 }

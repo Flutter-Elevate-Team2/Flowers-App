@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'Verify_Password_Request.g.dart';
+part 'verify_password_request.g.dart';
 
 @JsonSerializable()
 class VerifyPasswordRequest {
