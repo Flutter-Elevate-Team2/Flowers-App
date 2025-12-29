@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-
 class LoginViewModel extends Cubit<LoginState> {
   final LoginUseCase _loginUseCase;
 
@@ -33,6 +32,7 @@ class LoginViewModel extends Cubit<LoginState> {
         break;
     }
   }
+
   void _onInit() {
     emit(LoginState());
   }
@@ -43,6 +43,7 @@ class LoginViewModel extends Cubit<LoginState> {
       loginState: BaseState(),
     ));
   }
+
   void _resetErrorState() {
     if (state.loginState?.errorMessage != null || state.loginState?.isLoading == true) {
       emit(state.copyWith(loginState: BaseState()));
@@ -55,6 +56,7 @@ class LoginViewModel extends Cubit<LoginState> {
     final response = await _loginUseCase.call(
       email: event.email,
       password: event.password,
+      isRememberMe: state.isRememberMe,
     );
 
     switch (response) {
@@ -81,6 +83,7 @@ class LoginViewModel extends Cubit<LoginState> {
         break;
     }
   }
+
   void _handleGuestLogin() {
     // Fake success for guest
     emit(state.copyWith(

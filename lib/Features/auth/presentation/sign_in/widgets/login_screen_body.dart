@@ -1,3 +1,4 @@
+
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_event.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_state.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_view_model.dart';
@@ -39,140 +40,135 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   Widget build(BuildContext context) {
     final viewModel = context.read<LoginViewModel>();
 
-            return  SingleChildScrollView(
-                child: Column(
-                  children: [
-                Form(
-              key: _formKey,
-              autovalidateMode: _autoValidateMode,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: BlocListener<LoginViewModel, LoginState>(
-                  listenWhen: (previous, current) {
-                    return previous.loginState != current.loginState;
-                  },
-              listener: (context, state) {
-                final loginState = state.loginState;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Form(
+            key: _formKey,
+            autovalidateMode: _autoValidateMode,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
 
-                if (loginState?.data != null) {
+              child: BlocListener<LoginViewModel, LoginState>(
+                listenWhen: (previous, current) {
+                  return previous.loginState != current.loginState;
+                },
+                listener: (context, state) {
+                  final loginState = state.loginState;
 
-                  context.goNamed(Routes.homeName);
-                } else if (loginState?.errorMessage != null) {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(loginState!.errorMessage!),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-                  child: BlocBuilder<LoginViewModel, LoginState>(
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 24),
-                              child: TextFormField(
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) =>
-                                    FormValidators.validateEmail(
-                                        context, value),
-                                controller: _emailController,
-                                onChanged: (value) {
-                                  viewModel.doIntent(UserTypingEvent());
-                                },
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .bodySmall,
-                                decoration: InputDecoration(
-                                  labelText: context.l10n.emailLabel,
-                                  hintText: context.l10n.emailHint,
-                                  floatingLabelBehavior: FloatingLabelBehavior
-                                      .always,
-                                ),
-                              ),
-                            ),
-                            TextFormField(
-                              textInputAction: TextInputAction.next,
+                  if (loginState?.data != null) {
+                    context.goNamed(Routes.homeName);
+                  } else if (loginState?.errorMessage != null) {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(loginState!.errorMessage!),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
 
-                              validator: (value) =>
-                                  FormValidators.validatePassword(context, value),
-                              obscureText: !_isPasswordVisible,
-                              controller: _passwordController,
-                              onChanged: (value) {
-                                viewModel.doIntent(UserTypingEvent());
-                              },
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .bodySmall,
-                              decoration: InputDecoration(
-                                labelText: (context).l10n.passwordLabel,
-                                hintText: (context).l10n.passwordHint,
-                                floatingLabelBehavior: FloatingLabelBehavior
-                                    .always,
-                                helperText: ' ',
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isPasswordVisible = !_isPasswordVisible;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    _isPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: AppColors.gray,
-                                  ),
-                                ),
-                              ),
+                child: BlocBuilder<LoginViewModel, LoginState>(
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24),
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) =>
+                                FormValidators.validateEmail(context, value),
+                            controller: _emailController,
+                            onChanged: (value) {
+                              viewModel.doIntent(UserTypingEvent());
+                            },
+                            style: Theme.of(context).textTheme.bodySmall,
+                            decoration: InputDecoration(
+                              labelText: context.l10n.emailLabel,
+                              hintText: context.l10n.emailHint,
+                              floatingLabelBehavior:
+                              FloatingLabelBehavior.always,
                             ),
-                            RememberMeRow(
-                              rememberMe: state.isRememberMe,
-                              onChanged: (value) {
-                                viewModel.doIntent(ToggleRememberMeEvent());
-                              },
-                        onForgotPassword: () {
-                        context.pushNamed(Routes.forgetPasswordName);},
-                            ),
-                            if (state.loginState?.isLoading == true)
-                              const Padding(
-                                padding: EdgeInsets.only(top: 24),
-                                child: CircularProgressIndicator(),
-                              )
-                            else
-                            LoginButton(
+                          ),
+                        ),
+                        TextFormField(
+                          textInputAction: TextInputAction.done,
+                          validator: (value) =>
+                              FormValidators.validatePassword(context, value),
+                          obscureText: !_isPasswordVisible,
+                          controller: _passwordController,
+                          onChanged: (value) {
+                            viewModel.doIntent(UserTypingEvent());
+                          },
+                          style: Theme.of(context).textTheme.bodySmall,
+                          decoration: InputDecoration(
+                            labelText: context.l10n.passwordLabel,
+                            hintText: context.l10n.passwordHint,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            helperText: ' ',
+                            suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  _autoValidateMode = AutovalidateMode.always;
+                                  _isPasswordVisible = !_isPasswordVisible;
                                 });
+                              },
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: AppColors.gray,
+                              ),
+                            ),
+                          ),
+                        ),
+                        RememberMeRow(
+                          rememberMe: state.isRememberMe,
+                          onChanged: (value) {
+                            viewModel.doIntent(ToggleRememberMeEvent());
+                          },
+                          onForgotPassword: () {
+                            context.pushNamed(Routes.forgetPasswordName);
+                          },
+                        ),
+                        if (state.loginState?.isLoading == true)
+                          const Padding(
+                            padding: EdgeInsets.only(top: 24),
+                            child: CircularProgressIndicator(),
+                          )
+                        else
+                          LoginButton(
+                            onPressed: () {
+                              setState(() {
+                                _autoValidateMode = AutovalidateMode.always;
+                              });
 
-                                if (_formKey.currentState?.validate() ??
-                                    false) {
-                                  viewModel.doIntent(
-                                    LoginButtonClickedEvent(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                            GuestButton(
-                              onPressed: () {
-                                viewModel.doIntent(GuestLoginClickedEvent());
-                              },
-                            ),
-                            SignUpRow(),
-                          ],);
-                      }),
+                              if (_formKey.currentState?.validate() ?? false) {
+                                viewModel.doIntent(
+                                  LoginButtonClickedEvent(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        GuestButton(
+                          onPressed: () {
+                            viewModel.doIntent(GuestLoginClickedEvent());
+                          },
+                        ),
+                        const SignUpRow(),
+                      ],
+                    );
+                  },
+                ),
               ),
-    )
-                )
-                  ],)
-            );
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
