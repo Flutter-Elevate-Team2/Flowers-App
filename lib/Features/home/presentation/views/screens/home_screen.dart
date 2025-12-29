@@ -1,5 +1,6 @@
 import 'package:flowers_app/Features/home/presentation/widgets/custom_button_nav_bar.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
+import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _screens = [
     HomeScreenBody(),
-    Container(),
+    CategoriesScreen(),
     Container(),
     Container(),
     // CategoriesScreen(),
