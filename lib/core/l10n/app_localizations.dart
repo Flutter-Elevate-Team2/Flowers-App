@@ -609,6 +609,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get loginButton;
+
+  /// Label for the occasions category
+  ///
+  /// In en, this message translates to:
+  /// **'Occasions'**
+  String get occasions;
+
+  /// Label for the best sellers category
+  ///
+  /// In en, this message translates to:
+  /// **'Best Sellers'**
+  String get bestSellers;
+
+  /// Button text to view all items in a category
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// Label for the search input field
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchLabel;
+
+  /// Hint text for the search input field
+  ///
+  /// In en, this message translates to:
+  /// **'Search for flowers, gifts...'**
+  String get searchHint;
+
+  /// Message displayed when no search results are found
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get searchNoResults;
+
+  /// No description provided for @searchFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Search For Any Product You Want'**
+  String get searchFor;
+
+  /// Button text to add an item to the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCart;
+
+  /// Button text to open filter options
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// sort options
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sort;
+
+  /// Sort option for lowest price first
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest Price'**
+  String get lowestPrice;
+
+  /// Sort option for highest price first
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Price'**
+  String get highestPrice;
+
+  /// Sort option for newest items first
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get newest;
+
+  /// Sort option for oldest items first
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest'**
+  String get oldest;
+
+  /// Sort option for highest discount first
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discount;
 }
 
 class _AppLocalizationsDelegate

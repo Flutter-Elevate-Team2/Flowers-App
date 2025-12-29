@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +15,13 @@ class Routes {
 
   static const String homePath = '/home';
   static const String homeName = 'home';
+
+  static const String occasionPath = '/occasion';
+  static const String occasionName = 'occasion';
+
+
+  static const String categoryPath = '/category';
+  static const String categoryName = 'category';
 }
 
 /// ====== Main App Router ======
@@ -22,7 +30,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.homePath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(
@@ -52,6 +60,22 @@ class AppRouter {
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
+        // Fix: Added builder (Replace SizedBox with HomeScreen)
+        builder: (context, state) => const HomeScreen(),
+      ),
+
+      /// ====== Occasion SCREEN ======
+      GoRoute(
+        path: Routes.occasionPath,
+        name: Routes.occasionName,
+        // Fix: Added builder (Replace SizedBox with HomeScreen)
+        builder: (context, state) => const SizedBox(),
+      ),
+
+      /// ====== Category SCREEN ======
+      GoRoute(
+        path: Routes.categoryPath,
+        name: Routes.categoryName,
         // Fix: Added builder (Replace SizedBox with HomeScreen)
         builder: (context, state) => const SizedBox(),
       ),

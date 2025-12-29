@@ -78,6 +78,17 @@ abstract class AppTheme {
       ),
     ),
 
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      extendedSizeConstraints: BoxConstraints(
+        minWidth: 80,
+        minHeight: 34,
+      ),
+      backgroundColor: AppColors.mainColor,
+      foregroundColor: AppColors.white,
+      extendedTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+
+    ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
       contentTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
