@@ -1,6 +1,7 @@
 
 
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,17 +28,14 @@ class AppRouter {
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.signInPath,
     routes: [
-      /// ====== LOGIN SCREEN ======
-      GoRoute(
-        path: Routes.signInPath,
-        name: Routes.signInName,
-        builder: (context, state) => const LoginScreen(),
-
-
-        // Fix: Added builder (Replace SizedBox with SignInScreen)
-        builder: (context, state) => const SizedBox(),
-      ),
-
+  routes: [
+  /// ====== LOGIN SCREEN ======
+  GoRoute(
+  path: Routes.signInPath,
+    name: Routes.signInName,
+    // Fix: Added builder (Replace SizedBox with SignInScreen)
+    builder: (context, state) => const SizedBox(),
+  ),
       /// ====== SIGN UP SCREEN ======
       GoRoute(
         path: Routes.signUpPath,
@@ -58,8 +56,7 @@ class AppRouter {
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
-        // Fix: Added builder (Replace SizedBox with HomeScreen)
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const HomeScreen(),
       ),
 
       // /// ====== SIGN UP SCREEN ======
