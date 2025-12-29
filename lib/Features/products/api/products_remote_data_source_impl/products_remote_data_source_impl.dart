@@ -18,6 +18,7 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSourceContract {
     return _productsApi.getProducts(
       categoryId: categoryId,
       occasionId: occasionId,
+      sort: sort
     );
   }
 }
