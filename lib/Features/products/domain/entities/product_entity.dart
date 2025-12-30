@@ -1,4 +1,4 @@
-class ProductsEntity {
+class ProductEntity {
   final String id;
   final String title;
   final String slug;
@@ -14,8 +14,9 @@ class ProductsEntity {
   final int rateAvg;
   final int rateCount;
   final bool isInWishlist;
+  final int discount;
 
-  ProductsEntity({
+  ProductEntity({
     required this.id,
     required this.title,
     required this.slug,
@@ -31,5 +32,6 @@ class ProductsEntity {
     required this.rateAvg,
     required this.rateCount,
     required this.isInWishlist,
+    required this.discount,
   });
 }

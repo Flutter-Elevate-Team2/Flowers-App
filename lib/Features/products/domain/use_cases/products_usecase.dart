@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/products/domain/entities/products_entity.dart';
+import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
 import 'package:flowers_app/Features/products/domain/products_repo_contract/products_repo_contract.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:injectable/injectable.dart';
@@ -9,15 +9,21 @@ class ProductsUseCase {
 
   ProductsUseCase(this._productsRepoContract);
 
-  Future<BaseResponse<List<ProductsEntity>>> getProducts({
+  Future<BaseResponse<PaginatedProductsEntity>> getProducts({
     String? categoryId,
     String? occasionId,
     String? sort,
+    String? search,
+    int? page,
+    int? limit,
   }) {
     return _productsRepoContract.getProducts(
       categoryId: categoryId,
       occasionId: occasionId,
-      sort: sort
+      sort: sort,
+      search: search,
+      page: page,
+      limit: limit,
     );
   }
 }

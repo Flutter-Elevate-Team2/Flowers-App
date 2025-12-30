@@ -5,5 +5,8 @@ abstract class ProductsRemoteDataSourceContract {
     String? categoryId,
     String? occasionId,
     String? sort,
+    String? search,
+    int? page,
+    int? limit,
   });
 }

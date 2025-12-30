@@ -14,11 +14,17 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSourceContract {
     String? categoryId,
     String? occasionId,
     String? sort,
+    String? search,
+    int? page,
+    int? limit,
   }) {
     return _productsApi.getProducts(
       categoryId: categoryId,
       occasionId: occasionId,
-      sort: sort
+      sort: sort,
+      search: search,
+      page: page,
+      limit: limit,
     );
   }
 }
