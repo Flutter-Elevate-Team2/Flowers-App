@@ -1,4 +1,3 @@
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiConstants {
@@ -10,4 +9,5 @@ class ApiConstants {
   static const String forgetPassword = "/auth/forgotPassword";
   static const String resetPassword = "/auth/resetPassword";
   static const String verifyResetCode = "/auth/verifyResetCode";
+  static const String home = "/home";
 }

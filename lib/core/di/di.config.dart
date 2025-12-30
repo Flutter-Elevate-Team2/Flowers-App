@@ -15,6 +15,15 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
+import '../../Features/home/api/api_client/home_api.dart' as _i551;
+import '../../Features/home/api/data_source_imple/home_remote_data_source.dart'
+    as _i978;
+import '../../Features/home/data/data_source_contract/home_remote_data_source_contract.dart'
+    as _i968;
+import '../../Features/home/data/repo/home_repo_imple.dart' as _i779;
+import '../../Features/home/domain/repo/home_repo_contract.dart' as _i502;
+import '../../Features/home/domain/use_cases/get_home_sections_use_case.dart'
+    as _i301;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -49,6 +58,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i453.AuthInterceptor>(),
         gh<_i528.PrettyDioLogger>(),
       ),
+    );
+    gh.lazySingleton<_i551.HomeApi>(() => _i551.HomeApi(gh<_i361.Dio>()));
+    gh.factory<_i968.HomeRemoteDataSourceContract>(
+      () => _i978.HomeRemoteDataSource(gh<_i551.HomeApi>()),
+    );
+    gh.factory<_i502.HomeRepoContract>(
+      () => _i779.HomeRepoImple(gh<_i968.HomeRemoteDataSourceContract>()),
+    );
+    gh.factory<_i301.GetHomeSectionsUseCase>(
+      () => _i301.GetHomeSectionsUseCase(gh<_i502.HomeRepoContract>()),
     );
     return this;
   }
