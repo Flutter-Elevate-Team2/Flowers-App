@@ -1,15 +1,15 @@
 import 'package:flowers_app/Features/products/data/models/products_model/products_dto.dart';
-import 'package:flowers_app/Features/products/domain/entities/products_entity.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 
-extension ProductsMapper on Products {
-  ProductsEntity toEntity() {
-    return ProductsEntity(
-      id: Id ?? '',
+extension ProductMapper on Products {
+  ProductEntity toEntity() {
+    return ProductEntity(
+      id: id ?? '',
       title: title ?? '',
       slug: slug ?? '',
       description: description ?? '',
       imgCover: imgCover ?? '',
-      images: images ?? const [],
+      images: images ?? [],
       price: price ?? 0,
       priceAfterDiscount: priceAfterDiscount ?? 0,
       quantity: quantity ?? 0,
@@ -19,6 +19,7 @@ extension ProductsMapper on Products {
       rateAvg: rateAvg ?? 0,
       rateCount: rateCount ?? 0,
       isInWishlist: isInWishlist ?? false,
+      discount: discount ?? 0,
     );
   }
 }

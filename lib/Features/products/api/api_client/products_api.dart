@@ -18,5 +18,8 @@ abstract class ProductsApi {
     @Query('category') String? categoryId,
     @Query('occasion') String? occasionId,
     @Query('sort') String? sort,
+    @Query('search') String? search,
+    @Query('page') int? page,
+    @Query('limit') int? limit,
   });
 }
