@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart' as _i695;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
@@ -46,6 +47,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i306.SessionController(),
       dispose: (i) => i.dispose(),
     );
+    gh.singleton<_i695.CacheStore>(() => dioModule.cacheStore);
+    gh.singleton<_i695.CacheOptions>(() => dioModule.cacheOptions);
     gh.singleton<_i528.PrettyDioLogger>(() => dioModule.prettyDioLogger);
     gh.factory<_i453.AuthInterceptor>(
       () => _i453.AuthInterceptor(
@@ -57,6 +60,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => dioModule.dio(
         gh<_i453.AuthInterceptor>(),
         gh<_i528.PrettyDioLogger>(),
+        gh<_i695.CacheOptions>(),
       ),
     );
     gh.lazySingleton<_i551.HomeApi>(() => _i551.HomeApi(gh<_i361.Dio>()));
