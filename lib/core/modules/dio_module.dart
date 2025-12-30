@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:flowers_app/core/auth_interceptors/auth_interceptors.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @module
@@ -24,22 +22,15 @@ abstract class DioModule {
   }
 
   @singleton
-  @preResolve
-  Future<CacheStore> get cacheStore async {
-    final dir = await getApplicationDocumentsDirectory();
-    return HiveCacheStore(dir.path, hiveBoxName: 'dio_cache');
-  }
+  MemCacheStore get memCacheStore => MemCacheStore();
 
   @singleton
-  CacheOptions cacheOptions(CacheStore cacheStore) {
+  CacheOptions cacheOptions(MemCacheStore memCacheStore) {
     return CacheOptions(
-      store: cacheStore,
-      policy: CachePolicy.forceCache,
-      hitCacheOnErrorExcept: [401, 403],
+      store: memCacheStore,
+      policy: CachePolicy.request,
+      priority: CachePriority.normal,
       maxStale: const Duration(days: 7),
-      priority: CachePriority.high,
-      keyBuilder: CacheOptions.defaultCacheKeyBuilder,
-      allowPostMethod: false,
     );
   }
 
@@ -62,12 +53,12 @@ abstract class DioModule {
     );
 
     dio.interceptors.addAll([
-      authInterceptor, // First: Attach tokens
-      DioCacheInterceptor(options: cacheOptions), // Second: Check cache
+      authInterceptor,
+      DioCacheInterceptor(options: cacheOptions),
     ]);
 
     if (kDebugMode) {
-      dio.interceptors.add(dioLogger); // Third: Log (if network hit)
+      dio.interceptors.add(dioLogger);
     }
 
     return dio;

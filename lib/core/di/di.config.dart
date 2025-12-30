@@ -50,18 +50,15 @@ extension GetItInjectableX on _i174.GetIt {
       dispose: (i) => i.dispose(),
     );
     gh.singleton<_i528.PrettyDioLogger>(() => dioModule.prettyDioLogger);
-    await gh.singletonAsync<_i695.CacheStore>(
-      () => dioModule.cacheStore,
-      preResolve: true,
-    );
-    gh.singleton<_i695.CacheOptions>(
-      () => dioModule.cacheOptions(gh<_i695.CacheStore>()),
-    );
+    gh.singleton<_i695.MemCacheStore>(() => dioModule.memCacheStore);
     gh.factory<_i453.AuthInterceptor>(
       () => _i453.AuthInterceptor(
         gh<_i460.SharedPreferences>(),
         gh<_i306.SessionController>(),
       ),
+    );
+    gh.singleton<_i695.CacheOptions>(
+      () => dioModule.cacheOptions(gh<_i695.MemCacheStore>()),
     );
     gh.singleton<_i361.Dio>(
       () => dioModule.dio(

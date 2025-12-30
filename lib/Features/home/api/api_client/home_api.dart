@@ -13,6 +13,5 @@ abstract class HomeApi {
   factory HomeApi(Dio dio) = _HomeApi;
 
   @GET(ApiConstants.home)
-  @Extra({'dio_cache_force_refresh': true}) // Example: invalidates cache
   Future<HomeResponse> getHomeSections();
 }

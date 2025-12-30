@@ -21,7 +21,7 @@ class _HomeApi implements HomeApi {
 
   @override
   Future<HomeResponse> getHomeSections() async {
-    final _extra = <String, dynamic>{'dio_cache_force_refresh': true};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
