@@ -79,7 +79,7 @@ class ProductItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: (width * 0.11).clamp(14.0, 18.0),
-                      color: AppColors.mainColor,
+                      color: AppColors.black,
                     ),
               ),
             ],
