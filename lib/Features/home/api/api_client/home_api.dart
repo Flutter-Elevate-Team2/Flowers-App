@@ -15,6 +15,6 @@ abstract class HomeApi {
 
 
 @GET(ApiConstants.home)
-  Future<HomeResponse> getHomeSections();
+  Future<HomeResponse> getHomeSections({@DioOptions() Options? options,});
   
 }
