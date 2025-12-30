@@ -4,6 +4,9 @@
   "appTitle": "Flowers App",
   "@appTitle": { "description": "The main title of the application" },
 
+  "flowery": "Flowery",
+  "@flowery": { "description": "App Name Logo Text" },
+
   "home": "Home",
   "@home": { "description": "Label for the home navigation tab" },
   "categories": "Categories",
@@ -12,6 +15,19 @@
   "@cart": { "description": "Label for the cart navigation tab" },
   "profile": "Profile",
   "@profile": { "description": "Label for the profile navigation tab" },
+
+  "searchHint": "Search",
+  "@searchHint": { "description": "Hint text for search bar" },
+  "viewAll": "View All",
+  "@viewAll": { "description": "Button text to view all items" },
+  "bestSeller": "Best seller",
+  "@bestSeller": { "description": "Section title for best sellers" },
+  "occasion": "Occasion",
+  "@occasion": { "description": "Section title for occasions" },
+  "deliverTo": "Deliver to",
+  "@deliverTo": { "description": "Label for delivery location" },
+  "testLocation": "2XVP+XC - Sheikh Zayed",
+  "@testLocation":{"description": "text for location"},
 
   "emailLabel": "Email",
   "@emailLabel": { "description": "Label for the email input field" },
@@ -191,4 +207,5 @@
 
   "loginButton": "Login",
   "@loginButton": { "description": "Label for the login button" }
+
 }

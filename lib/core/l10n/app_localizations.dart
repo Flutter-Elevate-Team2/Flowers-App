@@ -100,6 +100,12 @@ abstract class AppLocalizations {
   /// **'Flowers App'**
   String get appTitle;
 
+  /// App Name Logo Text
+  ///
+  /// In en, this message translates to:
+  /// **'Flowery'**
+  String get flowery;
+
   /// Label for the home navigation tab
   ///
   /// In en, this message translates to:
@@ -123,6 +129,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get profile;
+
+  /// Hint text for search bar
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchHint;
+
+  /// Button text to view all items
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// Section title for best sellers
+  ///
+  /// In en, this message translates to:
+  /// **'Best seller'**
+  String get bestSeller;
+
+  /// Section title for occasions
+  ///
+  /// In en, this message translates to:
+  /// **'Occasion'**
+  String get occasion;
+
+  /// Label for delivery location
+  ///
+  /// In en, this message translates to:
+  /// **'Deliver to'**
+  String get deliverTo;
+
+  /// text for location
+  ///
+  /// In en, this message translates to:
+  /// **'2XVP+XC - Sheikh Zayed'**
+  String get testLocation;
 
   /// Label for the email input field
   ///
