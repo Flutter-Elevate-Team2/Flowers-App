@@ -24,6 +24,8 @@ import '../../Features/home/data/repo/home_repo_imple.dart' as _i779;
 import '../../Features/home/domain/repo/home_repo_contract.dart' as _i502;
 import '../../Features/home/domain/use_cases/get_home_sections_use_case.dart'
     as _i301;
+import '../../Features/home/presentation/view_model/home_view_model.dart'
+    as _i470;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -68,6 +70,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i301.GetHomeSectionsUseCase>(
       () => _i301.GetHomeSectionsUseCase(gh<_i502.HomeRepoContract>()),
+    );
+    gh.factory<_i470.HomeViewModel>(
+      () => _i470.HomeViewModel(gh<_i301.GetHomeSectionsUseCase>()),
     );
     return this;
   }

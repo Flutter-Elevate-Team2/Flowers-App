@@ -1,15 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/widgets/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final String imageUrl;
   final double boxSize;
 
   const CategoryItem({
     super.key,
     required this.title,
-    required this.icon,
+    required this.imageUrl,
     required this.boxSize,
   });
 
@@ -28,10 +30,20 @@ class CategoryItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Icon(
-                  icon,
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: boxSize * 0.5,
+                height: boxSize * 0.5,
+                fit: BoxFit.contain,
+
+                placeholder: (context, url) => AppShimmer(
+                  height: boxSize * 0.5,
+                  width: boxSize * 0.5,
+                  radius: 100,
+                ),
+
+                errorWidget: (context, url, error) => Icon(
+                  Icons.local_florist_outlined,
                   color: AppColors.mainColor,
                   size: boxSize * 0.45,
                 ),
@@ -46,9 +58,9 @@ class CategoryItem extends StatelessWidget {
                 title,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: (boxSize * 0.18).clamp(12.0, 16.0),
-                  fontWeight: FontWeight.w500,
-                ),
+                      fontSize: (boxSize * 0.18).clamp(12.0, 16.0),
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
             ),
           ),

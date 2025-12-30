@@ -13,7 +13,6 @@ void main() {
   provideDummy<BaseResponse<HomeEntity>>(
     SuccessResponse(
       data: HomeEntity(
-        products: [],
         categories: [],
         bestSellers: [],
         occasions: [],
@@ -32,7 +31,6 @@ void main() {
     test('call should return SuccessResponse from repository', () async {
       // Arrange
       final homeEntity = HomeEntity(
-        products: [],
         categories: [],
         bestSellers: [],
         occasions: [],

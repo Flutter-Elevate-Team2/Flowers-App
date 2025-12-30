@@ -21,7 +21,6 @@ void main() {
     test('getHomeSections should call getHomeSections on HomeApi', () async {
       // Arrange
       final homeResponse = HomeResponse(
-        products: [],
         categories: [],
         bestSeller: [],
         occasions: [],

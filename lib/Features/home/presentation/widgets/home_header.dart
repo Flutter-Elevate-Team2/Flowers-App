@@ -32,7 +32,7 @@ class HomeHeader extends StatelessWidget {
 
             const SizedBox(width: 12),
 
-            // 2. Search Bar Part (Must be Expanded)
+            // 2. Search Bar Part
             Expanded(
               child: SizedBox(
                 height: 36,

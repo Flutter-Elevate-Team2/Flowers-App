@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/widgets/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
@@ -29,18 +31,36 @@ class ProductItem extends StatelessWidget {
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Center(
-                child: Icon(
-                  imageUrl != null ? null : Icons.image,
-                  size: width * 0.35,
-                  color: AppColors.gray.withAlpha(100),
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: imageUrl != null && imageUrl!.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: imageUrl!,
+                        fit: BoxFit.cover,
+
+                        placeholder: (context, url) => const AppShimmer(
+                          height: double.infinity,
+                          width: double.infinity,
+                          radius: 0,
+                        ),
+
+                        errorWidget: (context, url, error) => Icon(
+                          Icons.image_not_supported_outlined,
+                          size: width * 0.35,
+                          color: AppColors.gray.withAlpha(100),
+                        ),
+                      )
+                    : Center(
+                        child: Icon(
+                          Icons.image,
+                          size: width * 0.35,
+                          color: AppColors.gray.withAlpha(100),
+                        ),
+                      ),
               ),
             ),
           ),
-
           const SizedBox(height: 8),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,18 +69,18 @@ class ProductItem extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontSize: (width * 0.11).clamp(14.0, 18.0),
-                  fontWeight: FontWeight.w500,
-                ),
+                      fontSize: (width * 0.11).clamp(14.0, 18.0),
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
               const SizedBox(height: 4),
               Text(
                 "$price EGP",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: (width * 0.11).clamp(14.0, 18.0),
-                  color: AppColors.mainColor,
-                ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: (width * 0.11).clamp(14.0, 18.0),
+                      color: AppColors.mainColor,
+                    ),
               ),
             ],
           ),

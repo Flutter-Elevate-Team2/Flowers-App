@@ -15,7 +15,6 @@ void main() {
   provideDummy<BaseResponse<HomeEntity>>(
     SuccessResponse(
       data: HomeEntity(
-        products: [],
         categories: [],
         bestSellers: [],
         occasions: [],
@@ -36,7 +35,6 @@ void main() {
       () async {
         // Arrange
         final homeResponse = HomeResponse(
-          products: [],
           categories: [],
           bestSeller: [],
           occasions: [],
