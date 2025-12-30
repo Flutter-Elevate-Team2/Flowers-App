@@ -166,6 +166,12 @@ abstract class AppLocalizations {
   /// **'2XVP+XC - Sheikh Zayed'**
   String get testLocation;
 
+  /// Button text to retry
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
+
   /// Label for the email input field
   ///
   /// In en, this message translates to:

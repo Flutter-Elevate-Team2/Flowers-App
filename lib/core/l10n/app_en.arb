@@ -28,6 +28,8 @@
   "@deliverTo": { "description": "Label for delivery location" },
   "testLocation": "2XVP+XC - Sheikh Zayed",
   "@testLocation":{"description": "text for location"},
+  "retryButton": "Retry",
+  "@retryButton": { "description": "Button text to retry" },
 
   "emailLabel": "Email",
   "@emailLabel": { "description": "Label for the email input field" },
@@ -130,6 +132,7 @@
   "@weakPasswordError": { "description": "Generic error message for weak password validation" },
   "invalidCodeError": "Invalid code",
   "@invalidCodeError": { "description": "Generic error message for invalid verification code" },
+
 
   "connectionTimeoutError": "Connection timeout. Please check your internet.",
   "@connectionTimeoutError": { "description": "Error message for connection timeout" },

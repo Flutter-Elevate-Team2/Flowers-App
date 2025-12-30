@@ -45,6 +45,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testLocation => '2XVP+XC - Sheikh Zayed';
 
   @override
+  String get retryButton => 'Retry';
+
+  @override
   String get emailLabel => 'Email';
 
   @override
