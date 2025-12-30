@@ -699,6 +699,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discount'**
   String get discount;
+
+  /// Message displayed when no products are found after filtering or searching
+  ///
+  /// In en, this message translates to:
+  /// **'No products found'**
+  String get noProductsFound;
+
+  /// Description for the occasions section
+  ///
+  /// In en, this message translates to:
+  /// **'Bloom with our exquisite best sellers'**
+  String get occasionDescription;
 }
 
 class _AppLocalizationsDelegate

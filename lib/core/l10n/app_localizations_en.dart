@@ -317,4 +317,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discount => 'Discount';
+
+  @override
+  String get noProductsFound => 'No products found';
+
+  @override
+  String get occasionDescription => 'Bloom with our exquisite best sellers';
 }

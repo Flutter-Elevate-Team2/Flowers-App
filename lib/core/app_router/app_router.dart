@@ -1,4 +1,6 @@
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
+import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
+import 'package:flowers_app/Features/products/presentation/views/screens/occasions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -69,7 +71,7 @@ class AppRouter {
         path: Routes.occasionPath,
         name: Routes.occasionName,
         // Fix: Added builder (Replace SizedBox with HomeScreen)
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const OccasionsScreen(),
       ),
 
       /// ====== Category SCREEN ======
@@ -77,7 +79,7 @@ class AppRouter {
         path: Routes.categoryPath,
         name: Routes.categoryName,
         // Fix: Added builder (Replace SizedBox with HomeScreen)
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const CategoriesScreen(),
       ),
     ],
   );

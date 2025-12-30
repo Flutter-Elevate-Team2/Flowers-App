@@ -1,25 +1,41 @@
+import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
+import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
+enum SortOption {
+  lowestPrice('price'),
+  highestPrice('-price'),
+  newest('new'),
+  oldest('old'),
+  discount('discount');
+
+  final String value;
+
+  const SortOption(this.value);
+}
+
 class SortBy extends StatefulWidget {
-  const SortBy({super.key});
+  final ProductsViewModel viewModel;
+  const SortBy(this.viewModel,{super.key});
 
   @override
   State<SortBy> createState() => _SortByState();
 }
 
 class _SortByState extends State<SortBy> {
-  String selectedOption = "";
+  SortOption? selectedOption ;
 
   @override
   Widget build(BuildContext context) {
-    final List<String> options = [
-      (context).l10n.lowestPrice,
-      (context).l10n.highestPrice,
-      (context).l10n.newest,
-      (context).l10n.oldest,
-      (context).l10n.discount,
-    ];
+
+    final Map<SortOption, String> options = {
+      SortOption.lowestPrice: context.l10n.lowestPrice,
+      SortOption.highestPrice: context.l10n.highestPrice,
+      SortOption.newest: context.l10n.newest,
+      SortOption.oldest: context.l10n.oldest,
+      SortOption.discount: context.l10n.discount,
+    };
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -38,7 +54,10 @@ class _SortByState extends State<SortBy> {
             ),
           ),
           const SizedBox(height: 16),
-          ...options.map((option) {
+          ...options.entries.map((entry) {
+            final option = entry.key;
+            final label = entry.value;
+
             return GestureDetector(
               onTap: () {
                 setState(() {
@@ -60,16 +79,18 @@ class _SortByState extends State<SortBy> {
                 ),
                 child: ListTile(
                   title: Text(
-                    option,
+                    label,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                  trailing: Radio<String>(
+                  trailing: Radio<SortOption>(
                     value: option,
                     groupValue: selectedOption,
+
                     activeColor: Theme.of(context).colorScheme.primary,
                     onChanged: (value) {
                       setState(() {
                         selectedOption = value!;
+
                       });
                     },
                   ),
@@ -84,9 +105,14 @@ class _SortByState extends State<SortBy> {
             height: 52,
             child: ElevatedButton.icon(
               onPressed: () {
-                Navigator.pop(context, selectedOption);
+                if (selectedOption != null) {
+                  widget.viewModel.doIntent(
+                    FetchProductsEvent(sort: selectedOption!.value),
+                  );
+                }
+                Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.filter_alt),
+              icon: const Icon(Icons.filter_list_outlined),
               label: Text((context).l10n.filter),
             ),
           ),
@@ -95,3 +121,5 @@ class _SortByState extends State<SortBy> {
     );
   }
 }
+
+
