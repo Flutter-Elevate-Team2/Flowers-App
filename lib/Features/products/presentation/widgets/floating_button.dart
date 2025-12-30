@@ -21,7 +21,7 @@ class _FloatingButtonState extends State<FloatingButton> {
       height: 34,
       child: FloatingActionButton(
         onPressed: () async {
-          final selectedSort = await showModalBottomSheet<String>(
+           showModalBottomSheet<String>(
             context: context,
               backgroundColor: Colors.transparent,
               isScrollControlled: true,
