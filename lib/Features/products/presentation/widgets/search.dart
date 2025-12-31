@@ -5,14 +5,14 @@ class SearchAndFilterBar extends StatelessWidget {
   final TextEditingController searchController;
   final  ValueChanged<bool>? onFocusChange;
   final VoidCallback onFilterTap;
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
 
   const SearchAndFilterBar({
     super.key,
     required this.searchController,
     required this.onFocusChange,
     required this.onFilterTap,
-    this.onChanged,
+    this.onSubmitted,
   });
 
   @override
@@ -30,7 +30,7 @@ class SearchAndFilterBar extends StatelessWidget {
                 },
                 child: TextField(
                 controller: searchController,
-                onSubmitted: onChanged,
+                onSubmitted: onSubmitted,
                 decoration: InputDecoration(
                   hintText: (context).l10n.searchHint,
                   prefixIcon: const Icon(Icons.search),

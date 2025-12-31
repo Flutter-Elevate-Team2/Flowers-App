@@ -49,6 +49,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   retrofit: ^4.9.0
   shared_preferences: ^2.5.3
+  shimmer: ^3.0.0
   skeletonizer: ^2.1.0+1
 
 dev_dependencies:

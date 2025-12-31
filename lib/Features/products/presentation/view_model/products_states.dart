@@ -5,7 +5,6 @@ class ProductsStates {
   final BaseState<List<ProductEntity>>? productsState;
   final bool isSearchFocused;
   final String searchText;
-  final bool isLoading;
   final bool isLoadingMore;
   final bool hasMore;
 
@@ -13,7 +12,6 @@ class ProductsStates {
     this.productsState,
     this.isSearchFocused = false,
     this.searchText = '',
-    this.isLoading = false,
     this.isLoadingMore = false,
     this.hasMore = true,
   });
@@ -29,7 +27,6 @@ class ProductsStates {
       productsState: productsState,
       isSearchFocused: isSearchFocused ?? this.isSearchFocused,
       searchText: searchText ?? this.searchText,
-      isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasMore: hasMore ?? this.hasMore,
     );

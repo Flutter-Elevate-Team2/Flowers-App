@@ -2,6 +2,7 @@ import 'package:flowers_app/Features/products/presentation/view_model/products_s
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/default_tab_bar.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/products_grid.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/products_grid_shimmer.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/search.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   );
                 },
                 onFilterTap: () {},
-                onChanged: (value) {
+                onSubmitted: (value) {
                   context.read<ProductsViewModel>().onSearchSubmitted(value);
                 },
               ),
@@ -71,10 +72,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     if (state.isSearchFocused ) {
                       return Center(child: Text(context.l10n.searchFor));
                     }
-                    if (state.productsState?.isLoading == true) {
-                      return const Center(child: CircularProgressIndicator());
+                    if (state.productsState?.isLoading == true ) {
+                      return ProductsGridShimmer(
+                        controller: _scrollController,
+                      );
                     }
-
                     if (state.productsState?.errorMessage != null) {
                       return Center(
                         child: Text(state.productsState!.errorMessage!),
@@ -86,7 +88,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     return ProductsGrid(
                       products: products,
                       controller: _scrollController,
-                      isLoadingMore: state.isLoadingMore ,                   );
+                      isLoadingMore: state.isLoadingMore ,
+                    );
                   },
                 ),
               ),

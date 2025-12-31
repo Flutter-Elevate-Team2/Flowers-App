@@ -28,12 +28,18 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
   void doIntent(ProductsEvent event) {
     if (event is FetchProductsEvent) {
+      final isNewQuery =
+          _sort != event.sort ||
+              _categoryId != event.categoryId ||
+              _occasionId != event.occasionId ||
+              _search != event.search;
+
       _categoryId = event.categoryId;
       _occasionId = event.occasionId;
       _sort = event.sort;
       _search = event.search;
 
-      if (event.reset) {
+      if (event.reset || isNewQuery) {
         _page = 1;
         _hasMore = true;
       }
@@ -43,7 +49,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         _occasionId,
         _sort,
         _search,
-        loadMore: !event.reset,
+        loadMore: !(event.reset || isNewQuery),
       );
     }
   }
@@ -70,7 +76,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     emit(
       state.copyWith(
         searchText: query,
-        productsState: BaseState<List<ProductEntity>>(isLoading: true),
+        productsState: BaseState<List<ProductEntity>>(isLoading: true, data: []),
         isSearchFocused: false,
       ),
     );
@@ -89,43 +95,11 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
     _isFetchingMore = true;
 
-    if (!loadMore) {
-      _page = 1;
-      _hasMore = true;
-      emit(state.copyWith(
-        productsState: BaseState(isLoading: true),
-        isLoadingMore: false,
-      ));
-    } else {
-      emit(state.copyWith(isLoadingMore: true));
-    }
+    _handleLoadMore(loadMore);
 
-    BaseResponse<PaginatedProductsEntity> result;
+    BaseResponse<PaginatedProductsEntity> result ;
 
-    if (categoryId != null && categoryId.isNotEmpty) {
-      result = await _getProductsUseCase.getProducts(
-        categoryId: categoryId,
-        sort: sort,
-        search: search,
-        page: _page,
-        limit: _limit,
-      );
-    } else if (occasionId != null && occasionId.isNotEmpty) {
-      result = await _getProductsUseCase.getProducts(
-        occasionId: occasionId,
-        sort: sort,
-        search: search,
-        page:  _page,
-        limit: _limit,
-      );
-    } else {
-      result = await _getProductsUseCase.getProducts(
-        sort: sort,
-        search: search,
-        page:  _page,
-        limit: _limit,
-      );
-    }
+    result = await _handleQurey(categoryId, sort, search, occasionId);
 
     if (isClosed) return;
     if (result is SuccessResponse<PaginatedProductsEntity>) {
@@ -143,19 +117,63 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       emit(state.copyWith(
         productsState:  BaseState<List<ProductEntity>>(
           data: allProducts,
+          isLoading: false
         ),
-        isLoading: false,
         isLoadingMore: false,
         hasMore: _hasMore,
       ));
     } else {
       emit(state.copyWith(
-        isLoading: false,
         isLoadingMore: false,
         hasMore: false,
       ));
     }
     _isFetchingMore = false;
 
+  }
+
+  Future<BaseResponse<PaginatedProductsEntity>> _handleQurey(String? categoryId, String? sort, String? search, String? occasionId) async {
+    if (categoryId != null && categoryId.isNotEmpty) {
+      return await _getProductsUseCase.getProducts(
+        categoryId: categoryId,
+        sort: sort,
+        search: search,
+        page: _page,
+        limit: _limit,
+      );
+    } else if (occasionId != null && occasionId.isNotEmpty) {
+      return await _getProductsUseCase.getProducts(
+        occasionId: occasionId,
+        sort: sort,
+        search: search,
+        page:  _page,
+        limit: _limit,
+      );
+    } else {
+      return await _getProductsUseCase.getProducts(
+        sort: sort,
+        search: search,
+        page:  _page,
+        limit: _limit,
+      );
+    }
+  }
+
+  void _handleLoadMore(bool loadMore) {
+     if (loadMore) {
+       emit(state.copyWith(isLoadingMore: true));
+
+    } else {
+       _page = 1;
+       _hasMore = true;
+       emit(state.copyWith(
+           productsState:  BaseState<List<ProductEntity>>(
+             data: [],
+           )
+           ,isLoadingMore: false,
+           hasMore: true
+       )
+       );
+    }
   }
 }

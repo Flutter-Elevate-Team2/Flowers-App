@@ -20,3 +20,9 @@ class FetchProductsEvent extends ProductsEvent {
 
 class LoadMoreProductsEvent extends ProductsEvent {}
 
+class NavigateToProductDetailsEvent extends ProductsEvent {
+  final ProductsEvent product;
+
+  NavigateToProductDetailsEvent(this.product);
+}
+

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
+  final VoidCallback? onTap;
 
   const ProductCard({
     super.key,
+    this.onTap,
     required this.product,
   });
 
@@ -26,59 +28,61 @@ class ProductCard extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsetsGeometry.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
+        child: InkWell(
+          onTap: onTap,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
+                child: Image.network(
+                  product.imgCover,
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.16,
+                  fit: BoxFit.cover,
+                ),
               ),
-              child: Image.network(
-                product.imgCover,
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.16,
-                fit: BoxFit.cover,
+              SizedBox(height: 8,),
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                    product.title.split(' ').take(3).join(' '),
+                    style: Theme.of(context).textTheme.bodySmall),
               ),
-            ),
-            SizedBox(height: 8,),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                        product.title.split(' ').take(3).join(' '),
-                  style: Theme.of(context).textTheme.bodySmall),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8 , horizontal: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'EGP ${product.priceAfterDiscount}',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8 , horizontal: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
                     Text(
-                    '${product.price}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.surfaceContainerHighest,
-                      decoration: TextDecoration.lineThrough,
+                      'EGP ${product.priceAfterDiscount}',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  if (product.discount > 0)
-                  Text(
-                    '${product.discount}%',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ))
+                    Text(
+                      '${product.price}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                    if (product.discount > 0)
+                      Text(
+                          '${product.discount}%',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ))
                     else SizedBox(),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Spacer(),
-             SizedBox(
+              Spacer(),
+              SizedBox(
                 width: double.infinity,
                 height: 36,
                 child: ElevatedButton.icon(
@@ -86,12 +90,13 @@ class ProductCard extends StatelessWidget {
                   icon:  Icon(Icons.shopping_cart_outlined),
                   label:  Text((context).l10n.addToCart),
                   style: ElevatedButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.bold,)
-                    ),
+                      textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.bold,)
                   ),
                 ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
