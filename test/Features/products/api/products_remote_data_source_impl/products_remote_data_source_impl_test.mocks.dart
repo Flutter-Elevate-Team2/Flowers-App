@@ -3,15 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:flowers_app/core/base_response/base_response.dart' as _i4;
-import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart'
-    as _i5;
-import 'package:flowers_app/Features/products/domain/products_repo_contract/products_repo_contract.dart'
+import 'package:flowers_app/Features/products/api/api_client/products_api.dart'
+    as _i3;
+import 'package:flowers_app/Features/products/data/models/products_model/products_response.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,17 +26,22 @@ import 'package:mockito/src/dummies.dart' as _i6;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-/// A class which mocks [ProductsRepoContract].
+class _FakeProductsResponse_0 extends _i1.SmartFake
+    implements _i2.ProductsResponse {
+  _FakeProductsResponse_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+/// A class which mocks [ProductsApi].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockProductsRepoContract extends _i1.Mock
-    implements _i2.ProductsRepoContract {
-  MockProductsRepoContract() {
+class MockProductsApi extends _i1.Mock implements _i3.ProductsApi {
+  MockProductsApi() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i5.PaginatedProductsEntity>> getProducts({
+  _i4.Future<_i2.ProductsResponse> getProducts({
     String? categoryId,
     String? occasionId,
     String? sort,
@@ -55,20 +58,19 @@ class MockProductsRepoContract extends _i1.Mock
               #page: page,
               #limit: limit,
             }),
-            returnValue:
-                _i3.Future<_i4.BaseResponse<_i5.PaginatedProductsEntity>>.value(
-                  _i6.dummyValue<_i4.BaseResponse<_i5.PaginatedProductsEntity>>(
-                    this,
-                    Invocation.method(#getProducts, [], {
-                      #categoryId: categoryId,
-                      #occasionId: occasionId,
-                      #sort: sort,
-                      #search: search,
-                      #page: page,
-                      #limit: limit,
-                    }),
-                  ),
-                ),
+            returnValue: _i4.Future<_i2.ProductsResponse>.value(
+              _FakeProductsResponse_0(
+                this,
+                Invocation.method(#getProducts, [], {
+                  #categoryId: categoryId,
+                  #occasionId: occasionId,
+                  #sort: sort,
+                  #search: search,
+                  #page: page,
+                  #limit: limit,
+                }),
+              ),
+            ),
           )
-          as _i3.Future<_i4.BaseResponse<_i5.PaginatedProductsEntity>>);
+          as _i4.Future<_i2.ProductsResponse>);
 }

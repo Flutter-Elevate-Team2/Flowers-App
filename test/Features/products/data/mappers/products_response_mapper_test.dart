@@ -5,11 +5,14 @@ import 'package:flowers_app/Features/products/data/models/products_model/product
 import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
 
 void main() {
+  _productsResponseMapperTests();
+}
+
+void _productsResponseMapperTests() {
   group('ProductsResponseMapper Tests', () {
     test(
       'should map ProductsResponse to PaginatedProductsEntity when products and metadata are not null',
-      () {
-        // Arrange
+          () {
         final response = ProductsResponse(
           products: [
             Products(
@@ -41,10 +44,8 @@ void main() {
           ),
         );
 
-        // Act
         final PaginatedProductsEntity entity = response.toPaginatedEntity();
 
-        // Assert
         expect(entity.products.length, 1);
         expect(entity.products.first.title, 'Rose');
         expect(entity.products.first.price, 100);
@@ -58,16 +59,12 @@ void main() {
 
     test(
       'should return empty products list and default metadata when products and metadata are null',
-      () {
-        // Arrange
+          () {
         final response = ProductsResponse();
 
-        // Act
         final PaginatedProductsEntity entity = response.toPaginatedEntity();
 
-        // Assert
         expect(entity.products, isEmpty);
-
         expect(entity.meta.currentPage, 1);
         expect(entity.meta.totalPages, 1);
         expect(entity.meta.limit, 20);
@@ -76,7 +73,6 @@ void main() {
     );
 
     test('should map empty products list correctly', () {
-      // Arrange
       final response = ProductsResponse(
         products: [],
         metadata: Metadata(
@@ -89,10 +85,8 @@ void main() {
         ),
       );
 
-      // Act
       final PaginatedProductsEntity entity = response.toPaginatedEntity();
 
-      // Assert
       expect(entity.products, isEmpty);
       expect(entity.meta.currentPage, 1);
     });

@@ -4,11 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flowers_app/Features/products/data/models/products_model/products_response.dart';
 
 void main() {
-  group('MetaDateMapper Tests', () {
+  _metaDataMapperTests();
+}
+
+void _metaDataMapperTests() {
+  group('MetaDataMapper Tests', () {
     test(
       'should map MetaData model to MetaDataEntity correctly when all fields are present',
-      () {
-        // Arrange
+          () {
         final metaData = Metadata(
           limit: 10,
           currentPage: 1,
@@ -16,10 +19,8 @@ void main() {
           totalPages: 2,
         );
 
-        // Act
         final MetaDataEntity entity = metaData.toEntity();
 
-        // Assert
         expect(entity.limit, 10);
         expect(entity.currentPage, 1);
         expect(entity.totalItems, 20);
@@ -29,14 +30,11 @@ void main() {
 
     test(
       'should return default values when MetaData model has null fields',
-      () {
-        // Arrange
+          () {
         final metaData = Metadata();
 
-        // Act
         final MetaDataEntity entity = metaData.toEntity();
 
-        // Assert
         expect(entity.limit, 20);
         expect(entity.currentPage, 1);
         expect(entity.totalItems, 0);

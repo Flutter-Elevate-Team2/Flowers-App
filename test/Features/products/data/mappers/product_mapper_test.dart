@@ -4,11 +4,14 @@ import 'package:flowers_app/Features/products/domain/entities/product_entity.dar
 import 'package:flowers_app/Features/products/data/mappers/product_mapper.dart';
 
 void main() {
+  _productsMapperTests();
+}
+
+void _productsMapperTests() {
   group('ProductsMapper Tests', () {
     test(
       'should map Products DTO to ProductsEntity correctly when all fields are present',
-      () {
-        // Arrange
+          () {
         final productDto = Products(
           id: '1',
           title: 'Rose',
@@ -28,10 +31,8 @@ void main() {
           discount: 50,
         );
 
-        // Act
         final ProductEntity entity = productDto.toEntity();
 
-        // Assert
         expect(entity.id, '1');
         expect(entity.title, 'Rose');
         expect(entity.slug, 'rose');
@@ -51,30 +52,30 @@ void main() {
       },
     );
 
-    test('should return default values when Products DTO has null fields', () {
-      // Arrange
-      final productDto = Products();
+    test(
+      'should return default values when Products DTO has null fields',
+          () {
+        final productDto = Products();
 
-      // Act
-      final ProductEntity entity = productDto.toEntity();
+        final ProductEntity entity = productDto.toEntity();
 
-      // Assert
-      expect(entity.id, '');
-      expect(entity.title, '');
-      expect(entity.slug, '');
-      expect(entity.description, '');
-      expect(entity.imgCover, '');
-      expect(entity.images, isEmpty);
-      expect(entity.price, 0);
-      expect(entity.priceAfterDiscount, 0);
-      expect(entity.quantity, 0);
-      expect(entity.categoryId, '');
-      expect(entity.occasionId, '');
-      expect(entity.sold, 0);
-      expect(entity.rateAvg, 0);
-      expect(entity.rateCount, 0);
-      expect(entity.isInWishlist, false);
-      expect(entity.discount, 0);
-    });
+        expect(entity.id, '');
+        expect(entity.title, '');
+        expect(entity.slug, '');
+        expect(entity.description, '');
+        expect(entity.imgCover, '');
+        expect(entity.images, isEmpty);
+        expect(entity.price, 0);
+        expect(entity.priceAfterDiscount, 0);
+        expect(entity.quantity, 0);
+        expect(entity.categoryId, '');
+        expect(entity.occasionId, '');
+        expect(entity.sold, 0);
+        expect(entity.rateAvg, 0);
+        expect(entity.rateCount, 0);
+        expect(entity.isInWishlist, false);
+        expect(entity.discount, 0);
+      },
+    );
   });
 }
