@@ -15,8 +15,6 @@ extension ProductsResponseMapper on ProductsResponse {
             totalPages: 1,
             limit: 20,
             totalItems: 0,
-            nextPage: 0,
-            prevPage: 0,
           ),
     );
   }
