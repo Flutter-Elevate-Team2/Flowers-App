@@ -49,7 +49,7 @@ final  int quantity=7;
                   SizedBox(height: 8),
                   SmoothPageIndicator(
                     controller: controller,
-                    count:7, //product.images!.length
+                    count:7,
                     effect: ScrollingDotsEffect(
                       dotHeight: 10,
                       dotWidth: 10,
