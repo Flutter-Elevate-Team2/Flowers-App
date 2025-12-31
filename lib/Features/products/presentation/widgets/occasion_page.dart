@@ -19,7 +19,6 @@ class OccasionPage extends StatelessWidget {
         length: tabs.length,
         child:
         Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text((context).l10n.occasionDescription,
           style: Theme.of(context).textTheme.bodySmall),
