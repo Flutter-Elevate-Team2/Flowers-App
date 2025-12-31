@@ -30,9 +30,9 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     if (event is FetchProductsEvent) {
       final isNewQuery =
           _sort != event.sort ||
-              _categoryId != event.categoryId ||
-              _occasionId != event.occasionId ||
-              _search != event.search;
+          _categoryId != event.categoryId ||
+          _occasionId != event.occasionId ||
+          _search != event.search;
 
       _categoryId = event.categoryId;
       _occasionId = event.occasionId;
@@ -55,14 +55,8 @@ class ProductsViewModel extends Cubit<ProductsStates> {
   }
 
   void loadMore() {
-    _getAllProducts(
-      _categoryId,
-      _occasionId,
-      _sort,
-      _search,
-    );
+    _getAllProducts(_categoryId, _occasionId, _sort, _search);
   }
-
 
   void onSearchFocusChanged(bool focused) {
     emit(state.copyWith(isSearchFocused: focused));
@@ -76,7 +70,9 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     emit(
       state.copyWith(
         searchText: query,
-        productsState: BaseState<List<ProductEntity>>(isLoading: true, data: []),
+        productsState: BaseState<List<ProductEntity>>(
+          isLoading: true,
+        ),
         isSearchFocused: false,
       ),
     );
@@ -97,13 +93,12 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
     _handleLoadMore(loadMore);
 
-    BaseResponse<PaginatedProductsEntity> result ;
+    BaseResponse<PaginatedProductsEntity> result;
 
     result = await _handleQurey(categoryId, sort, search, occasionId);
 
     if (isClosed) return;
     if (result is SuccessResponse<PaginatedProductsEntity>) {
-
       final newProducts = result.data.products;
 
       final List<ProductEntity> allProducts = loadMore
@@ -113,26 +108,28 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       _hasMore = newProducts.length == _limit;
       if (_hasMore) _page++;
 
-
-      emit(state.copyWith(
-        productsState:  BaseState<List<ProductEntity>>(
-          data: allProducts,
-          isLoading: false
+      emit(
+        state.copyWith(
+          productsState: BaseState<List<ProductEntity>>(
+            data: allProducts,
+            isLoading: false,
+          ),
+          isLoadingMore: false,
+          hasMore: _hasMore,
         ),
-        isLoadingMore: false,
-        hasMore: _hasMore,
-      ));
+      );
     } else {
-      emit(state.copyWith(
-        isLoadingMore: false,
-        hasMore: false,
-      ));
+      emit(state.copyWith(isLoadingMore: false, hasMore: false));
     }
     _isFetchingMore = false;
-
   }
 
-  Future<BaseResponse<PaginatedProductsEntity>> _handleQurey(String? categoryId, String? sort, String? search, String? occasionId) async {
+  Future<BaseResponse<PaginatedProductsEntity>> _handleQurey(
+    String? categoryId,
+    String? sort,
+    String? search,
+    String? occasionId,
+  ) async {
     if (categoryId != null && categoryId.isNotEmpty) {
       return await _getProductsUseCase.getProducts(
         categoryId: categoryId,
@@ -146,34 +143,32 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         occasionId: occasionId,
         sort: sort,
         search: search,
-        page:  _page,
+        page: _page,
         limit: _limit,
       );
     } else {
       return await _getProductsUseCase.getProducts(
         sort: sort,
         search: search,
-        page:  _page,
+        page: _page,
         limit: _limit,
       );
     }
   }
 
   void _handleLoadMore(bool loadMore) {
-     if (loadMore) {
-       emit(state.copyWith(isLoadingMore: true));
-
+    if (!loadMore) {
+      _page = 1;
+      _hasMore = true;
+      emit(
+        state.copyWith(
+          productsState: BaseState<List<ProductEntity>>(isLoading: true),
+          isLoadingMore: false,
+          hasMore: true,
+        ),
+      );
     } else {
-       _page = 1;
-       _hasMore = true;
-       emit(state.copyWith(
-           productsState:  BaseState<List<ProductEntity>>(
-             data: [],
-           )
-           ,isLoadingMore: false,
-           hasMore: true
-       )
-       );
+      emit(state.copyWith(isLoadingMore: true));
     }
   }
 }

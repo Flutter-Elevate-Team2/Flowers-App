@@ -2,6 +2,7 @@ import 'package:flowers_app/Features/products/presentation/view_model/products_s
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/default_tab_bar.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/products_grid.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/products_grid_shimmer.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,7 @@ class OccasionPage extends StatelessWidget {
               final products = state.productsState?.data ?? [];
 
               if (state.productsState?.isLoading == true) {
-                return const Center(child: CircularProgressIndicator());
+                return Expanded(child: ProductsGridShimmer());
               }
 
               if (state.productsState?.errorMessage != null) {

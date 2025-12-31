@@ -72,8 +72,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     if (state.isSearchFocused ) {
                       return Center(child: Text(context.l10n.searchFor));
                     }
-                    if (state.productsState?.isLoading == true ) {
-                      return ProductsGridShimmer(
+                    if (state.productsState?.isLoading == true || (state.productsState?.data?.isEmpty ?? true)) {
+                    return ProductsGridShimmer(
                         controller: _scrollController,
                       );
                     }
