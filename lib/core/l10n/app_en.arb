@@ -190,5 +190,14 @@
   "@sessionExpiredMessage": { "description": "Content message for the session expired dialog" },
 
   "loginButton": "Login",
-  "@loginButton": { "description": "Label for the login button" }
+  "@loginButton": { "description": "Label for the login button" },
+  "egp":"EGP",
+  "status":"Status: ",
+  "inStock":"In stock",
+  "outOfStock":"Out of stock",
+  "includeTax":"All prices include tax",
+  "description":"Description",
+  "addToCart":"Add to cart"
+
+
 }

@@ -272,4 +272,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginButton => 'Login';
+
+  @override
+  String get egp => 'EGP';
+
+  @override
+  String get status => 'Status: ';
+
+  @override
+  String get inStock => 'In stock';
+
+  @override
+  String get outOfStock => 'Out of stock';
+
+  @override
+  String get includeTax => 'All prices include tax';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get addToCart => 'Add to cart';
 }
