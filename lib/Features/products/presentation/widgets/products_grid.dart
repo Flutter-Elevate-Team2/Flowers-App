@@ -27,7 +27,7 @@ class ProductsGrid extends StatelessWidget {
         childAspectRatio: 0.65,
       ),
       itemBuilder: (context, index) {
-        final product = products[index];
+        final  = products[index];
         if (index < products.length) {
           return ProductCard(product: products[index]);
         } else {
