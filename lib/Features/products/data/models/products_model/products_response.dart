@@ -37,12 +37,19 @@ class Metadata {
   final int? limit;
   @JsonKey(name: "totalItems")
   final int? totalItems;
+  @JsonKey(name: "nextPage")
+  final int? nextPage;
+  @JsonKey(name: "prevPage")
+  final int? prevPage;
+
 
   Metadata ({
     this.currentPage,
     this.totalPages,
     this.limit,
     this.totalItems,
+    this.nextPage,
+    this.prevPage,
   });
 
   factory Metadata.fromJson(Map<String, dynamic> json) {
