@@ -38,7 +38,7 @@ class OccasionPage extends StatelessWidget {
                   Material(
                     child: DefaultTabBar(tabs),
                   ),
-                  Expanded(child: ProductsGrid(products)),
+                  Expanded(child: ProductsGrid(products: products)),
                 ],
               );
             },

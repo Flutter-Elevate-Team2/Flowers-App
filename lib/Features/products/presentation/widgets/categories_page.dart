@@ -7,8 +7,36 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoriesPage extends StatelessWidget {
+class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
+
+  @override
+  State<CategoriesPage> createState() => _CategoriesPageState();
+}
+
+class _CategoriesPageState extends State<CategoriesPage> {
+  late final ScrollController _scrollController;
+  final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      context.read<ProductsViewModel>().loadMore();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +83,10 @@ class CategoriesPage extends StatelessWidget {
                     if (state.searchText.isNotEmpty && state.productsState?.isLoading == false && products.isEmpty ) {
                       return Center(child: Text(context.l10n.noProductsFound));
                     }
-                    return ProductsGrid(products);
+                    return ProductsGrid(
+                      products: products,
+                      controller: _scrollController,
+                      isLoadingMore: state.isLoadingMore ,                   );
                   },
                 ),
               ),

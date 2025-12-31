@@ -1,23 +1,37 @@
-import 'package:flowers_app/Features/products/domain/entities/products_entity.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 
 class ProductsStates {
+  final BaseState<List<ProductEntity>>? productsState;
+  final bool isSearchFocused;
+  final String searchText;
+  final bool isLoading;
+  final bool isLoadingMore;
+  final bool hasMore;
 
-    final BaseState<List<ProductsEntity>>? productsState;
-    final bool isSearchFocused;
-    final String searchText;
-
-
-    ProductsStates({this.productsState , this.isSearchFocused = false , this.searchText =''});
-    ProductsStates copyWith({
-        BaseState<List<ProductsEntity>>? productsState,
-        bool? isSearchFocused,
-        String? searchText,
-    }) {
-        return ProductsStates(
-            productsState: productsState ,
-            isSearchFocused: isSearchFocused ?? this.isSearchFocused,
-            searchText: searchText ?? this.searchText,
-        );
-    }
+  ProductsStates({
+    this.productsState,
+    this.isSearchFocused = false,
+    this.searchText = '',
+    this.isLoading = false,
+    this.isLoadingMore = false,
+    this.hasMore = true,
+  });
+  ProductsStates copyWith({
+    BaseState<List<ProductEntity>>? productsState,
+    bool? isSearchFocused,
+    String? searchText,
+    bool? isLoading,
+    bool? isLoadingMore,
+    bool? hasMore,
+  }) {
+    return ProductsStates(
+      productsState: productsState,
+      isSearchFocused: isSearchFocused ?? this.isSearchFocused,
+      searchText: searchText ?? this.searchText,
+      isLoading: isLoading ?? this.isLoading,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      hasMore: hasMore ?? this.hasMore,
+    );
+  }
 }

@@ -1,7 +1,7 @@
-
 import 'dart:async';
+import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
 
-import 'package:flowers_app/Features/products/domain/entities/products_entity.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/Features/products/domain/use_cases/products_usecase.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
@@ -11,38 +11,57 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class ProductsViewModel  extends Cubit<ProductsStates>{
- final ProductsUseCase _getProductsUseCase;
+class ProductsViewModel extends Cubit<ProductsStates> {
+  final ProductsUseCase _getProductsUseCase;
 
-
- bool isSearchFocused = false;
+  bool isSearchFocused = false;
   String? _categoryId;
   String? _occasionId;
   String? _sort;
   String? _search;
+  int _page = 1;
+  final int _limit = 9;
+  bool _isFetchingMore = false;
+  bool _hasMore = true;
 
+  ProductsViewModel(this._getProductsUseCase) : super(ProductsStates());
 
-  ProductsViewModel(this._getProductsUseCase ): super(ProductsStates());
+  void doIntent(ProductsEvent event) {
+    if (event is FetchProductsEvent) {
+      _categoryId = event.categoryId;
+      _occasionId = event.occasionId;
+      _sort = event.sort;
+      _search = event.search;
 
-    void doIntent(ProductsEvent event) {
-      if (event is FetchProductsEvent) {
-        _categoryId = event.categoryId;
-        _occasionId = event.occasionId;
-        _sort = event.sort;
-        _search = event.search;
-
-          _getAllProducts( _categoryId ,
-              _occasionId ,
-              _sort ,
-              // _search
-              );
+      if (event.reset) {
+        _page = 1;
+        _hasMore = true;
       }
+
+      _getAllProducts(
+        _categoryId,
+        _occasionId,
+        _sort,
+        _search,
+        loadMore: !event.reset,
+      );
     }
+  }
+
+  void loadMore() {
+    _getAllProducts(
+      _categoryId,
+      _occasionId,
+      _sort,
+      _search,
+    );
+  }
+
 
   void onSearchFocusChanged(bool focused) {
     emit(state.copyWith(isSearchFocused: focused));
     if (!focused && state.searchText.isNotEmpty) {
-      _getAllProducts(_categoryId, _occasionId, state.searchText);
+      _getAllProducts(_categoryId, _occasionId, _sort, state.searchText);
     }
   }
 
@@ -51,46 +70,92 @@ class ProductsViewModel  extends Cubit<ProductsStates>{
     emit(
       state.copyWith(
         searchText: query,
-        productsState: BaseState<List<ProductsEntity>>(isLoading: true),
+        productsState: BaseState<List<ProductEntity>>(isLoading: true),
         isSearchFocused: false,
-
       ),
     );
 
-    _getAllProducts(_categoryId, _occasionId, query);
+    _getAllProducts(_categoryId, _occasionId, _sort, query);
   }
 
   Future<void> _getAllProducts(
-      String? categoryId,
-      String? occasionId,
-       String? sort,
-      //String? search
-      ) async {
-    emit(state.copyWith(productsState: BaseState<List<ProductsEntity>>(isLoading: true)));
+    String? categoryId,
+    String? occasionId,
+    String? sort,
+    String? search, {
+    bool loadMore = false,
+  }) async {
+    if (_isFetchingMore || (!_hasMore && loadMore)) return;
 
-    BaseResponse<List<ProductsEntity>> result;
+    _isFetchingMore = true;
+
+    if (!loadMore) {
+      _page = 1;
+      _hasMore = true;
+      emit(state.copyWith(
+        productsState: BaseState(isLoading: true),
+        isLoadingMore: false,
+      ));
+    } else {
+      emit(state.copyWith(isLoadingMore: true));
+    }
+
+    BaseResponse<PaginatedProductsEntity> result;
 
     if (categoryId != null && categoryId.isNotEmpty) {
-      result = await _getProductsUseCase.getProducts(categoryId: categoryId, sort: sort);
+      result = await _getProductsUseCase.getProducts(
+        categoryId: categoryId,
+        sort: sort,
+        search: search,
+        page: _page,
+        limit: _limit,
+      );
     } else if (occasionId != null && occasionId.isNotEmpty) {
-      result = await _getProductsUseCase.getProducts(occasionId: occasionId, sort: sort);
+      result = await _getProductsUseCase.getProducts(
+        occasionId: occasionId,
+        sort: sort,
+        search: search,
+        page:  _page,
+        limit: _limit,
+      );
     } else {
-      result = await _getProductsUseCase.getProducts(sort: sort);
+      result = await _getProductsUseCase.getProducts(
+        sort: sort,
+        search: search,
+        page:  _page,
+        limit: _limit,
+      );
     }
 
     if (isClosed) return;
-    if (result is SuccessResponse<List<ProductsEntity>>) {
-        emit(
-          state.copyWith(
-            productsState: BaseState<List<ProductsEntity>>(data: result.data),
-          ),
-        );
-    } else if (result is ErrorResponse<List<ProductsEntity>>) {        emit(
-          state.copyWith(
-            productsState:BaseState<List<ProductsEntity>>(errorMessage: result.errorMessage),
-          ),
-        );
-    }
-  }
+    if (result is SuccessResponse<PaginatedProductsEntity>) {
 
+      final newProducts = result.data.products;
+
+      final List<ProductEntity> allProducts = loadMore
+          ? [...?state.productsState?.data, ...newProducts]
+          : newProducts;
+
+      _hasMore = newProducts.length == _limit;
+      if (_hasMore) _page++;
+
+
+      emit(state.copyWith(
+        productsState:  BaseState<List<ProductEntity>>(
+          data: allProducts,
+        ),
+        isLoading: false,
+        isLoadingMore: false,
+        hasMore: _hasMore,
+      ));
+    } else {
+      emit(state.copyWith(
+        isLoading: false,
+        isLoadingMore: false,
+        hasMore: false,
+      ));
+    }
+    _isFetchingMore = false;
+
+  }
 }

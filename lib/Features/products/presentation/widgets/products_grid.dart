@@ -1,17 +1,25 @@
-import 'package:flowers_app/Features/products/domain/entities/products_entity.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 
 import 'product_card.dart';
 
 class ProductsGrid extends StatelessWidget {
-  final List<ProductsEntity> products;
+  final List<ProductEntity> products;
+  final bool isLoadingMore;
+  final ScrollController? controller;
 
-   const ProductsGrid(this.products,{super.key});
+  const ProductsGrid({
+    required this.products,
+    this.isLoadingMore = false,
+    this.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: products.length,
+      controller: controller,
+      itemCount: products.length + (isLoadingMore ? 1 : 0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 12,
@@ -20,13 +28,11 @@ class ProductsGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final product = products[index];
-        return ProductCard(
-          name: product.title,
-          image: product.imgCover,
-          price: product.price,
-          oldPrice: product.price,
-          discount: 55,
-        );
+        if (index < products.length) {
+          return ProductCard(product: products[index]);
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
       },
     );
   }

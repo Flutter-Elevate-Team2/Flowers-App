@@ -4,11 +4,11 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 enum SortOption {
-  lowestPrice('price'),
-  highestPrice('-price'),
+  lowestPrice('priceAfterDiscount'),
+  highestPrice('-priceAfterDiscount'),
   newest('new'),
   oldest('old'),
-  discount('discount');
+  discount('-discount');
 
   final String value;
 

@@ -5,10 +5,18 @@ class FetchProductsEvent extends ProductsEvent {
   String occasionId;
   String sort;
   String search;
+  final bool reset;
+
   FetchProductsEvent({
     this.categoryId = '',
     this.occasionId = '',
     this.sort = '',
     this.search = '',
+    this.reset = false,
   });
+
+
 }
+
+class LoadMoreProductsEvent extends ProductsEvent {}
+
