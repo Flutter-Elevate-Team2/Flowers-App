@@ -17,12 +17,22 @@ class OccasionPage extends StatelessWidget {
     return SafeArea(
       child: DefaultTabController(
         length: tabs.length,
-        child: BlocBuilder<ProductsViewModel, ProductsStates>(
+        child:
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text((context).l10n.occasionDescription,
+          style: Theme.of(context).textTheme.bodySmall),
+      Material(
+        child: DefaultTabBar(tabs),
+      ),
+        Expanded(
+          child: BlocBuilder<ProductsViewModel, ProductsStates>(
             builder: (context, state) {
               final products = state.productsState?.data ?? [];
 
               if (state.productsState?.isLoading == true) {
-                return Expanded(child: ProductsGridShimmer());
+                return  ProductsGridShimmer();
               }
 
               if (state.productsState?.errorMessage != null) {
@@ -32,19 +42,14 @@ class OccasionPage extends StatelessWidget {
               if (products.isEmpty) {
                 return Center(child: Text((context).l10n.noProductsFound));
               }
-              return Column(
-                children: [
-                  Text((context).l10n.occasionDescription,
-                  style: Theme.of(context).textTheme.bodySmall),
-                  Material(
-                    child: DefaultTabBar(tabs),
-                  ),
-                  Expanded(child: ProductsGrid(products: products)),
-                ],
-              );
+              return
+                 ProductsGrid(products: products);
             },
           ),
         ),
+          ],
+        ),
+      ),
     );
   }
 }

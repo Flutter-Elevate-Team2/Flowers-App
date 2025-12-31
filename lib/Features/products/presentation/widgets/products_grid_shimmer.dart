@@ -16,7 +16,7 @@ class ProductsGridShimmer extends StatelessWidget {
 
     return GridView.builder(
       controller: controller,
-      itemCount: 4,
+      itemCount: 6,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 12,
