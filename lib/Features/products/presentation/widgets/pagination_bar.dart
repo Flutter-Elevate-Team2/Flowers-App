@@ -70,16 +70,16 @@ class PaginationBar extends StatelessWidget {
 
   IconButton _buildNextButton() {
     return IconButton(
-        onPressed: nextPage != null ? onNext : null,
-        icon: const Icon(Icons.chevron_right),
-      );
+      onPressed: nextPage != null ? onNext : null,
+      icon: const Icon(Icons.chevron_right),
+    );
   }
 
   IconButton _buildPrevButton() {
     return IconButton(
-        onPressed: prevPage != null ? onPrev : null,
-        icon: const Icon(Icons.chevron_left),
-      );
+      onPressed: prevPage != null ? onPrev : null,
+      icon: const Icon(Icons.chevron_left),
+    );
   }
 
   GestureDetector _buildPageButton(int page, BuildContext context) {

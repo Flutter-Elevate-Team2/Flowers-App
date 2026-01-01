@@ -9,7 +9,7 @@ class ProductsStates {
   final int totalPages;
   final int? prevPage;
   final int? nextPage;
-
+  final ProductEntity? navigateToProduct;
 
   ProductsStates({
     this.productsState,
@@ -19,6 +19,7 @@ class ProductsStates {
     this.totalPages = 1,
     this.prevPage,
     this.nextPage,
+    this.navigateToProduct,
   });
   ProductsStates copyWith({
     BaseState<List<ProductEntity>>? productsState,
@@ -28,6 +29,7 @@ class ProductsStates {
     int? totalPages,
     int? prevPage,
     int? nextPage,
+    ProductEntity? navigateToProduct,
   }) {
     return ProductsStates(
       productsState: productsState,
@@ -37,6 +39,7 @@ class ProductsStates {
       totalPages: totalPages ?? this.totalPages,
       prevPage: prevPage,
       nextPage: nextPage,
+      navigateToProduct: navigateToProduct,
     );
   }
 }

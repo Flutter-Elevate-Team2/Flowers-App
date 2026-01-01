@@ -32,7 +32,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.occasionPath,
+    initialLocation: Routes.categoryPath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(

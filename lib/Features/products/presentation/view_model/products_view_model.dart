@@ -44,11 +44,14 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       if (event.reset || isNewQuery) {
         _page = 1;
       }
-
       _getAllProducts(_categoryId, _occasionId, _sort, _search);
+    } else if (event is NavigateToProductDetailsEvent) {
+      emit(state.copyWith(navigateToProduct: event.product));
     }
   }
-
+  void clearNavigation() {
+    emit(state.copyWith(navigateToProduct: null));
+  }
   void goToPage(int page) {
     if (_totalPages <= 1) return;
     if (page < 1 || page > _totalPages) return;
@@ -86,7 +89,8 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     _prevPage = null;
     _nextPage = null;
     _totalPages = 1;
-    emit(state.copyWith(
+    emit(
+      state.copyWith(
         searchText: query,
         currentPage: 1,
         totalPages: 1,

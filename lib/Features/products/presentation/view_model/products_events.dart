@@ -1,3 +1,5 @@
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
+
 sealed class ProductsEvent {}
 
 class FetchProductsEvent extends ProductsEvent {
@@ -21,7 +23,7 @@ class FetchProductsEvent extends ProductsEvent {
 class LoadMoreProductsEvent extends ProductsEvent {}
 
 class NavigateToProductDetailsEvent extends ProductsEvent {
-  final ProductsEvent product;
+  final ProductEntity product;
 
   NavigateToProductDetailsEvent(this.product);
 }
