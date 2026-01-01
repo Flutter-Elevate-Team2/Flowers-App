@@ -1,3 +1,7 @@
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
+import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
+import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
+import 'package:flowers_app/Features/products/presentation/views/screens/occasions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -32,7 +36,6 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.categoryPath,
-    initialLocation: Routes.productDetailsPath,//Routes.signInPath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(

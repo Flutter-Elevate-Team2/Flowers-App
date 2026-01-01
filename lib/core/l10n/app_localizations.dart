@@ -748,11 +748,6 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get description;
 
-  /// No description provided for @addToCart.
-  ///
-  /// In en, this message translates to:
-  /// **'Add to cart'**
-  String get addToCart;
 }
 
 class _AppLocalizationsDelegate
