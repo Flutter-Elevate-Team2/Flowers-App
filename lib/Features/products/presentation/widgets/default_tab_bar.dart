@@ -16,7 +16,7 @@ class DefaultTabBar extends StatelessWidget {
         indicatorWeight: 4,
         indicatorSize: TabBarIndicatorSize.label ,
         tabs: tabs.map((title) => Tab(text: title)).toList(),
-        dividerColor: Colors.transparent,
+        dividerColor: Theme.of(context).colorScheme.onPrimary.withAlpha(0),
       ),
     );
   }

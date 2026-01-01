@@ -86,6 +86,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     }
   }
 
+
   void onSearchSubmitted(String value) {
     final query = value.trim();
 

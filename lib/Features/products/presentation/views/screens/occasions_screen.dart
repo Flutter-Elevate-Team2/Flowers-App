@@ -13,26 +13,30 @@ class OccasionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 50,
-        titleSpacing: 0,
-        title: Text((context).l10n.occasions),
-        leading: IconButton(
-          padding: EdgeInsets.zero,
-          constraints: BoxConstraints(),
-          onPressed: () {
-            context.pop();
-          },
-          icon: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: const Icon(Icons.arrow_back_ios),
-          ),
-        ),
-      ),
+      appBar: _buildAppBar(context),
 
       body: BlocProvider(
         create: (context) => getIt<ProductsViewModel>()..doIntent(FetchProductsEvent()),
         child: OccasionPage(),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      leadingWidth: 50,
+      titleSpacing: 0,
+      title: Text((context).l10n.occasions),
+      leading: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: BoxConstraints(),
+        onPressed: () {
+          context.pop();
+        },
+        icon: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: const Icon(Icons.arrow_back_ios),
+        ),
       ),
     );
   }

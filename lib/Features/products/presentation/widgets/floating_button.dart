@@ -23,19 +23,23 @@ class _FloatingButtonState extends State<FloatingButton> {
         onPressed: () async {
            showModalBottomSheet<String>(
             context: context,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Theme.of(context).colorScheme.onPrimary.withAlpha(0),
               isScrollControlled: true,
             builder: (context) =>  SortBy( widget.viewModel,),
           );
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Icon(Icons.filter_list_rounded),
-            Text((context).l10n.filter)
-          ],
-        ),
+        child: _buildButtonContent(context),
       ),
     );
+  }
+
+  Row _buildButtonContent(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Icon(Icons.filter_list_rounded),
+          Text((context).l10n.filter)
+        ],
+      );
   }
 }

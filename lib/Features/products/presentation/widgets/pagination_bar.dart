@@ -1,4 +1,3 @@
-import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class PaginationBar extends StatelessWidget {
@@ -36,7 +35,7 @@ class PaginationBar extends StatelessWidget {
         totalPages - 3,
         totalPages - 2,
         totalPages - 1,
-        totalPages
+        totalPages,
       ];
     }
 
@@ -63,28 +62,7 @@ class PaginationBar extends StatelessWidget {
 
         if (pages.first > 1) const Text("..."),
 
-        ...pages.map(
-              (page) => GestureDetector(
-            onTap: () => onPageSelected(page),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: page == currentPage
-                    ? Theme.of(context).primaryColor
-                    : Colors.transparent,
-                border: Border.all(color: Theme.of(context).dividerColor),
-              ),
-              child: Text(
-                page.toString(),
-                style: TextStyle(
-                  color: page == currentPage ? AppColors.white : Theme.of(context).hintColor,
-                ),
-              ),
-            ),
-          ),
-        ),
+        ...pages.map((page) => _buildPageButton(page, context)),
 
         if (pages.last < totalPages) const Text("..."),
 
@@ -93,6 +71,35 @@ class PaginationBar extends StatelessWidget {
           icon: const Icon(Icons.chevron_right),
         ),
       ],
+    );
+  }
+
+  GestureDetector _buildPageButton(int page, BuildContext context) {
+    return GestureDetector(
+      onTap: () => onPageSelected(page),
+      child: _buildPageIndicator(page, context),
+    );
+  }
+
+  Container _buildPageIndicator(int page, BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: page == currentPage
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).colorScheme.onPrimary.withAlpha(0),
+        border: Border.all(color: Theme.of(context).dividerColor),
+      ),
+      child: Text(
+        page.toString(),
+        style: TextStyle(
+          color: page == currentPage
+              ? Theme.of(context).colorScheme.onPrimary
+              : Theme.of(context).hintColor,
+        ),
+      ),
     );
   }
 }
