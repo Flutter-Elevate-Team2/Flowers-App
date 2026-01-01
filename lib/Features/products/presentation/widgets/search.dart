@@ -1,9 +1,10 @@
-import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/product_search_field.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_filter_button.dart';
 import 'package:flutter/material.dart';
 
 class SearchAndFilterBar extends StatelessWidget {
   final TextEditingController searchController;
-  final  ValueChanged<bool>? onFocusChange;
+  final ValueChanged<bool>? onFocusChange;
   final VoidCallback onFilterTap;
   final ValueChanged<String>? onSubmitted;
 
@@ -17,59 +18,26 @@ class SearchAndFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return  Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 4,
-              child:  Focus(
-                onFocusChange: (focused) {
-                  if (onFocusChange != null) onFocusChange!(focused);
-                },
-                child: _buildSearchField(context),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Focus(
+              onFocusChange: (focused) {
+                if (onFocusChange != null) onFocusChange!(focused);
+              },
+              child: ProductSearchField(
+                searchController: searchController,
+                onSubmitted: onSubmitted,
+              ),
             ),
-        ),
-            const SizedBox(width: 12),
-            _buildFilterButton(context),
-          ],
-        ),
+          ),
+          const SizedBox(width: 12),
+          SearchFilterButton(onFilterTap: onFilterTap),
+        ],
+      ),
     );
   }
-
-  TextField _buildSearchField(BuildContext context) {
-    return TextField(
-              controller: searchController,
-              onSubmitted: onSubmitted,
-              decoration: InputDecoration(
-                hintText: (context).l10n.searchHint,
-                prefixIcon: const Icon(Icons.search),
-                contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),)
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)),
-                ),
-              ),
-            );
-  }
-
-  Expanded _buildFilterButton(BuildContext context) {
-    return Expanded(
-              flex: 1,
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)),
-                ),
-                child: const Icon(Icons.filter_list_outlined),
-              )
-          );
-  }
-  }
+}

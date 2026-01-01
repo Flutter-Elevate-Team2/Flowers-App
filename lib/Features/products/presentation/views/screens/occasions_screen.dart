@@ -16,7 +16,8 @@ class OccasionsScreen extends StatelessWidget {
       appBar: _buildAppBar(context),
 
       body: BlocProvider(
-        create: (context) => getIt<ProductsViewModel>()..doIntent(FetchProductsEvent()),
+        create: (context) =>
+            getIt<ProductsViewModel>()..doIntent(FetchProductsEvent()),
         child: OccasionPage(),
       ),
     );
@@ -24,6 +25,7 @@ class OccasionsScreen extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       leadingWidth: 50,
       titleSpacing: 0,
       title: Text((context).l10n.occasions),

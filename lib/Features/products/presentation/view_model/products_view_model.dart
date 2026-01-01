@@ -36,6 +36,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
           _categoryId != event.categoryId ||
           _occasionId != event.occasionId ||
           _search != event.search;
+
       _categoryId = event.categoryId;
       _occasionId = event.occasionId;
       _sort = event.sort;
@@ -43,12 +44,29 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
       if (event.reset || isNewQuery) {
         _page = 1;
+        _nextPage = null;
+        if (isNewQuery) {
+          emit(
+            state.copyWith(
+              productsState: BaseState<List<ProductEntity>>(isLoading: true),
+            ),
+          );
+        }
       }
+
       _getAllProducts(_categoryId, _occasionId, _sort, _search);
+    } else if (event is LoadMoreProductsEvent) {
+      _loadMore();
     } else if (event is NavigateToProductDetailsEvent) {
       emit(state.copyWith(navigateToProduct: event.product));
     }
   }
+
+  void _loadMore() {
+    if (state.isPaginationLoading || state.productsState?.isLoading == true)
+      return;
+    if (_nextPage == null) return;
+    _page = _nextPage!;
   void clearNavigation() {
     emit(state.copyWith(navigateToProduct: null));
   }
@@ -59,18 +77,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
     _page = page;
     _getAllProducts(_categoryId, _occasionId, _sort, _search);
-  }
-
-  void goToNextPage() {
-    if (_nextPage != null) {
-      goToPage(_nextPage!);
-    }
-  }
-
-  void goToPrevPage() {
-    if (_prevPage != null) {
-      goToPage(_prevPage!);
-    }
   }
 
   void onSearchFocusChanged(bool focused) {
@@ -89,6 +95,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     _prevPage = null;
     _nextPage = null;
     _totalPages = 1;
+
     emit(
       state.copyWith(
         searchText: query,
@@ -109,11 +116,16 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     String? sort,
     String? search,
   ) async {
-    emit(
-      state.copyWith(
-        productsState: BaseState<List<ProductEntity>>(isLoading: true),
-      ),
-    );
+    if (_page == 1) {
+      emit(
+        state.copyWith(
+          productsState: BaseState<List<ProductEntity>>(isLoading: true),
+          isPaginationLoading: false,
+        ),
+      );
+    } else {
+      emit(state.copyWith(isPaginationLoading: true));
+    }
 
     final result = await _handleQuery(categoryId, sort, search, occasionId);
 
@@ -131,24 +143,37 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       _prevPage = shouldPaginate ? data.meta.prevPage : null;
       _nextPage = shouldPaginate ? data.meta.nextPage : null;
 
+      List<ProductEntity> allProducts = [];
+      if (_page == 1) {
+        allProducts = data.products;
+      } else {
+        final currentList = state.productsState?.data ?? [];
+        allProducts = [...currentList, ...data.products];
+      }
+
       emit(
         state.copyWith(
           productsState: BaseState<List<ProductEntity>>(
-            data: data.products,
+            data: allProducts,
             isLoading: false,
           ),
           currentPage: _page,
           totalPages: _totalPages,
           prevPage: _prevPage,
           nextPage: _nextPage,
+          resetNextPage: _nextPage == null,
+          isPaginationLoading: false,
         ),
       );
     } else {
       emit(
         state.copyWith(
-          productsState: BaseState<List<ProductEntity>>(
-            errorMessage: 'Failed to load products',
-          ),
+          isPaginationLoading: false,
+          productsState: _page == 1
+              ? BaseState<List<ProductEntity>>(
+                  errorMessage: 'Failed to load products',
+                )
+              : state.productsState,
         ),
       );
     }
