@@ -55,10 +55,7 @@ class PaginationBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconButton(
-          onPressed: prevPage != null ? onPrev : null,
-          icon: const Icon(Icons.chevron_left),
-        ),
+        _buildPrevButton(),
 
         if (pages.first > 1) const Text("..."),
 
@@ -66,12 +63,23 @@ class PaginationBar extends StatelessWidget {
 
         if (pages.last < totalPages) const Text("..."),
 
-        IconButton(
-          onPressed: nextPage != null ? onNext : null,
-          icon: const Icon(Icons.chevron_right),
-        ),
+        _buildNextButton(),
       ],
     );
+  }
+
+  IconButton _buildNextButton() {
+    return IconButton(
+        onPressed: nextPage != null ? onNext : null,
+        icon: const Icon(Icons.chevron_right),
+      );
+  }
+
+  IconButton _buildPrevButton() {
+    return IconButton(
+        onPressed: prevPage != null ? onPrev : null,
+        icon: const Icon(Icons.chevron_left),
+      );
   }
 
   GestureDetector _buildPageButton(int page, BuildContext context) {

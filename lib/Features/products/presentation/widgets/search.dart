@@ -28,40 +28,48 @@ class SearchAndFilterBar extends StatelessWidget {
                 onFocusChange: (focused) {
                   if (onFocusChange != null) onFocusChange!(focused);
                 },
-                child: TextField(
-                controller: searchController,
-                onSubmitted: onSubmitted,
-                decoration: InputDecoration(
-                  hintText: (context).l10n.searchHint,
-                  prefixIcon: const Icon(Icons.search),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),)
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)),
-                  ),
-                ),
-              ),
+                child: _buildSearchField(context),
             ),
         ),
             const SizedBox(width: 12),
-            Expanded(
-                flex: 1,
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)),
-                  ),
-                  child: const Icon(Icons.filter_list_outlined),
-                )
-            ),
+            _buildFilterButton(context),
           ],
         ),
     );
+  }
+
+  TextField _buildSearchField(BuildContext context) {
+    return TextField(
+              controller: searchController,
+              onSubmitted: onSubmitted,
+              decoration: InputDecoration(
+                hintText: (context).l10n.searchHint,
+                prefixIcon: const Icon(Icons.search),
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),)
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)),
+                ),
+              ),
+            );
+  }
+
+  Expanded _buildFilterButton(BuildContext context) {
+    return Expanded(
+              flex: 1,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color:Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)),
+                ),
+                child: const Icon(Icons.filter_list_outlined),
+              )
+          );
   }
   }

@@ -19,22 +19,26 @@ class OccasionPage extends StatelessWidget {
     return SafeArea(
       child: DefaultTabController(
         length: tabs.length,
-        child: Column(
-          children: [
-            _buildOccasionDescription(context),
-            Material(child: DefaultTabBar(tabs)),
-            Expanded(
-              child: BlocBuilder<ProductsViewModel, ProductsStates>(
-                builder: (context, state) {
-                  return _buildProductsContent(context, state);
-                },
-              ),
-            ),
-          ],
-        ),
+        child: _buildOccasionBody(context, tabs),
       ),
     );
 
+  }
+
+  Column _buildOccasionBody(BuildContext context, List<String> tabs) {
+    return Column(
+        children: [
+          _buildOccasionDescription(context),
+          Material(child: DefaultTabBar(tabs)),
+          Expanded(
+            child: BlocBuilder<ProductsViewModel, ProductsStates>(
+              builder: (context, state) {
+                return _buildProductsContent(context, state);
+              },
+            ),
+          ),
+        ],
+      );
   }
 
   Padding _buildOccasionDescription(BuildContext context) {

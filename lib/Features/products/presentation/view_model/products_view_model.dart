@@ -36,7 +36,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
           _categoryId != event.categoryId ||
           _occasionId != event.occasionId ||
           _search != event.search;
-
       _categoryId = event.categoryId;
       _occasionId = event.occasionId;
       _sort = event.sort;
@@ -46,13 +45,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         _page = 1;
       }
 
-      _getAllProducts(
-        _categoryId,
-        _occasionId,
-        _sort,
-        _search,
-        // loadMore: !(event.reset || isNewQuery),
-      );
+      _getAllProducts(_categoryId, _occasionId, _sort, _search);
     }
   }
 
@@ -86,19 +79,14 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     }
   }
 
-
   void onSearchSubmitted(String value) {
     final query = value.trim();
-
     _page = 1;
     _search = query;
-
     _prevPage = null;
     _nextPage = null;
     _totalPages = 1;
-
-    emit(
-      state.copyWith(
+    emit(state.copyWith(
         searchText: query,
         currentPage: 1,
         totalPages: 1,
@@ -108,7 +96,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         isSearchFocused: false,
       ),
     );
-
     _getAllProducts(_categoryId, _occasionId, _sort, query);
   }
 

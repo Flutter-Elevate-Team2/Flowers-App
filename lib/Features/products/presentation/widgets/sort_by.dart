@@ -17,18 +17,17 @@ enum SortOption {
 
 class SortBy extends StatefulWidget {
   final ProductsViewModel viewModel;
-  const SortBy(this.viewModel,{super.key});
+  const SortBy(this.viewModel, {super.key});
 
   @override
   State<SortBy> createState() => _SortByState();
 }
 
 class _SortByState extends State<SortBy> {
-  SortOption? selectedOption ;
+  SortOption? selectedOption;
 
   @override
   Widget build(BuildContext context) {
-
     final Map<SortOption, String> options = {
       SortOption.lowestPrice: context.l10n.lowestPrice,
       SortOption.highestPrice: context.l10n.highestPrice,
@@ -43,83 +42,116 @@ class _SortByState extends State<SortBy> {
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            (context).l10n.sort,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 16),
-          ...options.entries.map((entry) {
-            final option = entry.key;
-            final label = entry.value;
+      child: _buildSortByContent(context, options),
+    );
+  }
 
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedOption = option;
-                });
-              },
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow:  [
-                    BoxShadow(
-                      color: Theme.of(context).colorScheme.secondary.withAlpha(30),
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  title: Text(
-                    label,
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  trailing: Radio<SortOption>(
-                    value: option,
-                    groupValue: selectedOption,
+  Column _buildSortByContent(
+    BuildContext context,
+    Map<SortOption, String> options,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSortText(context),
+        const SizedBox(height: 16),
+        ...options.entries.map((entry) {
+          final option = entry.key;
+          final label = entry.value;
 
-                    activeColor: Theme.of(context).colorScheme.primary,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedOption = value!;
+          return _buildSelectableSortItem(option, context, label);
+        }),
+        const SizedBox(height: 16),
+        _buildFilterButton(context),
+      ],
+    );
+  }
 
-                      });
-                    },
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                ),
-              ),
-            );
-          }),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            height: 52,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                if (selectedOption != null) {
-                  widget.viewModel.doIntent(
-                    FetchProductsEvent(sort: selectedOption!.value),
-                  );
-                }
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.filter_list_outlined),
-              label: Text((context).l10n.filter),
-            ),
+  GestureDetector _buildSelectableSortItem(
+    SortOption option,
+    BuildContext context,
+    String label,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedOption = option;
+        });
+      },
+      child: _buildSortListItem(context, label, option),
+    );
+  }
+
+  Text _buildSortText(BuildContext context) {
+    return Text(
+      (context).l10n.sort,
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+        color: Theme.of(context).colorScheme.primary,
+      ),
+    );
+  }
+
+  Container _buildSortListItem(
+    BuildContext context,
+    String label,
+    SortOption option,
+  ) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onPrimary,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).colorScheme.secondary.withAlpha(30),
+            blurRadius: 4,
+            offset: Offset(0, 2),
           ),
         ],
+      ),
+      child: _buildSortList(label, context, option),
+    );
+  }
+
+  ListTile _buildSortList(
+    String label,
+    BuildContext context,
+    SortOption option,
+  ) {
+    return ListTile(
+      title: Text(label, style: Theme.of(context).textTheme.headlineMedium),
+      trailing: Radio<SortOption>(
+        value: option,
+        groupValue: selectedOption,
+
+        activeColor: Theme.of(context).colorScheme.primary,
+        onChanged: (value) {
+          setState(() {
+            selectedOption = value!;
+          });
+        },
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+    );
+  }
+
+  SizedBox _buildFilterButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          if (selectedOption != null) {
+            widget.viewModel.doIntent(
+              FetchProductsEvent(sort: selectedOption!.value),
+            );
+          }
+          Navigator.of(context).pop();
+        },
+        icon: const Icon(Icons.filter_list_outlined),
+        label: Text((context).l10n.filter),
       ),
     );
   }
 }
-
-
