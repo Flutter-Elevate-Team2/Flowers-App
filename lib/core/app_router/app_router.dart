@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/home/presentation/views/screens/best_seller_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +15,9 @@ class Routes {
 
   static const String homePath = '/home';
   static const String homeName = 'home';
+
+  static const String bestSellerPath = '/bestseller';
+  static const String bestSellerName = 'bestSeller';
 }
 
 /// ====== Main App Router ======
@@ -22,7 +26,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.bestSellerPath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(
@@ -54,6 +58,14 @@ class AppRouter {
         name: Routes.homeName,
         // Fix: Added builder (Replace SizedBox with HomeScreen)
         builder: (context, state) => const SizedBox(),
+      ),
+
+      /// ====== BEST SELLER SCREEN ======
+      GoRoute(
+        path: Routes.bestSellerPath,
+        name: Routes.bestSellerName,
+        // Fix: Added builder (Replace SizedBox with BestSellerScreen)
+        builder: (context, state) => const BestSeller(),
       ),
     ],
   );
