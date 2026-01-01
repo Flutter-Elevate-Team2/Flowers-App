@@ -1,10 +1,7 @@
 import 'package:flowers_app/Features/home/domain/entities/home_entities/home_entity.dart';
+import 'package:flowers_app/Features/home/presentation/sections/home_section_factory.dart';
 import 'package:flowers_app/Features/home/presentation/view_model/home_events.dart';
 import 'package:flowers_app/Features/home/presentation/view_model/home_view_model.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/home_best_sellers_section.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/home_categories_section.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/home_header.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/home_occasions_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,8 +14,13 @@ class HomeContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double screenWidth = constraints.maxWidth;
         final double screenHeight = constraints.maxHeight;
+        final double screenWidth = constraints.maxWidth;
+
+        final sections = HomeSectionFactory.getSections(
+          data: homeData,
+          context: context,
+        );
 
         return SafeArea(
           child: RefreshIndicator(
@@ -37,34 +39,16 @@ class HomeContentWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // --- Header ---
-                        const HomeHeader(),
-
-                        const Spacer(flex: 1),
-
-                        // --- Categories Section ---
-                        HomeCategoriesSection(
-                          categories: homeData.categories,
-                          screenWidth: screenWidth,
+                        ...sections.expand(
+                          (widget) => [
+                            widget,
+                            const Spacer(
+                              flex: 1,
+                            ),
+                          ],
                         ),
-                        if (homeData.categories.isNotEmpty)
-                          const Spacer(flex: 2),
-
-                        // --- Best Seller Section ---
-                        HomeBestSellersSection(
-                          bestSellers: homeData.bestSellers,
-                          screenWidth: screenWidth,
-                        ),
-                        if (homeData.bestSellers.isNotEmpty)
-                          const Spacer(flex: 2),
-
-                        // --- Occasions Section ---
-                        HomeOccasionsSection(
-                          occasions: homeData.occasions,
-                          screenWidth: screenWidth,
-                        ),
-
-                        const Spacer(flex: 1),
+                        if (sections.isEmpty)
+                          const Spacer(),
                       ],
                     ),
                   ),
