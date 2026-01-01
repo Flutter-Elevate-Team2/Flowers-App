@@ -5,30 +5,38 @@ class ProductsStates {
   final BaseState<List<ProductEntity>>? productsState;
   final bool isSearchFocused;
   final String searchText;
-  final bool isLoadingMore;
-  final bool hasMore;
+  final int currentPage;
+  final int totalPages;
+  final int? prevPage;
+  final int? nextPage;
+
 
   ProductsStates({
     this.productsState,
     this.isSearchFocused = false,
     this.searchText = '',
-    this.isLoadingMore = false,
-    this.hasMore = true,
+    this.currentPage = 1,
+    this.totalPages = 1,
+    this.prevPage,
+    this.nextPage,
   });
   ProductsStates copyWith({
     BaseState<List<ProductEntity>>? productsState,
     bool? isSearchFocused,
     String? searchText,
-    bool? isLoading,
-    bool? isLoadingMore,
-    bool? hasMore,
+    int? currentPage,
+    int? totalPages,
+    int? prevPage,
+    int? nextPage,
   }) {
     return ProductsStates(
       productsState: productsState,
       isSearchFocused: isSearchFocused ?? this.isSearchFocused,
       searchText: searchText ?? this.searchText,
-      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      hasMore: hasMore ?? this.hasMore,
+      currentPage: currentPage ?? this.currentPage,
+      totalPages: totalPages ?? this.totalPages,
+      prevPage: prevPage,
+      nextPage: nextPage,
     );
   }
 }

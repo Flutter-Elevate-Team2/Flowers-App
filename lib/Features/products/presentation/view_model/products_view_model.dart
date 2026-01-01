@@ -19,10 +19,13 @@ class ProductsViewModel extends Cubit<ProductsStates> {
   String? _occasionId;
   String? _sort;
   String? _search;
+
   int _page = 1;
-  final int _limit = 9;
-  bool _isFetchingMore = false;
-  bool _hasMore = true;
+  final int _limit = 8;
+
+  int? _prevPage;
+  int? _nextPage;
+  int _totalPages = 1;
 
   ProductsViewModel(this._getProductsUseCase) : super(ProductsStates());
 
@@ -41,7 +44,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
       if (event.reset || isNewQuery) {
         _page = 1;
-        _hasMore = true;
       }
 
       _getAllProducts(
@@ -49,30 +51,59 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         _occasionId,
         _sort,
         _search,
-        loadMore: !(event.reset || isNewQuery),
+        // loadMore: !(event.reset || isNewQuery),
       );
     }
   }
 
-  void loadMore() {
+  void goToPage(int page) {
+    if (_totalPages <= 1) return;
+    if (page < 1 || page > _totalPages) return;
+    if (page == _page) return;
+
+    _page = page;
     _getAllProducts(_categoryId, _occasionId, _sort, _search);
+  }
+
+  void goToNextPage() {
+    if (_nextPage != null) {
+      goToPage(_nextPage!);
+    }
+  }
+
+  void goToPrevPage() {
+    if (_prevPage != null) {
+      goToPage(_prevPage!);
+    }
   }
 
   void onSearchFocusChanged(bool focused) {
     emit(state.copyWith(isSearchFocused: focused));
     if (!focused && state.searchText.isNotEmpty) {
+      _page = 1;
+      _search = state.searchText;
       _getAllProducts(_categoryId, _occasionId, _sort, state.searchText);
     }
   }
 
   void onSearchSubmitted(String value) {
     final query = value.trim();
+
+    _page = 1;
+    _search = query;
+
+    _prevPage = null;
+    _nextPage = null;
+    _totalPages = 1;
+
     emit(
       state.copyWith(
         searchText: query,
-        productsState: BaseState<List<ProductEntity>>(
-          isLoading: true,
-        ),
+        currentPage: 1,
+        totalPages: 1,
+        prevPage: null,
+        nextPage: null,
+        productsState: BaseState<List<ProductEntity>>(isLoading: true),
         isSearchFocused: false,
       ),
     );
@@ -84,47 +115,54 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     String? categoryId,
     String? occasionId,
     String? sort,
-    String? search, {
-    bool loadMore = false,
-  }) async {
-    if (_isFetchingMore || (!_hasMore && loadMore)) return;
+    String? search,
+  ) async {
+    emit(
+      state.copyWith(
+        productsState: BaseState<List<ProductEntity>>(isLoading: true),
+      ),
+    );
 
-    _isFetchingMore = true;
-
-    _handleLoadMore(loadMore);
-
-    BaseResponse<PaginatedProductsEntity> result;
-
-    result = await _handleQurey(categoryId, sort, search, occasionId);
+    final result = await _handleQuery(categoryId, sort, search, occasionId);
 
     if (isClosed) return;
+
     if (result is SuccessResponse<PaginatedProductsEntity>) {
-      final newProducts = result.data.products;
+      final data = result.data;
 
-      final List<ProductEntity> allProducts = loadMore
-          ? [...?state.productsState?.data, ...newProducts]
-          : newProducts;
+      final hasSearch = search != null && search.isNotEmpty;
+      final productsCount = data.products.length;
 
-      _hasMore = newProducts.length == _limit;
-      if (_hasMore) _page++;
+      final shouldPaginate = !hasSearch || productsCount >= _limit;
+
+      _totalPages = shouldPaginate ? data.meta.totalPages : 1;
+      _prevPage = shouldPaginate ? data.meta.prevPage : null;
+      _nextPage = shouldPaginate ? data.meta.nextPage : null;
 
       emit(
         state.copyWith(
           productsState: BaseState<List<ProductEntity>>(
-            data: allProducts,
+            data: data.products,
             isLoading: false,
           ),
-          isLoadingMore: false,
-          hasMore: _hasMore,
+          currentPage: _page,
+          totalPages: _totalPages,
+          prevPage: _prevPage,
+          nextPage: _nextPage,
         ),
       );
     } else {
-      emit(state.copyWith(isLoadingMore: false, hasMore: false));
+      emit(
+        state.copyWith(
+          productsState: BaseState<List<ProductEntity>>(
+            errorMessage: 'Failed to load products',
+          ),
+        ),
+      );
     }
-    _isFetchingMore = false;
   }
 
-  Future<BaseResponse<PaginatedProductsEntity>> _handleQurey(
+  Future<BaseResponse<PaginatedProductsEntity>> _handleQuery(
     String? categoryId,
     String? sort,
     String? search,
@@ -153,22 +191,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         page: _page,
         limit: _limit,
       );
-    }
-  }
-
-  void _handleLoadMore(bool loadMore) {
-    if (!loadMore) {
-      _page = 1;
-      _hasMore = true;
-      emit(
-        state.copyWith(
-          productsState: BaseState<List<ProductEntity>>(isLoading: true),
-          isLoadingMore: false,
-          hasMore: true,
-        ),
-      );
-    } else {
-      emit(state.copyWith(isLoadingMore: true));
     }
   }
 }

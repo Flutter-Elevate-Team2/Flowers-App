@@ -1,6 +1,7 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/default_tab_bar.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/pagination_bar.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/products_grid.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/products_grid_shimmer.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/search.dart';
@@ -16,28 +17,7 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  late final ScrollController _scrollController;
   final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      context.read<ProductsViewModel>().loadMore();
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,27 +48,72 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 child: BlocBuilder<ProductsViewModel, ProductsStates>(
                   builder: (context, state) {
                     final products = state.productsState?.data ?? [];
-
-                    if (state.isSearchFocused ) {
-                      return Center(child: Text(context.l10n.searchFor));
-                    }
-                    if (state.productsState?.isLoading == true || (state.productsState?.data?.isEmpty ?? true)) {
-                    return ProductsGridShimmer(
-                        controller: _scrollController,
-                      );
-                    }
-                    if (state.productsState?.errorMessage != null) {
-                      return Center(
-                        child: Text(state.productsState!.errorMessage!),
-                      );
-                    }
-                    if (state.searchText.isNotEmpty && state.productsState?.isLoading == false && products.isEmpty ) {
-                      return Center(child: Text(context.l10n.noProductsFound));
-                    }
-                    return ProductsGrid(
-                      products: products,
-                      controller: _scrollController,
-                      isLoadingMore: state.isLoadingMore ,
+                    return CustomScrollView(
+                      slivers: [
+                        if (state.isSearchFocused)
+                          SliverFillRemaining(
+                            child: Center(child: Text(context.l10n.searchFor)),
+                          )
+                        else if (state.productsState?.isLoading == true ||
+                            (state.productsState?.data?.isEmpty ?? true))
+                          const SliverFillRemaining(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: ProductsGridShimmer(),
+                            ),
+                          )
+                        else if (state.productsState?.errorMessage != null)
+                          SliverFillRemaining(
+                            child: Center(
+                              child: Text(state.productsState!.errorMessage!),
+                            ),
+                          )
+                        else if (state.searchText.isNotEmpty &&
+                            state.productsState?.isLoading == false &&
+                            products.isEmpty)
+                          SliverFillRemaining(
+                            child: Center(
+                              child: Text(context.l10n.noProductsFound),
+                            ),
+                          )
+                        else ...[
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: ProductsGrid(
+                                products: products,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                              ),
+                            ),
+                          ),
+                          if (state.totalPages > 1)
+                            SliverToBoxAdapter(
+                              child: PaginationBar(
+                                currentPage: state.currentPage,
+                                totalPages: state.totalPages,
+                                prevPage: state.prevPage,
+                                nextPage: state.nextPage,
+                                onPageSelected: (page) {
+                                  context.read<ProductsViewModel>().goToPage(
+                                    page,
+                                  );
+                                },
+                                onNext: state.nextPage != null
+                                    ? context
+                                          .read<ProductsViewModel>()
+                                          .goToNextPage
+                                    : null,
+                                onPrev: state.prevPage != null
+                                    ? context
+                                          .read<ProductsViewModel>()
+                                          .goToPrevPage
+                                    : null,
+                              ),
+                            ),
+                          const SliverToBoxAdapter(child: SizedBox(height: 50)),
+                        ],
+                      ],
                     );
                   },
                 ),

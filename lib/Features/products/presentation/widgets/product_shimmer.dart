@@ -1,3 +1,4 @@
+import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/widget/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,9 @@ class ProductShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.gray , width: .5),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.shadow,
