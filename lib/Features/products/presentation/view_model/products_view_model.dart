@@ -53,7 +53,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
           );
         }
       }
-
       _getAllProducts(_categoryId, _occasionId, _sort, _search);
     } else if (event is LoadMoreProductsEvent) {
       _loadMore();
@@ -67,9 +66,13 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       return;
     if (_nextPage == null) return;
     _page = _nextPage!;
+    _getAllProducts(_categoryId, _occasionId, _sort, _search);
+  }
+
   void clearNavigation() {
     emit(state.copyWith(navigateToProduct: null));
   }
+
   void goToPage(int page) {
     if (_totalPages <= 1) return;
     if (page < 1 || page > _totalPages) return;

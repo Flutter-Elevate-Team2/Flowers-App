@@ -1,5 +1,6 @@
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/products/presentation/views/screens/occasions_screen.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.categoryPath,
+    initialLocation: Routes.homePath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(
@@ -88,7 +89,7 @@ class AppRouter {
       GoRoute(
         path: Routes.productDetailsPath,
         name: Routes.productDetailsName,
-        builder: (context, state) => ProductDetailsScreen(),
+        builder: (context, state) => ProductDetailsScreen(product: state.extra as ProductEntity),
       ),
     ],
   );

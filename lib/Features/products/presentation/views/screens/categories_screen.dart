@@ -19,7 +19,7 @@ class CategoriesScreen extends StatelessWidget {
           return Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingButton(viewModel),
-            body: CategoriesPage(),
+            body: const CategoriesPage(),
           );
         },
       ),

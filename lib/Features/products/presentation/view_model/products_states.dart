@@ -46,8 +46,6 @@ class ProductsStates {
       prevPage: prevPage,
       nextPage: nextPage,
       navigateToProduct: navigateToProduct,
-      prevPage: prevPage ?? this.prevPage,
-      nextPage: resetNextPage ? null : (nextPage ?? this.nextPage),
       isPaginationLoading: isPaginationLoading ?? this.isPaginationLoading,
     );
   }

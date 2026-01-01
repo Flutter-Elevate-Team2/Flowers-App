@@ -274,6 +274,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginButton => 'Login';
 
   @override
+  String get egp => 'EGP';
+
+  @override
+  String get status => 'Status: ';
+
+  @override
+  String get inStock => 'In stock';
+
+  @override
+  String get outOfStock => 'Out of stock';
+
+  @override
+  String get includeTax => 'All prices include tax';
+
+  @override
+  String get description => 'Description';
+
+  @override
   String get occasions => 'Occasions';
 
   @override
@@ -323,23 +341,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get occasionDescription => 'Bloom with our exquisite best sellers';
-
-  @override
-  String get egp => 'EGP';
-
-  @override
-  String get status => 'Status: ';
-
-  @override
-  String get inStock => 'In stock';
-
-  @override
-  String get outOfStock => 'Out of stock';
-
-  @override
-  String get includeTax => 'All prices include tax';
-
-  @override
-  String get description => 'Description';
-
 }

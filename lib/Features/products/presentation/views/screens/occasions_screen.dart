@@ -18,7 +18,7 @@ class OccasionsScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             getIt<ProductsViewModel>()..doIntent(FetchProductsEvent()),
-        child: OccasionPage(),
+        child: const OccasionPage(),
       ),
     );
   }
@@ -31,7 +31,7 @@ class OccasionsScreen extends StatelessWidget {
       title: Text((context).l10n.occasions),
       leading: IconButton(
         padding: EdgeInsets.zero,
-        constraints: BoxConstraints(),
+        constraints: const BoxConstraints(),
         onPressed: () {
           context.pop();
         },
