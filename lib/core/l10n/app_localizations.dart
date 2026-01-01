@@ -711,6 +711,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bloom with our exquisite best sellers'**
   String get occasionDescription;
+
+  /// No description provided for @egp.
+  ///
+  /// In en, this message translates to:
+  /// **'EGP'**
+  String get egp;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: '**
+  String get status;
+
+  /// No description provided for @inStock.
+  ///
+  /// In en, this message translates to:
+  /// **'In stock'**
+  String get inStock;
+
+  /// No description provided for @outOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock'**
+  String get outOfStock;
+
+  /// No description provided for @includeTax.
+  ///
+  /// In en, this message translates to:
+  /// **'All prices include tax'**
+  String get includeTax;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @addToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to cart'**
+  String get addToCart;
 }
 
 class _AppLocalizationsDelegate

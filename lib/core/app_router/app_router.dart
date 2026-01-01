@@ -1,6 +1,3 @@
-import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/occasions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,6 +21,8 @@ class Routes {
 
   static const String categoryPath = '/category';
   static const String categoryName = 'category';
+  static const String productDetailsPath = '/productdetails';
+  static const String productDetailsName = 'productdetails';
 }
 
 /// ====== Main App Router ======
@@ -33,6 +32,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.categoryPath,
+    initialLocation: Routes.productDetailsPath,//Routes.signInPath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(
@@ -80,6 +80,12 @@ class AppRouter {
         name: Routes.categoryName,
         // Fix: Added builder (Replace SizedBox with HomeScreen)
         builder: (context, state) => const CategoriesScreen(),
+      ),
+      /// ====== PRODUCT DETAILS SCREEN ======
+      GoRoute(
+        path: Routes.productDetailsPath,
+        name: Routes.productDetailsName,
+        builder: (context, state) => ProductDetailsScreen(),
       ),
     ],
   );
