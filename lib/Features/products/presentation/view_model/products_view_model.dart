@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
 
+import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/Features/products/domain/use_cases/products_usecase.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
@@ -36,6 +36,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
           _categoryId != event.categoryId ||
           _occasionId != event.occasionId ||
           _search != event.search;
+
       _categoryId = event.categoryId;
       _occasionId = event.occasionId;
       _sort = event.sort;
@@ -43,31 +44,27 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
       if (event.reset || isNewQuery) {
         _page = 1;
+        _nextPage = null;
+        if (isNewQuery) {
+          emit(
+            state.copyWith(
+              productsState: BaseState<List<ProductEntity>>(isLoading: true),
+            ),
+          );
+        }
       }
-
       _getAllProducts(_categoryId, _occasionId, _sort, _search);
+    } else if (event is LoadMoreProductsEvent) {
+      _loadMore();
     }
   }
 
-  void goToPage(int page) {
-    if (_totalPages <= 1) return;
-    if (page < 1 || page > _totalPages) return;
-    if (page == _page) return;
-
-    _page = page;
+  void _loadMore() {
+    if (state.isPaginationLoading || state.productsState?.isLoading == true)
+      return;
+    if (_nextPage == null) return;
+    _page = _nextPage!;
     _getAllProducts(_categoryId, _occasionId, _sort, _search);
-  }
-
-  void goToNextPage() {
-    if (_nextPage != null) {
-      goToPage(_nextPage!);
-    }
-  }
-
-  void goToPrevPage() {
-    if (_prevPage != null) {
-      goToPage(_prevPage!);
-    }
   }
 
   void onSearchFocusChanged(bool focused) {
@@ -86,7 +83,9 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     _prevPage = null;
     _nextPage = null;
     _totalPages = 1;
-    emit(state.copyWith(
+
+    emit(
+      state.copyWith(
         searchText: query,
         currentPage: 1,
         totalPages: 1,
@@ -105,11 +104,16 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     String? sort,
     String? search,
   ) async {
-    emit(
-      state.copyWith(
-        productsState: BaseState<List<ProductEntity>>(isLoading: true),
-      ),
-    );
+    if (_page == 1) {
+      emit(
+        state.copyWith(
+          productsState: BaseState<List<ProductEntity>>(isLoading: true),
+          isPaginationLoading: false,
+        ),
+      );
+    } else {
+      emit(state.copyWith(isPaginationLoading: true));
+    }
 
     final result = await _handleQuery(categoryId, sort, search, occasionId);
 
@@ -120,31 +124,43 @@ class ProductsViewModel extends Cubit<ProductsStates> {
 
       final hasSearch = search != null && search.isNotEmpty;
       final productsCount = data.products.length;
-
       final shouldPaginate = !hasSearch || productsCount >= _limit;
 
       _totalPages = shouldPaginate ? data.meta.totalPages : 1;
       _prevPage = shouldPaginate ? data.meta.prevPage : null;
       _nextPage = shouldPaginate ? data.meta.nextPage : null;
 
+      List<ProductEntity> allProducts = [];
+      if (_page == 1) {
+        allProducts = data.products;
+      } else {
+        final currentList = state.productsState?.data ?? [];
+        allProducts = [...currentList, ...data.products];
+      }
+
       emit(
         state.copyWith(
           productsState: BaseState<List<ProductEntity>>(
-            data: data.products,
+            data: allProducts,
             isLoading: false,
           ),
           currentPage: _page,
           totalPages: _totalPages,
           prevPage: _prevPage,
           nextPage: _nextPage,
+          resetNextPage: _nextPage == null,
+          isPaginationLoading: false,
         ),
       );
     } else {
       emit(
         state.copyWith(
-          productsState: BaseState<List<ProductEntity>>(
-            errorMessage: 'Failed to load products',
-          ),
+          isPaginationLoading: false,
+          productsState: _page == 1
+              ? BaseState<List<ProductEntity>>(
+                  errorMessage: 'Failed to load products',
+                )
+              : state.productsState,
         ),
       );
     }

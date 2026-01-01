@@ -135,11 +135,17 @@ void _fetchSuccessTest() {
         emitsInOrder([
           isA<ProductsStates>().having(
             (s) => s.productsState?.isLoading,
-            'loading',
+            'isLoading 1',
+            true,
+          ),
+          isA<ProductsStates>().having(
+            (s) => s.productsState?.isLoading,
+            'isLoading 2',
             true,
           ),
           isA<ProductsStates>()
-              .having((s) => s.productsState?.isLoading, 'loading', false)
+              .having((s) => s.productsState?.isLoading, 'isLoading', false)
+              .having((s) => s.productsState?.data!.length, 'length', 1)
               .having(
                 (s) => s.productsState?.data!.first.title,
                 'title',
@@ -174,7 +180,12 @@ void _fetchErrorTest() {
         emitsInOrder([
           isA<ProductsStates>().having(
             (s) => s.productsState?.isLoading,
-            'loading',
+            'isLoading 1',
+            true,
+          ),
+          isA<ProductsStates>().having(
+            (s) => s.productsState?.isLoading,
+            'isLoading 2',
             true,
           ),
           isA<ProductsStates>().having(
@@ -191,8 +202,8 @@ void _fetchErrorTest() {
 }
 
 void _paginationTest() {
-  group('Pagination', () {
-    test('goToNextPage fetches next page correctly', () async {
+  group('Pagination (Infinite Scroll)', () {
+    test('LoadMoreProductsEvent appends new data to existing list', () async {
       when(
         mockUseCase.getProducts(
           page: 1,
@@ -215,37 +226,65 @@ void _paginationTest() {
         ),
       ).thenAnswer((_) async => SuccessResponse(data: tPage2));
 
-      viewModel.doIntent(FetchProductsEvent());
-      await Future.delayed(Duration.zero);
-
       expectLater(
         viewModel.stream,
         emitsInOrder([
+          // 1. Fetch Start (Loading 1)
           isA<ProductsStates>().having(
             (s) => s.productsState?.isLoading,
-            'loading',
+            'Full Loading 1',
             true,
           ),
+          // 2. Fetch Loading 2 (observed double emit)
           isA<ProductsStates>().having(
-            (s) => s.productsState?.data!.first.title,
-            'title',
-            'Tulip',
+            (s) => s.productsState?.isLoading,
+            'Full Loading 2',
+            true,
           ),
+
+          // 3. Fetch Success
+          isA<ProductsStates>()
+              .having((s) => s.productsState?.isLoading, 'Loaded', false)
+              .having((s) => s.productsState?.data!.length, 'Count 1', 1)
+              .having((s) => s.nextPage, 'Next Page is 2', 2),
+
+          // 4. Load More Loading
+          isA<ProductsStates>()
+              .having((s) => s.isPaginationLoading, 'Pagination Loading', true)
+              .having((s) => s.productsState?.data!.length, 'Count still 1', 1),
+
+          // 5. Load More Success
+          isA<ProductsStates>()
+              .having((s) => s.isPaginationLoading, 'Pagination Done', false)
+              .having(
+                (s) => s.productsState?.data!.length,
+                'Count Merged to 2',
+                2,
+              )
+              .having(
+                (s) => s.productsState?.data!.last.title,
+                'Last Item',
+                'Tulip',
+              )
+              .having((s) => s.nextPage, 'Next Page is null', null),
         ]),
       );
 
-      viewModel.goToNextPage();
+      viewModel.doIntent(FetchProductsEvent());
+
+      await Future.delayed(const Duration(milliseconds: 50));
+      viewModel.doIntent(LoadMoreProductsEvent());
     });
   });
 }
 
 void _searchTest() {
   group('Search', () {
-    test('onSearchSubmitted emits loading then results', () async {
+    test('onSearchSubmitted resets pagination and fetches results', () async {
       when(
         mockUseCase.getProducts(
           search: 'rose',
-          page: anyNamed('page'),
+          page: 1,
           limit: anyNamed('limit'),
           categoryId: anyNamed('categoryId'),
           occasionId: anyNamed('occasionId'),
@@ -256,18 +295,24 @@ void _searchTest() {
       expectLater(
         viewModel.stream,
         emitsInOrder([
+          // 1. Initial state from onSearchSubmitted (manually emitted)
           isA<ProductsStates>()
-              .having((s) => s.searchText, 'search', 'rose')
-              .having((s) => s.productsState?.isLoading, 'loading', true),
-          emitsThrough(
-            isA<ProductsStates>().having(
-              (s) => s.productsState?.isLoading,
-              'loading',
-              true,
-            ),
+              .having((s) => s.searchText, 'search text set', 'rose')
+              .having(
+                (s) => s.productsState?.isLoading,
+                'loading reset (manual)',
+                true,
+              )
+              .having((s) => s.currentPage, 'page reset', 1),
+          // 2. State from _getAllProducts (when page=1, it emits loading again)
+          isA<ProductsStates>().having(
+            (s) => s.productsState?.isLoading,
+            'loading from getAllProducts',
+            true,
           ),
+          // 3. Success state
           isA<ProductsStates>()
-              .having((s) => s.productsState?.isLoading, 'loading', false)
+              .having((s) => s.productsState?.isLoading, 'loading done', false)
               .having(
                 (s) => s.productsState?.data!.first.title,
                 'title',

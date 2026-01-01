@@ -1,19 +1,11 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/filter_action_button.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/sort_by_item.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/sort_option.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/sort_title.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
-
-enum SortOption {
-  lowestPrice('priceAfterDiscount'),
-  highestPrice('-priceAfterDiscount'),
-  newest('new'),
-  oldest('old'),
-  discount('-discount');
-
-  final String value;
-
-  const SortOption(this.value);
-}
 
 class SortBy extends StatefulWidget {
   final ProductsViewModel viewModel;
@@ -42,115 +34,39 @@ class _SortByState extends State<SortBy> {
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
-      child: _buildSortByContent(context, options),
-    );
-  }
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SortTitle(),
+          const SizedBox(height: 16),
+          ...options.entries.map((entry) {
+            final option = entry.key;
+            final label = entry.value;
 
-  Column _buildSortByContent(
-    BuildContext context,
-    Map<SortOption, String> options,
-  ) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSortText(context),
-        const SizedBox(height: 16),
-        ...options.entries.map((entry) {
-          final option = entry.key;
-          final label = entry.value;
-
-          return _buildSelectableSortItem(option, context, label);
-        }),
-        const SizedBox(height: 16),
-        _buildFilterButton(context),
-      ],
-    );
-  }
-
-  GestureDetector _buildSelectableSortItem(
-    SortOption option,
-    BuildContext context,
-    String label,
-  ) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedOption = option;
-        });
-      },
-      child: _buildSortListItem(context, label, option),
-    );
-  }
-
-  Text _buildSortText(BuildContext context) {
-    return Text(
-      (context).l10n.sort,
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-        color: Theme.of(context).colorScheme.primary,
-      ),
-    );
-  }
-
-  Container _buildSortListItem(
-    BuildContext context,
-    String label,
-    SortOption option,
-  ) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onPrimary,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.secondary.withAlpha(30),
-            blurRadius: 4,
-            offset: Offset(0, 2),
+            return SortByItem(
+              label: label,
+              option: option,
+              selectedOption: selectedOption,
+              onTap: (value) {
+                setState(() {
+                  selectedOption = value;
+                });
+              },
+            );
+          }),
+          const SizedBox(height: 16),
+          FilterActionButton(
+            onPressed: () {
+              if (selectedOption != null) {
+                widget.viewModel.doIntent(
+                  FetchProductsEvent(sort: selectedOption!.value),
+                );
+              }
+              Navigator.of(context).pop();
+            },
           ),
         ],
-      ),
-      child: _buildSortList(label, context, option),
-    );
-  }
-
-  ListTile _buildSortList(
-    String label,
-    BuildContext context,
-    SortOption option,
-  ) {
-    return ListTile(
-      title: Text(label, style: Theme.of(context).textTheme.headlineMedium),
-      trailing: Radio<SortOption>(
-        value: option,
-        groupValue: selectedOption,
-
-        activeColor: Theme.of(context).colorScheme.primary,
-        onChanged: (value) {
-          setState(() {
-            selectedOption = value!;
-          });
-        },
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-    );
-  }
-
-  SizedBox _buildFilterButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 52,
-      child: ElevatedButton.icon(
-        onPressed: () {
-          if (selectedOption != null) {
-            widget.viewModel.doIntent(
-              FetchProductsEvent(sort: selectedOption!.value),
-            );
-          }
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(Icons.filter_list_outlined),
-        label: Text((context).l10n.filter),
       ),
     );
   }

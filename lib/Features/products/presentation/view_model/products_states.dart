@@ -10,6 +10,7 @@ class ProductsStates {
   final int? prevPage;
   final int? nextPage;
 
+  final bool isPaginationLoading;
 
   ProductsStates({
     this.productsState,
@@ -19,7 +20,9 @@ class ProductsStates {
     this.totalPages = 1,
     this.prevPage,
     this.nextPage,
+    this.isPaginationLoading = false,
   });
+
   ProductsStates copyWith({
     BaseState<List<ProductEntity>>? productsState,
     bool? isSearchFocused,
@@ -28,15 +31,18 @@ class ProductsStates {
     int? totalPages,
     int? prevPage,
     int? nextPage,
+    bool? isPaginationLoading,
+    bool resetNextPage = false,
   }) {
     return ProductsStates(
-      productsState: productsState,
+      productsState: productsState ?? this.productsState,
       isSearchFocused: isSearchFocused ?? this.isSearchFocused,
       searchText: searchText ?? this.searchText,
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages ?? this.totalPages,
-      prevPage: prevPage,
-      nextPage: nextPage,
+      prevPage: prevPage ?? this.prevPage,
+      nextPage: resetNextPage ? null : (nextPage ?? this.nextPage),
+      isPaginationLoading: isPaginationLoading ?? this.isPaginationLoading,
     );
   }
 }
