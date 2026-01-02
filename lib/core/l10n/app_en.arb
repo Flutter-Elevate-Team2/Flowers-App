@@ -190,5 +190,6 @@
   "@sessionExpiredMessage": { "description": "Content message for the session expired dialog" },
 
   "loginButton": "Login",
-  "@loginButton": { "description": "Label for the login button" }
+  "@loginButton": { "description": "Label for the login button" },
+  "addToCart":"Add To Cart"
 }
