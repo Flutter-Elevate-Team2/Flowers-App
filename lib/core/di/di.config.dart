@@ -16,6 +16,14 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../Features/auth/api/api_client/auth_api.dart' as _i888;
+import '../../Features/auth/api/auth_data_source_imple/auth_remote_data_source_imple.dart'
+    as _i813;
+import '../../Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart'
+    as _i978;
+import '../../Features/auth/data/auth_repo_imple/auth_repo_imple.dart' as _i573;
+import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
+    as _i30;
+import '../../Features/auth/domain/use_cases/signup_usecase.dart' as _i179;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -52,6 +60,15 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.lazySingleton<_i888.AuthApi>(() => _i888.AuthApi(gh<_i361.Dio>()));
+    gh.factory<_i978.AuthRemoteDataSourceContract>(
+      () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
+    );
+    gh.factory<_i30.AuthRepoContract>(
+      () => _i573.AuthRepoImple(gh<_i978.AuthRemoteDataSourceContract>()),
+    );
+    gh.factory<_i179.SignupUseCase>(
+      () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
     return this;
   }
 }

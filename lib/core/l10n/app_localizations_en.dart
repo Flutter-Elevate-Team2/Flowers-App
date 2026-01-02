@@ -91,7 +91,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Creating an account, you agree to our Terms & Conditions';
 
   @override
-  String get haveAccountLogin => 'Already have an account? Login';
+  String get haveAccountLogin => 'Already have an account? ';
 
   @override
   String get forgotPasswordTitle => 'Forget password';

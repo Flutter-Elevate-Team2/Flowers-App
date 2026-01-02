@@ -259,7 +259,7 @@ abstract class AppLocalizations {
   /// Text prompting user to login if they have an account
   ///
   /// In en, this message translates to:
-  /// **'Already have an account? Login'**
+  /// **'Already have an account? '**
   String get haveAccountLogin;
 
   /// Title for the forgot password screen
