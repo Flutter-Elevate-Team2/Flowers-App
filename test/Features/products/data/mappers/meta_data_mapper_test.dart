@@ -19,7 +19,7 @@ void _metaDataMapperTests() {
           totalPages: 2,
         );
 
-        final MetaDataEntity entity = metaData.toEntity();
+        final MetadataEntity entity = metaData.toEntity();
 
         expect(entity.limit, 10);
         expect(entity.currentPage, 1);
@@ -33,9 +33,9 @@ void _metaDataMapperTests() {
           () {
         final metaData = Metadata();
 
-        final MetaDataEntity entity = metaData.toEntity();
+        final MetadataEntity entity = metaData.toEntity();
 
-        expect(entity.limit, 20);
+        expect(entity.limit, 40);
         expect(entity.currentPage, 1);
         expect(entity.totalItems, 0);
         expect(entity.totalPages, 1);

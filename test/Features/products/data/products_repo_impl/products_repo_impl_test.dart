@@ -35,7 +35,7 @@ void _setup(void Function() init) {
   setUp(() {
     final dummyPaginated = PaginatedProductsEntity(
       products: const [],
-      meta: MetaDataEntity(
+      meta: MetadataEntity(
         currentPage: 1,
         totalPages: 1,
         limit: 20,

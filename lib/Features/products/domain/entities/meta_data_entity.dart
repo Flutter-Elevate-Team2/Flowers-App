@@ -1,4 +1,4 @@
-class MetaDataEntity {
+class MetadataEntity {
   final int currentPage;
   final int totalPages;
   final int limit;
@@ -6,7 +6,7 @@ class MetaDataEntity {
   final int? nextPage;
   final int? prevPage;
 
-  MetaDataEntity({
+  MetadataEntity({
     required this.currentPage,
     required this.totalPages,
     required this.limit,
