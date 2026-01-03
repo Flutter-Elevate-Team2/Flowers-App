@@ -46,11 +46,10 @@ class CategoriesScreen extends StatelessWidget {
             floatingActionButton: FloatingButton(viewModel),
             body: BlocBuilder<ProductsViewModel, ProductsStates>(
               builder: (context, state) {
-                // final effectiveCategories =
-                //     categories ?? state.categoriesState?.data;
+                final effectiveCategories =
+                    categories ?? state.categoriesState?.data;
                 return CategoriesPage(
-                  // categories: effectiveCategories,
-                  categories: [],
+                  categories: effectiveCategories,
                   initialIndex: initialIndex,
                 );
               },

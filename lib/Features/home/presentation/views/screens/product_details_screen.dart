@@ -3,7 +3,6 @@ import 'package:flowers_app/Features/products/domain/entities/product_entity.dar
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/l10n/app_localizations.dart';
 import '../../../../../core/theming/font_style_manager.dart';

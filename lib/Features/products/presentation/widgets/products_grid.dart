@@ -33,7 +33,7 @@ class ProductsGrid extends StatelessWidget {
       listener: (context, state) {
         final product = state.navigateToProduct;
         if (product != null) {
-          context.goNamed(Routes.productDetailsName, extra: product);
+          context.pushNamed(Routes.productDetailsName, extra: product);
 
           context.read<ProductsViewModel>().clearNavigation();
         }

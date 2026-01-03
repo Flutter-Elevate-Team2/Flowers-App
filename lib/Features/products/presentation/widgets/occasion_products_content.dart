@@ -19,10 +19,7 @@ class OccasionProductsContent extends StatelessWidget {
     final products = state.productsState?.data ?? [];
 
     if (state.productsState?.isLoading == true) {
-      return const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: ProductsGridShimmer(),
-      );
+      return ProductsGridShimmer();
     }
 
     if (state.productsState?.errorMessage != null) {

@@ -175,6 +175,15 @@ class AppRouter {
             occasions: occasions,
             initialIndex: initialIndex,
           );
+              // final extra = state.extra as Map<String, dynamic>?;
+              //     final categories =
+              //     extra?['categories'] as List<CategoryEntity>?;
+              //     final initialIndex = extra?['initialIndex'] as int? ?? 0;
+
+              //     return CategoriesScreen(
+              //       categories: categories,
+              //       initialIndex: initialIndex,
+              //     );
         },
       ),
 

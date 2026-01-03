@@ -33,7 +33,13 @@ class HomeOccasionsSection extends StatelessWidget {
         SectionHeader(
           title: context.l10n.occasion,
           onViewAllTap: () {
-            context.pushNamed(Routes.occasionName, extra: occasions);
+         context.pushNamed(
+              Routes.occasionName,
+              extra: {
+                'occasions': occasions,
+                'initialIndex': 0, 
+              },
+            );
           },
         ),
         const SizedBox(height: 12),

@@ -1,11 +1,13 @@
+import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
+import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 
 class ProductsStates {
   final BaseState<List<ProductEntity>>? productsState;
-  // final BaseState<List<CategoryEntity>>? categoriesState;
-  // final BaseState<List<OccasionEntity>>? occasionsState;
-  // final BaseState<List<ProductEntity>>? bestSellersState;
+  final BaseState<List<CategoryEntity>>? categoriesState;
+  final BaseState<List<OccasionEntity>>? occasionsState;
+  final BaseState<List<ProductEntity>>? bestSellersState;
   final bool isSearchFocused;
   final String searchText;
   final int currentPage;
@@ -18,9 +20,9 @@ class ProductsStates {
 
   ProductsStates({
     this.productsState,
-    // this.categoriesState,
-    // this.occasionsState,
-    // this.bestSellersState,
+    this.categoriesState,
+    this.occasionsState,
+    this.bestSellersState,
     this.isSearchFocused = false,
     this.searchText = '',
     this.currentPage = 1,
@@ -33,9 +35,9 @@ class ProductsStates {
 
   ProductsStates copyWith({
     BaseState<List<ProductEntity>>? productsState,
-    // BaseState<List<CategoryEntity>>? categoriesState,
-    // BaseState<List<OccasionEntity>>? occasionsState,
-    // BaseState<List<ProductEntity>>? bestSellersState,
+    BaseState<List<CategoryEntity>>? categoriesState,
+    BaseState<List<OccasionEntity>>? occasionsState,
+    BaseState<List<ProductEntity>>? bestSellersState,
     bool? isSearchFocused,
     String? searchText,
     int? currentPage,
@@ -48,9 +50,9 @@ class ProductsStates {
   }) {
     return ProductsStates(
       productsState: productsState ?? this.productsState,
-      // categoriesState: categoriesState ?? this.categoriesState,
-      // occasionsState: occasionsState ?? this.occasionsState,
-      // bestSellersState: bestSellersState ?? this.bestSellersState,
+      categoriesState: categoriesState ?? this.categoriesState,
+      occasionsState: occasionsState ?? this.occasionsState,
+      bestSellersState: bestSellersState ?? this.bestSellersState,
       isSearchFocused: isSearchFocused ?? this.isSearchFocused,
       searchText: searchText ?? this.searchText,
       currentPage: currentPage ?? this.currentPage,
