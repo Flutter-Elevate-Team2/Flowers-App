@@ -3,10 +3,10 @@ import 'package:flowers_app/Features/products/domain/entities/product_entity.dar
 sealed class ProductsEvent {}
 
 class FetchProductsEvent extends ProductsEvent {
-  String categoryId;
-  String occasionId;
-  String sort;
-  String search;
+  final String categoryId;
+  final String occasionId;
+  final String sort;
+  final String search;
   final bool reset;
 
   FetchProductsEvent({

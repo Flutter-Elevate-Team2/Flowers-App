@@ -3,8 +3,8 @@ import 'package:flowers_app/Features/products/domain/entities/meta_data_entity.d
 import 'package:flowers_app/core/constants/api_constants.dart';
 
 extension MetadataMapper on Metadata {
-  MetadataEntity toEntity() {
-    return MetadataEntity(
+  MetaDataEntity toEntity() {
+    return MetaDataEntity(
       currentPage: currentPage ?? ApiConstants.defaultCurrentPage,
       totalPages: totalPages ?? ApiConstants.defaultTotalPages,
       limit : limit ?? ApiConstants.defaultLimit,

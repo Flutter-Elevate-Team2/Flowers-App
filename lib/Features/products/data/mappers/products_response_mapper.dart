@@ -11,7 +11,7 @@ extension ProductsResponseMapper on ProductsResponse {
       products: products?.map((p) => p.toEntity()).toList() ?? [],
       meta:
           metadata?.toEntity() ??
-          MetadataEntity(
+          MetaDataEntity(
             currentPage: ApiConstants.defaultCurrentPage,
             totalPages: ApiConstants.defaultTotalPages,
             limit: ApiConstants.defaultLimit,

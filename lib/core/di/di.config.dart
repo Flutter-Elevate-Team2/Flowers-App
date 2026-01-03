@@ -26,6 +26,8 @@ import '../../Features/products/domain/products_repo_contract/products_repo_cont
     as _i472;
 import '../../Features/products/domain/use_cases/products_usecase.dart'
     as _i804;
+import '../../Features/products/presentation/view_model/products_view_model.dart'
+    as _i401;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -73,6 +75,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i804.ProductsUseCase>(
       () => _i804.ProductsUseCase(gh<_i472.ProductsRepoContract>()),
+    );
+    gh.factory<_i401.ProductsViewModel>(
+      () => _i401.ProductsViewModel(gh<_i804.ProductsUseCase>()),
     );
     return this;
   }

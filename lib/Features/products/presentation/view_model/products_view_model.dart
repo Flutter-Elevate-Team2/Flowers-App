@@ -114,10 +114,10 @@ class ProductsViewModel extends Cubit<ProductsStates> {
   }
 
   Future<void> _getAllProducts(
-    String? categoryId,
-    String? occasionId,
-    String? sort,
-    String? search,
+    final String? categoryId,
+    final String? occasionId,
+    final String? sort,
+    final String? search,
   ) async {
     if (_page == 1) {
       emit(

@@ -1,5 +1,4 @@
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
-import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -152,7 +151,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    product.description ?? '',
+                    product.description ,
                     style: getMediumStyle(
                       color: AppColors.black,
                       fontSize: FontSize.s16,
