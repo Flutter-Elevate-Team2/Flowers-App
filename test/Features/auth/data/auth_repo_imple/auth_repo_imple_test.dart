@@ -1,75 +1,116 @@
+import 'package:dio/dio.dart';
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/auth/data/auth_repo_imple/auth_repo_imple.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Reset_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Verify_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Reset_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_response.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/user_dto.dart';
+import 'package:flowers_app/Features/auth/domain/entities/signup_entity.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/core/constants/error_strings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'auth_repo_imple_test.mocks.dart';
 
-
 @GenerateMocks([AuthRemoteDataSourceContract])
-
 void main() {
-  late AuthRepoImple repository;
-  late MockAuthRemoteDataSourceContract mockDataSource;
+  late AuthRepoImple authRepo;
+  late MockAuthRemoteDataSourceContract mockRemoteDataSource;
 
   setUp(() {
-    mockDataSource = MockAuthRemoteDataSourceContract();
-    repository = AuthRepoImple(mockDataSource);
+    mockRemoteDataSource = MockAuthRemoteDataSourceContract();
+    authRepo = AuthRepoImple(mockRemoteDataSource);
   });
 
-  group('AuthRepoImple Tests', () {
+  group("SignUp Repo Function Test Cases", () {
+    final tRequest = SignupRequest(
+      firstName: "Ahmed",
+      lastName: "Ali",
+      email: "test@test.com",
+      password: "P",
+      rePassword: "P",
+      phone: "010",
+      gender: "male",
+    );
 
-    test('forgetPassword should return data from remote data source', () async {
-      // Arrange
-      final request = ForgetPasswordRequest(email: "test@gmail.com");
-      final response = SuccessResponse(data: ForgetPasswordResponce(message: "success"));
+    final tUserDto = UserDto(
+      firstName: "Ahmed",
+      lastName: "Ali",
+      email: "test@test.com",
+      phone: "010",
+      gender: "male",
+      id: "123",
+    );
 
-      when(mockDataSource.forgetPassword(any)).thenAnswer((_) async => response);
+    final tSignupResponse = SignupResponse(
+      message: "Success",
+      token: "dummy_token",
+      user: tUserDto,
+    );
 
-      // Act
-      final result = await repository.forgetPassword(request);
+    test(
+      "should return SuccessResponse<SignupEntity> when RemoteDataSource succeeds",
+      () async {
+        // ARRANGE
+        when(
+          mockRemoteDataSource.signUp(any),
+        ).thenAnswer((_) async => tSignupResponse);
 
-      // Assert
-      expect(result, response);
-      verify(mockDataSource.forgetPassword(request)).called(1);
-    });
+        // ACT
+        final result = await authRepo.signUp(tRequest);
 
-    test('resetPassword should return data from remote data source', () async {
-      // Arrange
-      final request = ResetPasswordRequest(email: "test@gmail.com", newPassword: "123");
-      final response = SuccessResponse(data: ResetPasswordResponce(message: "success"));
+        // ASSERT
+        expect(result, isA<SuccessResponse<SignupEntity>>());
+        final successData = (result as SuccessResponse<SignupEntity>).data;
+        expect(successData.token, tSignupResponse.token);
+        verify(mockRemoteDataSource.signUp(tRequest)).called(1);
+      },
+    );
 
-      when(mockDataSource.resetPassword(any)).thenAnswer((_) async => response);
+    test(
+      "should return ErrorResponse with backend message when DioException occurs",
+      () async {
+        // ARRANGE
+        final dioError = DioException(
+          requestOptions: RequestOptions(path: ''),
+          response: Response(
+            requestOptions: RequestOptions(path: ''),
+            statusCode: 400,
+            data: {'message': 'Email already exists'},
+          ),
+          type: DioExceptionType.badResponse,
+        );
 
-      // Act
-      final result = await repository.resetPassword(request);
+        when(mockRemoteDataSource.signUp(any)).thenThrow(dioError);
 
-      // Assert
-      expect(result, response);
-      verify(mockDataSource.resetPassword(request)).called(1);
-    });
+        // ACT
+        final result = await authRepo.signUp(tRequest);
 
-    test('verifyPassword should return data from remote data source', () async {
-      // Arrange
-      final request = VerifyPasswordRequest(resetCode: "123456");
-      final response = SuccessResponse(data: VerifyPasswordResponce(status: "success"));
+        // ASSERT
+        expect(result, isA<ErrorResponse>());
+        expect((result as ErrorResponse).errorMessage, 'Email already exists');
+      },
+    );
 
-      when(mockDataSource.verifyPassword(any)).thenAnswer((_) async => response);
+    test(
+      "should return ErrorResponse with ErrorStrings.unknownError when generic Exception occurs",
+      () async {
+        // ARRANGE
+        when(
+          mockRemoteDataSource.signUp(any),
+        ).thenThrow(Exception("Unexpected error"));
 
-      // Act
-      final result = await repository.verifyPassword(request);
+        // ACT
+        final result = await authRepo.signUp(tRequest);
 
-      // Assert
-      expect(result, response);
-      verify(mockDataSource.verifyPassword(request)).called(1);
-    });
+        // ASSERT
+        expect(result, isA<ErrorResponse>());
+        expect(
+          (result as ErrorResponse).errorMessage,
+          ErrorStrings.unknownError,
+        );
+      },
+    );
   });
 }

@@ -4,7 +4,6 @@ import 'package:flowers_app/core/auth_interceptors/auth_interceptors.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
 @module
 abstract class DioModule {
 
@@ -37,13 +36,10 @@ abstract class DioModule {
         receiveTimeout: const Duration(seconds: 30),
       ),
     );
-
     dio.interceptors.add(authInterceptor);
-
     if (kDebugMode) {
       dio.interceptors.add(dioLogger);
     }
-
     return dio;
   }
 }

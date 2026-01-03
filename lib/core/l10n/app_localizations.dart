@@ -112,6 +112,12 @@ abstract class AppLocalizations {
   /// **'Password reset successfully! Please login with your new password.'**
   String get resetSuccessfully;
 
+  /// content of dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been created successfully! Please login to continue '**
+  String get registerSuccessfully;
+
   /// success
   ///
   /// In en, this message translates to:
@@ -241,8 +247,14 @@ abstract class AppLocalizations {
   /// Text prompting user to sign up
   ///
   /// In en, this message translates to:
-  /// **'Don\'t have an account? Sign up'**
+  /// **'Don\'t have an account? '**
   String get noAccountSignUp;
+
+  /// Terms&Conditions link text
+  ///
+  /// In en, this message translates to:
+  /// **'Terms&Conditions'**
+  String get termsAndConditions;
 
   /// Title for the sign up screen
   ///
@@ -271,13 +283,13 @@ abstract class AppLocalizations {
   /// Terms and conditions agreement text
   ///
   /// In en, this message translates to:
-  /// **'Creating an account, you agree to our Terms & Conditions'**
+  /// **'Creating an account, you agree to our '**
   String get termsConditions;
 
   /// Text prompting user to login if they have an account
   ///
   /// In en, this message translates to:
-  /// **'Already have an account? Login'**
+  /// **'Already have an account? '**
   String get haveAccountLogin;
 
   /// Title for the forgot password screen
@@ -403,7 +415,7 @@ abstract class AppLocalizations {
   /// Validation message when phone format is wrong
   ///
   /// In en, this message translates to:
-  /// **'Please enter a valid phone number'**
+  /// **'Ensure the number starts with +20'**
   String get phoneInvalid;
 
   /// Validation message for incomplete OTP code

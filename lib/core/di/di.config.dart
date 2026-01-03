@@ -25,12 +25,18 @@ import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
     as _i30;
 import '../../Features/auth/domain/use_cases/forget_password_usecase.dart'
     as _i762;
+import '../../Features/auth/domain/use_cases/login_usecase.dart' as _i512;
 import '../../Features/auth/domain/use_cases/reset_password_usecase.dart'
     as _i785;
+import '../../Features/auth/domain/use_cases/signup_usecase.dart' as _i179;
 import '../../Features/auth/domain/use_cases/verify_password_usecase.dart'
     as _i13;
 import '../../Features/auth/presentation/forget_password/view_model/forget_password_cubit.dart'
     as _i427;
+import '../../Features/auth/presentation/sign_in/view_model/login_view_model.dart'
+    as _i710;
+import '../../Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart'
+    as _i318;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -73,6 +79,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i30.AuthRepoContract>(
       () => _i573.AuthRepoImple(gh<_i978.AuthRemoteDataSourceContract>()),
     );
+    gh.factory<_i512.LoginUseCase>(
+      () => _i512.LoginUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i179.SignupUseCase>(
+      () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i318.SignUpViewModel>(
+      () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
+    );
     gh.factory<_i762.ForgetPasswordUsecase>(
       () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
     );
@@ -81,6 +96,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i13.VerifyPasswordUsecase>(
       () => _i13.VerifyPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i710.LoginViewModel>(
+      () => _i710.LoginViewModel(gh<_i512.LoginUseCase>()),
     );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(

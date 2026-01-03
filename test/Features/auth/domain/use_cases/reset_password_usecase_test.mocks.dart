@@ -6,20 +6,14 @@
 import 'dart:async' as _i3;
 
 import 'package:flowers_app/core/base_response/base_response.dart' as _i4;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_password_request.dart'
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart'
     as _i6;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Reset_password_request.dart'
-    as _i11;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Verify_password_request.dart'
-    as _i9;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart'
-    as _i5;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Reset_password_responce.dart'
-    as _i10;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart'
-    as _i8;
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
     as _i2;
+import 'package:flowers_app/Features/auth/domain/entities/login_entity.dart'
+    as _i8;
+import 'package:flowers_app/Features/auth/domain/entities/signup_entity.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 
@@ -47,50 +41,33 @@ class MockAuthRepoContract extends _i1.Mock implements _i2.AuthRepoContract {
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordResponce>> forgetPassword(
-    _i6.ForgetPasswordRequest? request,
+  _i3.Future<_i4.BaseResponse<_i5.SignupEntity>> signUp(
+    _i6.SignupRequest? request,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#forgetPassword, [request]),
-            returnValue:
-                _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordResponce>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i5.ForgetPasswordResponce>>(
-                    this,
-                    Invocation.method(#forgetPassword, [request]),
-                  ),
-                ),
+            Invocation.method(#signUp, [request]),
+            returnValue: _i3.Future<_i4.BaseResponse<_i5.SignupEntity>>.value(
+              _i7.dummyValue<_i4.BaseResponse<_i5.SignupEntity>>(
+                this,
+                Invocation.method(#signUp, [request]),
+              ),
+            ),
           )
-          as _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordResponce>>);
+          as _i3.Future<_i4.BaseResponse<_i5.SignupEntity>>);
 
   @override
-  _i3.Future<_i4.BaseResponse<_i8.VerifyPasswordResponce>> verifyPassword(
-    _i9.VerifyPasswordRequest? request,
+  _i3.Future<_i4.BaseResponse<_i8.LoginEntity>> login(
+    String? email,
+    String? password,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#verifyPassword, [request]),
-            returnValue:
-                _i3.Future<_i4.BaseResponse<_i8.VerifyPasswordResponce>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i8.VerifyPasswordResponce>>(
-                    this,
-                    Invocation.method(#verifyPassword, [request]),
-                  ),
-                ),
+            Invocation.method(#login, [email, password]),
+            returnValue: _i3.Future<_i4.BaseResponse<_i8.LoginEntity>>.value(
+              _i7.dummyValue<_i4.BaseResponse<_i8.LoginEntity>>(
+                this,
+                Invocation.method(#login, [email, password]),
+              ),
+            ),
           )
-          as _i3.Future<_i4.BaseResponse<_i8.VerifyPasswordResponce>>);
-
-  @override
-  _i3.Future<_i4.BaseResponse<_i10.ResetPasswordResponce>> resetPassword(
-    _i11.ResetPasswordRequest? request,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#resetPassword, [request]),
-            returnValue:
-                _i3.Future<_i4.BaseResponse<_i10.ResetPasswordResponce>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i10.ResetPasswordResponce>>(
-                    this,
-                    Invocation.method(#resetPassword, [request]),
-                  ),
-                ),
-          )
-          as _i3.Future<_i4.BaseResponse<_i10.ResetPasswordResponce>>);
+          as _i3.Future<_i4.BaseResponse<_i8.LoginEntity>>);
 }

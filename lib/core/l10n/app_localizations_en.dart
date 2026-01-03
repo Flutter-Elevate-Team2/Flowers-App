@@ -19,6 +19,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Password reset successfully! Please login with your new password.';
 
   @override
+  String get registerSuccessfully =>
+      'Your account has been created successfully! Please login to continue ';
+
+  @override
   String get success => 'success';
 
   @override
@@ -82,7 +86,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guestLogin => 'Continue as guest';
 
   @override
-  String get noAccountSignUp => 'Don\'t have an account? Sign up';
+  String get noAccountSignUp => 'Don\'t have an account? ';
+
+  @override
+  String get termsAndConditions => 'Terms&Conditions';
 
   @override
   String get signUpTitle => 'Sign up';
@@ -97,11 +104,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get genderFemale => 'Female';
 
   @override
-  String get termsConditions =>
-      'Creating an account, you agree to our Terms & Conditions';
+  String get termsConditions => 'Creating an account, you agree to our ';
 
   @override
-  String get haveAccountLogin => 'Already have an account? Login';
+  String get haveAccountLogin => 'Already have an account? ';
 
   @override
   String get forgotPasswordTitle => 'Forget password';
@@ -168,7 +174,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneRequired => 'Phone number is required';
 
   @override
-  String get phoneInvalid => 'Please enter a valid phone number';
+  String get phoneInvalid => 'Ensure the number starts with +20';
 
   @override
   String get validationEnterCompleteCode =>

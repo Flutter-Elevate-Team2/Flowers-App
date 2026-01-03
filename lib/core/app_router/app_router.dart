@@ -1,11 +1,9 @@
-
-
-import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
-import 'package:flowers_app/Features/auth/presentation/forget_password/views/test.dart';
+import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
+import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
+import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// ====== Define all routes and route names ======
 class Routes {
   static const String signInPath = '/signin';
   static const String signInName = 'signIn';
@@ -20,37 +18,48 @@ class Routes {
   static const String homeName = 'home';
 }
 
-/// ====== Main App Router ======
 class AppRouter {
-  static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> rootNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.forgetPasswordPath,
+    initialLocation: Routes.signInPath,
+
+    // redirect: (context, state) async {
+    //   final authRepo = getIt<AuthRepoContract>();
+
+    //   final bool isLoggedIn = await authRepo.isLoggedIn();
+
+    //   final bool isLoggingIn = state.uri.toString() == Routes.signInPath;
+
+    //   if (isLoggedIn && isLoggingIn) {
+    //     return Routes.homePath;
+    //   }
+
+    //   return null;
+    // },
+
     routes: [
-      // /// ====== LOGIN SCREEN ======
-      // GoRoute(
-      //   path: Routes.signInPath,
-      //   name: Routes.signInName,
-
-      // ),
-
-      /// ====== SIGN UP SCREEN ======
-      // GoRoute(
-      //   path: Routes.signUpPath,
-      //   name: Routes.signUpName,
-      // ),
-      // /// ====== FORGET PASSWORD SCREEN ======
-          GoRoute(
-            path: Routes.forgetPasswordPath,
-            name: Routes.forgetPasswordName,
-            builder: (context, state) => const ForgetPasswordScreenFlow(),
-          ),
-      /// ====== HOME SCREEN ======
+      GoRoute(
+        path: Routes.signInPath,
+        name: Routes.signInName,
+        builder: (context, state) => const SizedBox(),
+      ),
+      GoRoute(
+        path: Routes.signUpPath,
+        name: Routes.signUpName,
+        builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: Routes.forgetPasswordPath,
+        name: Routes.forgetPasswordName,
+        builder: (context, state) => const SizedBox(),
+      ),
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
-        builder: (context, state) => const Test(),
+        builder: (context, state) => const SizedBox(),
       ),
     ],
   );
