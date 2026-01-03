@@ -11,14 +11,12 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 class ErrorHandler {
-
   // === Helper Getter to access Localization Globally ===
   static AppLocalizations? get _l10n {
-    final context = AppRouter.rootNavigatorKey.currentState?.context;
-    if (context != null) {
-      return AppLocalizations.of(context);
-    }
-    return null;
+    final state = AppRouter.rootNavigatorKey.currentState;
+    if (state == null) return null;
+    final context = state.context;
+    return AppLocalizations.of(context);
   }
 
   /// Main entry point.
@@ -78,13 +76,19 @@ class ErrorHandler {
 
   static String _handleDioError(DioException error) {
     return switch (error.type) {
-      DioExceptionType.connectionTimeout => _l10n?.connectionTimeoutError ?? ErrorStrings.connectionTimeout,
-      DioExceptionType.sendTimeout => _l10n?.sendTimeoutError ?? ErrorStrings.sendTimeout,
-      DioExceptionType.receiveTimeout => _l10n?.receiveTimeoutError ?? ErrorStrings.receiveTimeout,
+      DioExceptionType.connectionTimeout =>
+        _l10n?.connectionTimeoutError ?? ErrorStrings.connectionTimeout,
+      DioExceptionType.sendTimeout =>
+        _l10n?.sendTimeoutError ?? ErrorStrings.sendTimeout,
+      DioExceptionType.receiveTimeout =>
+        _l10n?.receiveTimeoutError ?? ErrorStrings.receiveTimeout,
       DioExceptionType.badResponse => _handleBadResponse(error),
-      DioExceptionType.cancel => _l10n?.requestCancelledError ?? ErrorStrings.requestCancelled,
-      DioExceptionType.connectionError => _l10n?.connectionError ?? ErrorStrings.connectionError,
-      DioExceptionType.badCertificate => _l10n?.badCertificateError ?? ErrorStrings.badCertificate,
+      DioExceptionType.cancel =>
+        _l10n?.requestCancelledError ?? ErrorStrings.requestCancelled,
+      DioExceptionType.connectionError =>
+        _l10n?.connectionError ?? ErrorStrings.connectionError,
+      DioExceptionType.badCertificate =>
+        _l10n?.badCertificateError ?? ErrorStrings.badCertificate,
       DioExceptionType.unknown => _handleUnknownError(error),
     };
   }
@@ -92,16 +96,31 @@ class ErrorHandler {
   static String _handleBadResponse(DioException error) {
     final statusCode = error.response?.statusCode;
     return switch (statusCode) {
-      400 => _extractErrorMessage(error, _l10n?.badRequestError ?? ErrorStrings.badRequest),
-      401 => _extractErrorMessage(error, _l10n?.unauthorizedError ?? ErrorStrings.unauthorized),
+      400 => _extractErrorMessage(
+        error,
+        _l10n?.badRequestError ?? ErrorStrings.badRequest,
+      ),
+      401 => _extractErrorMessage(
+        error,
+        _l10n?.unauthorizedError ?? ErrorStrings.unauthorized,
+      ),
       403 => _l10n?.forbiddenError ?? ErrorStrings.forbidden,
-      404 => _extractErrorMessage(error, _l10n?.notFoundError ?? ErrorStrings.notFound),
-      409 => _extractErrorMessage(error, _l10n?.conflictError ?? ErrorStrings.conflict),
+      404 => _extractErrorMessage(
+        error,
+        _l10n?.notFoundError ?? ErrorStrings.notFound,
+      ),
+      409 => _extractErrorMessage(
+        error,
+        _l10n?.conflictError ?? ErrorStrings.conflict,
+      ),
 
       500 => _l10n?.internalServerError ?? ErrorStrings.internalServerError,
       503 => _l10n?.serviceUnavailableError ?? ErrorStrings.serviceUnavailable,
 
-      _ => _extractErrorMessage(error, _l10n?.defaultError ?? ErrorStrings.defaultError),
+      _ => _extractErrorMessage(
+        error,
+        _l10n?.defaultError ?? ErrorStrings.defaultError,
+      ),
     };
   }
 
@@ -142,7 +161,8 @@ class ErrorHandler {
       case 'user-not-found':
         return _l10n?.firebaseUserNotFound ?? ErrorStrings.firebaseUserNotFound;
       case 'wrong-password':
-        return _l10n?.firebaseWrongPassword ?? ErrorStrings.firebaseWrongPassword;
+        return _l10n?.firebaseWrongPassword ??
+            ErrorStrings.firebaseWrongPassword;
       case 'email-already-in-use':
         return _l10n?.firebaseEmailInUse ?? ErrorStrings.firebaseEmailInUse;
       case 'invalid-email':
@@ -150,20 +170,25 @@ class ErrorHandler {
       case 'weak-password':
         return _l10n?.firebaseWeakPassword ?? ErrorStrings.firebaseWeakPassword;
       case 'user-disabled':
-        return _l10n?.firebaseAccountDisabled ?? ErrorStrings.firebaseAccountDisabled;
+        return _l10n?.firebaseAccountDisabled ??
+            ErrorStrings.firebaseAccountDisabled;
       case 'too-many-requests':
-        return _l10n?.firebaseTooManyRequests ?? ErrorStrings.firebaseTooManyRequests;
+        return _l10n?.firebaseTooManyRequests ??
+            ErrorStrings.firebaseTooManyRequests;
       case 'network-request-failed':
         return _l10n?.noInternetError ?? ErrorStrings.noInternet;
       default:
-        return error.message ?? _l10n?.firebaseAuthUnknown ?? ErrorStrings.firebaseAuthUnknown;
+        return error.message ??
+            _l10n?.firebaseAuthUnknown ??
+            ErrorStrings.firebaseAuthUnknown;
     }
   }
 
   static String _handleFirebaseGeneralError(FirebaseException error) {
     switch (error.code) {
       case 'permission-denied':
-        return _l10n?.firebasePermissionDenied ?? ErrorStrings.firebasePermissionDenied;
+        return _l10n?.firebasePermissionDenied ??
+            ErrorStrings.firebasePermissionDenied;
       case 'unavailable':
         return _l10n?.firebaseUnavailable ?? ErrorStrings.firebaseUnavailable;
       case 'network-request-failed':

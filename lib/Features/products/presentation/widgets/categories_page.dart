@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/category_body.dart';
@@ -5,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesPage extends StatefulWidget {
-  // final List<CategoryEntity>? categories;
+  final List<CategoryEntity>? categories;
   final int initialIndex;
   const CategoriesPage({
     super.key,
-    // this.categories,
+    this.categories,
     this.initialIndex = 0
   });
 
@@ -43,8 +44,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     final searchController = TextEditingController();
-    final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
-    // final tabs = ["All", ...?widget.categories?.map((e) => e.name)];
+    final tabs = ["All", ...?widget.categories?.map((e) => e.name)];
 
     return SafeArea(
       child: DefaultTabController(
@@ -55,7 +55,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
             searchController: searchController,
             tabs: tabs,
             scrollController: _scrollController,
-            // categories: widget.categories,
+            categories: widget.categories,
           ),
         ),
       ),

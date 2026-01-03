@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Flowers App';
 
   @override
+  String get flowery => 'Flowery';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -22,6 +25,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile => 'Profile';
+
+  @override
+  String get searchHint => 'Search';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get bestSeller => 'Best seller';
+
+  @override
+  String get occasion => 'Occasion';
+
+  @override
+  String get deliverTo => 'Deliver to';
+
+  @override
+  String get testLocation => '2XVP+XC - Sheikh Zayed';
+
+  @override
+  String get retryButton => 'Retry';
 
   @override
   String get emailLabel => 'Email';
@@ -274,7 +298,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginButton => 'Login';
 
   @override
-  String get addToCart => 'Add To Cart';
   String get egp => 'EGP';
 
   @override
@@ -299,13 +322,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bestSellers => 'Best Sellers';
 
   @override
-  String get viewAll => 'View All';
-
-  @override
   String get searchLabel => 'Search';
-
-  @override
-  String get searchHint => 'Search for flowers, gifts...';
 
   @override
   String get searchNoResults => 'No results found';
@@ -313,6 +330,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get searchFor => 'Search For Any Product You Want';
 
+  @override
+  String get addToCart => 'Add to Cart';
 
   @override
   String get filter => 'Filter';

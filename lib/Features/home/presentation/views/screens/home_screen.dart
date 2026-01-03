@@ -1,43 +1,30 @@
 import 'package:flowers_app/Features/home/presentation/widgets/custom_button_nav_bar.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key, required this.navigationShell});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-
-  final List<Widget> _screens = [
-    HomeScreenBody(),
-    CategoriesScreen(),
-    Container(),
-    Container(),
-    // CategoriesScreen(),
-    // CartScreen(),
-    // ProfileScreen(),
-  ];
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: navigationShell,
       ),
       bottomNavigationBar: CustomButtonNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        currentIndex: navigationShell.currentIndex,
+        onTap: (index) => _onTap(context, index),
       ),
+    );
+  }
+
+  void _onTap(BuildContext context, int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
     );
   }
 }

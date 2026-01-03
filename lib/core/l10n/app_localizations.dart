@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -62,7 +63,7 @@ import 'app_localizations_en.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,7 @@ abstract class AppLocalizations {
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -84,12 +85,12 @@ abstract class AppLocalizations {
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
@@ -99,6 +100,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Flowers App'**
   String get appTitle;
+
+  /// App Name Logo Text
+  ///
+  /// In en, this message translates to:
+  /// **'Flowery'**
+  String get flowery;
 
   /// Label for the home navigation tab
   ///
@@ -123,6 +130,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get profile;
+
+  /// Hint text for search bar
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchHint;
+
+  /// Button text to view all items
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// Section title for best sellers
+  ///
+  /// In en, this message translates to:
+  /// **'Best seller'**
+  String get bestSeller;
+
+  /// Section title for occasions
+  ///
+  /// In en, this message translates to:
+  /// **'Occasion'**
+  String get occasion;
+
+  /// Label for delivery location
+  ///
+  /// In en, this message translates to:
+  /// **'Deliver to'**
+  String get deliverTo;
+
+  /// text for location
+  ///
+  /// In en, this message translates to:
+  /// **'2XVP+XC - Sheikh Zayed'**
+  String get testLocation;
+
+  /// Button text to retry
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
 
   /// Label for the email input field
   ///
@@ -610,42 +659,37 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get loginButton;
 
-  /// No description provided for @addToCart.
-  ///
-  /// In en, this message translates to:
-  /// **'Add To Cart'**
-  String get addToCart;
-  /// No description provided for @egp.
+  /// Currency symbol for Egyptian Pounds
   ///
   /// In en, this message translates to:
   /// **'EGP'**
   String get egp;
 
-  /// No description provided for @status.
+  /// Label for the status
   ///
   /// In en, this message translates to:
   /// **'Status: '**
   String get status;
 
-  /// No description provided for @inStock.
+  /// Label for the in stock status
   ///
   /// In en, this message translates to:
   /// **'In stock'**
   String get inStock;
 
-  /// No description provided for @outOfStock.
+  /// Label for the out of stock status
   ///
   /// In en, this message translates to:
   /// **'Out of stock'**
   String get outOfStock;
 
-  /// No description provided for @includeTax.
+  /// Label for the include tax status
   ///
   /// In en, this message translates to:
   /// **'All prices include tax'**
   String get includeTax;
 
-  /// No description provided for @description.
+  /// Label for the description
   ///
   /// In en, this message translates to:
   /// **'Description'**
@@ -663,23 +707,11 @@ abstract class AppLocalizations {
   /// **'Best Sellers'**
   String get bestSellers;
 
-  /// Button text to view all items in a category
-  ///
-  /// In en, this message translates to:
-  /// **'View All'**
-  String get viewAll;
-
   /// Label for the search input field
   ///
   /// In en, this message translates to:
   /// **'Search'**
   String get searchLabel;
-
-  /// Hint text for the search input field
-  ///
-  /// In en, this message translates to:
-  /// **'Search for flowers, gifts...'**
-  String get searchHint;
 
   /// Message displayed when no search results are found
   ///
@@ -687,12 +719,17 @@ abstract class AppLocalizations {
   /// **'No results found'**
   String get searchNoResults;
 
-  /// No description provided for @searchFor.
+  /// Label for the search input field
   ///
   /// In en, this message translates to:
   /// **'Search For Any Product You Want'**
   String get searchFor;
 
+  /// Button text to add an item to the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCart;
 
   /// Button text to open filter options
   ///
@@ -775,8 +812,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+        'an issue with the localizations generation tool. Please file an issue '
+        'on GitHub with a reproducible sample app and the gen-l10n configuration '
+        'that was used.',
   );
 }

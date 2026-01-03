@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/occasion_body.dart';
@@ -5,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OccasionPage extends StatefulWidget {
-  // final List<OccasionEntity>? occasions;
+  final List<OccasionEntity>? occasions;
+  final int initialIndex;
   const OccasionPage({
     super.key,
-    // this.occasions,
-    // required this.initialIndex,
+    this.occasions,
+    required this.initialIndex,
   });
 
   @override
@@ -41,15 +43,14 @@ class _OccasionPageState extends State<OccasionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
-    // final tabs = widget.occasions?.map((e) => e.name).toList() ?? [];
+    final tabs = widget.occasions?.map((e) => e.name).toList() ?? [];
     return SafeArea(
       child: DefaultTabController(
         length: tabs.length,
         child: OccasionBody(
             tabs: tabs,
             scrollController: _scrollController,
-          // occasions: widget.occasions,
+          occasions: widget.occasions,
         ),
       ),
     );

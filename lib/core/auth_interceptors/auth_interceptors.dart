@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:injectable/injectable.dart';
-import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @injectable
 class AuthInterceptor extends Interceptor {
@@ -48,7 +48,6 @@ class AuthInterceptor extends Interceptor {
   }
 
   void _performLogout() {
-    // Fix: Ensure token is removed before triggering session expiration
     _prefs.remove('token').then((_) {
       _sessionController.expireSession();
     });
