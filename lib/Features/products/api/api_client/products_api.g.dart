@@ -55,7 +55,7 @@ class _ProductsApi implements ProductsApi {
     try {
       _value = ProductsResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, _result);
+      errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;

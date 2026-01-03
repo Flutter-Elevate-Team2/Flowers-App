@@ -21,7 +21,7 @@ class HomeErrorWidget extends StatelessWidget {
             onPressed: () {
               context.read<HomeViewModel>().doIntent(GetHomeDataEvent());
             },
-            child: Text(AppLocalizations.of(context)?.retryButton ?? 'Retry'),
+            child: Text(AppLocalizations.of(context)!.retryButton),
           ),
         ],
       ),

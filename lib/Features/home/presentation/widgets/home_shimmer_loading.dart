@@ -29,17 +29,7 @@ class HomeShimmerLoading extends StatelessWidget {
                       const SizedBox(width: 4),
                       const AppShimmer(width: 80, height: 20),
                       const SizedBox(width: 12),
-                      AppShimmer(
-                        width:
-                            screenWidth -
-                            (screenWidth * 0.04 * 2) -
-                            20 -
-                            4 -
-                            80 -
-                            12,
-                        height: 36,
-                        radius: 8,
-                      ),
+                      Expanded(child: AppShimmer(height: 36, radius: 8)),
                     ],
                   ),
                   const SizedBox(height: 12),

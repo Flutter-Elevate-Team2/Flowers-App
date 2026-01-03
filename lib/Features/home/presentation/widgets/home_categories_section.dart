@@ -1,8 +1,10 @@
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/category_item.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/section_header.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeCategoriesSection extends StatelessWidget {
   final List<CategoryEntity> categories;
@@ -30,7 +32,13 @@ class HomeCategoriesSection extends StatelessWidget {
         SectionHeader(
           title: context.l10n.categories,
           onViewAllTap: () {
-            // Navigate to Categories Screen
+            context.goNamed(
+              Routes.categoriesName,
+              extra: {
+                'categories': categories,
+                'initialIndex': 0, // 0 for 'All'
+              },
+            );
           },
         ),
         const SizedBox(height: 12),
@@ -48,6 +56,17 @@ class HomeCategoriesSection extends StatelessWidget {
                 title: category.name,
                 imageUrl: category.icon,
                 boxSize: categoryBoxSize,
+                onTap: () {
+                  // +1 because index 0 is "All" in CategoriesPage
+                  final targetIndex = index + 1;
+                  context.goNamed(
+                    Routes.categoriesName,
+                    extra: {
+                      'categories': categories,
+                      'initialIndex': targetIndex,
+                    },
+                  );
+                },
               );
             },
           ),

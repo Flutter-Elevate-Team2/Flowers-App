@@ -7,12 +7,14 @@ class CategoryItem extends StatelessWidget {
   final String title;
   final String imageUrl;
   final double boxSize;
+  final VoidCallback? onTap;
 
   const CategoryItem({
     super.key,
     required this.title,
     required this.imageUrl,
     required this.boxSize,
+    this.onTap,
   });
 
   @override
@@ -29,23 +31,28 @@ class CategoryItem extends StatelessWidget {
               color: AppColors.lightPink,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Center(
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                width: boxSize * 0.5,
-                height: boxSize * 0.5,
-                fit: BoxFit.contain,
-
-                placeholder: (context, url) => AppShimmer(
-                  height: boxSize * 0.5,
-                  width: boxSize * 0.5,
-                  radius: 100,
-                ),
-
-                errorWidget: (context, url, error) => Icon(
-                  Icons.local_florist_outlined,
-                  color: AppColors.mainColor,
-                  size: boxSize * 0.45,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(20),
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    width: boxSize * 0.5,
+                    height: boxSize * 0.5,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => AppShimmer(
+                      height: boxSize * 0.5,
+                      width: boxSize * 0.5,
+                      radius: 100,
+                    ),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.local_florist_outlined,
+                      color: AppColors.mainColor,
+                      size: boxSize * 0.45,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -58,9 +65,9 @@ class CategoryItem extends StatelessWidget {
                 title,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: (boxSize * 0.18).clamp(12.0, 16.0),
-                      fontWeight: FontWeight.w500,
-                    ),
+                  fontSize: (boxSize * 0.18).clamp(12.0, 16.0),
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),

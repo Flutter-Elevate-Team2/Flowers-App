@@ -35,28 +35,28 @@ class ProductItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: imageUrl != null && imageUrl!.isNotEmpty
                     ? CachedNetworkImage(
-                        imageUrl: imageUrl!,
-                        fit: BoxFit.cover,
+                  imageUrl: imageUrl!,
+                  fit: BoxFit.cover,
 
-                        placeholder: (context, url) => const AppShimmer(
-                          height: double.infinity,
-                          width: double.infinity,
-                          radius: 0,
-                        ),
+                  placeholder: (context, url) => const AppShimmer(
+                    height: double.infinity,
+                    width: double.infinity,
+                    radius: 0,
+                  ),
 
-                        errorWidget: (context, url, error) => Icon(
-                          Icons.image_not_supported_outlined,
-                          size: width * 0.35,
-                          color: AppColors.gray.withAlpha(100),
-                        ),
-                      )
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.image_not_supported_outlined,
+                    size: width * 0.35,
+                    color: AppColors.gray.withAlpha(100),
+                  ),
+                )
                     : Center(
-                        child: Icon(
-                          Icons.image,
-                          size: width * 0.35,
-                          color: AppColors.gray.withAlpha(100),
-                        ),
-                      ),
+                  child: Icon(
+                    Icons.image,
+                    size: width * 0.35,
+                    color: AppColors.gray.withAlpha(100),
+                  ),
+                ),
               ),
             ),
           ),
@@ -69,18 +69,18 @@ class ProductItem extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: (width * 0.11).clamp(14.0, 18.0),
-                      fontWeight: FontWeight.w500,
-                    ),
+                  fontSize: (width * 0.11).clamp(14.0, 18.0),
+                  fontWeight: FontWeight.w500,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 "$price EGP",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: (width * 0.11).clamp(14.0, 18.0),
-                      color: AppColors.black,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: (width * 0.11).clamp(14.0, 18.0),
+                  color: AppColors.black,
+                ),
               ),
             ],
           ),

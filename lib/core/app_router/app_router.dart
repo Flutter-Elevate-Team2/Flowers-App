@@ -1,11 +1,11 @@
 import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
-import 'package:flowers_app/Features/home/presentation/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
+import 'package:flowers_app/Features/products/presentation/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/products/presentation/views/screens/occasions_screen.dart';
 import 'package:flutter/material.dart';

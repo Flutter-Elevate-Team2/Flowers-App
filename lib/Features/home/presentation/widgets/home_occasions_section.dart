@@ -1,8 +1,10 @@
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/occasion_item.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/section_header.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeOccasionsSection extends StatelessWidget {
   final List<OccasionEntity> occasions;
@@ -28,7 +30,12 @@ class HomeOccasionsSection extends StatelessWidget {
 
     return Column(
       children: [
-        SectionHeader(title: context.l10n.occasion, onViewAllTap: () {}),
+        SectionHeader(
+          title: context.l10n.occasion,
+          onViewAllTap: () {
+            context.pushNamed(Routes.occasionName, extra: occasions);
+          },
+        ),
         const SizedBox(height: 12),
         SizedBox(
           height: productListHeight * 0.9,
@@ -40,10 +47,19 @@ class HomeOccasionsSection extends StatelessWidget {
                 SizedBox(width: screenWidth * 0.04),
             itemBuilder: (context, index) {
               final occasion = occasions[index];
-              return OccasionItem(
-                title: occasion.name,
-                imageUrl: occasion.imageUrl,
-                width: occasionItemWidth,
+              return GestureDetector(
+                onTap: () {
+                  final targetIndex = index;
+                  context.pushNamed(Routes.occasionName, extra: {
+                    'occasions': occasions,
+                    'initialIndex': targetIndex,
+                  });
+                },
+                child: OccasionItem(
+                  title: occasion.name,
+                  imageUrl: occasion.imageUrl,
+                  width: occasionItemWidth,
+                ),
               );
             },
           ),
