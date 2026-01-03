@@ -1,0 +1,56 @@
+import 'package:flowers_app/Features/home/domain/entities/home_entities/home_entity.dart';
+import 'package:flowers_app/Features/home/presentation/sections/home_section_factory.dart';
+import 'package:flowers_app/Features/home/presentation/view_model/home_events.dart';
+import 'package:flowers_app/Features/home/presentation/view_model/home_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class HomeContentWidget extends StatelessWidget {
+  final HomeEntity homeData;
+
+  const HomeContentWidget({super.key, required this.homeData});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double screenHeight = constraints.maxHeight;
+        final double screenWidth = constraints.maxWidth;
+
+        final factory = HomeSectionFactory();
+        final sections = factory.getSections(data: homeData, context: context);
+
+        return SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              context.read<HomeViewModel>().doIntent(GetHomeDataEvent());
+            },
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: screenHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.04,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (int i = 0; i < sections.length; i++) ...[
+                          sections[i],
+                          if (i < sections.length - 1) const Spacer(flex: 1),
+                        ],
+                        if (sections.isEmpty) const Spacer(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

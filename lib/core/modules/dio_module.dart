@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flowers_app/core/auth_interceptors/auth_interceptors.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @module
 abstract class DioModule {
-
   @singleton
   PrettyDioLogger get prettyDioLogger {
     return PrettyDioLogger(
@@ -22,9 +22,23 @@ abstract class DioModule {
   }
 
   @singleton
+  MemCacheStore get memCacheStore => MemCacheStore();
+
+  @singleton
+  CacheOptions cacheOptions(MemCacheStore memCacheStore) {
+    return CacheOptions(
+      store: memCacheStore,
+      policy: CachePolicy.request,
+      priority: CachePriority.normal,
+      maxStale: const Duration(days: 7),
+    );
+  }
+
+  @singleton
   Dio dio(
     AuthInterceptor authInterceptor,
     PrettyDioLogger dioLogger,
+    CacheOptions cacheOptions,
   ) {
     final dio = Dio(
       BaseOptions(
@@ -38,7 +52,10 @@ abstract class DioModule {
       ),
     );
 
-    dio.interceptors.add(authInterceptor);
+    dio.interceptors.addAll([
+      authInterceptor,
+      DioCacheInterceptor(options: cacheOptions),
+    ]);
 
     if (kDebugMode) {
       dio.interceptors.add(dioLogger);

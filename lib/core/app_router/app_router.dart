@@ -1,3 +1,5 @@
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
+import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
@@ -18,9 +20,18 @@ class Routes {
   static const String forgetPasswordPath = '/forgetpassword';
   static const String forgetPasswordName = 'forgetPassword';
 
+  // Home Tabs Paths
   static const String homePath = '/home';
   static const String homeName = 'home';
 
+  static const String categoriesPath = '/categories';
+  static const String categoriesName = 'categories';
+
+  static const String cartPath = '/cart';
+  static const String cartName = 'cart';
+
+  static const String profilePath = '/profile';
+  static const String profileName = 'profile';
   static const String bestSellerPath = '/bestseller';
   static const String bestSellerName = 'bestSeller';
   static const String occasionPath = '/occasion';
@@ -35,7 +46,16 @@ class Routes {
 
 /// ====== Main App Router ======
 class AppRouter {
-  static final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> rootNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _homeNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _categoriesNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _cartNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _profileNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -45,7 +65,6 @@ class AppRouter {
       GoRoute(
         path: Routes.signInPath,
         name: Routes.signInName,
-        // Fix: Added builder (Replace SizedBox with SignInScreen)
         builder: (context, state) => const SizedBox(),
       ),
 
@@ -53,7 +72,6 @@ class AppRouter {
       GoRoute(
         path: Routes.signUpPath,
         name: Routes.signUpName,
-        // Fix: Added builder (Replace SizedBox with SignUpScreen)
         builder: (context, state) => const SizedBox(),
       ),
 
@@ -61,10 +79,66 @@ class AppRouter {
       GoRoute(
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
-        // Fix: Added builder (Replace SizedBox with ForgetPasswordScreen)
         builder: (context, state) => const SizedBox(),
       ),
 
+      /// ====== MAIN SHELL ROUTE (BOTTOM NAV BAR) ======
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return HomeScreen(navigationShell: navigationShell);
+        },
+        branches: [
+          // Branch 1: Home
+          StatefulShellBranch(
+            navigatorKey: _homeNavigatorKey,
+            routes: [
+              GoRoute(
+                path: Routes.homePath,
+                name: Routes.homeName,
+                builder: (context, state) => const HomeScreenBody(),
+              ),
+            ],
+          ),
+
+          // Branch 2: Categories
+          StatefulShellBranch(
+            navigatorKey: _categoriesNavigatorKey,
+            routes: [
+              GoRoute(
+                path: Routes.categoriesPath,
+                name: Routes.categoriesName,
+                builder: (context, state) =>
+                    const Center(child: Text("Categories Screen")),
+              ),
+            ],
+          ),
+
+          // Branch 3: Cart
+          StatefulShellBranch(
+            navigatorKey: _cartNavigatorKey,
+            routes: [
+              GoRoute(
+                path: Routes.cartPath,
+                name: Routes.cartName,
+                builder: (context, state) =>
+                    const Center(child: Text("Cart Screen")),
+              ),
+            ],
+          ),
+
+          // Branch 4: Profile
+          StatefulShellBranch(
+            navigatorKey: _profileNavigatorKey,
+            routes: [
+              GoRoute(
+                path: Routes.profilePath,
+                name: Routes.profileName,
+                builder: (context, state) =>
+                    const Center(child: Text("Profile Screen")),
+              ),
+            ],
+          ),
+        ],
       /// ====== HOME SCREEN ======
       GoRoute(
         path: Routes.homePath,

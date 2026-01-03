@@ -3,6 +3,7 @@
 *.log
 *.pyc
 *.swp
+*.g.dart
 .env
 .DS_Store
 .atom/

@@ -22,22 +22,10 @@ class CustomButtonNavigationBar extends StatelessWidget {
 
   List<BottomNavigationBarItem> _buildItems(BuildContext context) {
     return [
-      _buildItem(
-        icon: Icons.home_outlined,
-        label: context.l10n.home,
-      ),
-      _buildItem(
-        icon: Icons.category_outlined,
-        label: context.l10n.categories,
-      ),
-      _buildItem(
-        icon: Icons.shopping_cart_outlined,
-        label: context.l10n.cart,
-      ),
-      _buildItem(
-        icon: Icons.person_outline,
-        label: context.l10n.profile,
-      ),
+      _buildItem(icon: Icons.home_outlined, label: context.l10n.home),
+      _buildItem(icon: Icons.category_outlined, label: context.l10n.categories),
+      _buildItem(icon: Icons.shopping_cart_outlined, label: context.l10n.cart),
+      _buildItem(icon: Icons.person_outline, label: context.l10n.profile),
     ];
   }
 
@@ -45,9 +33,6 @@ class CustomButtonNavigationBar extends StatelessWidget {
     required IconData icon,
     required String label,
   }) {
-    return BottomNavigationBarItem(
-      icon: Icon(icon),
-      label: label,
-    );
+    return BottomNavigationBarItem(icon: Icon(icon), label: label);
   }
 }
