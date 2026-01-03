@@ -1,4 +1,5 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
+import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/categories_page.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/floating_button.dart';
@@ -7,19 +8,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+  // final List<CategoryEntity>? categories;
+  // final int initialIndex;
+  const CategoriesScreen({
+    super.key,
+    // this.categories,
+    // this.initialIndex = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ProductsViewModel>()..doIntent(FetchProductsEvent()),
+      // key: ValueKey(initialIndex),
+      create: (context) {
+
+        final viewModel = getIt<ProductsViewModel>();
+        // if (initialIndex > 0 &&
+        //     categories != null &&
+        //     categories!.length >= initialIndex) {
+        //   viewModel.doIntent(
+        //     FetchProductsEvent(categoryId: categories![initialIndex - 1].id),
+        //   );
+        // } else {
+        //   viewModel.doIntent(FetchProductsEvent());
+        // }
+        //
+        // if (categories == null) {
+        //   viewModel.doIntent(FetchCategoriesEvent());
+        // }
+        return viewModel;
+      },
       child: Builder(
         builder: (context) {
           final viewModel = context.read<ProductsViewModel>();
           return Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingButton(viewModel),
-            body: const CategoriesPage(),
+            body: BlocBuilder<ProductsViewModel, ProductsStates>(
+              builder: (context, state) {
+                return CategoriesPage();
+                // final effectiveCategories =
+                //     categories ?? state.categoriesState?.data;
+                // return CategoriesPage(
+                //   categories: effectiveCategories,
+                //   initialIndex: initialIndex,
+                // );
+              },
+            ),
           );
         },
       ),

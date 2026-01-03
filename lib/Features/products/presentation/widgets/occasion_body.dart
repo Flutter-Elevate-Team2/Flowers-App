@@ -9,11 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class OccasionBody extends StatelessWidget {
   final List<String> tabs;
   final ScrollController scrollController;
+  // final List<OccasionEntity>? occasions;
 
   const OccasionBody({
     super.key,
     required this.tabs,
     required this.scrollController,
+    // this.occasions,
   });
 
   @override
@@ -22,7 +24,19 @@ class OccasionBody extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const OccasionDescription(),
-        Material(child: DefaultTabBar(tabs)),
+        Material(
+          child: DefaultTabBar(
+            tabs,
+            // onTap: (index) {
+            //   if (occasions != null && index < occasions!.length) {
+            //     final occasionId = occasions![index].id;
+            //     context.read<ProductsViewModel>().doIntent(
+            //       FetchProductsEvent(occasionId: occasionId),
+            //     );
+            //   }
+            // },
+          ),
+        ),
         Expanded(
           child: BlocBuilder<ProductsViewModel, ProductsStates>(
             builder: (context, state) {

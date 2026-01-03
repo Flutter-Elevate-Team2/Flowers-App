@@ -23,9 +23,7 @@ class CategoryProductsContent extends StatelessWidget {
               SliverFillRemaining(
                 child: Center(child: Text(context.l10n.searchFor)),
               )
-            else if (state.productsState?.isLoading == true ||
-                (state.productsState?.data?.isEmpty ?? true) &&
-                    state.productsState?.errorMessage == null)
+            else if (state.productsState?.isLoading == true)
               const SliverFillRemaining(
                 child: Padding(
                   padding: EdgeInsets.all(16),
@@ -36,9 +34,8 @@ class CategoryProductsContent extends StatelessWidget {
               SliverFillRemaining(
                 child: Center(child: Text(state.productsState!.errorMessage!)),
               )
-            else if (state.searchText.isNotEmpty &&
-                state.productsState?.isLoading == false &&
-                products.isEmpty)
+              else if (state.productsState?.isLoading == false &&
+                    products.isEmpty)
               SliverFillRemaining(
                 child: Center(child: Text(context.l10n.noProductsFound)),
               )

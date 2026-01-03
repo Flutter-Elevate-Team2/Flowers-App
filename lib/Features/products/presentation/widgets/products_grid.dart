@@ -45,9 +45,9 @@ class ProductsGrid extends StatelessWidget {
         itemCount: products.length + (isLoadingMore ? 1 : 0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 0.65,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
+          childAspectRatio: 0.6,
         ),
         itemBuilder: (context, index) {
           if (index >= products.length) {

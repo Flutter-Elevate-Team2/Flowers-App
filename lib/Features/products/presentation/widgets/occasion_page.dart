@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OccasionPage extends StatefulWidget {
-  const OccasionPage({super.key});
+  // final List<OccasionEntity>? occasions;
+  const OccasionPage({
+    super.key,
+    // this.occasions,
+    // required this.initialIndex,
+  });
 
   @override
   State<OccasionPage> createState() => _OccasionPageState();
@@ -37,11 +42,15 @@ class _OccasionPageState extends State<OccasionPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
-
+    // final tabs = widget.occasions?.map((e) => e.name).toList() ?? [];
     return SafeArea(
       child: DefaultTabController(
         length: tabs.length,
-        child: OccasionBody(tabs: tabs, scrollController: _scrollController),
+        child: OccasionBody(
+            tabs: tabs,
+            scrollController: _scrollController,
+          // occasions: widget.occasions,
+        ),
       ),
     );
   }

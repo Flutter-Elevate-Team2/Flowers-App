@@ -5,7 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesPage extends StatefulWidget {
-  const CategoriesPage({super.key});
+  // final List<CategoryEntity>? categories;
+  final int initialIndex;
+  const CategoriesPage({
+    super.key,
+    // this.categories,
+    this.initialIndex = 0
+  });
 
   @override
   State<CategoriesPage> createState() => _CategoriesPageState();
@@ -38,15 +44,18 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     final searchController = TextEditingController();
     final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
+    // final tabs = ["All", ...?widget.categories?.map((e) => e.name)];
 
     return SafeArea(
       child: DefaultTabController(
+        initialIndex: widget.initialIndex,
         length: tabs.length,
         child: Scaffold(
           body: CategoryBody(
             searchController: searchController,
             tabs: tabs,
             scrollController: _scrollController,
+            // categories: widget.categories,
           ),
         ),
       ),

@@ -63,6 +63,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           .map(
                             (imageUrl) =>
                                 Image.network(imageUrl, fit: BoxFit.contain),
+                              // CachedNetworkImage(imageUrl: imageUrl,)
                           )
                           .toList(),
                     ),
@@ -86,35 +87,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Price and Status Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "${product.priceAfterDiscount} ${locale.egp}",
-                        style: getSemiBoldStyle(
+                        "EGP ${_formatPrice(product.priceAfterDiscount)}",
+                        style: getBoldStyle(
                           color: Colors.black,
-                          fontSize: FontSize.s20,
+                          fontSize: FontSize.s24,
                         ),
                       ),
                       Text.rich(
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: locale.status,
+                              text: "${locale.status} ",
                               style: getBoldStyle(
                                 color: AppColors.black,
-                                fontSize: FontSize.s20,
+                                fontSize: FontSize.s16,
                               ),
                             ),
                             TextSpan(
                               text: product.quantity > 0
                                   ? locale.inStock
                                   : locale.outOfStock,
-                              style: getMediumStyle(
+                              style: getRegularStyle(
                                 color: Colors.black,
                                 fontSize: FontSize.s16,
                               ),
@@ -124,24 +126,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 4),
+
+                  // Tax subtitle
                   Text(
                     locale.includeTax,
                     style: getRegularStyle(
-                      color: AppColors.gray,
-                      fontSize: FontSize.s13,
+                      color: Colors.grey,
+                      fontSize: FontSize.s14,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 16),
+
+                  // Product Title
                   Text(
                     product.title,
                     style: getBoldStyle(
                       color: AppColors.black,
-                      fontSize: FontSize.s16,
+                      fontSize: FontSize.s18,
                     ),
                   ),
+                  const SizedBox(height: 20),
 
-                  SizedBox(height: 15),
+                  // Description Section
                   Text(
                     locale.description,
                     style: getBoldStyle(
@@ -149,37 +156,73 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       fontSize: FontSize.s16,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 8),
                   Text(
-                    product.description ,
-                    style: getMediumStyle(
+                    product.description ?? '',
+                    style: getRegularStyle(
+                      color: Colors.grey[700]!,
+                      fontSize: FontSize.s14,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Bouquet Include Section
+                  Text(
+                    "Bouquet include",
+                    style: getBoldStyle(
                       color: AppColors.black,
                       fontSize: FontSize.s16,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 8),
+                  _buildBouquetIncludeItem("Pink roses:15"),
+                  _buildBouquetIncludeItem("White wrap"),
+                  const SizedBox(height: 30),
+
+                  // Add to Cart Button
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
+                    height: 56,
                     child: ElevatedButton(
                       onPressed: () {
                         // addToCart(product);
                       },
                       child: Text(
                         locale.addToCart,
-                        style: getMediumStyle(
+                        style: getSemiBoldStyle(
                           color: Colors.white,
                           fontSize: FontSize.s18,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  String _formatPrice(int price) {
+    // Format price with thousand separators (e.g., 1500 -> 1,500)
+    return price.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
+  }
+
+  Widget _buildBouquetIncludeItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Text(
+        text,
+        style: getRegularStyle(
+          color: Colors.grey[700]!,
+          fontSize: FontSize.s14,
+        ),
       ),
     );
   }
