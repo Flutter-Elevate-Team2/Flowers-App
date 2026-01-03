@@ -1,0 +1,3 @@
+import 'package:flowers_app/Features/profile/data/data_sources/remote_data_source_contract/profile_remote_data_source_contract.dart';
+
+class ProfileRemoteDataSourceImpe implements ProfileRemoteDataSourceContract {}
