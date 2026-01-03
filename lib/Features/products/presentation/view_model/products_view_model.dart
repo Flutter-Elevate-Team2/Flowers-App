@@ -12,6 +12,7 @@ import 'package:flowers_app/Features/products/presentation/view_model/products_s
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_query.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -19,18 +20,11 @@ class ProductsViewModel extends Cubit<ProductsStates> {
   final ProductsUseCase _getProductsUseCase;
   final GetHomeSectionsUseCase _getHomeSectionsUseCase;
 
-  bool isSearchFocused = false;
-  String? _categoryId;
-  String? _occasionId;
-  String? _sort;
-  String? _search;
+  ProductQuery _query = const ProductQuery();
 
-  int _page = 1;
-  final int _limit = 8;
-
+  int _totalPages = 1;
   int? _prevPage;
   int? _nextPage;
-  int _totalPages = 1;
 
   ProductsViewModel(this._getProductsUseCase, this._getHomeSectionsUseCase)
     : super(ProductsStates());
@@ -38,26 +32,31 @@ class ProductsViewModel extends Cubit<ProductsStates> {
   void doIntent(ProductsEvent event) {
     if (event is FetchProductsEvent) {
       final isNewQuery =
-          _sort != event.sort ||
-          _categoryId != event.categoryId ||
-          _occasionId != event.occasionId ||
-          _search != event.search;
-
-      _categoryId = event.categoryId;
-      _occasionId = event.occasionId;
-      _sort = event.sort;
-      _search = event.search;
+          _query.sort != event.sort ||
+          _query.categoryId != event.categoryId ||
+          _query.occasionId != event.occasionId ||
+          _query.search != event.search;
 
       if (event.reset || isNewQuery) {
-        _page = 1;
+        _query = const ProductQuery();
         _nextPage = null;
-       
+        _prevPage = null;
+        _totalPages = 1;
       }
-      _getAllProducts(_categoryId, _occasionId, _sort, _search);
+
+      _query = _query.copyWith(
+        categoryId: event.categoryId,
+        occasionId: event.occasionId,
+        sort: event.sort,
+        search: event.search,
+        page: 1,
+        resetCategoryId: event.categoryId == '' ? true : false,
+        resetOccasionId: event.occasionId == '' ? true : false,
+      );
+
+      _getAllProducts();
     } else if (event is LoadMoreProductsEvent) {
       _loadMore();
-    } else if (event is NavigateToProductDetailsEvent) {
-      emit(state.copyWith(navigateToProduct: event.product));
     } else if (event is FetchCategoriesEvent) {
       _fetchCategories();
     } else if (event is FetchOccasionsEvent) {
@@ -69,43 +68,37 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     if (state.isPaginationLoading || state.productsState?.isLoading == true)
       return;
     if (_nextPage == null) return;
-    _page = _nextPage!;
-    _getAllProducts(_categoryId, _occasionId, _sort, _search);
-  }
 
-  void clearNavigation() {
-    emit(state.copyWith(navigateToProduct: null));
+    _query = _query.copyWith(page: _nextPage);
+    _getAllProducts();
   }
 
   void goToPage(int page) {
     if (_totalPages <= 1) return;
     if (page < 1 || page > _totalPages) return;
-    if (page == _page) return;
+    if (page == _query.page) return;
 
-    _page = page;
-    _getAllProducts(_categoryId, _occasionId, _sort, _search);
+    _query = _query.copyWith(page: page);
+    _getAllProducts();
   }
 
   void onSearchFocusChanged(bool focused) {
     emit(state.copyWith(isSearchFocused: focused));
     if (!focused && state.searchText.isNotEmpty) {
-      _page = 1;
-      _search = state.searchText;
-      _getAllProducts(_categoryId, _occasionId, _sort, state.searchText);
+      _query = _query.copyWith(search: state.searchText, page: 1);
+      _getAllProducts();
     }
   }
 
   void onSearchSubmitted(String value) {
-    final query = value.trim();
-    _page = 1;
-    _search = query;
+    final queryText = value.trim();
     _prevPage = null;
     _nextPage = null;
     _totalPages = 1;
 
     emit(
       state.copyWith(
-        searchText: query,
+        searchText: queryText,
         currentPage: 1,
         totalPages: 1,
         prevPage: null,
@@ -114,16 +107,12 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         isSearchFocused: false,
       ),
     );
-    _getAllProducts(_categoryId, _occasionId, _sort, query);
+    _query = _query.copyWith(search: queryText, page: 1);
+    _getAllProducts();
   }
 
-  Future<void> _getAllProducts(
-    String? categoryId,
-    String? occasionId,
-    String? sort,
-    String? search,
-  ) async {
-    if (_page == 1) {
+  Future<void> _getAllProducts() async {
+    if (_query.page == 1) {
       emit(
         state.copyWith(
           productsState: BaseState<List<ProductEntity>>(isLoading: true),
@@ -134,24 +123,24 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       emit(state.copyWith(isPaginationLoading: true));
     }
 
-    final result = await _handleQuery(categoryId, sort, search, occasionId);
+    final result = await _handleQuery();
 
     if (isClosed) return;
 
     if (result is SuccessResponse<PaginatedProductsEntity>) {
       final data = result.data;
 
-      final hasSearch = search != null && search.isNotEmpty;
+      final hasSearch = _query.search != null && _query.search!.isNotEmpty;
       final productsCount = data.products.length;
 
-      final shouldPaginate = !hasSearch || productsCount >= _limit;
+      final shouldPaginate = !hasSearch || productsCount >= _query.limit;
 
       _totalPages = shouldPaginate ? data.meta.totalPages : 1;
       _prevPage = shouldPaginate ? data.meta.prevPage : null;
       _nextPage = shouldPaginate ? data.meta.nextPage : null;
 
       List<ProductEntity> allProducts = [];
-      if (_page == 1) {
+      if (_query.page == 1) {
         allProducts = data.products;
       } else {
         final currentList = state.productsState?.data ?? [];
@@ -164,7 +153,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
             data: allProducts,
             isLoading: false,
           ),
-          currentPage: _page,
+          currentPage: _query.page,
           totalPages: _totalPages,
           prevPage: _prevPage,
           nextPage: _nextPage,
@@ -176,7 +165,7 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       emit(
         state.copyWith(
           isPaginationLoading: false,
-          productsState: _page == 1
+          productsState: _query.page == 1
               ? BaseState<List<ProductEntity>>(
                   errorMessage: 'Failed to load products',
                 )
@@ -186,34 +175,29 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     }
   }
 
-  Future<BaseResponse<PaginatedProductsEntity>> _handleQuery(
-    String? categoryId,
-    String? sort,
-    String? search,
-    String? occasionId,
-  ) async {
-    if (categoryId != null && categoryId.isNotEmpty) {
+  Future<BaseResponse<PaginatedProductsEntity>> _handleQuery() async {
+    if (_query.categoryId != null && _query.categoryId!.isNotEmpty) {
       return await _getProductsUseCase.getProducts(
-        categoryId: categoryId,
-        sort: sort,
-        search: search,
-        page: _page,
-        limit: _limit,
+        categoryId: _query.categoryId,
+        sort: _query.sort,
+        search: _query.search,
+        page: _query.page,
+        limit: _query.limit,
       );
-    } else if (occasionId != null && occasionId.isNotEmpty) {
+    } else if (_query.occasionId != null && _query.occasionId!.isNotEmpty) {
       return await _getProductsUseCase.getProducts(
-        occasionId: occasionId,
-        sort: sort,
-        search: search,
-        page: _page,
-        limit: _limit,
+        occasionId: _query.occasionId,
+        sort: _query.sort,
+        search: _query.search,
+        page: _query.page,
+        limit: _query.limit,
       );
     } else {
       return await _getProductsUseCase.getProducts(
-        sort: sort,
-        search: search,
-        page: _page,
-        limit: _limit,
+        sort: _query.sort,
+        search: _query.search,
+        page: _query.page,
+        limit: _query.limit,
       );
     }
   }
@@ -242,8 +226,6 @@ class ProductsViewModel extends Cubit<ProductsStates> {
           categoriesState: BaseState<List<CategoryEntity>>(
             errorMessage: result.errorMessage,
             isLoading: false,
-
-
           ),
         ),
       );

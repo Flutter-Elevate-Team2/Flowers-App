@@ -6,6 +6,10 @@
 import 'dart:async' as _i3;
 
 import 'package:flowers_app/core/base_response/base_response.dart' as _i4;
+import 'package:flowers_app/Features/home/domain/entities/home_entities/home_entity.dart'
+    as _i8;
+import 'package:flowers_app/Features/home/domain/use_cases/get_home_sections_use_case.dart'
+    as _i7;
 import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart'
     as _i5;
 import 'package:flowers_app/Features/products/domain/use_cases/products_usecase.dart'
@@ -70,4 +74,27 @@ class MockProductsUseCase extends _i1.Mock implements _i2.ProductsUseCase {
                 ),
           )
           as _i3.Future<_i4.BaseResponse<_i5.PaginatedProductsEntity>>);
+}
+
+/// A class which mocks [GetHomeSectionsUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetHomeSectionsUseCase extends _i1.Mock
+    implements _i7.GetHomeSectionsUseCase {
+  MockGetHomeSectionsUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<_i4.BaseResponse<_i8.HomeEntity>> call() =>
+      (super.noSuchMethod(
+            Invocation.method(#call, []),
+            returnValue: _i3.Future<_i4.BaseResponse<_i8.HomeEntity>>.value(
+              _i6.dummyValue<_i4.BaseResponse<_i8.HomeEntity>>(
+                this,
+                Invocation.method(#call, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.BaseResponse<_i8.HomeEntity>>);
 }

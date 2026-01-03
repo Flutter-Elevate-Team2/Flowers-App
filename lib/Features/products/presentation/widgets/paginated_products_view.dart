@@ -1,4 +1,5 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
+import 'package:flowers_app/core/helpers/error_mapper.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/products_grid.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/products_grid_shimmer.dart';
@@ -6,19 +7,26 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoryProductsContent extends StatelessWidget {
+class PaginatedProductsView extends StatelessWidget {
   final ScrollController scrollController;
+  final Widget? header;
 
-  const CategoryProductsContent({super.key, required this.scrollController});
+  const PaginatedProductsView({
+    super.key,
+    required this.scrollController,
+    this.header,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsViewModel, ProductsStates>(
       builder: (context, state) {
         final products = state.productsState?.data ?? [];
+
         return CustomScrollView(
           controller: scrollController,
           slivers: [
+            if (header != null) header!,
             if (state.isSearchFocused)
               SliverFillRemaining(
                 child: Center(child: Text(context.l10n.searchFor)),
@@ -32,10 +40,17 @@ class CategoryProductsContent extends StatelessWidget {
               )
             else if (state.productsState?.errorMessage != null)
               SliverFillRemaining(
-                child: Center(child: Text(state.productsState!.errorMessage!)),
+                child: Center(
+                  child: Text(
+                    ErrorMapper.mapError(
+                      context,
+                      state.productsState!.errorMessage!,
+                    ),
+                  ),
+                ),
               )
-              else if (state.productsState?.isLoading == false &&
-                    products.isEmpty)
+            else if (state.productsState?.isLoading == false &&
+                products.isEmpty)
               SliverFillRemaining(
                 child: Center(child: Text(context.l10n.noProductsFound)),
               )

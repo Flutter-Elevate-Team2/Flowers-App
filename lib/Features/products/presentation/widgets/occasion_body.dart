@@ -1,9 +1,9 @@
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
-import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
+
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/default_tab_bar.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/occasion_products_content.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/paginated_products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,11 +23,10 @@ class OccasionBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Material(
+      child: PaginatedProductsView(
+        scrollController: scrollController,
+        header: SliverToBoxAdapter(
+          child: Material(
             child: DefaultTabBar(
               tabs,
               onTap: (index) {
@@ -40,17 +39,7 @@ class OccasionBody extends StatelessWidget {
               },
             ),
           ),
-          Expanded(
-            child: BlocBuilder<ProductsViewModel, ProductsStates>(
-              builder: (context, state) {
-                return OccasionProductsContent(
-                  state: state,
-                  scrollController: scrollController,
-                );
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

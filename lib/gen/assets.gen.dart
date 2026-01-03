@@ -22,5 +22,9 @@ class $AssetsIconsGen {
 class Assets {
   const Assets._();
 
+  static const String aEnv = '.env';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+
+  /// List of all assets
+  static List<String> get values => [aEnv];
 }

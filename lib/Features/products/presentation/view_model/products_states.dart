@@ -14,7 +14,6 @@ class ProductsStates {
   final int totalPages;
   final int? prevPage;
   final int? nextPage;
-  final ProductEntity? navigateToProduct;
 
   final bool isPaginationLoading;
 
@@ -30,7 +29,6 @@ class ProductsStates {
     this.prevPage,
     this.nextPage,
     this.isPaginationLoading = false,
-    this.navigateToProduct,
   });
 
   ProductsStates copyWith({
@@ -46,7 +44,6 @@ class ProductsStates {
     int? nextPage,
     bool? isPaginationLoading,
     bool resetNextPage = false,
-    ProductEntity? navigateToProduct,
   }) {
     return ProductsStates(
       productsState: productsState ?? this.productsState,
@@ -59,7 +56,7 @@ class ProductsStates {
       totalPages: totalPages ?? this.totalPages,
       prevPage: prevPage,
       nextPage: nextPage,
-      navigateToProduct: navigateToProduct,
+
       isPaginationLoading: isPaginationLoading ?? this.isPaginationLoading,
     );
   }

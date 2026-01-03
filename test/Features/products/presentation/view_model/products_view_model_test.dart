@@ -2,6 +2,7 @@ import 'package:flowers_app/Features/products/domain/entities/meta_data_entity.d
 import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/Features/products/domain/use_cases/products_usecase.dart';
+import 'package:flowers_app/Features/home/domain/use_cases/get_home_sections_use_case.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
@@ -12,7 +13,7 @@ import 'package:mockito/mockito.dart';
 
 import 'products_view_model_test.mocks.dart';
 
-@GenerateMocks([ProductsUseCase])
+@GenerateMocks([ProductsUseCase, GetHomeSectionsUseCase])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -42,6 +43,7 @@ void main() {
 
 late ProductsViewModel viewModel;
 late MockProductsUseCase mockUseCase;
+late MockGetHomeSectionsUseCase mockGetHomeSectionsUseCase;
 
 final tProduct1 = ProductEntity(
   id: '1',
@@ -108,7 +110,8 @@ final tPage2 = PaginatedProductsEntity(
 void _setup() {
   setUp(() {
     mockUseCase = MockProductsUseCase();
-    viewModel = ProductsViewModel(mockUseCase);
+    mockGetHomeSectionsUseCase = MockGetHomeSectionsUseCase();
+    viewModel = ProductsViewModel(mockUseCase, mockGetHomeSectionsUseCase);
   });
 
   tearDown(() async {
@@ -138,11 +141,7 @@ void _fetchSuccessTest() {
             'isLoading 1',
             true,
           ),
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'isLoading 2',
-            true,
-          ),
+
           isA<ProductsStates>()
               .having((s) => s.productsState?.isLoading, 'isLoading', false)
               .having((s) => s.productsState?.data!.length, 'length', 1)
@@ -183,11 +182,7 @@ void _fetchErrorTest() {
             'isLoading 1',
             true,
           ),
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'isLoading 2',
-            true,
-          ),
+
           isA<ProductsStates>().having(
             (s) => s.productsState?.errorMessage,
             'error',
@@ -233,12 +228,6 @@ void _paginationTest() {
           isA<ProductsStates>().having(
             (s) => s.productsState?.isLoading,
             'Full Loading 1',
-            true,
-          ),
-          // 2. Fetch Loading 2 (observed double emit)
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'Full Loading 2',
             true,
           ),
 

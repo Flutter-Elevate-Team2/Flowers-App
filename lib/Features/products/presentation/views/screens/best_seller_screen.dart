@@ -2,12 +2,10 @@ import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dar
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/product_card/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../../core/constants/constant_keys.dart';
-
 class BestSeller extends StatelessWidget {
   final List<BestSellerEntity>? bestSellers;
 
@@ -17,6 +15,7 @@ class BestSeller extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         leading: GestureDetector(
           child: const Icon(Icons.arrow_back_ios),
           onTap: () {
@@ -27,13 +26,13 @@ class BestSeller extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              ConstKeys.bestseller,
+            context.l10n.bestSeller,
               style: Theme.of(
                 context,
               ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
-              ConstKeys.bestseller2,
+            context.l10n.occasionDescription,
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(color: AppColors.gray),
