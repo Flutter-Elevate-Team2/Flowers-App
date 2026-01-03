@@ -53,7 +53,6 @@ dependencies:
   skeletonizer: ^2.1.0+1
   equatable: ^2.0.7
 
-
 dev_dependencies:
   build_runner: ^2.6.0
   flutter_lints: ^5.0.0
@@ -63,7 +62,6 @@ dev_dependencies:
   json_serializable: ^6.10.0
   mockito: ^5.6.1
   retrofit_generator: ^10.0.1
-  equatable: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -77,6 +75,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   generate: true
+  assets:
+    - .env
   # To add assets to your application, add an assets section, like this:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
