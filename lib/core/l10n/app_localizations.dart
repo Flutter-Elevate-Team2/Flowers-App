@@ -123,6 +123,11 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'success'**
   String get success;
+  /// App Name Logo Text
+  ///
+  /// In en, this message translates to:
+  /// **'Flowery'**
+  String get flowery;
 
   /// Label for the home navigation tab
   ///
@@ -147,6 +152,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get profile;
+
+  /// Hint text for search bar
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchHint;
+
+  /// Button text to view all items
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// Section title for best sellers
+  ///
+  /// In en, this message translates to:
+  /// **'Best seller'**
+  String get bestSeller;
+
+  /// Section title for occasions
+  ///
+  /// In en, this message translates to:
+  /// **'Occasion'**
+  String get occasion;
+
+  /// Label for delivery location
+  ///
+  /// In en, this message translates to:
+  /// **'Deliver to'**
+  String get deliverTo;
+
+  /// text for location
+  ///
+  /// In en, this message translates to:
+  /// **'2XVP+XC - Sheikh Zayed'**
+  String get testLocation;
+
+  /// Button text to retry
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
 
   /// Label for the email input field
   ///
@@ -651,6 +698,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get loginButton;
+
+  /// No description provided for @egp.
+  ///
+  /// In en, this message translates to:
+  /// **'EGP'**
+  String get egp;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status: '**
+  String get status;
+
+  /// No description provided for @inStock.
+  ///
+  /// In en, this message translates to:
+  /// **'In stock'**
+  String get inStock;
+
+  /// No description provided for @outOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of stock'**
+  String get outOfStock;
+
+  /// No description provided for @includeTax.
+  ///
+  /// In en, this message translates to:
+  /// **'All prices include tax'**
+  String get includeTax;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// Label for the occasions category
+  ///
+  /// In en, this message translates to:
+  /// **'Occasions'**
+  String get occasions;
+
+  /// Label for the best sellers category
+  ///
+  /// In en, this message translates to:
+  /// **'Best Sellers'**
+  String get bestSellers;
+
+  /// Label for the search input field
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchLabel;
+
+  /// Message displayed when no search results are found
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get searchNoResults;
+
+  /// No description provided for @searchFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Search For Any Product You Want'**
+  String get searchFor;
+
+  /// Button text to add an item to the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCart;
+
+  /// Button text to open filter options
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// sort options
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sort;
+
+  /// Sort option for lowest price first
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest Price'**
+  String get lowestPrice;
+
+  /// Sort option for highest price first
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Price'**
+  String get highestPrice;
+
+  /// Sort option for newest items first
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get newest;
+
+  /// Sort option for oldest items first
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest'**
+  String get oldest;
+
+  /// Sort option for highest discount first
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discount;
+
+  /// Message displayed when no products are found after filtering or searching
+  ///
+  /// In en, this message translates to:
+  /// **'No products found'**
+  String get noProductsFound;
+
+  /// Description for the occasions section
+  ///
+  /// In en, this message translates to:
+  /// **'Bloom with our exquisite best sellers'**
+  String get occasionDescription;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,5 @@
 {
   "@@locale": "en",
-
   "appTitle": "Flowers App",
   "@appTitle": { "description": "The main title of the application" },
   "ok": "Ok",
@@ -12,46 +11,101 @@
   "success": "success",
   "@success": { "description": "success" },
 
+  "flowery": "Flowery",
+  "@flowery": { "description": "App Name Logo Text" },
+
+
   "home": "Home",
-  "@home": { "description": "Label for the home navigation tab" },
+  "@home": {
+    "description": "Label for the home navigation tab"
+  },
   "categories": "Categories",
-  "@categories": { "description": "Label for the categories navigation tab" },
+  "@categories": {
+    "description": "Label for the categories navigation tab"
+  },
   "cart": "Cart",
-  "@cart": { "description": "Label for the cart navigation tab" },
+  "@cart": {
+    "description": "Label for the cart navigation tab"
+  },
   "profile": "Profile",
   "@profile": { "description": "Label for the profile navigation tab" },
 
-  "emailLabel": "Email",
-  "@emailLabel": { "description": "Label for the email input field" },
-  "emailHint": "Enter your email",
-  "@emailHint": { "description": "Hint text for the email input field" },
-  "passwordLabel": "Password",
-  "@passwordLabel": { "description": "Label for the password input field" },
-  "passwordHint": "Enter your password",
-  "@passwordHint": { "description": "Hint text for the password input field" },
-  "confirmPasswordLabel": "Confirm password",
-  "@confirmPasswordLabel": { "description": "Label for the confirm password input field" },
-  "confirmPasswordHint": "Confirm password",
-  "@confirmPasswordHint": { "description": "Hint text for the confirm password input field" },
-  "phoneLabel": "Phone number",
-  "@phoneLabel": { "description": "Label for the phone number input field" },
-  "phoneHint": "Enter phone number",
-  "@phoneHint": { "description": "Hint text for the phone number input field" },
-  "firstNameLabel": "First name",
-  "@firstNameLabel": { "description": "Label for the first name input field" },
-  "firstNameHint": "Enter first name",
-  "@firstNameHint": { "description": "Hint text for the first name input field" },
-  "lastNameLabel": "Last name",
-  "@lastNameLabel": { "description": "Label for the last name input field" },
-  "lastNameHint": "Enter last name",
-  "@lastNameHint": { "description": "Hint text for the last name input field" },
+  "searchHint": "Search",
+  "@searchHint": { "description": "Hint text for search bar" },
+  "viewAll": "View All",
+  "@viewAll": { "description": "Button text to view all items" },
+  "bestSeller": "Best seller",
+  "@bestSeller": { "description": "Section title for best sellers" },
+  "occasion": "Occasion",
+  "@occasion": { "description": "Section title for occasions" },
+  "deliverTo": "Deliver to",
+  "@deliverTo": { "description": "Label for delivery location" },
+  "testLocation": "2XVP+XC - Sheikh Zayed",
+  "@testLocation":{"description": "text for location"},
+  "retryButton": "Retry",
+  "@retryButton": { "description": "Button text to retry" },
 
+
+  "emailLabel": "Email",
+  "@emailLabel": {
+    "description": "Label for the email input field"
+  },
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Hint text for the email input field"
+  },
+  "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Label for the password input field"
+  },
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Hint text for the password input field"
+  },
+  "confirmPasswordLabel": "Confirm password",
+  "@confirmPasswordLabel": {
+    "description": "Label for the confirm password input field"
+  },
+  "confirmPasswordHint": "Confirm password",
+  "@confirmPasswordHint": {
+    "description": "Hint text for the confirm password input field"
+  },
+  "phoneLabel": "Phone number",
+  "@phoneLabel": {
+    "description": "Label for the phone number input field"
+  },
+  "phoneHint": "Enter phone number",
+  "@phoneHint": {
+    "description": "Hint text for the phone number input field"
+  },
+  "firstNameLabel": "First name",
+  "@firstNameLabel": {
+    "description": "Label for the first name input field"
+  },
+  "firstNameHint": "Enter first name",
+  "@firstNameHint": {
+    "description": "Hint text for the first name input field"
+  },
+  "lastNameLabel": "Last name",
+  "@lastNameLabel": {
+    "description": "Label for the last name input field"
+  },
+  "lastNameHint": "Enter last name",
+  "@lastNameHint": {
+    "description": "Hint text for the last name input field"
+  },
   "loginTitle": "Login",
-  "@loginTitle": { "description": "Title for the login screen" },
+  "@loginTitle": {
+    "description": "Title for the login screen"
+  },
   "rememberMe": "Remember me",
-  "@rememberMe": { "description": "Label for remember me checkbox" },
+  "@rememberMe": {
+    "description": "Label for remember me checkbox"
+  },
   "forgotPasswordLink": "Forget password?",
-  "@forgotPasswordLink": { "description": "Link text for forgot password" },
+  "@forgotPasswordLink": {
+    "description": "Link text for forgot password"
+  },
   "guestLogin": "Continue as guest",
   "@guestLogin": { "description": "Button text for guest login" },
   "noAccountSignUp": "Don't have an account? ",
@@ -59,12 +113,25 @@
 
   "termsAndConditions": "Terms&Conditions",
   "@termsAndConditions": { "description": "Terms&Conditions link text" },
+  "@guestLogin": {
+    "description": "Button text for guest login"
+  },
+  "noAccountSignUp": "Don't have an account? Sign up",
+  "@noAccountSignUp": {
+    "description": "Text prompting user to sign up"
+  },
   "signUpTitle": "Sign up",
-  "@signUpTitle": { "description": "Title for the sign up screen" },
+  "@signUpTitle": {
+    "description": "Title for the sign up screen"
+  },
   "genderLabel": "Gender",
-  "@genderLabel": { "description": "Label for gender selection" },
+  "@genderLabel": {
+    "description": "Label for gender selection"
+  },
   "genderMale": "Male",
-  "@genderMale": { "description": "Option for male gender" },
+  "@genderMale": {
+    "description": "Option for male gender"
+  },
   "genderFemale": "Female",
   "@genderFemale": { "description": "Option for female gender" },
   "termsConditions": "Creating an account, you agree to our ",
@@ -72,15 +139,33 @@
   "haveAccountLogin": "Already have an account? ",
   "@haveAccountLogin": { "description": "Text prompting user to login if they have an account" },
 
+  "@genderFemale": {
+    "description": "Option for female gender"
+  },
+  "termsConditions": "Creating an account, you agree to our Terms & Conditions",
+  "@termsConditions": {
+    "description": "Terms and conditions agreement text"
+  },
+  "haveAccountLogin": "Already have an account? Login",
+  "@haveAccountLogin": {
+    "description": "Text prompting user to login if they have an account"
+  },
   "forgotPasswordTitle": "Forget password",
-  "@forgotPasswordTitle": { "description": "Title for the forgot password screen" },
+  "@forgotPasswordTitle": {
+    "description": "Title for the forgot password screen"
+  },
   "forgotPasswordSubTitle": "Please enter your email associated to your account",
-  "@forgotPasswordSubTitle": { "description": "Subtitle instructions for forgot password" },
+  "@forgotPasswordSubTitle": {
+    "description": "Subtitle instructions for forgot password"
+  },
   "confirmButton": "Confirm",
-  "@confirmButton": { "description": "Label for confirm buttons" },
-
+  "@confirmButton": {
+    "description": "Label for confirm buttons"
+  },
   "verificationTitle": "Email verification",
-  "@verificationTitle": { "description": "Title for the email verification screen" },
+  "@verificationTitle": {
+    "description": "Title for the email verification screen"
+  },
   "verificationSubTitle": "Please enter your code that sent to your email address",
   "@verificationSubTitle": { "description": "Subtitle instructions for email verification" },
   "resendCode": "Didn't receive code?",
@@ -92,117 +177,288 @@
   "@resetPasswordTitle": { "description": "Title for the reset password screen" },
   "resetPasswordSubTitle": "Password must not be empty and must contain 6 characters with upper case letter and one number at least ",
   "@resetPasswordSubTitle": { "description": "Subtitle instructions for reset password" },
+  "@verificationSubTitle": {
+    "description": "Subtitle instructions for email verification"
+  },
+  "resendCode": "Didn't receive code? Resend",
+  "@resendCode": {
+    "description": "Button text to resend verification code"
+  },
+  "resetPasswordTitle": "Reset password",
+  "@resetPasswordTitle": {
+    "description": "Title for the reset password screen"
+  },
   "newPasswordLabel": "New password",
-  "@newPasswordLabel": { "description": "Label for the new password input field" },
-
+  "@newPasswordLabel": {
+    "description": "Label for the new password input field"
+  },
   "emailRequired": "Email is required",
-  "@emailRequired": { "description": "Validation message when email is empty" },
+  "@emailRequired": {
+    "description": "Validation message when email is empty"
+  },
   "emailInvalid": "Please enter a valid email",
-  "@emailInvalid": { "description": "Validation message when email format is wrong" },
+  "@emailInvalid": {
+    "description": "Validation message when email format is wrong"
+  },
   "passwordRequired": "Password is required",
-  "@passwordRequired": { "description": "Validation message when password is empty" },
+  "@passwordRequired": {
+    "description": "Validation message when password is empty"
+  },
   "passwordTooShort": "Password must be at least 8 characters",
-  "@passwordTooShort": { "description": "Validation message when password is short" },
+  "@passwordTooShort": {
+    "description": "Validation message when password is short"
+  },
   "passwordWeak": "Password must contain uppercase, lowercase, number and special character",
-  "@passwordWeak": { "description": "Validation message when password complexity is low" },
+  "@passwordWeak": {
+    "description": "Validation message when password complexity is low"
+  },
   "passwordMismatch": "Passwords don't match",
-  "@passwordMismatch": { "description": "Validation message when confirm password fails" },
+  "@passwordMismatch": {
+    "description": "Validation message when confirm password fails"
+  },
   "nameRequired": "Name is required",
-  "@nameRequired": { "description": "Validation message when name is empty" },
+  "@nameRequired": {
+    "description": "Validation message when name is empty"
+  },
   "firstNameRequired": "First name is required",
-  "@firstNameRequired": { "description": "Validation message when first name is empty" },
+  "@firstNameRequired": {
+    "description": "Validation message when first name is empty"
+  },
   "lastNameRequired": "Last name is required",
-  "@lastNameRequired": { "description": "Validation message when last name is empty" },
+  "@lastNameRequired": {
+    "description": "Validation message when last name is empty"
+  },
   "phoneRequired": "Phone number is required",
   "@phoneRequired": { "description": "Validation message when phone is empty" },
   "phoneInvalid": "Ensure the number starts with +20",
   "@phoneInvalid": { "description": "Validation message when phone format is wrong" },
+  "@phoneRequired": {
+    "description": "Validation message when phone is empty"
+  },
+  "phoneInvalid": "Please enter a valid phone number",
+  "@phoneInvalid": {
+    "description": "Validation message when phone format is wrong"
+  },
   "validationEnterCompleteCode": "Please enter complete 6-digit code",
-  "@validationEnterCompleteCode": { "description": "Validation message for incomplete OTP code" },
-
+  "@validationEnterCompleteCode": {
+    "description": "Validation message for incomplete OTP code"
+  },
   "invalidEmailError": "This Email is not valid",
-  "@invalidEmailError": { "description": "Generic error message for invalid email format" },
+  "@invalidEmailError": {
+    "description": "Generic error message for invalid email format"
+  },
   "invalidPasswordError": "Invalid password",
-  "@invalidPasswordError": { "description": "Generic error message for incorrect password" },
+  "@invalidPasswordError": {
+    "description": "Generic error message for incorrect password"
+  },
   "weakPasswordError": "Password must not be empty and must contain 6 characters with upper case letter and one number at least",
-  "@weakPasswordError": { "description": "Generic error message for weak password validation" },
+  "@weakPasswordError": {
+    "description": "Generic error message for weak password validation"
+  },
   "invalidCodeError": "Invalid code",
   "@invalidCodeError": { "description": "Generic error message for invalid verification code" },
 
   "connectionTimeoutError": "Connection timeout. Please check your internet.",
-  "@connectionTimeoutError": { "description": "Error message for connection timeout" },
+  "@connectionTimeoutError": {
+    "description": "Error message for connection timeout"
+  },
   "sendTimeoutError": "Request timeout. Please try again.",
-  "@sendTimeoutError": { "description": "Error message for send timeout" },
+  "@sendTimeoutError": {
+    "description": "Error message for send timeout"
+  },
   "receiveTimeoutError": "Server took too long to respond.",
-  "@receiveTimeoutError": { "description": "Error message for receive timeout" },
+  "@receiveTimeoutError": {
+    "description": "Error message for receive timeout"
+  },
   "connectionError": "Connection error. Please check your network.",
-  "@connectionError": { "description": "Generic connection error message" },
+  "@connectionError": {
+    "description": "Generic connection error message"
+  },
   "noInternetError": "No internet connection.",
-  "@noInternetError": { "description": "Error message for no internet connection" },
+  "@noInternetError": {
+    "description": "Error message for no internet connection"
+  },
   "networkError": "Network error occurred.",
-  "@networkError": { "description": "Generic network error message" },
+  "@networkError": {
+    "description": "Generic network error message"
+  },
   "requestCancelledError": "Request was cancelled.",
-  "@requestCancelledError": { "description": "Error message when request is cancelled" },
+  "@requestCancelledError": {
+    "description": "Error message when request is cancelled"
+  },
   "badCertificateError": "Security certificate error.",
-  "@badCertificateError": { "description": "Error message for bad SSL certificate" },
-
+  "@badCertificateError": {
+    "description": "Error message for bad SSL certificate"
+  },
   "badRequestError": "Invalid request.",
-  "@badRequestError": { "description": "Error message for 400 Bad Request" },
+  "@badRequestError": {
+    "description": "Error message for 400 Bad Request"
+  },
   "unauthorizedError": "Session expired. Please login again.",
-  "@unauthorizedError": { "description": "Error message for 401 Unauthorized" },
+  "@unauthorizedError": {
+    "description": "Error message for 401 Unauthorized"
+  },
   "forbiddenError": "Access denied.",
-  "@forbiddenError": { "description": "Error message for 403 Forbidden" },
+  "@forbiddenError": {
+    "description": "Error message for 403 Forbidden"
+  },
   "notFoundError": "Resource not found.",
-  "@notFoundError": { "description": "Error message for 404 Not Found" },
+  "@notFoundError": {
+    "description": "Error message for 404 Not Found"
+  },
   "conflictError": "Data conflict occurred.",
-  "@conflictError": { "description": "Error message for 409 Conflict" },
+  "@conflictError": {
+    "description": "Error message for 409 Conflict"
+  },
   "internalServerError": "Server error. Try again later.",
-  "@internalServerError": { "description": "Error message for 500 Internal Server Error" },
+  "@internalServerError": {
+    "description": "Error message for 500 Internal Server Error"
+  },
   "serviceUnavailableError": "Service unavailable.",
-  "@serviceUnavailableError": { "description": "Error message for 503 Service Unavailable" },
-
+  "@serviceUnavailableError": {
+    "description": "Error message for 503 Service Unavailable"
+  },
   "formatExceptionError": "Data format error.",
-  "@formatExceptionError": { "description": "Error message for format exception" },
+  "@formatExceptionError": {
+    "description": "Error message for format exception"
+  },
   "parsingError": "Error parsing data. Please try again.",
-  "@parsingError": { "description": "Error message for data parsing issues" },
-
+  "@parsingError": {
+    "description": "Error message for data parsing issues"
+  },
   "firebaseUserNotFound": "No user found for this email.",
-  "@firebaseUserNotFound": { "description": "Firebase error: User not found" },
+  "@firebaseUserNotFound": {
+    "description": "Firebase error: User not found"
+  },
   "firebaseWrongPassword": "Wrong password.",
-  "@firebaseWrongPassword": { "description": "Firebase error: Wrong password" },
+  "@firebaseWrongPassword": {
+    "description": "Firebase error: Wrong password"
+  },
   "firebaseEmailInUse": "Email already in use.",
-  "@firebaseEmailInUse": { "description": "Firebase error: Email in use" },
+  "@firebaseEmailInUse": {
+    "description": "Firebase error: Email in use"
+  },
   "firebaseInvalidEmail": "Invalid email format.",
-  "@firebaseInvalidEmail": { "description": "Firebase error: Invalid email" },
+  "@firebaseInvalidEmail": {
+    "description": "Firebase error: Invalid email"
+  },
   "firebaseWeakPassword": "Password is too weak.",
-  "@firebaseWeakPassword": { "description": "Firebase error: Weak password" },
+  "@firebaseWeakPassword": {
+    "description": "Firebase error: Weak password"
+  },
   "firebaseAccountDisabled": "Account disabled.",
-  "@firebaseAccountDisabled": { "description": "Firebase error: Account disabled" },
+  "@firebaseAccountDisabled": {
+    "description": "Firebase error: Account disabled"
+  },
   "firebaseTooManyRequests": "Too many requests. Try again later.",
-  "@firebaseTooManyRequests": { "description": "Firebase error: Too many requests" },
+  "@firebaseTooManyRequests": {
+    "description": "Firebase error: Too many requests"
+  },
   "firebaseAuthUnknown": "Authentication failed.",
-  "@firebaseAuthUnknown": { "description": "Firebase error: Unknown auth error" },
-
+  "@firebaseAuthUnknown": {
+    "description": "Firebase error: Unknown auth error"
+  },
   "firebasePermissionDenied": "Permission denied.",
-  "@firebasePermissionDenied": { "description": "Firebase error: Permission denied" },
+  "@firebasePermissionDenied": {
+    "description": "Firebase error: Permission denied"
+  },
   "firebaseUnavailable": "Firebase service unavailable.",
-  "@firebaseUnavailable": { "description": "Firebase error: Service unavailable" },
-
+  "@firebaseUnavailable": {
+    "description": "Firebase error: Service unavailable"
+  },
   "hiveError": "Database error (Hive).",
-  "@hiveError": { "description": "Error message for Hive database issues" },
+  "@hiveError": {
+    "description": "Error message for Hive database issues"
+  },
   "platformError": "System error occurred.",
-  "@platformError": { "description": "Error message for platform exceptions" },
-
+  "@platformError": {
+    "description": "Error message for platform exceptions"
+  },
   "defaultError": "Something went wrong.",
-  "@defaultError": { "description": "Fallback generic error message" },
+  "@defaultError": {
+    "description": "Fallback generic error message"
+  },
   "unknownError": "An unexpected error occurred.",
-  "@unknownError": { "description": "Fallback unknown error message" },
+  "@unknownError": {
+    "description": "Fallback unknown error message"
+  },
   "sessionExpiredTitle": "Session Expired",
-  "@sessionExpiredTitle": { "description": "Title for the session expired dialog" },
-
+  "@sessionExpiredTitle": {
+    "description": "Title for the session expired dialog"
+  },
   "sessionExpiredMessage": "Please log in again to continue.",
-  "@sessionExpiredMessage": { "description": "Content message for the session expired dialog" },
-
+  "@sessionExpiredMessage": {
+    "description": "Content message for the session expired dialog"
+  },
   "loginButton": "Login",
-  "@loginButton": { "description": "Label for the login button" }
+  "@loginButton": { "description": "Label for the login button" },
+
+  "egp": "EGP",
+  "status": "Status: ",
+  "inStock": "In stock",
+  "outOfStock": "Out of stock",
+  "includeTax": "All prices include tax",
+  "description": "Description",
+
+
+
+  "occasions": "Occasions",
+  "@occasions": {
+    "description": "Label for the occasions category"
+  },
+  "bestSellers": "Best Sellers",
+  "@bestSellers": {
+    "description": "Label for the best sellers category"
+  },
+
+  "searchLabel": "Search",
+  "@searchLabel": {
+    "description": "Label for the search input field"
+  },
+
+  "searchNoResults": "No results found",
+  "@searchNoResults": {
+    "description": "Message displayed when no search results are found"
+  },
+  "searchFor": "Search For Any Product You Want",
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Button text to add an item to the cart"
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Button text to open filter options"
+  },
+  "sort": "Sort by",
+  "@sort": {
+    "description": "sort options"
+  },
+  "lowestPrice": "Lowest Price",
+  "@lowestPrice": {
+    "description": "Sort option for lowest price first"
+  },
+  "highestPrice": "Highest Price",
+  "@highestPrice": {
+    "description": "Sort option for highest price first"
+  },
+  "newest": "Newest",
+  "@newest": {
+    "description": "Sort option for newest items first"
+  },
+  "oldest": "Oldest",
+  "@oldest": {
+    "description": "Sort option for oldest items first"
+  },
+  "discount": "Discount",
+  "@discount": {
+    "description": "Sort option for highest discount first"
+  },
+  "noProductsFound": "No products found",
+  "@noProductsFound": {
+    "description": "Message displayed when no products are found after filtering or searching"
+  },
+  "occasionDescription": "Bloom with our exquisite best sellers",
+  "@occasionDescription": {
+    "description": "Description for the occasions section"
+  }
 }

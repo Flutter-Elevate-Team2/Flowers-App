@@ -24,6 +24,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get success => 'success';
+  String get flowery => 'Flowery';
 
   @override
   String get home => 'Home';
@@ -36,6 +37,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile => 'Profile';
+
+  @override
+  String get searchHint => 'Search';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get bestSeller => 'Best seller';
+
+  @override
+  String get occasion => 'Occasion';
+
+  @override
+  String get deliverTo => 'Deliver to';
+
+  @override
+  String get testLocation => '2XVP+XC - Sheikh Zayed';
+
+  @override
+  String get retryButton => 'Retry';
 
   @override
   String get emailLabel => 'Email';
@@ -295,4 +317,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginButton => 'Login';
+
+  @override
+  String get egp => 'EGP';
+
+  @override
+  String get status => 'Status: ';
+
+  @override
+  String get inStock => 'In stock';
+
+  @override
+  String get outOfStock => 'Out of stock';
+
+  @override
+  String get includeTax => 'All prices include tax';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get occasions => 'Occasions';
+
+  @override
+  String get bestSellers => 'Best Sellers';
+
+  @override
+  String get searchLabel => 'Search';
+
+  @override
+  String get searchNoResults => 'No results found';
+
+  @override
+  String get searchFor => 'Search For Any Product You Want';
+
+  @override
+  String get addToCart => 'Add to Cart';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get sort => 'Sort by';
+
+  @override
+  String get lowestPrice => 'Lowest Price';
+
+  @override
+  String get highestPrice => 'Highest Price';
+
+  @override
+  String get newest => 'Newest';
+
+  @override
+  String get oldest => 'Oldest';
+
+  @override
+  String get discount => 'Discount';
+
+  @override
+  String get noProductsFound => 'No products found';
+
+  @override
+  String get occasionDescription => 'Bloom with our exquisite best sellers';
 }
