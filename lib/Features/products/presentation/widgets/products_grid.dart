@@ -3,11 +3,11 @@ import 'package:flowers_app/Features/products/presentation/view_model/products_e
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/widget/product_card/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'product_card.dart';
 
 class ProductsGrid extends StatelessWidget {
   final List<ProductEntity> products;

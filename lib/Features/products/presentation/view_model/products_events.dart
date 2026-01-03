@@ -28,3 +28,6 @@ class NavigateToProductDetailsEvent extends ProductsEvent {
   NavigateToProductDetailsEvent(this.product);
 }
 
+class FetchCategoriesEvent extends ProductsEvent {}
+
+class FetchOccasionsEvent extends ProductsEvent {}

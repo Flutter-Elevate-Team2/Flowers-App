@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/home/presentation/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
@@ -20,6 +21,8 @@ class Routes {
   static const String homePath = '/home';
   static const String homeName = 'home';
 
+  static const String bestSellerPath = '/bestseller';
+  static const String bestSellerName = 'bestSeller';
   static const String occasionPath = '/occasion';
   static const String occasionName = 'occasion';
 
@@ -36,6 +39,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
+    initialLocation: Routes.bestSellerPath,
     initialLocation: Routes.homePath,
     routes: [
       /// ====== LOGIN SCREEN ======
@@ -90,6 +94,14 @@ class AppRouter {
         path: Routes.productDetailsPath,
         name: Routes.productDetailsName,
         builder: (context, state) => ProductDetailsScreen(product: state.extra as ProductEntity),
+      ),
+
+      /// ====== BEST SELLER SCREEN ======
+      GoRoute(
+        path: Routes.bestSellerPath,
+        name: Routes.bestSellerName,
+        // Fix: Added builder (Replace SizedBox with BestSellerScreen)
+        builder: (context, state) => const BestSeller(),
       ),
     ],
   );

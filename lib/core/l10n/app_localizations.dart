@@ -610,6 +610,11 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get loginButton;
 
+  /// No description provided for @addToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add To Cart'**
+  String get addToCart;
   /// No description provided for @egp.
   ///
   /// In en, this message translates to:
