@@ -34,39 +34,40 @@ class _SortByState extends State<SortBy> {
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SortTitle(),
-          const SizedBox(height: 16),
-          ...options.entries.map((entry) {
-            final option = entry.key;
-            final label = entry.value;
+      child: RadioGroup<SortOption>(
+        groupValue: selectedOption,
+        onChanged: (value) {
+          setState(() {
+            selectedOption = value;
+          });
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SortTitle(),
+            const SizedBox(height: 16),
 
-            return SortByItem(
-              label: label,
-              option: option,
-              selectedOption: selectedOption,
-              onTap: (value) {
-                setState(() {
-                  selectedOption = value;
-                });
+            ...options.entries.map((entry) {
+              return SortByItem(
+                label: entry.value,
+                option: entry.key,
+              );
+            }),
+
+            const SizedBox(height: 16),
+            FilterActionButton(
+              onPressed: () {
+                if (selectedOption != null) {
+                  widget.viewModel.doIntent(
+                    FetchProductsEvent(sort: selectedOption!.value),
+                  );
+                }
+                Navigator.of(context).pop();
               },
-            );
-          }),
-          const SizedBox(height: 16),
-          FilterActionButton(
-            onPressed: () {
-              if (selectedOption != null) {
-                widget.viewModel.doIntent(
-                  FetchProductsEvent(sort: selectedOption!.value),
-                );
-              }
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

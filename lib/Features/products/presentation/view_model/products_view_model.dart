@@ -65,8 +65,9 @@ class ProductsViewModel extends Cubit<ProductsStates> {
   }
 
   void _loadMore() {
-    if (state.isPaginationLoading || state.productsState?.isLoading == true)
+    if (state.isPaginationLoading || state.productsState?.isLoading == true) {
       return;
+    }
     if (_nextPage == null) return;
 
     _query = _query.copyWith(page: _nextPage);
