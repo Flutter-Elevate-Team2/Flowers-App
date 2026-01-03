@@ -3,6 +3,7 @@ import 'package:flowers_app/Features/products/presentation/view_model/products_e
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/occasion_page.dart';
+import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,32 @@ class OccasionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar:AppBar(
+        leading: GestureDetector(
+          child: const Icon(Icons.arrow_back_ios),
+          onTap: () {
+            context.pop();
+          },
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+             context.l10n.occasion,
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              context.l10n.occasionDescription,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppColors.gray),
+            ),
+          ],
+        ),
+        centerTitle: false,
+      ),
       body: BlocProvider(
         key: ValueKey(initialIndex),
         create: (context) {
@@ -41,33 +67,12 @@ class OccasionsScreen extends StatelessWidget {
         },
         child: BlocBuilder<ProductsViewModel, ProductsStates>(
           builder: (context, state) {
-            // final effectiveOccasions = occasions ?? state.occasionsState?.data;
+            final effectiveOccasions = occasions ?? state.occasionsState?.data;
             return OccasionPage(
-              occasions: [],
-              // occasions: effectiveOccasions,
+              occasions: effectiveOccasions,
               initialIndex: initialIndex,
             );
           },
-        ),
-      ),
-    );
-  }
-
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      scrolledUnderElevation: 0,
-      leadingWidth: 50,
-      titleSpacing: 0,
-      title: Text((context).l10n.occasions),
-      leading: IconButton(
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(),
-        onPressed: () {
-          context.pop();
-        },
-        icon: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: const Icon(Icons.arrow_back_ios),
         ),
       ),
     );

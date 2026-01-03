@@ -19,7 +19,7 @@ class OccasionProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       controller: scrollController,
-      padding: const EdgeInsets.all(16),
+     
       children: [
         ProductsGrid(
           products: products,

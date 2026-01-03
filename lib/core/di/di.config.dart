@@ -103,11 +103,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i301.GetHomeSectionsUseCase>(
       () => _i301.GetHomeSectionsUseCase(gh<_i502.HomeRepoContract>()),
     );
-    gh.factory<_i401.ProductsViewModel>(
-      () => _i401.ProductsViewModel(gh<_i804.ProductsUseCase>()),
-    );
     gh.factory<_i470.HomeViewModel>(
       () => _i470.HomeViewModel(gh<_i301.GetHomeSectionsUseCase>()),
+    );
+    gh.factory<_i401.ProductsViewModel>(
+      () => _i401.ProductsViewModel(
+        gh<_i804.ProductsUseCase>(),
+        gh<_i301.GetHomeSectionsUseCase>(),
+      ),
     );
     return this;
   }
