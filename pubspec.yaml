@@ -51,6 +51,7 @@ dependencies:
   retrofit: ^4.9.0
   shared_preferences: ^2.5.3
   skeletonizer: ^2.1.0+1
+  equatable: ^2.0.7
 
 
 dev_dependencies:

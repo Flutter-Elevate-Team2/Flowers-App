@@ -23,8 +23,16 @@ import '../../Features/auth/data/auth_data_source_contract/auth_remote_data_sour
 import '../../Features/auth/data/auth_repo_imple/auth_repo_imple.dart' as _i573;
 import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
     as _i30;
+import '../../Features/auth/domain/use_cases/forget_password_usecase.dart'
+    as _i762;
 import '../../Features/auth/domain/use_cases/login_usecase.dart' as _i512;
+import '../../Features/auth/domain/use_cases/reset_password_usecase.dart'
+    as _i785;
 import '../../Features/auth/domain/use_cases/signup_usecase.dart' as _i179;
+import '../../Features/auth/domain/use_cases/verify_password_usecase.dart'
+    as _i13;
+import '../../Features/auth/presentation/forget_password/view_model/forget_password_cubit.dart'
+    as _i427;
 import '../../Features/auth/presentation/sign_in/view_model/login_view_model.dart'
     as _i710;
 import '../../Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart'
@@ -80,8 +88,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i318.SignUpViewModel>(
       () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
     );
+    gh.factory<_i762.ForgetPasswordUsecase>(
+      () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i785.ResetPasswordUsecase>(
+      () => _i785.ResetPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i13.VerifyPasswordUsecase>(
+      () => _i13.VerifyPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
     gh.factory<_i710.LoginViewModel>(
       () => _i710.LoginViewModel(gh<_i512.LoginUseCase>()),
+    );
+    gh.factory<_i427.ForgetPasswordCubit>(
+      () => _i427.ForgetPasswordCubit(
+        gh<_i762.ForgetPasswordUsecase>(),
+        gh<_i13.VerifyPasswordUsecase>(),
+        gh<_i785.ResetPasswordUsecase>(),
+      ),
     );
     return this;
   }
