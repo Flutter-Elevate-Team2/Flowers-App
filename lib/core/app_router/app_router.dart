@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,7 +23,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.homePath,
     routes: [
       /// ====== LOGIN SCREEN ======
       GoRoute(
@@ -53,7 +54,7 @@ class AppRouter {
         path: Routes.homePath,
         name: Routes.homeName,
         // Fix: Added builder (Replace SizedBox with HomeScreen)
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const HomeScreen(),
       ),
     ],
   );
