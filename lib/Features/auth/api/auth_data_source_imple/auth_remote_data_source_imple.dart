@@ -17,7 +17,7 @@ class AuthRemoteDataSourceImple implements AuthRemoteDataSourceContract {
     return _authApi.signUp(request);
   }
 
-  @override 
+  @override
   Future<LoginResponse> login(LoginRequest request) async {
     return await _authApi.login(request);
   }
