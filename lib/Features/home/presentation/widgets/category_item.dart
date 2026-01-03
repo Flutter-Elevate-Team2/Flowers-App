@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
-import 'package:flowers_app/core/widgets/app_shimmer.dart';
+import 'package:flowers_app/core/widget/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {

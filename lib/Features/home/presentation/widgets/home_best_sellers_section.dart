@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/home/domain/entities/home_entities/bestseller_entity.dart';
+import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/product_item.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/section_header.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';

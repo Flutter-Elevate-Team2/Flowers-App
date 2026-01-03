@@ -1,10 +1,10 @@
 
 import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/widget/product_card/product_card.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/constants/constant_keys.dart';
 import '../../../domain/entities/best_seller_entity.dart';
 import '../../../domain/entities/product_entity.dart';
-import '../../widgets/product_cart.dart';
 
 class BestSeller extends StatelessWidget {
   final List<BestSellerEntity>? bestSellers;

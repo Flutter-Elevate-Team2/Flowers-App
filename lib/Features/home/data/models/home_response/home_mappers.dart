@@ -2,7 +2,7 @@ import 'package:flowers_app/Features/home/data/models/home_response/best_seller.
 import 'package:flowers_app/Features/home/data/models/home_response/category.dart';
 import 'package:flowers_app/Features/home/data/models/home_response/home_response.dart';
 import 'package:flowers_app/Features/home/data/models/home_response/occasion.dart';
-import 'package:flowers_app/Features/home/domain/entities/home_entities/bestseller_entity.dart';
+import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/home_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
@@ -30,6 +30,11 @@ extension BestSellerMapper on BestSeller {
       name: title ?? '',
       price: price?.toDouble() ?? 0.0,
       imageUrl: imgCover ?? '',
+      description: description ?? '',
+      images: images ?? [],
+      priceAfterDiscount: priceAfterDiscount ?? 0,
+      quantity: quantity ?? 0,
+      discount: discount ?? 0,
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flowers_app/Features/home/presentation/widgets/section_header_shimmer_loading.dart';
-import 'package:flowers_app/core/widgets/app_shimmer.dart';
+import 'package:flowers_app/core/widget/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class HomeCategoriesShimmer extends StatelessWidget {

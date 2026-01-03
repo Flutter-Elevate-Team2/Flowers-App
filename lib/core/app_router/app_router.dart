@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/home/domain/entities/home_entities/bestseller_entity.dart';
+import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/best_seller_screen.dart';
@@ -158,7 +158,7 @@ class AppRouter {
         // Fix: Added builder (Replace SizedBox with BestSellerScreen)
         builder: (context, state) {
           final bestSellers = state.extra as List<BestSellerEntity>?;
-          return BestSeller(bestSellers: []);
+          return BestSeller(bestSellers: bestSellers);
         },
       ),
 

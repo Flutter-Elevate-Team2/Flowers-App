@@ -1,4 +1,4 @@
-import 'package:flowers_app/core/widgets/app_shimmer.dart';
+import 'package:flowers_app/core/widget/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class SectionHeaderShimmerLoading extends StatelessWidget {
