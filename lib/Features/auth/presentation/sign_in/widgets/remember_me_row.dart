@@ -6,7 +6,7 @@ class RememberMeRow  extends StatelessWidget {
   final ValueChanged<bool?> onChanged;
   final VoidCallback onForgotPassword;
 
-  const RememberMeRow ({
+  const RememberMeRow ({super.key,
     required this.rememberMe,
     required this.onChanged,
     required this.onForgotPassword,

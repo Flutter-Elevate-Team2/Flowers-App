@@ -64,12 +64,12 @@ alignLabelWithHint: true,
       enabledBorder: getOutlineInputBorder(color: AppColors.gray),
       errorBorder: getOutlineInputBorder(color: AppColors.red),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       selectedIconTheme: IconThemeData(
-        color: AppColors.red,
+        color: AppColors.mainColor,
         applyTextScaling: true,
       ),
-      selectedItemColor: AppColors.red,
+      selectedItemColor: AppColors.mainColor,
       unselectedItemColor: AppColors.gray,
       showSelectedLabels: true,
       showUnselectedLabels: true,

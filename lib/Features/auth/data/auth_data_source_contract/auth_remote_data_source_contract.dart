@@ -8,4 +8,3 @@ abstract class AuthRemoteDataSourceContract {
     Future<LoginResponse> login(LoginRequest request);
 
 }
-
