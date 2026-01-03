@@ -1,68 +1,62 @@
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Verify_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request.dart';
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
+import 'package:flowers_app/Features/auth/domain/entities/verify_password_entity.dart';
 import 'package:flowers_app/Features/auth/domain/use_cases/verify_password_usecase.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'forget_password_usecase_test.mocks.dart';
+import 'verify_password_usecase_test.mocks.dart';
 
 @GenerateMocks([AuthRepoContract])
-
-
 void main() {
-  late VerifyPasswordUsecase usecase;
-  late MockAuthRepoContract mockAuthRepoContract;
-
-  setUpAll(() {
-    provideDummy<BaseResponse<VerifyPasswordResponce>>(
-      SuccessResponse(data: VerifyPasswordResponce()),
-    );
-  });
+  late VerifyPasswordUsecase useCase;
+  late MockAuthRepoContract mockRepo;
 
   setUp(() {
-    mockAuthRepoContract = MockAuthRepoContract();
-    usecase = VerifyPasswordUsecase(mockAuthRepoContract);
+    mockRepo = MockAuthRepoContract();
+    useCase = VerifyPasswordUsecase(mockRepo);
   });
 
-  group('VerifyPasswordUsecase Tests', () {
-    final tRequest = VerifyPasswordRequest(resetCode: "123456");
-    final tResponse = SuccessResponse(
-      data: VerifyPasswordResponce(status: "success"),
-    );
+  final tRequest = VerifyPasswordRequest(resetCode: "123456");
+  final tEntity = VerifyPasswordEntity(status: "Success");
 
-    test('should call verifyPassword on repository and return successful response', () async {
-      // Arrange
-      when(mockAuthRepoContract.verifyPassword(any))
-          .thenAnswer((_) async => tResponse);
+  test(
+    'should call AuthRepo.verifyPassword and return SuccessResponse',
+    () async {
+      // ARRANGE
+      when(
+        mockRepo.verifyPassword(any),
+      ).thenAnswer((_) async => SuccessResponse(data: tEntity));
 
-      // Act
-      final result = await usecase.verifyPassword(tRequest);
+      // ACT
+      final result = await useCase.verifyPassword(tRequest);
 
-      // Assert
-      expect(result, tResponse);
+      // ASSERT
+      expect(result, isA<SuccessResponse<VerifyPasswordEntity>>());
+      expect((result as SuccessResponse).data, tEntity);
+      verify(mockRepo.verifyPassword(tRequest)).called(1);
+    },
+  );
 
-      verify(mockAuthRepoContract.verifyPassword(tRequest)).called(1);
-      verifyNoMoreInteractions(mockAuthRepoContract);
-    });
-
-    test('should return ErrorResponse when repository returns failure', () async {
-      // Arrange
-      final errorResponse = ErrorResponse<VerifyPasswordResponce>(
-        errorMessage: 'Reset code is invalid or has expired',
+  test(
+    'should return ErrorResponse when AuthRepo returns ErrorResponse',
+    () async {
+      // ARRANGE
+      final tError = ErrorResponse<VerifyPasswordEntity>(
+        errorMessage: "Invalid Code",
       );
-      when(mockAuthRepoContract.verifyPassword(any))
-          .thenAnswer((_) async => errorResponse);
 
-      // Act
-      final result = await usecase.verifyPassword(tRequest);
+      when(mockRepo.verifyPassword(any)).thenAnswer((_) async => tError);
 
-      // Assert
-      expect(result, isA<ErrorResponse>());
-      expect((result as ErrorResponse).errorMessage, 'Reset code is invalid or has expired');
-      verify(mockAuthRepoContract.verifyPassword(tRequest)).called(1);
-    });
-  });
+      // ACT
+      final result = await useCase.verifyPassword(tRequest);
+
+      // ASSERT
+      expect(result, isA<ErrorResponse<VerifyPasswordEntity>>());
+      expect((result as ErrorResponse).errorMessage, "Invalid Code");
+      verify(mockRepo.verifyPassword(tRequest)).called(1);
+    },
+  );
 }
