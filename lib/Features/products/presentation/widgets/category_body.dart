@@ -23,43 +23,46 @@ class CategoryBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PaginatedProductsView(
-      scrollController: scrollController,
-      header: SliverToBoxAdapter(
-        child: Column(
-          children: [
-            SearchAndFilterBar(
-              searchController: searchController,
-              onFocusChange: (focused) {
-                context.read<ProductsViewModel>().onSearchFocusChanged(focused);
-              },
-              onFilterTap: () {},
-              onSubmitted: (value) {
-                context.read<ProductsViewModel>().onSearchSubmitted(value);
-              },
-            ),
-            Material(
-              child: DefaultTabBar(
-                tabs,
-                onTap: (index) {
-                  if (index == 0) {
-                    // "All" tab
-                    context.read<ProductsViewModel>().doIntent(
-                      FetchProductsEvent(),
-                    );
-                  } else {
-                    // Specific category
-                    if (categories != null && index - 1 < categories!.length) {
-                      final categoryId = categories![index - 1].id;
-                      context.read<ProductsViewModel>().doIntent(
-                        FetchProductsEvent(categoryId: categoryId),
-                      );
-                    }
-                  }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: PaginatedProductsView(
+        scrollController: scrollController,
+        header: SliverToBoxAdapter(
+          child: Column(
+            children: [
+              SearchAndFilterBar(
+                searchController: searchController,
+                onFocusChange: (focused) {
+                  context.read<ProductsViewModel>().onSearchFocusChanged(focused);
+                },
+                onFilterTap: () {},
+                onSubmitted: (value) {
+                  context.read<ProductsViewModel>().onSearchSubmitted(value);
                 },
               ),
-            ),
-          ],
+              Material(
+                child: DefaultTabBar(
+                  tabs,
+                  onTap: (index) {
+                    if (index == 0) {
+                      // "All" tab
+                      context.read<ProductsViewModel>().doIntent(
+                        FetchProductsEvent(),
+                      );
+                    } else {
+                      // Specific category
+                      if (categories != null && index - 1 < categories!.length) {
+                        final categoryId = categories![index - 1].id;
+                        context.read<ProductsViewModel>().doIntent(
+                          FetchProductsEvent(categoryId: categoryId),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

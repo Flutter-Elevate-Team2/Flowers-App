@@ -7,14 +7,12 @@ class ProductCardDiscount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Text(
-        '$discount%',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.tertiary,
-        ),
-        overflow: TextOverflow.ellipsis,
+    return Text(
+      '$discount%',
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+        color: Theme.of(context).colorScheme.tertiary,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

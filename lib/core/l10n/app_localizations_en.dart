@@ -110,7 +110,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guestLogin => 'Continue as guest';
 
   @override
-  String get noAccountSignUp => 'Don\'t have an account? ';
+  String get noAccountSignUp => 'Don\'t have an account?';
 
   @override
   String get termsAndConditions => 'Terms&Conditions';

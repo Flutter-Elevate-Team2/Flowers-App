@@ -11,7 +11,7 @@ class AddToCartButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: constraints.maxHeight * 0.14,
+      height: constraints.maxHeight * 0.13,
       child: ElevatedButton.icon(
         onPressed: onPressed ?? () {},
         icon: const Icon(Icons.shopping_cart_outlined),

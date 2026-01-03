@@ -7,15 +7,13 @@ class ProductCardOldPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Text(
-        '$price',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          decoration: TextDecoration.lineThrough,
-        ),
-        overflow: TextOverflow.ellipsis,
+    return Text(
+      '$price',
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+        color: Colors.grey,
+        decoration: TextDecoration.lineThrough,
       ),
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

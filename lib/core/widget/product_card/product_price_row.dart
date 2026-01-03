@@ -18,20 +18,16 @@ class ProductPriceRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: constraints.maxHeight * 0.01,
-        horizontal: screenWidth * 0.01,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ProductCardPrice(priceAfterDiscount: product.priceAfterDiscount),
-          ProductCardOldPrice(price: product.price),
-          if (product.discount > 0)
-            ProductCardDiscount(discount: product.discount),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        ProductCardPrice(priceAfterDiscount: product.priceAfterDiscount),
+        const SizedBox(width: 8),
+        ProductCardOldPrice(price: product.price),
+        const SizedBox(width: 8),
+        if (product.discount > 0)
+          ProductCardDiscount(discount: product.discount),
+      ],
     );
   }
 }

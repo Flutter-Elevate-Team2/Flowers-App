@@ -108,7 +108,7 @@
   },
   "guestLogin": "Continue as guest",
   "@guestLogin": { "description": "Button text for guest login" },
-  "noAccountSignUp": "Don't have an account? ",
+  "noAccountSignUp": "Don't have an account?",
   "@noAccountSignUp": { "description": "Text prompting user to sign up" },
 
   "termsAndConditions": "Terms&Conditions",

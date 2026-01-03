@@ -33,10 +33,7 @@ class PaginatedProductsView extends StatelessWidget {
               )
             else if (state.productsState?.isLoading == true)
               const SliverFillRemaining(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: ProductsGridShimmer(),
-                ),
+                child: ProductsGridShimmer(),
               )
             else if (state.productsState?.errorMessage != null)
               SliverFillRemaining(
@@ -56,24 +53,18 @@ class PaginatedProductsView extends StatelessWidget {
               )
             else ...[
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: ProductsGrid(
-                    products: products,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                  ),
+                child: ProductsGrid(
+                  products: products,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                 ),
               ),
               if (state.isPaginationLoading)
                 const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: ProductsGridShimmer(
-                      itemCount: 4,
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                    ),
+                  child: ProductsGridShimmer(
+                    itemCount: 4,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                   ),
                 ),
               const SliverToBoxAdapter(child: SizedBox(height: 50)),

@@ -26,16 +26,16 @@ class ProductCardBody extends StatelessWidget {
       children: [
         ProductCardImage(
           imageUrl: product.imgCover,
-          height: constraints.maxHeight * 0.5,
+          height: constraints.maxHeight * 0.55,
         ),
-        SizedBox(height: constraints.maxHeight * 0.01),
+        SizedBox(height: constraints.maxHeight * 0.03),
         ProductCardTitle(title: product.title, screenWidth: screenWidth),
         ProductPriceRow(
           product: product,
           constraints: constraints,
           screenWidth: screenWidth,
         ),
-        const Spacer(),
+        SizedBox(height: constraints.maxHeight * 0.09),
         AddToCartButton(constraints: constraints, onPressed: onAddToCart),
       ],
     );

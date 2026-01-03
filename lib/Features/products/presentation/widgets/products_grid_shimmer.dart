@@ -24,9 +24,9 @@ class ProductsGridShimmer extends StatelessWidget {
       physics: physics,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        childAspectRatio: 0.65,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 0.6,
       ),
       itemBuilder: (context, index) {
         return const ProductShimmer();

@@ -12,14 +12,11 @@ class ProductCardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-      child: Text(
-        title.split(' ').take(3).join(' '),
-        style: Theme.of(context).textTheme.bodySmall,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
+    return Text(
+      title.split(' ').take(3).join(' '),
+      style: Theme.of(context).textTheme.bodySmall,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
