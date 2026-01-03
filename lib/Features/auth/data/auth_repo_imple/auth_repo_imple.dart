@@ -8,9 +8,9 @@ import 'package:flowers_app/Features/auth/data/mappers/verify_password_mappers.d
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request/forget_password_request.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request/reset_password_request.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request/verify_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/reset_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/verify_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/forget_password_response/forget_password_response.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/reset_password_response/reset_password_response.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/verify_password_response/verify_password_response.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_request.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_response.dart';
 import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
@@ -75,7 +75,7 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
   Future<BaseResponse<ForgetPasswordEntity>> forgetPassword(
     ForgetPasswordRequest request,
   ) async {
-    return execute<ForgetPasswordResponce, ForgetPasswordEntity>(
+    return execute<ForgetPasswordResponse, ForgetPasswordEntity>(
       action: () async => await _remoteDataSource.forgetPassword(request),
       mapper: (response) => response.toEntity(),
     );
@@ -85,7 +85,7 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
   Future<BaseResponse<ResetPasswordEntity>> resetPassword(
     ResetPasswordRequest request,
   ) async {
-    return execute<ResetPasswordResponce, ResetPasswordEntity>(
+    return execute<ResetPasswordResponse, ResetPasswordEntity>(
       action: () async => await _remoteDataSource.resetPassword(request),
       mapper: (response) => response.toEntity(),
     );
@@ -95,7 +95,7 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
   Future<BaseResponse<VerifyPasswordEntity>> verifyPassword(
     VerifyPasswordRequest request,
   ) async {
-    return execute<VerifyPasswordResponce, VerifyPasswordEntity>(
+    return execute<VerifyPasswordResponse, VerifyPasswordEntity>(
       action: () async => await _remoteDataSource.verifyPassword(request),
       mapper: (response) => response.toEntity(),
     );

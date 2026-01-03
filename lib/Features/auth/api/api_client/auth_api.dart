@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request/forget_password_request.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request/reset_password_request.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request/verify_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/reset_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/verify_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/forget_password_response/forget_password_response.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/reset_password_response/reset_password_response.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/verify_password_response/verify_password_response.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_request.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_response.dart';
 import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
@@ -29,15 +29,15 @@ abstract class AuthApi {
   @POST(ApiConstants.signIn)
   Future<LoginResponse> login(@Body() LoginRequest request);
   @POST(ApiConstants.forgetPassword)
-  Future<ForgetPasswordResponce> forgetPassword(
+  Future<ForgetPasswordResponse> forgetPassword(
     @Body() ForgetPasswordRequest forgetRequest,
   );
   @POST(ApiConstants.verifyResetCode)
-  Future<VerifyPasswordResponce> verifyPassword(
+  Future<VerifyPasswordResponse> verifyPassword(
     @Body() VerifyPasswordRequest verifyRequest,
   );
   @PUT(ApiConstants.resetPassword)
-  Future<ResetPasswordResponce> resetPassword(
+  Future<ResetPasswordResponse> resetPassword(
     @Body() ResetPasswordRequest resetRequest,
   );
 }

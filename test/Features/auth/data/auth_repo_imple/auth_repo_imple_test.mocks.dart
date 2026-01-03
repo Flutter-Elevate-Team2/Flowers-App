@@ -15,11 +15,11 @@ import 'package:flowers_app/Features/auth/data/models/forget_password/request/re
     as _i13;
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request/verify_password_request.dart'
     as _i12;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_responce.dart'
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/forget_password_response/forget_password_response.dart'
     as _i4;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/reset_password_responce.dart'
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/reset_password_response/reset_password_response.dart'
     as _i6;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/verify_password_responce.dart'
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/verify_password_response/verify_password_response.dart'
     as _i5;
 import 'package:flowers_app/Features/auth/data/models/login_models/login_request.dart'
     as _i10;
@@ -57,21 +57,21 @@ class _FakeLoginResponse_1 extends _i1.SmartFake implements _i3.LoginResponse {
     : super(parent, parentInvocation);
 }
 
-class _FakeForgetPasswordResponce_2 extends _i1.SmartFake
-    implements _i4.ForgetPasswordResponce {
-  _FakeForgetPasswordResponce_2(Object parent, Invocation parentInvocation)
+class _FakeForgetPasswordResponse_2 extends _i1.SmartFake
+    implements _i4.ForgetPasswordResponse {
+  _FakeForgetPasswordResponse_2(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeVerifyPasswordResponce_3 extends _i1.SmartFake
-    implements _i5.VerifyPasswordResponce {
-  _FakeVerifyPasswordResponce_3(Object parent, Invocation parentInvocation)
+class _FakeVerifyPasswordResponse_3 extends _i1.SmartFake
+    implements _i5.VerifyPasswordResponse {
+  _FakeVerifyPasswordResponse_3(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeResetPasswordResponce_4 extends _i1.SmartFake
-    implements _i6.ResetPasswordResponce {
-  _FakeResetPasswordResponce_4(Object parent, Invocation parentInvocation)
+class _FakeResetPasswordResponse_4 extends _i1.SmartFake
+    implements _i6.ResetPasswordResponse {
+  _FakeResetPasswordResponse_4(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -108,49 +108,49 @@ class MockAuthRemoteDataSourceContract extends _i1.Mock
           as _i8.Future<_i3.LoginResponse>);
 
   @override
-  _i8.Future<_i4.ForgetPasswordResponce> forgetPassword(
+  _i8.Future<_i4.ForgetPasswordResponse> forgetPassword(
     _i11.ForgetPasswordRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#forgetPassword, [request]),
-            returnValue: _i8.Future<_i4.ForgetPasswordResponce>.value(
-              _FakeForgetPasswordResponce_2(
+            returnValue: _i8.Future<_i4.ForgetPasswordResponse>.value(
+              _FakeForgetPasswordResponse_2(
                 this,
                 Invocation.method(#forgetPassword, [request]),
               ),
             ),
           )
-          as _i8.Future<_i4.ForgetPasswordResponce>);
+          as _i8.Future<_i4.ForgetPasswordResponse>);
 
   @override
-  _i8.Future<_i5.VerifyPasswordResponce> verifyPassword(
+  _i8.Future<_i5.VerifyPasswordResponse> verifyPassword(
     _i12.VerifyPasswordRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#verifyPassword, [request]),
-            returnValue: _i8.Future<_i5.VerifyPasswordResponce>.value(
-              _FakeVerifyPasswordResponce_3(
+            returnValue: _i8.Future<_i5.VerifyPasswordResponse>.value(
+              _FakeVerifyPasswordResponse_3(
                 this,
                 Invocation.method(#verifyPassword, [request]),
               ),
             ),
           )
-          as _i8.Future<_i5.VerifyPasswordResponce>);
+          as _i8.Future<_i5.VerifyPasswordResponse>);
 
   @override
-  _i8.Future<_i6.ResetPasswordResponce> resetPassword(
+  _i8.Future<_i6.ResetPasswordResponse> resetPassword(
     _i13.ResetPasswordRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#resetPassword, [request]),
-            returnValue: _i8.Future<_i6.ResetPasswordResponce>.value(
-              _FakeResetPasswordResponce_4(
+            returnValue: _i8.Future<_i6.ResetPasswordResponse>.value(
+              _FakeResetPasswordResponse_4(
                 this,
                 Invocation.method(#resetPassword, [request]),
               ),
             ),
           )
-          as _i8.Future<_i6.ResetPasswordResponce>);
+          as _i8.Future<_i6.ResetPasswordResponse>);
 }
 
 /// A class which mocks [AuthLocalDataSourceContract].

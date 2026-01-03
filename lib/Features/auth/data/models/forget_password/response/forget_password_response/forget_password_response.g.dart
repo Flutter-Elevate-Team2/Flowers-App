@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'forget_password_responce.dart';
+part of 'forget_password_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ForgetPasswordResponce _$ForgetPasswordResponceFromJson(
+ForgetPasswordResponse _$ForgetPasswordResponseFromJson(
   Map<String, dynamic> json,
-) => ForgetPasswordResponce(
+) => ForgetPasswordResponse(
   message: json['message'] as String?,
   info: json['info'] as String?,
 );
 
-Map<String, dynamic> _$ForgetPasswordResponceToJson(
-  ForgetPasswordResponce instance,
+Map<String, dynamic> _$ForgetPasswordResponseToJson(
+  ForgetPasswordResponse instance,
 ) => <String, dynamic>{'message': instance.message, 'info': instance.info};

@@ -3,9 +3,9 @@ import 'package:flowers_app/Features/auth/api/auth_data_source_imple/auth_remote
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request/forget_password_request.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request/reset_password_request.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request/verify_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/reset_password_responce.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/verify_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/forget_password_response/forget_password_response.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/reset_password_response/reset_password_response.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/verify_password_response/verify_password_response.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_request.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_response.dart';
 import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
@@ -87,10 +87,10 @@ void main() {
   // ================= FORGET PASSWORD TEST =================
   group('forgetPassword', () {
     final tRequest = ForgetPasswordRequest(email: "test@test.com");
-    final tResponse = ForgetPasswordResponce(message: "Sent");
+    final tResponse = ForgetPasswordResponse(message: "Sent");
 
     test(
-      'should return ForgetPasswordResponce when AuthApi call is successful',
+      'should return ForgetPasswordResponse when AuthApi call is successful',
       () async {
         // ARRANGE
         when(
@@ -110,10 +110,10 @@ void main() {
   // ================= VERIFY PASSWORD TEST =================
   group('verifyPassword', () {
     final tRequest = VerifyPasswordRequest(resetCode: "123456");
-    final tResponse = VerifyPasswordResponce(status: "Verified");
+    final tResponse = VerifyPasswordResponse(status: "Verified");
 
     test(
-      'should return VerifyPasswordResponce when AuthApi call is successful',
+      'should return VerifyPasswordResponse when AuthApi call is successful',
       () async {
         // ARRANGE
         when(
@@ -133,10 +133,10 @@ void main() {
   // ================= RESET PASSWORD TEST =================
   group('resetPassword', () {
     final tRequest = ResetPasswordRequest(email: "a@a.com", newPassword: "new");
-    final tResponse = ResetPasswordResponce(message: "Done");
+    final tResponse = ResetPasswordResponse(message: "Done");
 
     test(
-      'should return ResetPasswordResponce when AuthApi call is successful',
+      'should return ResetPasswordResponse when AuthApi call is successful',
       () async {
         // ARRANGE
         when(

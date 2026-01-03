@@ -1,7 +1,7 @@
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/forget_password_response/forget_password_response.dart';
 import 'package:flowers_app/Features/auth/domain/entities/forget_password_entity.dart';
 
-extension ForgetPasswordMapper on ForgetPasswordResponce {
+extension ForgetPasswordMapper on ForgetPasswordResponse {
   ForgetPasswordEntity toEntity() {
     return ForgetPasswordEntity(
       message: message ?? '',

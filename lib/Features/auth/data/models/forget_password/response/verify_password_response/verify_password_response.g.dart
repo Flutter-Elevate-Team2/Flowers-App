@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'verify_password_responce.dart';
+part of 'verify_password_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-VerifyPasswordResponce _$VerifyPasswordResponceFromJson(
+VerifyPasswordResponse _$VerifyPasswordResponseFromJson(
   Map<String, dynamic> json,
-) => VerifyPasswordResponce(status: json['status'] as String?);
+) => VerifyPasswordResponse(status: json['status'] as String?);
 
-Map<String, dynamic> _$VerifyPasswordResponceToJson(
-  VerifyPasswordResponce instance,
+Map<String, dynamic> _$VerifyPasswordResponseToJson(
+  VerifyPasswordResponse instance,
 ) => <String, dynamic>{'status': instance.status};

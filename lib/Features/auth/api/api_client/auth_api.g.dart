@@ -76,7 +76,7 @@ class _AuthApi implements AuthApi {
   }
 
   @override
-  Future<ForgetPasswordResponce> forgetPassword(
+  Future<ForgetPasswordResponse> forgetPassword(
     ForgetPasswordRequest forgetRequest,
   ) async {
     final _extra = <String, dynamic>{};
@@ -84,7 +84,7 @@ class _AuthApi implements AuthApi {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(forgetRequest.toJson());
-    final _options = _setStreamType<ForgetPasswordResponce>(
+    final _options = _setStreamType<ForgetPasswordResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -95,9 +95,9 @@ class _AuthApi implements AuthApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ForgetPasswordResponce _value;
+    late ForgetPasswordResponse _value;
     try {
-      _value = ForgetPasswordResponce.fromJson(_result.data!);
+      _value = ForgetPasswordResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;
@@ -106,7 +106,7 @@ class _AuthApi implements AuthApi {
   }
 
   @override
-  Future<VerifyPasswordResponce> verifyPassword(
+  Future<VerifyPasswordResponse> verifyPassword(
     VerifyPasswordRequest verifyRequest,
   ) async {
     final _extra = <String, dynamic>{};
@@ -114,7 +114,7 @@ class _AuthApi implements AuthApi {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(verifyRequest.toJson());
-    final _options = _setStreamType<VerifyPasswordResponce>(
+    final _options = _setStreamType<VerifyPasswordResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -125,9 +125,9 @@ class _AuthApi implements AuthApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late VerifyPasswordResponce _value;
+    late VerifyPasswordResponse _value;
     try {
-      _value = VerifyPasswordResponce.fromJson(_result.data!);
+      _value = VerifyPasswordResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;
@@ -136,7 +136,7 @@ class _AuthApi implements AuthApi {
   }
 
   @override
-  Future<ResetPasswordResponce> resetPassword(
+  Future<ResetPasswordResponse> resetPassword(
     ResetPasswordRequest resetRequest,
   ) async {
     final _extra = <String, dynamic>{};
@@ -144,7 +144,7 @@ class _AuthApi implements AuthApi {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(resetRequest.toJson());
-    final _options = _setStreamType<ResetPasswordResponce>(
+    final _options = _setStreamType<ResetPasswordResponse>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -155,9 +155,9 @@ class _AuthApi implements AuthApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ResetPasswordResponce _value;
+    late ResetPasswordResponse _value;
     try {
-      _value = ResetPasswordResponce.fromJson(_result.data!);
+      _value = ResetPasswordResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;

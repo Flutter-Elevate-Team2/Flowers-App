@@ -3,7 +3,7 @@ import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_lo
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/auth/data/auth_repo_imple/auth_repo_imple.dart';
 import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request/forget_password_request.dart';
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_responce.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/response/forget_password_response/forget_password_response.dart';
 import 'package:flowers_app/Features/auth/data/models/login_models/login_response.dart';
 import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
 import 'package:flowers_app/Features/auth/data/models/signup_models/signup_response.dart';
@@ -202,7 +202,7 @@ void main() {
   // --- Group 4: Forget Password ---
   group("ForgetPassword Repo Function Test Cases", () {
     final tRequest = ForgetPasswordRequest(email: "test@test.com");
-    final tResponse = ForgetPasswordResponce(message: "Email sent");
+    final tResponse = ForgetPasswordResponse(message: "Email sent");
 
     test(
       "should return SuccessResponse when RemoteDataSource succeeds",
