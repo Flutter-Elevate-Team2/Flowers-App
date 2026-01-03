@@ -3,7 +3,7 @@ import 'package:flowers_app/Features/products/domain/entities/product_entity.dar
 
 class PaginatedProductsEntity {
   final List<ProductEntity> products;
-  final MetadataEntity  meta;
+  final MetaDataEntity  meta;
 
   PaginatedProductsEntity({
     required this.products,
