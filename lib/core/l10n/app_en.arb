@@ -6,9 +6,7 @@
   "flowery": "Flowery",
   "@flowery": { "description": "App Name Logo Text" },
 
-  "@appTitle": {
-    "description": "The main title of the application"
-  },
+
   "home": "Home",
   "@home": {
     "description": "Label for the home navigation tab"
@@ -39,9 +37,7 @@
   "retryButton": "Retry",
   "@retryButton": { "description": "Button text to retry" },
 
-  "@profile": {
-    "description": "Label for the profile navigation tab"
-  },
+
   "emailLabel": "Email",
   "@emailLabel": {
     "description": "Label for the email input field"
@@ -229,10 +225,6 @@
   "invalidCodeError": "Invalid code",
   "@invalidCodeError": { "description": "Generic error message for invalid verification code" },
 
-
-  "@invalidCodeError": {
-    "description": "Generic error message for invalid verification code"
-  },
   "connectionTimeoutError": "Connection timeout. Please check your internet.",
   "@connectionTimeoutError": {
     "description": "Error message for connection timeout"
@@ -366,14 +358,8 @@
     "description": "Content message for the session expired dialog"
   },
   "loginButton": "Login",
-  "@loginButton": { "description": "Label for the login button" }
-
   "@loginButton": { "description": "Label for the login button" },
-  "addToCart":"Add To Cart"
-}
-  "@loginButton": {
-    "description": "Label for the login button"
-  },
+
   "egp": "EGP",
   "status": "Status: ",
   "inStock": "In stock",
@@ -391,18 +377,12 @@
   "@bestSellers": {
     "description": "Label for the best sellers category"
   },
-  "viewAll": "View All",
-  "@viewAll": {
-    "description": "Button text to view all items in a category"
-  },
+
   "searchLabel": "Search",
   "@searchLabel": {
     "description": "Label for the search input field"
   },
-  "searchHint": "Search for flowers, gifts...",
-  "@searchHint": {
-    "description": "Hint text for the search input field"
-  },
+
   "searchNoResults": "No results found",
   "@searchNoResults": {
     "description": "Message displayed when no search results are found"
