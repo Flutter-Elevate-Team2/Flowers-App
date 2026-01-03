@@ -46,6 +46,7 @@ class _OccasionPageState extends State<OccasionPage> {
     final tabs = widget.occasions?.map((e) => e.name).toList() ?? [];
     return SafeArea(
       child: DefaultTabController(
+        initialIndex: widget.initialIndex,
         length: tabs.length,
         child: OccasionBody(
             tabs: tabs,

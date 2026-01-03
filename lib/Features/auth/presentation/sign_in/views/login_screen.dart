@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
         title:  Text((context).l10n.loginTitle),
         leading: InkWell(
           onTap: () {
-            Navigator.pop(context);
+           // Navigator.pop(context);
           },
           child: const Icon(Icons.arrow_back_ios),
         ),

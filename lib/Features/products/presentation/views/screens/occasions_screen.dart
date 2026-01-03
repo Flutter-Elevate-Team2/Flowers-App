@@ -69,6 +69,7 @@ class OccasionsScreen extends StatelessWidget {
           builder: (context, state) {
             final effectiveOccasions = occasions ?? state.occasionsState?.data;
             return OccasionPage(
+              key: ValueKey(initialIndex),
               occasions: effectiveOccasions,
               initialIndex: initialIndex,
             );
