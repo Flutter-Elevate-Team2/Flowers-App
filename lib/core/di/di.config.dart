@@ -24,6 +24,8 @@ import '../../Features/auth/data/auth_repo_imple/auth_repo_imple.dart' as _i573;
 import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
     as _i30;
 import '../../Features/auth/domain/use_cases/signup_usecase.dart' as _i179;
+import '../../Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart'
+    as _i318;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -68,6 +70,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i179.SignupUseCase>(
       () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i318.SignUpViewModel>(
+      () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
     );
     return this;
   }
