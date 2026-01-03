@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
+
 class LoginViewModel extends Cubit<LoginState> {
   final LoginUseCase _loginUseCase;
 
@@ -15,82 +16,89 @@ class LoginViewModel extends Cubit<LoginState> {
 
   void doIntent(LoginEvent event) {
     switch (event) {
-      case LoginInitialEvent():
+      case LoginInitial():
         _onInit();
         break;
-      case ToggleRememberMeEvent():
-        _toggleRememberMe();
+      case RememberMeEvent():
+        _rememberMe();
         break;
-      case UserTypingEvent():
-        _resetErrorState();
+      case LoginButtonEvent():
+        _handleLoginButtonClicked(event);
         break;
-      case LoginButtonClickedEvent():
-        _handleLogin(event);
+
+      case GuestLoginEvent():
+        _onGuestLogin();
         break;
-      case GuestLoginClickedEvent():
-        _handleGuestLogin();
+      case SignUpEvent():
+        _onSignUp();
         break;
     }
   }
 
   void _onInit() {
-    emit(LoginState());
+    emit(
+      state.copyWith(
+        loginState: null,
+        isRememberMe: false,
+        isButtonClicked: false,
+      ),
+    );
   }
 
-  void _toggleRememberMe() {
-    emit(state.copyWith(
-      isRememberMe: !state.isRememberMe,
-      loginState: BaseState(),
-    ));
+  void _rememberMe() {
+    emit(state.copyWith(isRememberMe: !state.isRememberMe));
   }
 
-  void _resetErrorState() {
-    if (state.loginState?.errorMessage != null || state.loginState?.isLoading == true) {
-      emit(state.copyWith(loginState: BaseState()));
-    }
-  }
+  // Future<void> _validate(String email , String password) async {
+  //   if (formKey.currentState?.validate() ?? false) {
+  //     final event = LoginButtonEvent(
+  //       email: email,
+  //       password: password,
+  //     );
+  //
+  //     _handleLoginButtonClicked(event);
+  //   }
+  // }
 
-  Future<void> _handleLogin(LoginButtonClickedEvent event) async {
-    emit(state.copyWith(loginState: BaseState(isLoading: true)));
-
+  Future<void> _handleLoginButtonClicked(LoginButtonEvent event) async {
+    emit(
+      state.copyWith(
+        loginState: BaseState<LoginEntity>(isLoading: true,),
+      ),
+    );
     final response = await _loginUseCase.call(
       email: event.email,
       password: event.password,
-      isRememberMe: state.isRememberMe,
     );
 
     switch (response) {
       case SuccessResponse<LoginEntity>():
         emit(
           state.copyWith(
-            loginState: BaseState(
+            loginState: BaseState<LoginEntity>(
               isLoading: false,
               data: response.data,
             ),
           ),
         );
-        break;
-
       case ErrorResponse<LoginEntity>():
         emit(
           state.copyWith(
-            loginState: BaseState(
+            loginState: BaseState<LoginEntity>(
               isLoading: false,
               errorMessage: response.errorMessage,
             ),
           ),
         );
-        break;
     }
   }
 
-  void _handleGuestLogin() {
-    // Fake success for guest
-    emit(state.copyWith(
-        loginState: BaseState(
-            isLoading: false,
-            data: LoginEntity(token: "guest", message: "Guest", user: null)
-        )
-    ));
+  void _onGuestLogin() {
+    //TODO: Handle guest login logic here
+  }
+
+  void _onSignUp() {
+    //TODO: Handle guest login logic here
+
   }
 }

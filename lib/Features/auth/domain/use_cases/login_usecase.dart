@@ -9,11 +9,8 @@ class LoginUseCase {
 
   LoginUseCase(this._authRepo);
 
-  Future<BaseResponse<LoginEntity>> call({
-    required String email,
-    required String password,
-    required bool isRememberMe,
-  }) {
-    return _authRepo.login(email, password, isRememberMe);
+  Future<BaseResponse<LoginEntity>> call({required String email,
+      required String password}) {
+    return _authRepo.login(email, password);
   }
 }

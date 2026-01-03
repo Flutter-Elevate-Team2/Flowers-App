@@ -1,18 +1,21 @@
 sealed class LoginEvent {}
 
 
-class LoginInitialEvent extends LoginEvent {}
+class LoginInitial extends LoginEvent {}
 
 
-class ToggleRememberMeEvent extends LoginEvent {}
+class RememberMeEvent extends LoginEvent {
+  final bool value;
+  RememberMeEvent({required this.value});
+}
 
-class LoginButtonClickedEvent  extends LoginEvent {
+class LoginButtonEvent extends LoginEvent {
   final String email;
   final String password;
 
-  LoginButtonClickedEvent({required this.email, required this.password});
+  LoginButtonEvent({required this.email, required this.password});
 }
 
-class GuestLoginClickedEvent extends LoginEvent {}
+class GuestLoginEvent extends LoginEvent {}
 
-class UserTypingEvent extends LoginEvent {}
+class SignUpEvent extends LoginEvent {}
