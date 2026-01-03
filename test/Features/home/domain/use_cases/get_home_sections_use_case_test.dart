@@ -12,11 +12,7 @@ import 'get_home_sections_use_case_test.mocks.dart';
 void main() {
   provideDummy<BaseResponse<HomeEntity>>(
     SuccessResponse(
-      data: HomeEntity(
-        categories: [],
-        bestSellers: [],
-        occasions: [],
-      ),
+      data: HomeEntity(categories: [], bestSellers: [], occasions: []),
     ),
   );
   late GetHomeSectionsUseCase useCase;
@@ -45,6 +41,24 @@ void main() {
       expect(result, successResponse);
       expect(result, isA<SuccessResponse<HomeEntity>>());
       expect((result as SuccessResponse<HomeEntity>).data, homeEntity);
+      verify(mockRepo.getHomeSections()).called(1);
+    });
+
+    test('call should return ErrorResponse when repository fails', () async {
+      // Arrange
+      const errorMessage = 'Failed to fetch home sections';
+      final errorResponse = ErrorResponse<HomeEntity>(
+        errorMessage: errorMessage,
+      );
+      when(mockRepo.getHomeSections()).thenAnswer((_) async => errorResponse);
+
+      // Act
+      final result = await useCase.call();
+
+      // Assert
+      expect(result, errorResponse);
+      expect(result, isA<ErrorResponse<HomeEntity>>());
+      expect((result as ErrorResponse<HomeEntity>).errorMessage, errorMessage);
       verify(mockRepo.getHomeSections()).called(1);
     });
   });

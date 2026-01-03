@@ -11,9 +11,7 @@ import 'package:injectable/injectable.dart';
 class HomeViewModel extends Cubit<HomeStates> {
   final GetHomeSectionsUseCase _getHomeSectionsUseCase;
 
-  HomeViewModel(this._getHomeSectionsUseCase) : super(HomeStates()) {
-     doIntent(GetHomeDataEvent());
-  }
+  HomeViewModel(this._getHomeSectionsUseCase) : super(HomeStates());
 
   void doIntent(HomeEvent event) {
     switch (event) {

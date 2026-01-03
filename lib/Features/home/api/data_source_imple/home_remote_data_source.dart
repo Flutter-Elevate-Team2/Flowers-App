@@ -3,7 +3,7 @@ import 'package:flowers_app/Features/home/data/data_source_contract/home_remote_
 import 'package:flowers_app/Features/home/data/models/home_response/home_response.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as:HomeRemoteDataSourceContract)
+@Injectable(as: HomeRemoteDataSourceContract)
 class HomeRemoteDataSource implements HomeRemoteDataSourceContract {
   final HomeApi _homeApi;
 

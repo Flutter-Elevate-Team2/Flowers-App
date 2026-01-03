@@ -1,5 +1,3 @@
 sealed class HomeEvent {}
 
-class GetHomeDataEvent extends HomeEvent {
-  GetHomeDataEvent();
-}
+class GetHomeDataEvent extends HomeEvent {}

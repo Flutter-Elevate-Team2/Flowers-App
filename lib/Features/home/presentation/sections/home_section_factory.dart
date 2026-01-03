@@ -7,14 +7,17 @@ import 'package:flowers_app/Features/home/presentation/sections/implementations/
 import 'package:flutter/material.dart';
 
 class HomeSectionFactory {
-  static final Map<HomeSectionType, HomeSection> _registry = {
-    HomeSectionType.header: HeaderSection(),
-    HomeSectionType.categories: CategoriesSection(),
-    HomeSectionType.bestSellers: BestSellersSection(),
-    HomeSectionType.occasions: OccasionsSection(),
-  };
+  final Map<HomeSectionType, HomeSection> _registry;
 
-  static List<Widget> getSections({
+  HomeSectionFactory()
+    : _registry = {
+        HomeSectionType.header: HeaderSection(),
+        HomeSectionType.categories: CategoriesSection(),
+        HomeSectionType.bestSellers: BestSellersSection(),
+        HomeSectionType.occasions: OccasionsSection(),
+      };
+
+  List<Widget> getSections({
     required HomeEntity data,
     required BuildContext context,
     List<HomeSectionType>? order,

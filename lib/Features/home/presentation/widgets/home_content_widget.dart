@@ -17,10 +17,8 @@ class HomeContentWidget extends StatelessWidget {
         final double screenHeight = constraints.maxHeight;
         final double screenWidth = constraints.maxWidth;
 
-        final sections = HomeSectionFactory.getSections(
-          data: homeData,
-          context: context,
-        );
+        final factory = HomeSectionFactory();
+        final sections = factory.getSections(data: homeData, context: context);
 
         return SafeArea(
           child: RefreshIndicator(
@@ -39,16 +37,11 @@ class HomeContentWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ...sections.expand(
-                          (widget) => [
-                            widget,
-                            const Spacer(
-                              flex: 1,
-                            ),
-                          ],
-                        ),
-                        if (sections.isEmpty)
-                          const Spacer(),
+                        for (int i = 0; i < sections.length; i++) ...[
+                          sections[i],
+                          if (i < sections.length - 1) const Spacer(flex: 1),
+                        ],
+                        if (sections.isEmpty) const Spacer(),
                       ],
                     ),
                   ),
