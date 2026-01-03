@@ -313,8 +313,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get searchFor => 'Search For Any Product You Want';
 
-  @override
-  String get addToCart => 'Add to Cart';
 
   @override
   String get filter => 'Filter';

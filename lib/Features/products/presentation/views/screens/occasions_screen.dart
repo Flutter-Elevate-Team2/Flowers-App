@@ -1,4 +1,3 @@
-import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
 import 'package:flowers_app/Features/products/presentation/widgets/occasion_page.dart';
 import 'package:flowers_app/core/di/di.dart';

@@ -39,7 +39,6 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.bestSellerPath,
     initialLocation: Routes.homePath,
     routes: [
       /// ====== LOGIN SCREEN ======
@@ -101,7 +100,7 @@ class AppRouter {
         path: Routes.bestSellerPath,
         name: Routes.bestSellerName,
         // Fix: Added builder (Replace SizedBox with BestSellerScreen)
-        builder: (context, state) => const BestSeller(),
+        builder: (context, state) => const BestSeller(bestSellers: [],),
       ),
     ],
   );

@@ -693,11 +693,6 @@ abstract class AppLocalizations {
   /// **'Search For Any Product You Want'**
   String get searchFor;
 
-  /// Button text to add an item to the cart
-  ///
-  /// In en, this message translates to:
-  /// **'Add to Cart'**
-  String get addToCart;
 
   /// Button text to open filter options
   ///
