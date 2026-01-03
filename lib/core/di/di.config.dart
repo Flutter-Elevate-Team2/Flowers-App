@@ -81,19 +81,11 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.lazySingleton<_i551.HomeApi>(() => _i551.HomeApi(gh<_i361.Dio>()));
-    gh.factory<_i968.HomeRemoteDataSourceContract>(
-      () => _i978.HomeRemoteDataSource(gh<_i551.HomeApi>()),
-    );
-    gh.factory<_i502.HomeRepoContract>(
-      () => _i779.HomeRepoImple(gh<_i968.HomeRemoteDataSourceContract>()),
-    );
-    gh.factory<_i301.GetHomeSectionsUseCase>(
-      () => _i301.GetHomeSectionsUseCase(gh<_i502.HomeRepoContract>()),
-    );
-    gh.factory<_i470.HomeViewModel>(
-      () => _i470.HomeViewModel(gh<_i301.GetHomeSectionsUseCase>()),
     gh.lazySingleton<_i308.ProductsApi>(
       () => _i308.ProductsApi(gh<_i361.Dio>()),
+    );
+    gh.factory<_i968.HomeRemoteDataSourceContract>(
+      () => _i978.HomeRemoteDataSource(gh<_i551.HomeApi>()),
     );
     gh.factory<_i166.ProductsRemoteDataSourceContract>(
       () => _i639.ProductsRemoteDataSourceImpl(gh<_i308.ProductsApi>()),
@@ -102,11 +94,20 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i988.ProductsRepoImpl(gh<_i166.ProductsRemoteDataSourceContract>()),
     );
+    gh.factory<_i502.HomeRepoContract>(
+      () => _i779.HomeRepoImple(gh<_i968.HomeRemoteDataSourceContract>()),
+    );
     gh.factory<_i804.ProductsUseCase>(
       () => _i804.ProductsUseCase(gh<_i472.ProductsRepoContract>()),
     );
+    gh.factory<_i301.GetHomeSectionsUseCase>(
+      () => _i301.GetHomeSectionsUseCase(gh<_i502.HomeRepoContract>()),
+    );
     gh.factory<_i401.ProductsViewModel>(
       () => _i401.ProductsViewModel(gh<_i804.ProductsUseCase>()),
+    );
+    gh.factory<_i470.HomeViewModel>(
+      () => _i470.HomeViewModel(gh<_i301.GetHomeSectionsUseCase>()),
     );
     return this;
   }
