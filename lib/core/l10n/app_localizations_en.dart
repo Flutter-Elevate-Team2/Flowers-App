@@ -12,6 +12,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Flowers App';
 
   @override
+  String get ok => 'Ok';
+
+  @override
+  String get resetSuccessfully =>
+      'Password reset successfully! Please login with your new password.';
+
+  @override
+  String get registerSuccessfully =>
+      'Your account has been created successfully! Please login to continue ';
+
+  @override
+  String get success => 'success';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -75,6 +89,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noAccountSignUp => 'Don\'t have an account? ';
 
   @override
+  String get termsAndConditions => 'Terms&Conditions';
+
+  @override
   String get signUpTitle => 'Sign up';
 
   @override
@@ -87,11 +104,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get genderFemale => 'Female';
 
   @override
-  String get termsConditions =>
-      'Creating an account, you agree to our Terms & Conditions';
+  String get termsConditions => 'Creating an account, you agree to our ';
 
   @override
-  String get haveAccountLogin => 'Already have an account? Login';
+  String get haveAccountLogin => 'Already have an account? ';
 
   @override
   String get forgotPasswordTitle => 'Forget password';
@@ -111,10 +127,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please enter your code that sent to your email address';
 
   @override
-  String get resendCode => 'Didn\'t receive code? Resend';
+  String get resendCode => 'Didn\'t receive code?';
+
+  @override
+  String get resend => 'Resend';
 
   @override
   String get resetPasswordTitle => 'Reset password';
+
+  @override
+  String get resetPasswordSubTitle =>
+      'Password must not be empty and must contain 6 characters with upper case letter and one number at least ';
 
   @override
   String get newPasswordLabel => 'New password';
@@ -151,7 +174,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneRequired => 'Phone number is required';
 
   @override
-  String get phoneInvalid => 'Please enter a valid phone number';
+  String get phoneInvalid => 'Ensure the number starts with +20';
 
   @override
   String get validationEnterCompleteCode =>

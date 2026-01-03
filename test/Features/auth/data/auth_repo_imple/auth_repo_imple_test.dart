@@ -1,105 +1,110 @@
 import 'package:dio/dio.dart';
-import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
+import 'package:flowers_app/Features/auth/data/auth_repo_imple/auth_repo_imple.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_response.dart';
+import 'package:flowers_app/Features/auth/data/models/signup_models/user_dto.dart';
+import 'package:flowers_app/Features/auth/domain/entities/signup_entity.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/core/constants/error_strings.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flowers_app/Features/auth/data/auth_repo_imple/auth_repo_imple.dart';
-import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart';
-import 'package:flowers_app/Features/auth/data/models/login_models/login_response.dart';
-import 'package:flowers_app/Features/auth/domain/entities/login_entity.dart';
-import 'package:flowers_app/core/base_response/base_response.dart';
-import 'package:flowers_app/core/constants/error_strings.dart';
 
 import 'auth_repo_imple_test.mocks.dart';
 
-@GenerateMocks([AuthRemoteDataSourceContract, AuthLocalDataSourceContract])
+@GenerateMocks([AuthRemoteDataSourceContract])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   late AuthRepoImple authRepo;
   late MockAuthRemoteDataSourceContract mockRemoteDataSource;
-  late MockAuthLocalDataSourceContract mockLocalDataSource;
 
   setUp(() {
     mockRemoteDataSource = MockAuthRemoteDataSourceContract();
-    mockLocalDataSource = MockAuthLocalDataSourceContract();
-
-    authRepo = AuthRepoImple(mockRemoteDataSource, mockLocalDataSource);
-
-    provideDummy<BaseResponse<LoginEntity>>(
-      SuccessResponse(
-        data: LoginEntity(token: '', message: '', user: null),
-      ),
-    );
+    authRepo = AuthRepoImple(mockRemoteDataSource);
   });
 
-  group('Login Repo Tests', () {
-    const email = 'malak@gmail.com';
-    const password = 'Elevate@123';
+  group("SignUp Repo Function Test Cases", () {
+    final tRequest = SignupRequest(
+      firstName: "Ahmed",
+      lastName: "Ali",
+      email: "test@test.com",
+      password: "P",
+      rePassword: "P",
+      phone: "010",
+      gender: "male",
+    );
 
-    final tLoginResponse = LoginResponse(
-      token: 'token',
-      message: 'success',
-      user: null,
+    final tUserDto = UserDto(
+      firstName: "Ahmed",
+      lastName: "Ali",
+      email: "test@test.com",
+      phone: "010",
+      gender: "male",
+      id: "123",
+    );
+
+    final tSignupResponse = SignupResponse(
+      message: "Success",
+      token: "dummy_token",
+      user: tUserDto,
     );
 
     test(
-      'should return SuccessResponse<LoginEntity> when remote succeeds',
+      "should return SuccessResponse<SignupEntity> when RemoteDataSource succeeds",
       () async {
-        // Arrange
+        // ARRANGE
         when(
-          mockRemoteDataSource.login(any),
-        ).thenAnswer((_) async => tLoginResponse);
+          mockRemoteDataSource.signUp(any),
+        ).thenAnswer((_) async => tSignupResponse);
 
-        // Act
-        final result = await authRepo.login(email, password, true);
+        // ACT
+        final result = await authRepo.signUp(tRequest);
 
-        // Assert
-        expect(result, isA<SuccessResponse<LoginEntity>>());
-        expect((result as SuccessResponse<LoginEntity>).data.token, 'token');
-        verify(mockRemoteDataSource.login(any)).called(1);
-        verify(mockLocalDataSource.saveToken('token')).called(1);
-        verify(mockLocalDataSource.saveRememberMe(true)).called(1);
+        // ASSERT
+        expect(result, isA<SuccessResponse<SignupEntity>>());
+        final successData = (result as SuccessResponse<SignupEntity>).data;
+        expect(successData.token, tSignupResponse.token);
+        verify(mockRemoteDataSource.signUp(tRequest)).called(1);
       },
     );
 
     test(
-      'should return ErrorResponse with backend message when DioException occurs',
+      "should return ErrorResponse with backend message when DioException occurs",
       () async {
-        // Arrange
+        // ARRANGE
         final dioError = DioException(
           requestOptions: RequestOptions(path: ''),
           response: Response(
             requestOptions: RequestOptions(path: ''),
             statusCode: 400,
-            data: {'message': 'Invalid credentials'},
+            data: {'message': 'Email already exists'},
           ),
           type: DioExceptionType.badResponse,
         );
 
-        when(mockRemoteDataSource.login(any)).thenThrow(dioError);
+        when(mockRemoteDataSource.signUp(any)).thenThrow(dioError);
 
-        // Act
-        final result = await authRepo.login(email, password, false);
+        // ACT
+        final result = await authRepo.signUp(tRequest);
 
-        // Assert
+        // ASSERT
         expect(result, isA<ErrorResponse>());
-        expect((result as ErrorResponse).errorMessage, 'Invalid credentials');
+        expect((result as ErrorResponse).errorMessage, 'Email already exists');
       },
     );
 
     test(
-      'should return ErrorResponse with unknownError when generic Exception occurs',
+      "should return ErrorResponse with ErrorStrings.unknownError when generic Exception occurs",
       () async {
-        // Arrange
+        // ARRANGE
         when(
-          mockRemoteDataSource.login(any),
-        ).thenThrow(Exception('Unexpected error'));
+          mockRemoteDataSource.signUp(any),
+        ).thenThrow(Exception("Unexpected error"));
 
-        // Act
-        final result = await authRepo.login(email, password, false);
+        // ACT
+        final result = await authRepo.signUp(tRequest);
 
-        // Assert
+        // ASSERT
         expect(result, isA<ErrorResponse>());
         expect(
           (result as ErrorResponse).errorMessage,

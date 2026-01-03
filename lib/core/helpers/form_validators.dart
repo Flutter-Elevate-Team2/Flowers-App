@@ -56,4 +56,18 @@ class FormValidators {
     }
     return null;
   }
+   static String? validateLoginPassword(
+    BuildContext context,
+    String? value,
+) {
+  final trimmedValue = value?.trim();
+
+  if (trimmedValue == null || trimmedValue.isEmpty) {
+    return AppLocalizations.of(context)!.passwordRequired;
+  }
+
+
+  return null;
+}
+
 }

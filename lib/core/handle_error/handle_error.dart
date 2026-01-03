@@ -27,7 +27,6 @@ class ErrorHandler {
     if (error is Error) {
       debugPrint('🚨 StackTrace: ${error.stackTrace}');
     }
-
     // -------------------------------------------------------------------------
     // SECTION 1: NETWORK & CONNECTION ERRORS
     // -------------------------------------------------------------------------
