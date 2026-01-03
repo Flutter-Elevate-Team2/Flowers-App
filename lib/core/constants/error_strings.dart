@@ -33,8 +33,6 @@ class ErrorStrings {
   static const String firebaseAccountDisabled = "Account disabled.";
   static const String firebaseTooManyRequests = "Too many requests. Try again later.";
   static const String firebaseAuthUnknown = "Authentication failed.";
-  static const String resetCodenotVerified = "reset code not verified";
-  static const String resetCodeInvalid= 'Reset code is invalid or has expired';
 
   // --- Firebase General ---
   static const String firebasePermissionDenied = "Permission denied.";
@@ -47,6 +45,4 @@ class ErrorStrings {
   // --- Fallback ---
   static const String defaultError = "Something went wrong.";
   static const String unknownError = "An unexpected error occurred.";
-  static const String success = "success";
-
 }

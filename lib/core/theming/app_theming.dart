@@ -64,12 +64,12 @@ alignLabelWithHint: true,
       enabledBorder: getOutlineInputBorder(color: AppColors.gray),
       errorBorder: getOutlineInputBorder(color: AppColors.red),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedIconTheme: IconThemeData(
-        color: AppColors.mainColor,
+        color: AppColors.red,
         applyTextScaling: true,
       ),
-      selectedItemColor: AppColors.mainColor,
+      selectedItemColor: AppColors.red,
       unselectedItemColor: AppColors.gray,
       showSelectedLabels: true,
       showUnselectedLabels: true,
@@ -85,6 +85,7 @@ alignLabelWithHint: true,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       ),
     ),
+
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: AppColors.black,

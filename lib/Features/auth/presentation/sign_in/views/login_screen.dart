@@ -12,6 +12,8 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 50,
+          titleSpacing: 0,
         title:  Text((context).l10n.loginTitle),
         leading: InkWell(
           onTap: () {

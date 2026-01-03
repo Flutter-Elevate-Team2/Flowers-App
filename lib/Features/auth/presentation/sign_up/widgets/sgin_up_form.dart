@@ -71,11 +71,11 @@ class _SignUpFormState extends State<SignUpForm> {
                   },
                   child:  Text(context.l10n.ok),
                 ),
-
+            
               ]
             ),
                 );
-
+            
           } else if (signUpState?.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

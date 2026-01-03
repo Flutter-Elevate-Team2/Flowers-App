@@ -30,33 +30,33 @@ class SignUpViewModel extends Cubit<SignUpStates> {
         email: event.email,
         phone: event.phone,
         password: event.password,
-        gender: event.gender,
+        gender: event.gender, 
         rePassword: event.confirmPassword,
       ),
     );
-
+    
 
     switch (response) {
       case SuccessResponse<SignupEntity>():
-
+       
         emit(
           state.copyWith(
             signUpState: BaseState<SignupEntity>(
               isLoading: false,
               data: response.data,
-              errorMessage: null,
+              errorMessage: null, 
             ),
           ),
         );
         break;
 
       case ErrorResponse<SignupEntity>():
-
+       
         emit(
           state.copyWith(
             signUpState: BaseState<SignupEntity>(
               isLoading: false,
-              data: null,
+              data: null, 
               errorMessage: response.errorMessage,
             ),
           ),

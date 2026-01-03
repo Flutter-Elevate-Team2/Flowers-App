@@ -1,5 +1,6 @@
+import 'package:flowers_app/Features/auth/presentation/sign_up/widgets/sgin_up_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flowers_app/Features/auth/presentation/sign_up/widgets/sign_up_form.dart';
+
 
 class SignupScreenBody extends StatelessWidget {
 
@@ -13,8 +14,8 @@ class SignupScreenBody extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-               SizedBox(height: 24,),
-             SignUpForm(),
+              const SizedBox(height: 24,),
+             SignUpForm (),
           ],
         ),
       ),

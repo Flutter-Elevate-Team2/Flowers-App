@@ -1,9 +1,10 @@
+import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class CustomButtonNavigationBar extends StatelessWidget {
   final int currentIndex;
-  final ValueChanged<int> onTap;
+  final Function(int) onTap;
 
   const CustomButtonNavigationBar({
     super.key,
@@ -16,38 +17,27 @@ class CustomButtonNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: onTap,
-      items: _buildItems(context),
-    );
-  }
-
-  List<BottomNavigationBarItem> _buildItems(BuildContext context) {
-    return [
-      _buildItem(
-        icon: Icons.home_outlined,
-        label: context.l10n.home,
-      ),
-      _buildItem(
-        icon: Icons.category_outlined,
-        label: context.l10n.categories,
-      ),
-      _buildItem(
-        icon: Icons.shopping_cart_outlined,
-        label: context.l10n.cart,
-      ),
-      _buildItem(
-        icon: Icons.person_outline,
-        label: context.l10n.profile,
-      ),
-    ];
-  }
-
-  BottomNavigationBarItem _buildItem({
-    required IconData icon,
-    required String label,
-  }) {
-    return BottomNavigationBarItem(
-      icon: Icon(icon),
-      label: label,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: AppColors.mainColor,
+      unselectedItemColor: AppColors.gray,
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_outlined, color: AppColors.mainColor),
+          label: (context).l10n.home,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.category_outlined, color: AppColors.mainColor),
+          label: (context).l10n.categories,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart_outlined, color: AppColors.mainColor),
+          label: (context).l10n.cart,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_outline, color: AppColors.mainColor),
+          label: (context).l10n.profile,
+        ),
+      ],
     );
   }
 }

@@ -1,23 +1,17 @@
-/// message : "success"
-/// info : "OTP sent to your email"
+import 'package:json_annotation/json_annotation.dart';
 
+part 'forget_password_responce.g.dart';
+
+@JsonSerializable()
 class ForgetPasswordResponce {
-  ForgetPasswordResponce({
-      this.message, 
-      this.info,});
-
-  ForgetPasswordResponce.fromJson(dynamic json) {
-    message = json['message'];
-    info = json['info'];
-  }
   String? message;
   String? info;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['message'] = message;
-    map['info'] = info;
-    return map;
+  ForgetPasswordResponce({this.message, this.info});
+
+  factory ForgetPasswordResponce.fromJson(Map<String, dynamic> json) {
+    return _$ForgetPasswordResponceFromJson(json);
   }
 
+  Map<String, dynamic> toJson() => _$ForgetPasswordResponceToJson(this);
 }

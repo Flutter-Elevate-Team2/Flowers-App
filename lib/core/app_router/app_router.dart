@@ -1,5 +1,8 @@
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
+import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
+import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
+import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,25 +29,25 @@ class AppRouter {
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.signInPath,
 
-    // redirect: (context, state) async {
-    //   final authRepo = getIt<AuthRepoContract>();
+    redirect: (context, state) async {
+      final authRepo = getIt<AuthRepoContract>();
 
-    //   final bool isLoggedIn = await authRepo.isLoggedIn();
+      final bool isLoggedIn = await authRepo.isLoggedIn();
 
-    //   final bool isLoggingIn = state.uri.toString() == Routes.signInPath;
+      final bool isLoggingIn = state.uri.toString() == Routes.signInPath;
 
-    //   if (isLoggedIn && isLoggingIn) {
-    //     return Routes.homePath;
-    //   }
+      if (isLoggedIn && isLoggingIn) {
+        return Routes.homePath;
+      }
 
-    //   return null;
-    // },
+      return null;
+    },
 
     routes: [
       GoRoute(
         path: Routes.signInPath,
         name: Routes.signInName,
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: Routes.signUpPath,
@@ -54,12 +57,12 @@ class AppRouter {
       GoRoute(
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const ForgetPasswordScreenFlow(),
       ),
       GoRoute(
         path: Routes.homePath,
         name: Routes.homeName,
-        builder: (context, state) => const SizedBox(),
+        builder: (context, state) => const HomeScreen(),
       ),
     ],
   );

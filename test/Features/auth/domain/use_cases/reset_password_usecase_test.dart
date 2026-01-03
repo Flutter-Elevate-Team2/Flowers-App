@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request.dart';
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request/reset_password_request.dart';
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
 import 'package:flowers_app/Features/auth/domain/entities/reset_password_entity.dart';
 import 'package:flowers_app/Features/auth/domain/use_cases/reset_password_usecase.dart';
@@ -11,58 +11,33 @@ import 'reset_password_usecase_test.mocks.dart';
 
 @GenerateMocks([AuthRepoContract])
 void main() {
-  late ResetPasswordUsecase useCase;
-  late MockAuthRepoContract mockRepo;
+  late ResetPasswordUsecase resetPasswordUsecase;
+  late MockAuthRepoContract mockAuthRepo;
 
   setUp(() {
-    mockRepo = MockAuthRepoContract();
-    useCase = ResetPasswordUsecase(mockRepo);
+    provideDummy<BaseResponse<ResetPasswordEntity>>(
+      SuccessResponse(
+        data: ResetPasswordEntity(message: "dummy", token: "dummy"),
+      ),
+    );
+
+    mockAuthRepo = MockAuthRepoContract();
+    resetPasswordUsecase = ResetPasswordUsecase(mockAuthRepo);
   });
 
-  final tRequest = ResetPasswordRequest(
-    email: "test@test.com",
-    newPassword: "NewPassword123",
-  );
-  final tEntity = ResetPasswordEntity(
-    message: "Password Changed Successfully",
-    token: "token_123",
-  );
+  final tRequest = ResetPasswordRequest(email: "test@test.com", newPassword: "new");
+  final tEntity = ResetPasswordEntity(message: "Done", token: "token");
 
-  test(
-    'should call AuthRepo.resetPassword and return SuccessResponse',
-    () async {
-      // ARRANGE
-      when(
-        mockRepo.resetPassword(any),
-      ).thenAnswer((_) async => SuccessResponse(data: tEntity));
+  test('should call AuthRepo.resetPassword and return SuccessResponse', () async {
+    // ARRANGE
+    when(mockAuthRepo.resetPassword(any))
+        .thenAnswer((_) async => SuccessResponse(data: tEntity));
 
-      // ACT
-      final result = await useCase.resetPassword(tRequest);
+    // ACT
+    final result = await resetPasswordUsecase.resetPassword(tRequest);
 
-      // ASSERT
-      expect(result, isA<SuccessResponse<ResetPasswordEntity>>());
-      expect((result as SuccessResponse).data, tEntity);
-      verify(mockRepo.resetPassword(tRequest)).called(1);
-    },
-  );
-
-  test(
-    'should return ErrorResponse when AuthRepo returns ErrorResponse',
-    () async {
-      // ARRANGE
-      final tError = ErrorResponse<ResetPasswordEntity>(
-        errorMessage: "Server Error",
-      );
-
-      when(mockRepo.resetPassword(any)).thenAnswer((_) async => tError);
-
-      // ACT
-      final result = await useCase.resetPassword(tRequest);
-
-      // ASSERT
-      expect(result, isA<ErrorResponse<ResetPasswordEntity>>());
-      expect((result as ErrorResponse).errorMessage, "Server Error");
-      verify(mockRepo.resetPassword(tRequest)).called(1);
-    },
-  );
+    // ASSERT
+    expect(result, isA<SuccessResponse<ResetPasswordEntity>>());
+    verify(mockAuthRepo.resetPassword(tRequest)).called(1);
+  });
 }

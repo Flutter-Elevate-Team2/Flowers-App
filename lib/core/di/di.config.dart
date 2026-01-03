@@ -18,11 +18,16 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../../Features/auth/api/api_client/auth_api.dart' as _i888;
 import '../../Features/auth/api/auth_data_source_imple/auth_remote_data_source_imple.dart'
     as _i813;
+import '../../Features/auth/api/auth_local_data_source_imple/auth_local_data_source_imple.dart'
+    as _i1051;
+import '../../Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart'
+    as _i164;
 import '../../Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart'
     as _i978;
 import '../../Features/auth/data/auth_repo_imple/auth_repo_imple.dart' as _i573;
 import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
     as _i30;
+import '../../Features/auth/domain/use_cases/check_auth_usecase.dart' as _i409;
 import '../../Features/auth/domain/use_cases/forget_password_usecase.dart'
     as _i762;
 import '../../Features/auth/domain/use_cases/login_usecase.dart' as _i512;
@@ -66,6 +71,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i306.SessionController>(),
       ),
     );
+    gh.factory<_i164.AuthLocalDataSourceContract>(
+      () => _i1051.AuthLocalDataSourceImple(gh<_i460.SharedPreferences>()),
+    );
     gh.singleton<_i361.Dio>(
       () => dioModule.dio(
         gh<_i453.AuthInterceptor>(),
@@ -77,7 +85,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
     );
     gh.factory<_i30.AuthRepoContract>(
-      () => _i573.AuthRepoImple(gh<_i978.AuthRemoteDataSourceContract>()),
+      () => _i573.AuthRepoImple(
+        gh<_i978.AuthRemoteDataSourceContract>(),
+        gh<_i164.AuthLocalDataSourceContract>(),
+      ),
+    );
+    gh.factory<_i409.CheckAuthUseCase>(
+      () => _i409.CheckAuthUseCase(gh<_i30.AuthRepoContract>()),
     );
     gh.factory<_i512.LoginUseCase>(
       () => _i512.LoginUseCase(gh<_i30.AuthRepoContract>()),

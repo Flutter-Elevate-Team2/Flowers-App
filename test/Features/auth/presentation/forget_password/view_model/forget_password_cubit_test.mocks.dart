@@ -6,17 +6,17 @@
 import 'dart:async' as _i3;
 
 import 'package:flowers_app/core/base_response/base_response.dart' as _i4;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Forget_password_request.dart'
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request/forget_password_request.dart'
     as _i6;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Reset_password_request.dart'
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request/reset_password_request.dart'
     as _i13;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/Verify_password_request.dart'
+import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request/verify_password_request.dart'
     as _i10;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Forget_password_responce.dart'
+import 'package:flowers_app/Features/auth/domain/entities/forget_password_entity.dart'
     as _i5;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Reset_password_responce.dart'
+import 'package:flowers_app/Features/auth/domain/entities/reset_password_entity.dart'
     as _i12;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/Verify_password_responce.dart'
+import 'package:flowers_app/Features/auth/domain/entities/verify_password_entity.dart'
     as _i9;
 import 'package:flowers_app/Features/auth/domain/use_cases/forget_password_usecase.dart'
     as _i2;
@@ -52,20 +52,20 @@ class MockForgetPasswordUsecase extends _i1.Mock
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordResponce>> forgetPassword(
+  _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordEntity>> forgetPassword(
     _i6.ForgetPasswordRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#forgetPassword, [request]),
             returnValue:
-                _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordResponce>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i5.ForgetPasswordResponce>>(
+                _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordEntity>>.value(
+                  _i7.dummyValue<_i4.BaseResponse<_i5.ForgetPasswordEntity>>(
                     this,
                     Invocation.method(#forgetPassword, [request]),
                   ),
                 ),
           )
-          as _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordResponce>>);
+          as _i3.Future<_i4.BaseResponse<_i5.ForgetPasswordEntity>>);
 }
 
 /// A class which mocks [VerifyPasswordUsecase].
@@ -78,20 +78,20 @@ class MockVerifyPasswordUsecase extends _i1.Mock
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i9.VerifyPasswordResponce>> verifyPassword(
+  _i3.Future<_i4.BaseResponse<_i9.VerifyPasswordEntity>> verifyPassword(
     _i10.VerifyPasswordRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#verifyPassword, [request]),
             returnValue:
-                _i3.Future<_i4.BaseResponse<_i9.VerifyPasswordResponce>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i9.VerifyPasswordResponce>>(
+                _i3.Future<_i4.BaseResponse<_i9.VerifyPasswordEntity>>.value(
+                  _i7.dummyValue<_i4.BaseResponse<_i9.VerifyPasswordEntity>>(
                     this,
                     Invocation.method(#verifyPassword, [request]),
                   ),
                 ),
           )
-          as _i3.Future<_i4.BaseResponse<_i9.VerifyPasswordResponce>>);
+          as _i3.Future<_i4.BaseResponse<_i9.VerifyPasswordEntity>>);
 }
 
 /// A class which mocks [ResetPasswordUsecase].
@@ -104,18 +104,18 @@ class MockResetPasswordUsecase extends _i1.Mock
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i12.ResetPasswordResponce>> resetPassword(
+  _i3.Future<_i4.BaseResponse<_i12.ResetPasswordEntity>> resetPassword(
     _i13.ResetPasswordRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#resetPassword, [request]),
             returnValue:
-                _i3.Future<_i4.BaseResponse<_i12.ResetPasswordResponce>>.value(
-                  _i7.dummyValue<_i4.BaseResponse<_i12.ResetPasswordResponce>>(
+                _i3.Future<_i4.BaseResponse<_i12.ResetPasswordEntity>>.value(
+                  _i7.dummyValue<_i4.BaseResponse<_i12.ResetPasswordEntity>>(
                     this,
                     Invocation.method(#resetPassword, [request]),
                   ),
                 ),
           )
-          as _i3.Future<_i4.BaseResponse<_i12.ResetPasswordResponce>>);
+          as _i3.Future<_i4.BaseResponse<_i12.ResetPasswordEntity>>);
 }

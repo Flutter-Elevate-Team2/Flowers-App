@@ -1,18 +1,16 @@
-/// status : "Success"
+import 'package:json_annotation/json_annotation.dart';
 
+part 'verify_password_responce.g.dart';
+
+@JsonSerializable()
 class VerifyPasswordResponce {
-  VerifyPasswordResponce({
-      this.status,});
-
-  VerifyPasswordResponce.fromJson(dynamic json) {
-    status = json['status'];
-  }
   String? status;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = status;
-    return map;
+  VerifyPasswordResponce({this.status});
+
+  factory VerifyPasswordResponce.fromJson(Map<String, dynamic> json) {
+    return _$VerifyPasswordResponceFromJson(json);
   }
 
+  Map<String, dynamic> toJson() => _$VerifyPasswordResponceToJson(this);
 }

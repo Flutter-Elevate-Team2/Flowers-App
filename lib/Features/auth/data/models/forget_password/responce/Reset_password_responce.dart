@@ -1,23 +1,17 @@
-/// message : "success"
-/// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDkyNDc4ZTM2NGVmNjE0MDQyYjQ0NyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzY2NDAyNDQ5fQ.2oS7Qf2lYDXQLOgVMLvPtnesVUNyk0dltGGi15aT2Ac"
+import 'package:json_annotation/json_annotation.dart';
 
+part 'reset_password_responce.g.dart';
+
+@JsonSerializable()
 class ResetPasswordResponce {
-  ResetPasswordResponce({
-      this.message, 
-      this.token,});
-
-  ResetPasswordResponce.fromJson(dynamic json) {
-    message = json['message'];
-    token = json['token'];
-  }
   String? message;
   String? token;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['message'] = message;
-    map['token'] = token;
-    return map;
+  ResetPasswordResponce({this.message, this.token});
+
+  factory ResetPasswordResponce.fromJson(Map<String, dynamic> json) {
+    return _$ResetPasswordResponceFromJson(json);
   }
 
+  Map<String, dynamic> toJson() => _$ResetPasswordResponceToJson(this);
 }

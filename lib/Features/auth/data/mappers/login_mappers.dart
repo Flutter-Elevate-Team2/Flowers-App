@@ -14,7 +14,7 @@ extension LoginResponseMapper on LoginResponse {
 extension UserMapper on User {
   LoginUserEntity toEntity() {
     return LoginUserEntity(
-      id: Id ?? " ",
+      id: id ?? " ",
       firstName: firstName ?? " ",
       lastName: lastName ?? " ",
       email: email ?? " ",
