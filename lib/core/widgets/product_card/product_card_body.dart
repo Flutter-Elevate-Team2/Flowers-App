@@ -1,10 +1,9 @@
-import 'package:flowers_app/Features/home/presentation/widgets/product_card_image.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/product_card_price_row.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/product_card_title.dart';
+import 'package:flowers_app/Features/home/presentation/widgets/add_to_cart_button.dart';
+import 'package:flowers_app/core/widget/product_card/product_card_title.dart';
+import 'package:flowers_app/core/widget/product_card/product_price_row.dart';
+import 'package:flowers_app/core/widgets/product_card/product_card_image.dart';
 import 'package:flutter/material.dart';
-
-import '../../domain/entities/product_entity.dart';
-import 'add_to_cart_button.dart';
+import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 
 class ProductCardBody extends StatelessWidget {
   final BoxConstraints constraints;

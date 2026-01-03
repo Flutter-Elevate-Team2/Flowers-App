@@ -1,7 +1,5 @@
-import 'package:flowers_app/Features/home/domain/entities/home_entities/bestseller_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
@@ -152,17 +150,17 @@ class AppRouter {
       ),
 
       /// ====== BEST SELLER SCREEN ======
-      GoRoute(
-        path: Routes.bestSellerPath,
-        name: Routes.bestSellerName,
-        // Fix: Added builder (Replace SizedBox with BestSellerScreen)
-        builder: (context, state) {
-          final bestSellers = state.extra as List<BestSellerEntity>?;
-          return BestSellerScreen(
-
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: Routes.bestSellerPath,
+      //   name: Routes.bestSellerName,
+      //   // Fix: Added builder (Replace SizedBox with BestSellerScreen)
+      //   builder: (context, state) {
+      //     final bestSellers = state.extra as List<BestSellerEntity>?;
+      //     return BestSellerScreen(
+      //
+      //     );
+      //   },
+      // ),
 
       /// ====== OCCASIONS SCREEN ======
       GoRoute(

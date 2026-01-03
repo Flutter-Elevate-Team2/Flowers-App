@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -63,7 +62,7 @@ import 'app_localizations_en.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,7 +71,7 @@ abstract class AppLocalizations {
   }
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
-  _AppLocalizationsDelegate();
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,12 +84,12 @@ abstract class AppLocalizations {
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-  <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('en')];
@@ -659,37 +658,37 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get loginButton;
 
-  /// Currency symbol for Egyptian Pounds
+  /// No description provided for @egp.
   ///
   /// In en, this message translates to:
   /// **'EGP'**
   String get egp;
 
-  /// Label for the status
+  /// No description provided for @status.
   ///
   /// In en, this message translates to:
   /// **'Status: '**
   String get status;
 
-  /// Label for the in stock status
+  /// No description provided for @inStock.
   ///
   /// In en, this message translates to:
   /// **'In stock'**
   String get inStock;
 
-  /// Label for the out of stock status
+  /// No description provided for @outOfStock.
   ///
   /// In en, this message translates to:
   /// **'Out of stock'**
   String get outOfStock;
 
-  /// Label for the include tax status
+  /// No description provided for @includeTax.
   ///
   /// In en, this message translates to:
   /// **'All prices include tax'**
   String get includeTax;
 
-  /// Label for the description
+  /// No description provided for @description.
   ///
   /// In en, this message translates to:
   /// **'Description'**
@@ -719,7 +718,7 @@ abstract class AppLocalizations {
   /// **'No results found'**
   String get searchNoResults;
 
-  /// Label for the search input field
+  /// No description provided for @searchFor.
   ///
   /// In en, this message translates to:
   /// **'Search For Any Product You Want'**
@@ -812,8 +811,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-        'an issue with the localizations generation tool. Please file an issue '
-        'on GitHub with a reproducible sample app and the gen-l10n configuration '
-        'that was used.',
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
   );
 }

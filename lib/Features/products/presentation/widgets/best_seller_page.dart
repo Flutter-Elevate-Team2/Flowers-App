@@ -41,17 +41,12 @@ class _BestSellerPageState extends State<BestSellerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final tabs = ["All", "Plants", "Flowers", "Pots", "Seeds"];
     // final tabs = widget.bestSellers?.map((e) => e.name).toList() ?? [];
     return SafeArea(
-      child: DefaultTabController(
-        length: tabs.length,
-        child: BestSellerBody(
-          tabs: tabs,
+      child:BestSellerBody(
           scrollController: _scrollController,
           // bestSellers: widget.bestSellers,
         ),
-      ),
     );
   }
 }
