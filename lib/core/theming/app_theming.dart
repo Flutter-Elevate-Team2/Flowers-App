@@ -17,9 +17,12 @@ abstract class AppTheme {
       onError: AppColors.white,
       surface: AppColors.white,
       onSurface: AppColors.mainColor,
+      surfaceContainerHighest: AppColors.gray,
+      tertiary: AppColors.green,
+      shadow: AppColors.black.withValues(alpha: 0.1),
     ),
     textTheme: TextTheme(
-      bodySmall: getTextStyle(),
+      bodySmall: getTextStyle(fontSize: 14 , fontWeight: FontWeight.w400),
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
       headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -70,6 +73,7 @@ abstract class AppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        iconSize: 16,
         backgroundColor: AppColors.mainColor,
         disabledBackgroundColor: AppColors.black[30],
         foregroundColor: AppColors.white,
@@ -78,6 +82,17 @@ abstract class AppTheme {
       ),
     ),
 
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      extendedSizeConstraints: BoxConstraints(
+        minWidth: 80,
+        minHeight: 34,
+      ),
+      backgroundColor: AppColors.mainColor,
+      foregroundColor: AppColors.white,
+      extendedTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+
+    ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
       contentTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
