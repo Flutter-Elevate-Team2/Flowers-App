@@ -27,6 +27,19 @@ import '../../Features/home/domain/use_cases/get_home_sections_use_case.dart'
     as _i301;
 import '../../Features/home/presentation/view_model/home_view_model.dart'
     as _i470;
+import '../../Features/products/api/api_client/products_api.dart' as _i308;
+import '../../Features/products/api/products_remote_data_source_impl/products_remote_data_source_impl.dart'
+    as _i639;
+import '../../Features/products/data/products_data_source_contract/products_data_source_contract.dart'
+    as _i166;
+import '../../Features/products/data/products_repo_impl/products_repo_impl.dart'
+    as _i988;
+import '../../Features/products/domain/products_repo_contract/products_repo_contract.dart'
+    as _i472;
+import '../../Features/products/domain/use_cases/products_usecase.dart'
+    as _i804;
+import '../../Features/products/presentation/view_model/products_view_model.dart'
+    as _i401;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -79,6 +92,21 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i470.HomeViewModel>(
       () => _i470.HomeViewModel(gh<_i301.GetHomeSectionsUseCase>()),
+    gh.lazySingleton<_i308.ProductsApi>(
+      () => _i308.ProductsApi(gh<_i361.Dio>()),
+    );
+    gh.factory<_i166.ProductsRemoteDataSourceContract>(
+      () => _i639.ProductsRemoteDataSourceImpl(gh<_i308.ProductsApi>()),
+    );
+    gh.factory<_i472.ProductsRepoContract>(
+      () =>
+          _i988.ProductsRepoImpl(gh<_i166.ProductsRemoteDataSourceContract>()),
+    );
+    gh.factory<_i804.ProductsUseCase>(
+      () => _i804.ProductsUseCase(gh<_i472.ProductsRepoContract>()),
+    );
+    gh.factory<_i401.ProductsViewModel>(
+      () => _i401.ProductsViewModel(gh<_i804.ProductsUseCase>()),
     );
     return this;
   }

@@ -24,18 +24,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _sessionController = getIt<SessionController>();
   late StreamSubscription? _subscription;
-@override
+  @override
   void initState() {
     super.initState();
     _subscription = _sessionController.onSessionExpired.listen((_) {
       // Fix: Check mounted and pass correct context
       if (mounted) {
-         SessionExpiredHandler.handle(context);
+        SessionExpiredHandler.handle(context);
       }
     });
   }
 
- @override
+  @override
   void dispose() {
     // Fix: Safe cancel
     _subscription?.cancel();
