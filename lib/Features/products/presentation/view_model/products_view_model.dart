@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flowers_app/Features/products/domain/entities/paginated_products_entity.dart';
-
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
 import 'package:flowers_app/Features/products/domain/use_cases/products_usecase.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
@@ -13,6 +12,9 @@ import 'package:injectable/injectable.dart';
 @injectable
 class ProductsViewModel extends Cubit<ProductsStates> {
   final ProductsUseCase _getProductsUseCase;
+
+  //final GetHomeSectionsUseCase _getHomeSectionsUseCase;
+
 
   bool isSearchFocused = false;
   String? _categoryId;
@@ -33,9 +35,9 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     if (event is FetchProductsEvent) {
       final isNewQuery =
           _sort != event.sort ||
-          _categoryId != event.categoryId ||
-          _occasionId != event.occasionId ||
-          _search != event.search;
+              _categoryId != event.categoryId ||
+              _occasionId != event.occasionId ||
+              _search != event.search;
 
       _categoryId = event.categoryId;
       _occasionId = event.occasionId;
@@ -45,25 +47,30 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       if (event.reset || isNewQuery) {
         _page = 1;
         _nextPage = null;
-        if (isNewQuery) {
-          emit(
-            state.copyWith(
-              productsState: BaseState<List<ProductEntity>>(isLoading: true),
-            ),
-          );
-        }
+        // if (isNewQuery) {
+        //   emit(
+        //     state.copyWith(
+        //       productsState: BaseState<List<ProductEntity>>(isLoading: true),
+        //     ),
+        //   );
+        // }
       }
       _getAllProducts(_categoryId, _occasionId, _sort, _search);
     } else if (event is LoadMoreProductsEvent) {
       _loadMore();
     } else if (event is NavigateToProductDetailsEvent) {
       emit(state.copyWith(navigateToProduct: event.product));
+    } else if (event is FetchCategoriesEvent) {
+      _fetchCategories();
+    } else if (event is FetchOccasionsEvent) {
+      _fetchOccasions();
     }
   }
 
   void _loadMore() {
-    if (state.isPaginationLoading || state.productsState?.isLoading == true)
+    if (state.isPaginationLoading || state.productsState?.isLoading == true) {
       return;
+    }
     if (_nextPage == null) return;
     _page = _nextPage!;
     _getAllProducts(_categoryId, _occasionId, _sort, _search);
@@ -113,12 +120,10 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     _getAllProducts(_categoryId, _occasionId, _sort, query);
   }
 
-  Future<void> _getAllProducts(
-    final String? categoryId,
-    final String? occasionId,
-    final String? sort,
-    final String? search,
-  ) async {
+  Future<void> _getAllProducts(final String? categoryId,
+      final String? occasionId,
+      final String? sort,
+      final String? search,) async {
     if (_page == 1) {
       emit(
         state.copyWith(
@@ -174,20 +179,18 @@ class ProductsViewModel extends Cubit<ProductsStates> {
           isPaginationLoading: false,
           productsState: _page == 1
               ? BaseState<List<ProductEntity>>(
-                  errorMessage: 'Failed to load products',
-                )
+            errorMessage: 'Failed to load products',
+          )
               : state.productsState,
         ),
       );
     }
   }
 
-  Future<BaseResponse<PaginatedProductsEntity>> _handleQuery(
-    String? categoryId,
-    String? sort,
-    String? search,
-    String? occasionId,
-  ) async {
+  Future<BaseResponse<PaginatedProductsEntity>> _handleQuery(String? categoryId,
+      String? sort,
+      String? search,
+      String? occasionId,) async {
     if (categoryId != null && categoryId.isNotEmpty) {
       return await _getProductsUseCase.getProducts(
         categoryId: categoryId,
@@ -212,5 +215,65 @@ class ProductsViewModel extends Cubit<ProductsStates> {
         limit: _limit,
       );
     }
+  }
+
+  Future<void> _fetchCategories() async {
+    emit(state.copyWith(
+      //  categoriesState: BaseState<List<String>>(isLoading: true),
+    ),
+    );
+
+    //  final result = await _getHomeSectionsUseCase.call();
+
+    // if (result is SuccessResponse<HomeEntity>) {
+    //   emit(
+    //     state.copyWith(
+    //       categoriesState: BaseState<List<CategoryEntity>>(
+    //         data: result.data.categories,
+    //         isLoading: false,
+    //       ),
+    //     ),
+    //   );
+    // } else if (result is ErrorResponse<HomeEntity>) {
+    //   emit(
+    //     state.copyWith(
+    //       categoriesState: BaseState<List<CategoryEntity>>(
+    //         errorMessage: result.errorMessage,
+    //         isLoading: false,
+    //
+    //
+    //       ),
+    //     ),
+    //   );
+    // }
+  }
+
+  Future<void> _fetchOccasions() async {
+    emit(state.copyWith(
+      //  occasionsState: BaseState<List<String>>(isLoading: true),
+    ),
+    );
+
+    //  final result = await _getHomeSectionsUseCase.call();
+
+    // if (result is SuccessResponse<HomeEntity>) {
+    //   emit(
+    //     state.copyWith(
+    //       occasionsState: BaseState<List<OccasionEntity>>(
+    //         data: result.data.occasions,
+    //         isLoading: false,
+    //       ),
+    //     ),
+    //   );
+    // } else if (result is ErrorResponse<HomeEntity>) {
+    //   emit(
+    //     state.copyWith(
+    //       occasionsState: BaseState<List<OccasionEntity>>(
+    //         errorMessage: result.errorMessage,
+    //         isLoading: false,
+    //       ),
+    //     ),
+    //   );
+    // }
   }
 }

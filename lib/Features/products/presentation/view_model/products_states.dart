@@ -3,6 +3,8 @@ import 'package:flowers_app/core/base_states/base_states.dart';
 
 class ProductsStates {
   final BaseState<List<ProductEntity>>? productsState;
+  // final BaseState<List<CategoryEntity>>? categoriesState;
+  // final BaseState<List<OccasionEntity>>? occasionsState;
   final bool isSearchFocused;
   final String searchText;
   final int currentPage;
@@ -15,6 +17,8 @@ class ProductsStates {
 
   ProductsStates({
     this.productsState,
+    // this.categoriesState,
+    // this.occasionsState,
     this.isSearchFocused = false,
     this.searchText = '',
     this.currentPage = 1,
@@ -27,6 +31,8 @@ class ProductsStates {
 
   ProductsStates copyWith({
     BaseState<List<ProductEntity>>? productsState,
+    // BaseState<List<CategoryEntity>>? categoriesState,
+    // BaseState<List<OccasionEntity>>? occasionsState,
     bool? isSearchFocused,
     String? searchText,
     int? currentPage,
