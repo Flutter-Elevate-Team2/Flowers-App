@@ -274,6 +274,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginButton => 'Login';
 
   @override
+  String get addToCart => 'Add To Cart';
   String get egp => 'EGP';
 
   @override
