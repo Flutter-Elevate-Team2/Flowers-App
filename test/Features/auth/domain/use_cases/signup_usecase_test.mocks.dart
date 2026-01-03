@@ -10,6 +10,8 @@ import 'package:flowers_app/Features/auth/data/models/signup_models/signup_reque
     as _i6;
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
     as _i2;
+import 'package:flowers_app/Features/auth/domain/entities/login_entity.dart'
+    as _i8;
 import 'package:flowers_app/Features/auth/domain/entities/signup_entity.dart'
     as _i5;
 import 'package:mockito/mockito.dart' as _i1;
@@ -52,4 +54,20 @@ class MockAuthRepoContract extends _i1.Mock implements _i2.AuthRepoContract {
             ),
           )
           as _i3.Future<_i4.BaseResponse<_i5.SignupEntity>>);
+
+  @override
+  _i3.Future<_i4.BaseResponse<_i8.LoginEntity>> login(
+    String? email,
+    String? password,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#login, [email, password]),
+            returnValue: _i3.Future<_i4.BaseResponse<_i8.LoginEntity>>.value(
+              _i7.dummyValue<_i4.BaseResponse<_i8.LoginEntity>>(
+                this,
+                Invocation.method(#login, [email, password]),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.BaseResponse<_i8.LoginEntity>>);
 }
