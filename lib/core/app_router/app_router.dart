@@ -3,11 +3,11 @@ import 'package:flowers_app/Features/auth/presentation/forget_password/views/for
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
+
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
-import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
@@ -53,61 +53,43 @@ class Routes {
 class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _homeNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _categoriesNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _cartNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _profileNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: Routes.signInPath,
-
     redirect: (context, state) async {
       final authRepo = getIt<AuthRepoContract>();
-
       final bool isLoggedIn = await authRepo.isLoggedIn();
-
       final bool isLoggingIn = state.uri.toString() == Routes.signInPath;
 
       if (isLoggedIn && isLoggingIn) {
         return Routes.homePath;
       }
-
       return null;
     },
-
-  GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> _homeNavigatorKey =
-  GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> _categoriesNavigatorKey =
-  GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> _cartNavigatorKey =
-  GlobalKey<NavigatorState>();
-  static final GlobalKey<NavigatorState> _profileNavigatorKey =
-  GlobalKey<NavigatorState>();
-
-  static final GoRouter router = GoRouter(
-    navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.homePath,
     routes: [
       GoRoute(
         path: Routes.signInPath,
         name: Routes.signInName,
         builder: (context, state) => const LoginScreen(),
-        builder: (context, state) => const SizedBox(),
       ),
       GoRoute(
         path: Routes.signUpPath,
         name: Routes.signUpName,
         builder: (context, state) => const SignUpScreen(),
-        builder: (context, state) => const SizedBox(),
       ),
       GoRoute(
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
         builder: (context, state) => const ForgetPasswordScreenFlow(),
-      ),
-      GoRoute(
-        path: Routes.homePath,
-        name: Routes.homeName,
-        builder: (context, state) => const HomeScreen(),
-        builder: (context, state) => const SizedBox(),
       ),
 
       /// ====== MAIN SHELL ROUTE (BOTTOM NAV BAR) ======
@@ -138,7 +120,7 @@ class AppRouter {
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>?;
                   final categories =
-                  extra?['categories'] as List<CategoryEntity>?;
+                      extra?['categories'] as List<CategoryEntity>?;
                   final initialIndex = extra?['initialIndex'] as int? ?? 0;
 
                   return CategoriesScreen(
@@ -158,7 +140,7 @@ class AppRouter {
                 path: Routes.cartPath,
                 name: Routes.cartName,
                 builder: (context, state) =>
-                const Center(child: Text("Cart Screen")),
+                    const Center(child: Text("Cart Screen")),
               ),
             ],
           ),
@@ -171,7 +153,7 @@ class AppRouter {
                 path: Routes.profilePath,
                 name: Routes.profileName,
                 builder: (context, state) =>
-                const Center(child: Text("Profile Screen")),
+                    const Center(child: Text("Profile Screen")),
               ),
             ],
           ),
@@ -182,7 +164,6 @@ class AppRouter {
       GoRoute(
         path: Routes.bestSellerPath,
         name: Routes.bestSellerName,
-        // Fix: Added builder (Replace SizedBox with BestSellerScreen)
         builder: (context, state) {
           final bestSellers = state.extra as List<BestSellerEntity>?;
           return BestSeller(bestSellers: bestSellers);
@@ -202,15 +183,6 @@ class AppRouter {
             occasions: occasions,
             initialIndex: initialIndex,
           );
-              // final extra = state.extra as Map<String, dynamic>?;
-              //     final categories =
-              //     extra?['categories'] as List<CategoryEntity>?;
-              //     final initialIndex = extra?['initialIndex'] as int? ?? 0;
-
-              //     return CategoriesScreen(
-              //       categories: categories,
-              //       initialIndex: initialIndex,
-              //     );
         },
       ),
 
