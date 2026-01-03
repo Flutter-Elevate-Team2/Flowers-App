@@ -44,4 +44,10 @@ abstract class AppColors {
   static const Color red = Color(0xffCC1010);
   static const Color green = Color(0xFF0CB359);
   static const Color lightPink = Color(0xFFF9ECF0);
+
+  // OTP Input Colors
+  static const Color otpDisabledBackground = Color(0xFFF5F5F5);
+  static const Color otpDisabledBorder = Color(0xFFE0E0E0);
+  static const Color otpErrorBorder = Color(0xFFE53935);
+  static const Color otpErrorText = Color(0xFFE53935);
 }
