@@ -13,4 +13,8 @@ class ApiConstants {
 
   // ================= Products Endpoints =================
   static const String getProducts = "/products";
+  static const int defaultCurrentPage = 1;
+  static const int defaultLimit = 40;
+  static const int defaultTotalPages = 1;
+  static const int defaultTotalItems = 0;
 }

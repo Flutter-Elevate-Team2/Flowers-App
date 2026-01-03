@@ -67,7 +67,7 @@ void _productsResponseMapperTests() {
         expect(entity.products, isEmpty);
         expect(entity.meta.currentPage, 1);
         expect(entity.meta.totalPages, 1);
-        expect(entity.meta.limit, 20);
+        expect(entity.meta.limit, 40);
         expect(entity.meta.totalItems, 0);
       },
     );
