@@ -22,41 +22,43 @@ abstract class AppTheme {
       bodySmall: getTextStyle(),
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-      headlineMedium: getTextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      ),
+      headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.white,
-      titleTextStyle: getTextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
-      ),
+      titleTextStyle: getTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       iconTheme: IconThemeData(color: AppColors.black),
     ),
 
     inputDecorationTheme: InputDecorationTheme(
+
+
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+alignLabelWithHint: true,
+
       filled: true,
       fillColor: AppColors.white,
-      contentPadding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
+      contentPadding: EdgeInsets.only(left: 16, top: 20, bottom: 20),
       hintStyle: getTextStyle(
         color: AppColors.white[70],
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
+
       ),
       labelStyle: getTextStyle(
         color: AppColors.gray,
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
+        fontSize: 18
+
       ),
       floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
         if (states.contains(WidgetState.error)) {
-          return getTextStyle(color: AppColors.red); 
+          return getTextStyle(color: AppColors.red);
         }
-        return getTextStyle(color: AppColors.gray);
+        return getTextStyle(color: AppColors.gray, fontSize: 16);
       }),
-      errorStyle: getTextStyle(color: AppColors.red),
+       errorStyle: getTextStyle(color: AppColors.red),
       border: getOutlineInputBorder(color: AppColors.gray),
       focusedBorder: getOutlineInputBorder(color: AppColors.gray),
       enabledBorder: getOutlineInputBorder(color: AppColors.gray),
@@ -83,16 +85,22 @@ abstract class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       ),
     ),
-
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.black,
+        textStyle: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          decoration: TextDecoration.underline,
+        ),
+        padding: EdgeInsets.zero,
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    ),
     dialogTheme: DialogThemeData(
-      titleTextStyle: getTextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
-      ),
-      contentTextStyle: getTextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
+      titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+      contentTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
     ),
   );
 

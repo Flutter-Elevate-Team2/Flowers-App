@@ -3,22 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i5;
 
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_remote_data_source_contract.dart'
-    as _i5;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/forget_password_request.dart'
-    as _i7;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/reset_password_request.dart'
-    as _i9;
-import 'package:flowers_app/Features/auth/data/models/forget_password/request/verify_password_request.dart'
-    as _i8;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/forget_password_response.dart'
-    as _i2;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/reset_password_response.dart'
     as _i4;
-import 'package:flowers_app/Features/auth/data/models/forget_password/responce/verify_password_response.dart'
+import 'package:flowers_app/Features/auth/data/models/login_models/login_request.dart'
+    as _i7;
+import 'package:flowers_app/Features/auth/data/models/login_models/login_response.dart'
     as _i3;
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_request.dart'
+    as _i6;
+import 'package:flowers_app/Features/auth/data/models/signup_models/signup_response.dart'
+    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -36,21 +32,14 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeForgetPasswordResponse_0 extends _i1.SmartFake
-    implements _i2.ForgetPasswordResponse {
-  _FakeForgetPasswordResponse_0(Object parent, Invocation parentInvocation)
+class _FakeSignupResponse_0 extends _i1.SmartFake
+    implements _i2.SignupResponse {
+  _FakeSignupResponse_0(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeVerifyPasswordResponse_1 extends _i1.SmartFake
-    implements _i3.VerifyPasswordResponse {
-  _FakeVerifyPasswordResponse_1(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeResetPasswordResponse_2 extends _i1.SmartFake
-    implements _i4.ResetPasswordResponse {
-  _FakeResetPasswordResponse_2(Object parent, Invocation parentInvocation)
+class _FakeLoginResponse_1 extends _i1.SmartFake implements _i3.LoginResponse {
+  _FakeLoginResponse_1(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -58,53 +47,31 @@ class _FakeResetPasswordResponse_2 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthRemoteDataSourceContract extends _i1.Mock
-    implements _i5.AuthRemoteDataSourceContract {
+    implements _i4.AuthRemoteDataSourceContract {
   MockAuthRemoteDataSourceContract() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i6.Future<_i2.ForgetPasswordResponse> forgetPassword(
-    _i7.ForgetPasswordRequest? request,
-  ) =>
+  _i5.Future<_i2.SignupResponse> signUp(_i6.SignupRequest? request) =>
       (super.noSuchMethod(
-            Invocation.method(#forgetPassword, [request]),
-            returnValue: _i6.Future<_i2.ForgetPasswordResponse>.value(
-              _FakeForgetPasswordResponse_0(
+            Invocation.method(#signUp, [request]),
+            returnValue: _i5.Future<_i2.SignupResponse>.value(
+              _FakeSignupResponse_0(
                 this,
-                Invocation.method(#forgetPassword, [request]),
+                Invocation.method(#signUp, [request]),
               ),
             ),
           )
-          as _i6.Future<_i2.ForgetPasswordResponse>);
+          as _i5.Future<_i2.SignupResponse>);
 
   @override
-  _i6.Future<_i3.VerifyPasswordResponse> verifyPassword(
-    _i8.VerifyPasswordRequest? request,
-  ) =>
+  _i5.Future<_i3.LoginResponse> login(_i7.LoginRequest? request) =>
       (super.noSuchMethod(
-            Invocation.method(#verifyPassword, [request]),
-            returnValue: _i6.Future<_i3.VerifyPasswordResponse>.value(
-              _FakeVerifyPasswordResponse_1(
-                this,
-                Invocation.method(#verifyPassword, [request]),
-              ),
+            Invocation.method(#login, [request]),
+            returnValue: _i5.Future<_i3.LoginResponse>.value(
+              _FakeLoginResponse_1(this, Invocation.method(#login, [request])),
             ),
           )
-          as _i6.Future<_i3.VerifyPasswordResponse>);
-
-  @override
-  _i6.Future<_i4.ResetPasswordResponse> resetPassword(
-    _i9.ResetPasswordRequest? request,
-  ) =>
-      (super.noSuchMethod(
-            Invocation.method(#resetPassword, [request]),
-            returnValue: _i6.Future<_i4.ResetPasswordResponse>.value(
-              _FakeResetPasswordResponse_2(
-                this,
-                Invocation.method(#resetPassword, [request]),
-              ),
-            ),
-          )
-          as _i6.Future<_i4.ResetPasswordResponse>);
+          as _i5.Future<_i3.LoginResponse>);
 }
