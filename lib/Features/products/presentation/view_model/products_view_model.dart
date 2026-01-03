@@ -65,6 +65,9 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     } else if (event is FetchOccasionsEvent) {
       _fetchOccasions();
     }
+    else if (event is FetchBestSellersEvent) {
+      _fetchBestSellers();
+    }
   }
 
   void _loadMore() {
@@ -269,6 +272,34 @@ class ProductsViewModel extends Cubit<ProductsStates> {
     //   emit(
     //     state.copyWith(
     //       occasionsState: BaseState<List<OccasionEntity>>(
+    //         errorMessage: result.errorMessage,
+    //         isLoading: false,
+    //       ),
+    //     ),
+    //   );
+    // }
+  }
+  Future<void> _fetchBestSellers() async {
+    emit(state.copyWith(
+      //  bestSellersState: BaseState<List<String>>(isLoading: true),
+    ),
+    );
+
+    //  final result = await _getHomeSectionsUseCase.call();
+
+    // if (result is SuccessResponse<HomeEntity>) {
+    //   emit(
+    //     state.copyWith(
+    //       bestSellersState: BaseState<List<OccasionEntity>>(
+    //         data: result.data.bestSellers,
+    //         isLoading: false,
+    //       ),
+    //     ),
+    //   );
+    // } else if (result is ErrorResponse<HomeEntity>) {
+    //   emit(
+    //     state.copyWith(
+    //       bestSellersState: BaseState<List<OccasionEntity>>(
     //         errorMessage: result.errorMessage,
     //         isLoading: false,
     //       ),

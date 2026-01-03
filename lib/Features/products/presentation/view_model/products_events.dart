@@ -31,3 +31,5 @@ class NavigateToProductDetailsEvent extends ProductsEvent {
 class FetchCategoriesEvent extends ProductsEvent {}
 
 class FetchOccasionsEvent extends ProductsEvent {}
+
+class FetchBestSellersEvent extends ProductsEvent {}

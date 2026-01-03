@@ -1,4 +1,3 @@
-import 'package:flowers_app/Features/home/presentation/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
@@ -95,13 +94,6 @@ class AppRouter {
         builder: (context, state) => ProductDetailsScreen(product: state.extra as ProductEntity),
       ),
 
-      /// ====== BEST SELLER SCREEN ======
-      GoRoute(
-        path: Routes.bestSellerPath,
-        name: Routes.bestSellerName,
-        // Fix: Added builder (Replace SizedBox with BestSellerScreen)
-        builder: (context, state) => const BestSeller(bestSellers: [],),
-      ),
     ],
   );
 }
