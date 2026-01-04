@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flowers_app/core/widget/app_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ProductCardImage extends StatelessWidget {
@@ -12,15 +14,25 @@ class ProductCardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-      child: Image.network(
-        imageUrl,
-        width: double.infinity,
-        height: height,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) =>
-            const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+    return Expanded(
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          width: double.infinity,
+          height: height,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => const AppShimmer(
+            height: double.infinity,
+            width: double.infinity,
+            radius: 0,
+          ),
+          errorWidget: (context, url, error) => Icon(
+            Icons.image_not_supported_outlined,
+            size: double.infinity,
+            color: Colors.grey.withAlpha(100),
+          ),
+        ),
       ),
     );
   }
