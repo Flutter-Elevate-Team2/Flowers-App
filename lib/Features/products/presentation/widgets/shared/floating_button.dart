@@ -1,6 +1,6 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/floating_button_content.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/sort_by.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/sort_by.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/floating_button_content.dart';
 import 'package:flutter/material.dart';
 
 class FloatingButton extends StatefulWidget {

@@ -47,12 +47,11 @@ class BestSeller extends StatelessWidget {
           crossAxisCount: 2,
           crossAxisSpacing: 16.0,
           mainAxisSpacing: 16.0,
-          childAspectRatio: 0.6, // Adjusted for ProductCard
+          childAspectRatio: 0.6,
         ),
         itemCount: bestSellers?.length ?? 0,
         itemBuilder: (context, index) {
           final item = bestSellers![index];
-          // Map BestSellerEntity to ProductEntity
           final product = ProductEntity(
             id: item.id,
             title: item.name,

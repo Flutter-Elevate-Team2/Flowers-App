@@ -1,9 +1,8 @@
 import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
-
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/default_tab_bar.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/paginated_products_view.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/default_tab_bar.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/paginated_products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

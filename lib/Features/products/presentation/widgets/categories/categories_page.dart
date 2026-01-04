@@ -1,24 +1,20 @@
-import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
+import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/occasion_body.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/categories/category_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class OccasionPage extends StatefulWidget {
-  final List<OccasionEntity>? occasions;
+class CategoriesPage extends StatefulWidget {
+  final List<CategoryEntity>? categories;
   final int initialIndex;
-  const OccasionPage({
-    super.key,
-    this.occasions,
-    required this.initialIndex,
-  });
+  const CategoriesPage({super.key, this.categories, this.initialIndex = 0});
 
   @override
-  State<OccasionPage> createState() => _OccasionPageState();
+  State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _OccasionPageState extends State<OccasionPage> {
+class _CategoriesPageState extends State<CategoriesPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -43,15 +39,20 @@ class _OccasionPageState extends State<OccasionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final tabs = widget.occasions?.map((e) => e.name).toList() ?? [];
+    final searchController = TextEditingController();
+    final tabs = ["All", ...?widget.categories?.map((e) => e.name)];
+
     return SafeArea(
       child: DefaultTabController(
         initialIndex: widget.initialIndex,
         length: tabs.length,
-        child: OccasionBody(
+        child: Scaffold(
+          body: CategoryBody(
+            searchController: searchController,
             tabs: tabs,
             scrollController: _scrollController,
-          occasions: widget.occasions,
+            categories: widget.categories,
+          ),
         ),
       ),
     );

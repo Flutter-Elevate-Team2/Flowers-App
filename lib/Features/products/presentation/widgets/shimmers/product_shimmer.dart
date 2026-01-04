@@ -1,5 +1,5 @@
-import 'package:flowers_app/Features/products/presentation/widgets/product_shimmer_body.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/product_shimmer_decoration.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/product_shimmer_body.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/product_shimmer_decoration.dart';
 import 'package:flutter/material.dart';
 
 class ProductShimmer extends StatelessWidget {

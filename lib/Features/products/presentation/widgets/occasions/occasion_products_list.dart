@@ -1,6 +1,6 @@
 import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/products_grid.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/products_grid_shimmer.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/products_grid.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/products_grid_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class OccasionProductsList extends StatelessWidget {
@@ -19,7 +19,7 @@ class OccasionProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       controller: scrollController,
-     
+
       children: [
         ProductsGrid(
           products: products,

@@ -1,9 +1,9 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/filter_action_button.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/sort_by_item.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/sort_option.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/sort_title.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/filter_action_button.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/sort_by_item.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/sort_option.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/sort_title.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -49,10 +49,7 @@ class _SortByState extends State<SortBy> {
             const SizedBox(height: 16),
 
             ...options.entries.map((entry) {
-              return SortByItem(
-                label: entry.value,
-                option: entry.key,
-              );
+              return SortByItem(label: entry.value, option: entry.key);
             }),
 
             const SizedBox(height: 16),

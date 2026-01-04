@@ -2,8 +2,8 @@ import 'package:flowers_app/Features/home/domain/entities/home_entities/category
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/categories_page.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/floating_button.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/categories/categories_page.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/floating_button.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +21,6 @@ class CategoriesScreen extends StatelessWidget {
       create: (context) {
         final viewModel = getIt<ProductsViewModel>();
 
-        // Fetch specific category if initialIndex > 0 (0 is "All")
         if (initialIndex > 0 &&
             categories != null &&
             categories!.length >= initialIndex) {
@@ -42,7 +41,7 @@ class CategoriesScreen extends StatelessWidget {
           final viewModel = context.read<ProductsViewModel>();
           return Scaffold(
             floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+                FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingButton(viewModel),
             body: BlocBuilder<ProductsViewModel, ProductsStates>(
               builder: (context, state) {

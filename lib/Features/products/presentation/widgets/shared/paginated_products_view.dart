@@ -1,9 +1,9 @@
 import 'package:flowers_app/Features/products/presentation/view_model/products_states.dart';
-import 'package:flowers_app/core/helpers/error_mapper.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/products_grid.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/products_grid_shimmer.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/products_grid.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/products_grid_shimmer.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/core/helpers/error_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,9 +32,7 @@ class PaginatedProductsView extends StatelessWidget {
                 child: Center(child: Text(context.l10n.searchFor)),
               )
             else if (state.productsState?.isLoading == true)
-              const SliverFillRemaining(
-                child: ProductsGridShimmer(),
-              )
+              const SliverFillRemaining(child: ProductsGridShimmer())
             else if (state.productsState?.errorMessage != null)
               SliverFillRemaining(
                 child: Center(

@@ -1,6 +1,6 @@
-import 'package:flowers_app/Features/products/presentation/widgets/product_shimmer_image.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/product_shimmer_price.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/product_shimmer_title.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/product_shimmer_image.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/product_shimmer_price.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/product_shimmer_title.dart';
 import 'package:flowers_app/core/widget/app_shimmer.dart';
 import 'package:flutter/material.dart';
 

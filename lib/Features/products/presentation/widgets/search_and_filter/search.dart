@@ -1,5 +1,5 @@
-import 'package:flowers_app/Features/products/presentation/widgets/product_search_field.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/search_filter_button.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/product_search_field.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/search_filter_button.dart';
 import 'package:flutter/material.dart';
 
 class SearchAndFilterBar extends StatelessWidget {

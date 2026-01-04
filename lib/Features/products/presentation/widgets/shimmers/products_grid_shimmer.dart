@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/products/presentation/widgets/product_shimmer.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shimmers/product_shimmer.dart';
 import 'package:flutter/material.dart';
 
 class ProductsGridShimmer extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_events.dart';
 import 'package:flowers_app/Features/products/presentation/view_model/products_view_model.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/paginated_products_view.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/default_tab_bar.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/search.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/search_and_filter/search.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/default_tab_bar.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/paginated_products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +33,9 @@ class CategoryBody extends StatelessWidget {
               SearchAndFilterBar(
                 searchController: searchController,
                 onFocusChange: (focused) {
-                  context.read<ProductsViewModel>().onSearchFocusChanged(focused);
+                  context.read<ProductsViewModel>().onSearchFocusChanged(
+                    focused,
+                  );
                 },
                 onFilterTap: () {},
                 onSubmitted: (value) {
@@ -51,7 +53,8 @@ class CategoryBody extends StatelessWidget {
                       );
                     } else {
                       // Specific category
-                      if (categories != null && index - 1 < categories!.length) {
+                      if (categories != null &&
+                          index - 1 < categories!.length) {
                         final categoryId = categories![index - 1].id;
                         context.read<ProductsViewModel>().doIntent(
                           FetchProductsEvent(categoryId: categoryId),

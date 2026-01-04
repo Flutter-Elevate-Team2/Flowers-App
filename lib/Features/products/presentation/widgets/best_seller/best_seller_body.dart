@@ -1,5 +1,5 @@
-import 'package:flowers_app/Features/products/presentation/widgets/occasion_description.dart';
-import 'package:flowers_app/Features/products/presentation/widgets/paginated_products_view.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/occasions/occasion_description.dart';
+import 'package:flowers_app/Features/products/presentation/widgets/shared/paginated_products_view.dart';
 import 'package:flutter/material.dart';
 
 class BestSellerBody extends StatelessWidget {
