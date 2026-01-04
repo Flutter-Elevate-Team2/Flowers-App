@@ -16,7 +16,7 @@ jobs:
         with:
           script: |
             const title = context.payload.pull_request.title;
-            const titleRegex = /^(fix|release|feat|hotfix|build|test)\(([A-Z0-9]+-\d+|JIRA-\d+)\):\s(\2)-.+$/;
+            const titleRegex = /^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)(\([a-zA-Z0-9-]+\))?:\s.+$/;            
             if (!titleRegex.test(title)) {
               core.setFailed(
                 `❌ Invalid PR Title: "${title}".\n` +
