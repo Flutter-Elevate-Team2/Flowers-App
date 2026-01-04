@@ -1,7 +1,7 @@
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 
 import 'package:flowers_app/core/app_router/app_router.dart';
-import 'package:flowers_app/core/widget/product_card/product_card.dart';
+import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';

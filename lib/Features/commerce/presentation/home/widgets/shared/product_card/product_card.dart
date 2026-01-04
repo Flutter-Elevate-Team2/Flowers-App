@@ -1,6 +1,6 @@
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
-import 'package:flowers_app/core/widget/product_card/product_card_body.dart';
-import 'package:flowers_app/core/widget/product_card/product_card_decoration.dart';
+import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card_body.dart';
+import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card_decoration.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
