@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/commerce/products/domain/entities/product_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/core/widget/product_card/add_to_cart_button.dart';
 import 'package:flowers_app/core/widget/product_card/product_card_image.dart';
 import 'package:flowers_app/core/widget/product_card/product_card_title.dart';

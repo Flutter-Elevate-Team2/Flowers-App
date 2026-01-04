@@ -43,32 +43,22 @@ import '../../Features/auth/presentation/sign_in/view_model/login_view_model.dar
     as _i710;
 import '../../Features/auth/presentation/sign_up/view_model/sign_up_view_model.dart'
     as _i318;
-import '../../Features/commerce/home/api/api_client/home_api.dart' as _i657;
-import '../../Features/commerce/home/api/data_source_imple/home_remote_data_source.dart'
-    as _i218;
-import '../../Features/commerce/home/data/data_source_contract/home_remote_data_source_contract.dart'
-    as _i754;
-import '../../Features/commerce/home/data/repo/home_repo_imple.dart' as _i451;
-import '../../Features/commerce/home/domain/repo/home_repo_contract.dart'
-    as _i751;
-import '../../Features/commerce/home/domain/use_cases/get_home_sections_use_case.dart'
-    as _i579;
-import '../../Features/commerce/home/presentation/view_model/home_view_model.dart'
-    as _i73;
-import '../../Features/commerce/products/api/api_client/products_api.dart'
-    as _i988;
-import '../../Features/commerce/products/api/products_remote_data_source_impl/products_remote_data_source_impl.dart'
-    as _i565;
-import '../../Features/commerce/products/data/products_data_source_contract/products_data_source_contract.dart'
-    as _i557;
-import '../../Features/commerce/products/data/products_repo_impl/products_repo_impl.dart'
-    as _i660;
-import '../../Features/commerce/products/domain/products_repo_contract/products_repo_contract.dart'
-    as _i549;
-import '../../Features/commerce/products/domain/use_cases/products_usecase.dart'
-    as _i226;
-import '../../Features/commerce/products/presentation/view_model/products_view_model.dart'
-    as _i8;
+import '../../Features/commerce/api/api_client/commerce_api.dart' as _i516;
+import '../../Features/commerce/api/commerce_data_source_impl/commerce_remote_data_source_impl.dart'
+    as _i532;
+import '../../Features/commerce/data/commerce_data_source_contract/commerce_remote_data_source_contract.dart'
+    as _i10;
+import '../../Features/commerce/data/repos/commerce_repo_impl.dart' as _i48;
+import '../../Features/commerce/domain/repos/commerce_repo_contract.dart'
+    as _i596;
+import '../../Features/commerce/domain/use_cases/get_home_sections_use_case.dart'
+    as _i783;
+import '../../Features/commerce/domain/use_cases/products_usecase.dart'
+    as _i183;
+import '../../Features/commerce/presentation/home/view_model/home_view_model.dart'
+    as _i945;
+import '../../Features/commerce/presentation/products/view_model/products_view_model.dart'
+    as _i378;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -113,18 +103,17 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.lazySingleton<_i888.AuthApi>(() => _i888.AuthApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i657.HomeApi>(() => _i657.HomeApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i988.ProductsApi>(
-      () => _i988.ProductsApi(gh<_i361.Dio>()),
+    gh.lazySingleton<_i516.CommerceApi>(
+      () => _i516.CommerceApi(gh<_i361.Dio>()),
     );
     gh.factory<_i978.AuthRemoteDataSourceContract>(
       () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
     );
-    gh.factory<_i557.ProductsRemoteDataSourceContract>(
-      () => _i565.ProductsRemoteDataSourceImpl(gh<_i988.ProductsApi>()),
+    gh.factory<_i10.CommerceRemoteDataSourceContract>(
+      () => _i532.CommerceRemoteDataSourceImpl(gh<_i516.CommerceApi>()),
     );
-    gh.factory<_i754.HomeRemoteDataSourceContract>(
-      () => _i218.HomeRemoteDataSource(gh<_i657.HomeApi>()),
+    gh.factory<_i596.CommerceRepoContract>(
+      () => _i48.CommerceRepoImpl(gh<_i10.CommerceRemoteDataSourceContract>()),
     );
     gh.factory<_i30.AuthRepoContract>(
       () => _i573.AuthRepoImple(
@@ -144,13 +133,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i318.SignUpViewModel>(
       () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
     );
-    gh.factory<_i751.HomeRepoContract>(
-      () => _i451.HomeRepoImple(gh<_i754.HomeRemoteDataSourceContract>()),
-    );
-    gh.factory<_i549.ProductsRepoContract>(
-      () =>
-          _i660.ProductsRepoImpl(gh<_i557.ProductsRemoteDataSourceContract>()),
-    );
     gh.factory<_i762.ForgetPasswordUsecase>(
       () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
     );
@@ -160,11 +142,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i13.VerifyPasswordUsecase>(
       () => _i13.VerifyPasswordUsecase(gh<_i30.AuthRepoContract>()),
     );
-    gh.factory<_i579.GetHomeSectionsUseCase>(
-      () => _i579.GetHomeSectionsUseCase(gh<_i751.HomeRepoContract>()),
+    gh.factory<_i783.GetHomeSectionsUseCase>(
+      () => _i783.GetHomeSectionsUseCase(gh<_i596.CommerceRepoContract>()),
+    );
+    gh.factory<_i183.ProductsUseCase>(
+      () => _i183.ProductsUseCase(gh<_i596.CommerceRepoContract>()),
+    );
+    gh.factory<_i378.ProductsViewModel>(
+      () => _i378.ProductsViewModel(
+        gh<_i183.ProductsUseCase>(),
+        gh<_i783.GetHomeSectionsUseCase>(),
+      ),
     );
     gh.factory<_i710.LoginViewModel>(
       () => _i710.LoginViewModel(gh<_i512.LoginUseCase>()),
+    );
+    gh.factory<_i945.HomeViewModel>(
+      () => _i945.HomeViewModel(gh<_i783.GetHomeSectionsUseCase>()),
     );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(
@@ -172,18 +166,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i13.VerifyPasswordUsecase>(),
         gh<_i785.ResetPasswordUsecase>(),
       ),
-    );
-    gh.factory<_i226.ProductsUseCase>(
-      () => _i226.ProductsUseCase(gh<_i549.ProductsRepoContract>()),
-    );
-    gh.factory<_i8.ProductsViewModel>(
-      () => _i8.ProductsViewModel(
-        gh<_i226.ProductsUseCase>(),
-        gh<_i579.GetHomeSectionsUseCase>(),
-      ),
-    );
-    gh.factory<_i73.HomeViewModel>(
-      () => _i73.HomeViewModel(gh<_i579.GetHomeSectionsUseCase>()),
     );
     return this;
   }
