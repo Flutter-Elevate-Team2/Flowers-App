@@ -1,16 +1,36 @@
-// import 'package:dio/dio.dart';
-// import 'package:injectable/injectable.dart';
-// import 'package:retrofit/http.dart';
+ import 'package:dio/dio.dart';
+import 'package:flowers_app/Features/order/data/models/cart_request_dto.dart';
+import 'package:flowers_app/Features/order/data/models/cart_responce_model.dart';
+import 'package:flowers_app/core/constants/api_constants.dart';
+ import 'package:injectable/injectable.dart';
+import 'package:retrofit/error_logger.dart';
+ import 'package:retrofit/http.dart';
 
-// part 'cart_api.g.dart';
+ part 'cart_api.g.dart';
 
-// @lazySingleton
-// @RestApi()
-// @injectable
-// abstract class CartApi {
-//   @factoryMethod
-//   factory CartApi(Dio dio) = _CartApi;
+@lazySingleton
+@RestApi()
+ @injectable
+abstract class CartApi {
+   @factoryMethod
+   factory CartApi(Dio dio) = _CartApi;
+   @POST(ApiConstants.cart)
+  Future<CartResponceModel>addProductToCart(
+       @Body()CartRequest cartRequest
+       );
+   @GET(ApiConstants.cart)
+  Future<CartResponceModel>getProductsCart(
+       );
+   @DELETE("${ApiConstants.cart}/{id}")
+  Future<CartResponceModel>deleteProductFromCart(@Path("id")String itemId);
+
+   @PUT("${ApiConstants.cart}/{id}")
+   Future<CartResponceModel>updateCartProduct(@Path("id")String itemId,
+       @Field("quantity")int quantity);
 
 
-// }
+
+
+
+ }
 //Todo: Remove the comments and implement the Cart API client and run build runner to generate the part file.
