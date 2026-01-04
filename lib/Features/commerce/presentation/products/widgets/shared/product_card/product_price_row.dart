@@ -1,7 +1,7 @@
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
-import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card_discount.dart';
-import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card_old_price.dart';
-import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card_price.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_discount.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_old_price.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_price.dart';
 import 'package:flutter/material.dart';
 
 class ProductPriceRow extends StatelessWidget {

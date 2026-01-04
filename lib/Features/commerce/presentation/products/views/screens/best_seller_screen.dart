@@ -3,7 +3,7 @@ import 'package:flowers_app/Features/commerce/domain/entities/product_entities/p
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
-import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/product_card/product_card.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 class BestSeller extends StatelessWidget {
