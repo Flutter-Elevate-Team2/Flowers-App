@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/home_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/occasion_entity.dart';
-import 'package:flowers_app/Features/commerce/domain/use_cases/get_home_sections_use_case.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/paginated_products_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_query.dart';
+import 'package:flowers_app/Features/commerce/domain/use_cases/get_home_sections_use_case.dart';
 import 'package:flowers_app/Features/commerce/domain/use_cases/products_usecase.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/view_model/products_events.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/view_model/products_states.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_query.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -140,12 +140,12 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       _prevPage = shouldPaginate ? data.meta.prevPage : null;
       _nextPage = shouldPaginate ? data.meta.nextPage : null;
 
-      List<ProductEntity> allProducts = [];
+      List<ProductEntity> allProducts;
       if (_query.page == 1) {
-        allProducts = data.products;
+        allProducts = List.of(data.products, growable: true);
       } else {
-        final currentList = state.productsState?.data ?? [];
-        allProducts = [...currentList, ...data.products];
+        allProducts = List.of(state.productsState?.data ?? [], growable: true);
+        allProducts.addAll(data.products);
       }
 
       emit(

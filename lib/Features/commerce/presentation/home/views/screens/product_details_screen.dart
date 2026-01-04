@@ -10,25 +10,25 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final ProductEntity product;
-  final PageController controller = PageController();
 
-  ProductDetailsScreen({super.key, required this.product});
+  const ProductDetailsScreen({super.key, required this.product});
+
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  late final PageController controller;
+  late final PageController _controller; // Move controller here
 
   @override
   void initState() {
     super.initState();
-    controller = PageController();
+    _controller = PageController(); // Initialize in initState
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose(); // Dispose properly
     super.dispose();
   }
 
@@ -59,18 +59,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 children: [
                   Expanded(
                     child: PageView(
-                      controller: controller,
+                      controller: _controller, // Use the local controller
                       children: images
                           .map(
-                              (imageUrl) =>
-                              CachedNetworkImage(imageUrl: imageUrl,)
-                      )
+                            (imageUrl) =>
+                                CachedNetworkImage(imageUrl: imageUrl),
+                          )
                           .toList(),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   SmoothPageIndicator(
-                    controller: controller,
+                    controller: _controller, // Use the local controller
                     count: images.length,
                     effect: ScrollingDotsEffect(
                       dotHeight: 10,
@@ -80,7 +80,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       activeDotScale: 1.3,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),
@@ -158,7 +158,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    product.description ,
+                    product.description,
                     style: getRegularStyle(
                       color: Colors.grey[700]!,
                       fontSize: FontSize.s14,
@@ -210,7 +210,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     // Format price with thousand separators (e.g., 1500 -> 1,500)
     return price.toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (Match m) => '${m[1]},',
+      (Match m) => '${m[1]},',
     );
   }
 
