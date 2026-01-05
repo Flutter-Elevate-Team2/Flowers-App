@@ -2,18 +2,17 @@ import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_co
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
-import 'package:flowers_app/Features/home/presentation/views/screens/home_screen.dart';
-
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/best_seller_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/home_entities/category_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/home_entities/occasion_entity.dart';
+import 'package:flowers_app/Features/commerce/presentation/home/views/screens/home_screen.dart';
+import 'package:flowers_app/Features/commerce/presentation/home/views/screens/product_details_screen.dart';
+import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/home_screen_body.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
+import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
-import 'package:flowers_app/Features/home/domain/entities/best_seller_entity.dart';
-import 'package:flowers_app/Features/home/domain/entities/home_entities/category_entity.dart';
-import 'package:flowers_app/Features/home/domain/entities/home_entities/occasion_entity.dart';
-import 'package:flowers_app/Features/home/presentation/views/screens/product_details_screen.dart';
-import 'package:flowers_app/Features/home/presentation/widgets/home_screen_body.dart';
-import 'package:flowers_app/Features/products/domain/entities/product_entity.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/best_seller_screen.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/categories_screen.dart';
-import 'package:flowers_app/Features/products/presentation/views/screens/occasions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
