@@ -24,7 +24,7 @@ jobs:
                 `branch-type/TICKET-ID-task-name\n\n` +
                 `Allowed prefixes: feature, bugfix, hotfix, release\n` +
                 `Ticket format: TEAM2-17\n\n` +
-                `Example:\n` +
+                `Example:\n`  +
                 `feature/TEAM2-17-validate-branch-name`
               );
             } else {
