@@ -1,6 +1,6 @@
+import 'package:flowers_app/Features/commerce/data/models/products_model/products_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../products/data/models/products_model/products_dto.dart';
 part 'cart_item_dto.g.dart';
 
 @JsonSerializable()
