@@ -16,7 +16,7 @@ jobs:
             
             const branchName = context.payload.pull_request.head.ref;
 
-            const branchRegex = /^(feature|bugfix|hotfix|release)\/[A-Z]+-\d+-[a-z0-9]+(?:-[a-z0-9]+)*$/;
+            const branchRegex = /^(feature|bugfix|hotfix|release)\/[A-Z]+\d*-\d+-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
             if (!branchRegex.test(branchName)) {
               core.setFailed(
