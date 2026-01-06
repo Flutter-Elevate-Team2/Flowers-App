@@ -11,11 +11,7 @@ class LoginResponse {
   @JsonKey(name: "token")
   final String? token;
 
-  LoginResponse ({
-    this.message,
-    this.user,
-    this.token,
-  });
+  LoginResponse({this.message, this.user, this.token});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return _$LoginResponseFromJson(json);
@@ -51,7 +47,7 @@ class User {
   @JsonKey(name: "createdAt")
   final String? createdAt;
 
-  User ({
+  User({
     this.id,
     this.firstName,
     this.lastName,
@@ -73,5 +69,3 @@ class User {
     return _$UserToJson(this);
   }
 }
-
-

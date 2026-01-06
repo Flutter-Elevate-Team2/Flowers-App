@@ -30,7 +30,11 @@ class FormValidators {
     return null;
   }
 
-  static String? validateConfirmPassword(BuildContext context, String? value, String password) {
+  static String? validateConfirmPassword(
+    BuildContext context,
+    String? value,
+    String password,
+  ) {
     if (value == null || value.isEmpty) {
       return AppLocalizations.of(context)!.passwordRequired;
     }
@@ -56,18 +60,14 @@ class FormValidators {
     }
     return null;
   }
-   static String? validateLoginPassword(
-    BuildContext context,
-    String? value,
-) {
-  final trimmedValue = value?.trim();
 
-  if (trimmedValue == null || trimmedValue.isEmpty) {
-    return AppLocalizations.of(context)!.passwordRequired;
+  static String? validateLoginPassword(BuildContext context, String? value) {
+    final trimmedValue = value?.trim();
+
+    if (trimmedValue == null || trimmedValue.isEmpty) {
+      return AppLocalizations.of(context)!.passwordRequired;
+    }
+
+    return null;
   }
-
-
-  return null;
-}
-
 }

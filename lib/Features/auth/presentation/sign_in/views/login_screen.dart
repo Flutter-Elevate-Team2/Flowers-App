@@ -13,11 +13,11 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 50,
-          titleSpacing: 0,
-        title:  Text((context).l10n.loginTitle),
+        titleSpacing: 0,
+        title: Text((context).l10n.loginTitle),
         leading: InkWell(
           onTap: () {
-           // Navigator.pop(context);
+            // Navigator.pop(context);
           },
           child: const Icon(Icons.arrow_back_ios),
         ),
@@ -26,8 +26,6 @@ class LoginScreen extends StatelessWidget {
         create: (context) => getIt<LoginViewModel>(),
         child: LoginScreenBody(),
       ),
-
     );
   }
-
 }

@@ -3,9 +3,6 @@ import 'package:flowers_app/Features/auth/domain/entities/reset_password_entity.
 
 extension ResetPasswordMapper on ResetPasswordResponse {
   ResetPasswordEntity toEntity() {
-    return ResetPasswordEntity(
-      message: message ?? '',
-      token: token ?? '',
-    );
+    return ResetPasswordEntity(message: message ?? '', token: token ?? '');
   }
 }

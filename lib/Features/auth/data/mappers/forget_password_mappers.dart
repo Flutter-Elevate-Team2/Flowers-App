@@ -3,9 +3,6 @@ import 'package:flowers_app/Features/auth/domain/entities/forget_password_entity
 
 extension ForgetPasswordMapper on ForgetPasswordResponse {
   ForgetPasswordEntity toEntity() {
-    return ForgetPasswordEntity(
-      message: message ?? '',
-      info: info ?? '',
-    );
+    return ForgetPasswordEntity(message: message ?? '', info: info ?? '');
   }
 }

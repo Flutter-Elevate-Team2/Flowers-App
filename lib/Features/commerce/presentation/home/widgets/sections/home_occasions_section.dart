@@ -33,12 +33,9 @@ class HomeOccasionsSection extends StatelessWidget {
         SectionHeader(
           title: context.l10n.occasion,
           onViewAllTap: () {
-         context.pushNamed(
+            context.pushNamed(
               Routes.occasionName,
-              extra: {
-                'occasions': occasions,
-                'initialIndex': 0,
-              },
+              extra: {'occasions': occasions, 'initialIndex': 0},
             );
           },
         ),
@@ -56,10 +53,13 @@ class HomeOccasionsSection extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   final targetIndex = index;
-                  context.pushNamed(Routes.occasionName, extra: {
-                    'occasions': occasions,
-                    'initialIndex': targetIndex,
-                  });
+                  context.pushNamed(
+                    Routes.occasionName,
+                    extra: {
+                      'occasions': occasions,
+                      'initialIndex': targetIndex,
+                    },
+                  );
                 },
                 child: OccasionItem(
                   title: occasion.name,

@@ -2,10 +2,7 @@ class SignupEntity {
   final SignupUserEntity? user;
   final String? token;
 
-  SignupEntity({
-    required this.user,
-    required this.token,
-  });
+  SignupEntity({required this.user, required this.token});
 }
 
 class SignupUserEntity {
