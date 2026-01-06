@@ -9,10 +9,7 @@ class LoginRequest {
   @JsonKey(name: "password")
   final String? password;
 
-  LoginRequest ({
-    this.email,
-    this.password,
-  });
+  LoginRequest({this.email, this.password});
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) {
     return _$LoginRequestFromJson(json);
@@ -22,5 +19,3 @@ class LoginRequest {
     return _$LoginRequestToJson(this);
   }
 }
-
-

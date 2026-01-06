@@ -5,10 +5,7 @@ class LoginState {
   final BaseState<LoginEntity>? loginState;
   final bool isRememberMe;
 
-  LoginState({
-    this.loginState,
-    this.isRememberMe = false,
-  });
+  LoginState({this.loginState, this.isRememberMe = false});
 
   LoginState copyWith({
     BaseState<LoginEntity>? loginState,

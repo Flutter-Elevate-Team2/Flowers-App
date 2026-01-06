@@ -16,10 +16,10 @@ class AppShimmer extends StatelessWidget {
   });
 
   const AppShimmer.circle({super.key, required double size})
-      : width = size,
-        height = size,
-        radius = size / 2,
-        shapeBorder = const CircleBorder();
+    : width = size,
+      height = size,
+      radius = size / 2,
+      shapeBorder = const CircleBorder();
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,8 @@ class AppShimmer extends StatelessWidget {
           shape: shapeBorder == const CircleBorder()
               ? shapeBorder
               : RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius),
-          ),
+                  borderRadius: BorderRadius.circular(radius),
+                ),
         ),
       ),
     );
