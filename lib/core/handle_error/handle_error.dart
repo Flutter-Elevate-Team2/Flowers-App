@@ -97,9 +97,9 @@ class ErrorHandler {
   }
 
   static String _extractErrorMessage(
-      DioException error,
-      String defaultMessage,
-      ) {
+    DioException error,
+    String defaultMessage,
+  ) {
     try {
       final data = error.response?.data;
       if (data is Map<String, dynamic>) {

@@ -10,8 +10,6 @@ mixin ApiExecutionMixin {
       final response = await action();
       return SuccessResponse(data: mapper(response));
     } catch (e) {
-
-
       final errorMessage = ErrorHandler.handleError(e);
       return ErrorResponse(errorMessage: errorMessage);
     }

@@ -9,8 +9,9 @@ class VerifyPasswordUsecase {
   final AuthRepoContract _authRepoContract;
 
   VerifyPasswordUsecase(this._authRepoContract);
-  Future<BaseResponse<VerifyPasswordEntity>>verifyPassword(VerifyPasswordRequest request)async{
+  Future<BaseResponse<VerifyPasswordEntity>> verifyPassword(
+    VerifyPasswordRequest request,
+  ) async {
     return await _authRepoContract.verifyPassword(request);
   }
-
 }

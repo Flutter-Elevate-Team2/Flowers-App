@@ -1,10 +1,8 @@
 sealed class LoginEvent {}
 
-
 class LoginInitialEvent extends LoginEvent {}
 
-class ToggleRememberMeEvent extends LoginEvent {
-}
+class ToggleRememberMeEvent extends LoginEvent {}
 
 class LoginButtonClickedEvent extends LoginEvent {
   final String email;
@@ -14,5 +12,5 @@ class LoginButtonClickedEvent extends LoginEvent {
 }
 
 class GuestLoginClickedEvent extends LoginEvent {}
-class UserTypingEvent extends LoginEvent {}
 
+class UserTypingEvent extends LoginEvent {}

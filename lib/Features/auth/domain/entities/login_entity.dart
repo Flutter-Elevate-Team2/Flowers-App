@@ -19,5 +19,15 @@ class LoginUserEntity {
   // "wishlist": [],
   // "addresses": [],
 
-  LoginUserEntity({required this.id, required this.firstName, required this.lastName, required this.email, required this.gender, required this.phone, required this.photo, required this.role, required this.createdAt});
+  LoginUserEntity({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.gender,
+    required this.phone,
+    required this.photo,
+    required this.role,
+    required this.createdAt,
+  });
 }

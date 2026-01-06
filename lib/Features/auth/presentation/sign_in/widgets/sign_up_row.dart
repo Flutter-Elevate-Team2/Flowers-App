@@ -9,7 +9,7 @@ class SignUpRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -20,7 +20,7 @@ class SignUpRow extends StatelessWidget {
           onPressed: () {
             context.push(Routes.signUpPath);
           },
-          style:  TextButton.styleFrom(
+          style: TextButton.styleFrom(
             foregroundColor: AppColors.mainColor,
             textStyle: const TextStyle(
               fontSize: 16,

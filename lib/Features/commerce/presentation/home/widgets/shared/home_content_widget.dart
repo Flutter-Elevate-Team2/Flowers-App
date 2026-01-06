@@ -40,15 +40,9 @@ class HomeContentWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...sections.expand(
-                              (widget) => [
-                            widget,
-                            const Spacer(
-                              flex: 1,
-                            ),
-                          ],
+                          (widget) => [widget, const Spacer(flex: 1)],
                         ),
-                        if (sections.isEmpty)
-                          const Spacer(),
+                        if (sections.isEmpty) const Spacer(),
                       ],
                     ),
                   ),
