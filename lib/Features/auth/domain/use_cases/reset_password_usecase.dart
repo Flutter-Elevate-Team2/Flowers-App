@@ -9,9 +9,7 @@ class ResetPasswordUsecase {
   final AuthRepoContract _authRepoContract;
   ResetPasswordUsecase(this._authRepoContract);
 
-  Future<BaseResponse<ResetPasswordEntity>> resetPassword(
-    ResetPasswordRequest request,
-  ) async {
+  Future<BaseResponse<ResetPasswordEntity>> resetPassword(ResetPasswordRequest request) async {
     return await _authRepoContract.resetPassword(request);
   }
 }

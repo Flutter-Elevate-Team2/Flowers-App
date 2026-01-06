@@ -37,19 +37,16 @@ class LoginViewModel extends Cubit<LoginState> {
     emit(LoginState());
   }
 
-  void _toggleRememberMe() {
-    emit(
-      state.copyWith(
-        isRememberMe: !state.isRememberMe,
-        loginState: BaseState(),
-      ),
-    );
+ void _toggleRememberMe() {
+    emit(state.copyWith(
+      isRememberMe: !state.isRememberMe,
+      loginState: BaseState(),
+    ));
   }
 
   void _resetErrorState() {
-    if (state.loginState?.errorMessage != null ||
-        state.loginState?.isLoading == true) {
-      emit(state.copyWith(loginState: BaseState()));
+    if (state.loginState?.errorMessage != null || state.loginState?.isLoading == true) {
+       emit(state.copyWith(loginState: BaseState()));
     }
   }
 
@@ -66,7 +63,10 @@ class LoginViewModel extends Cubit<LoginState> {
       case SuccessResponse<LoginEntity>():
         emit(
           state.copyWith(
-            loginState: BaseState(isLoading: false, data: response.data),
+            loginState: BaseState(
+              isLoading: false,
+              data: response.data,
+            ),
           ),
         );
         break;
@@ -85,14 +85,12 @@ class LoginViewModel extends Cubit<LoginState> {
   }
 
   void _handleGuestLogin() {
-    // Fake success for guest
-    emit(
-      state.copyWith(
+      // Fake success for guest
+      emit(state.copyWith(
         loginState: BaseState(
           isLoading: false,
-          data: LoginEntity(token: "guest", message: "Guest", user: null),
-        ),
-      ),
-    );
+          data: LoginEntity(token: "guest", message: "Guest", user: null)
+        )
+      ));
   }
 }

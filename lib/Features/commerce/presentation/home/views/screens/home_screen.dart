@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+
         body: navigationShell,
 
         bottomNavigationBar: CustomButtonNavigationBar(

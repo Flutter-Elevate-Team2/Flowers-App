@@ -2,9 +2,14 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
+
   final VoidCallback onPressed;
 
-  const LoginButton({super.key, required this.onPressed});
+  const LoginButton({
+    super.key,
+    required this.onPressed,
+
+  });
 
   @override
   Widget build(BuildContext context) {

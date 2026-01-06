@@ -7,7 +7,7 @@ extension MetadataMapper on Metadata {
     return MetaDataEntity(
       currentPage: currentPage ?? ApiConstants.defaultCurrentPage,
       totalPages: totalPages ?? ApiConstants.defaultTotalPages,
-      limit: limit ?? ApiConstants.defaultLimit,
+      limit : limit ?? ApiConstants.defaultLimit,
       totalItems: totalItems ?? ApiConstants.defaultTotalItems,
       nextPage: nextPage,
       prevPage: prevPage,

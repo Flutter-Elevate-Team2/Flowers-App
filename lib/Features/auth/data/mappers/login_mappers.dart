@@ -3,7 +3,11 @@ import 'package:flowers_app/Features/auth/domain/entities/login_entity.dart';
 
 extension LoginResponseMapper on LoginResponse {
   LoginEntity toEntity() {
-    return LoginEntity(message: message, token: token, user: user?.toEntity());
+    return LoginEntity(
+      message: message,
+      token: token,
+      user: user?.toEntity(),
+    );
   }
 }
 

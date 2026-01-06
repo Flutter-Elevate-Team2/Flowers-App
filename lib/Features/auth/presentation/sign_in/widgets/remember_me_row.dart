@@ -1,13 +1,12 @@
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
-class RememberMeRow extends StatelessWidget {
+class RememberMeRow  extends StatelessWidget {
   final bool rememberMe;
   final ValueChanged<bool?> onChanged;
   final VoidCallback onForgotPassword;
 
-  const RememberMeRow({
-    super.key,
+  const RememberMeRow ({super.key,
     required this.rememberMe,
     required this.onChanged,
     required this.onForgotPassword,
@@ -15,16 +14,19 @@ class RememberMeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return  Row(
       children: [
-        Checkbox(value: rememberMe, onChanged: onChanged),
+        Checkbox(
+          value: rememberMe,
+          onChanged: onChanged,
+        ),
         Text(
           context.l10n.rememberMe,
           style: Theme.of(context).textTheme.bodySmall,
         ),
         const Spacer(),
         TextButton(
-          onPressed: onForgotPassword,
+            onPressed: onForgotPassword,
           child: Text(context.l10n.forgotPasswordLink),
         ),
       ],

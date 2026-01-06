@@ -10,9 +10,7 @@ class ForgetPasswordUsecase {
 
   ForgetPasswordUsecase(this._authRepoContract);
 
-  Future<BaseResponse<ForgetPasswordEntity>> forgetPassword(
-    ForgetPasswordRequest request,
-  ) async {
+  Future<BaseResponse<ForgetPasswordEntity>> forgetPassword(ForgetPasswordRequest request) async {
     return await _authRepoContract.forgetPassword(request);
   }
 }

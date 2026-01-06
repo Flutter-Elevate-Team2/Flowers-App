@@ -35,28 +35,28 @@ class ProductItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: imageUrl != null && imageUrl!.isNotEmpty
                     ? CachedNetworkImage(
-                        imageUrl: imageUrl!,
-                        fit: BoxFit.cover,
+                  imageUrl: imageUrl!,
+                  fit: BoxFit.cover,
 
-                        placeholder: (context, url) => const AppShimmer(
-                          height: double.infinity,
-                          width: double.infinity,
-                          radius: 0,
-                        ),
+                  placeholder: (context, url) => const AppShimmer(
+                    height: double.infinity,
+                    width: double.infinity,
+                    radius: 0,
+                  ),
 
-                        errorWidget: (context, url, error) => Icon(
-                          Icons.image_not_supported_outlined,
-                          size: width * 0.35,
-                          color: AppColors.gray.withAlpha(100),
-                        ),
-                      )
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.image_not_supported_outlined,
+                    size: width * 0.35,
+                    color: AppColors.gray.withAlpha(100),
+                  ),
+                )
                     : Center(
-                        child: Icon(
-                          Icons.image,
-                          size: width * 0.35,
-                          color: AppColors.gray.withAlpha(100),
-                        ),
-                      ),
+                  child: Icon(
+                    Icons.image,
+                    size: width * 0.35,
+                    color: AppColors.gray.withAlpha(100),
+                  ),
+                ),
               ),
             ),
           ),

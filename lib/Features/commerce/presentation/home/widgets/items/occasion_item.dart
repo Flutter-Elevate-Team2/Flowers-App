@@ -34,28 +34,28 @@ class OccasionItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: imageUrl != null && imageUrl!.isNotEmpty
                     ? CachedNetworkImage(
-                        imageUrl: imageUrl!,
-                        fit: BoxFit.cover,
+                  imageUrl: imageUrl!,
+                  fit: BoxFit.cover,
 
-                        placeholder: (context, url) => const AppShimmer(
-                          height: double.infinity,
-                          width: double.infinity,
-                          radius: 0,
-                        ),
+                  placeholder: (context, url) => const AppShimmer(
+                    height: double.infinity,
+                    width: double.infinity,
+                    radius: 0,
+                  ),
 
-                        errorWidget: (context, url, error) => Icon(
-                          Icons.cake,
-                          color: AppColors.white,
-                          size: width * 0.25,
-                        ),
-                      )
+                  errorWidget: (context, url, error) => Icon(
+                    Icons.cake,
+                    color: AppColors.white,
+                    size: width * 0.25,
+                  ),
+                )
                     : Center(
-                        child: Icon(
-                          Icons.cake,
-                          color: AppColors.white,
-                          size: width * 0.25,
-                        ),
-                      ),
+                  child: Icon(
+                    Icons.cake,
+                    color: AppColors.white,
+                    size: width * 0.25,
+                  ),
+                ),
               ),
             ),
           ),

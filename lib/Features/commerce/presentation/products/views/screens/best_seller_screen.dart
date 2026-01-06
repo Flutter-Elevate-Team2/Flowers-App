@@ -6,7 +6,6 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 class BestSeller extends StatelessWidget {
   final List<BestSellerEntity>? bestSellers;
 
@@ -27,13 +26,13 @@ class BestSeller extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.bestSeller,
+            context.l10n.bestSeller,
               style: Theme.of(
                 context,
               ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
-              context.l10n.occasionDescription,
+            context.l10n.occasionDescription,
               style: Theme.of(
                 context,
               ).textTheme.bodySmall?.copyWith(color: AppColors.gray),

@@ -29,23 +29,17 @@ class AuthRemoteDataSourceImple implements AuthRemoteDataSourceContract {
   }
 
   @override
-  Future<ForgetPasswordResponse> forgetPassword(
-    ForgetPasswordRequest request,
-  ) async {
+  Future<ForgetPasswordResponse> forgetPassword(ForgetPasswordRequest request) async {
     return await _authApi.forgetPassword(request);
   }
 
   @override
-  Future<ResetPasswordResponse> resetPassword(
-    ResetPasswordRequest request,
-  ) async {
+  Future<ResetPasswordResponse> resetPassword(ResetPasswordRequest request) async {
     return await _authApi.resetPassword(request);
   }
 
   @override
-  Future<VerifyPasswordResponse> verifyPassword(
-    VerifyPasswordRequest request,
-  ) async {
+  Future<VerifyPasswordResponse> verifyPassword(VerifyPasswordRequest request) async {
     return await _authApi.verifyPassword(request);
   }
 }

@@ -56,22 +56,26 @@ class _SignUpFormState extends State<SignUpForm> {
 
           if (signUpState?.data != null) {
             showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => AlertDialog(
-                title: Text(context.l10n.success),
-                content: Text(context.l10n.registerSuccessfully),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context); // Pop dialog
-                      context.goNamed(Routes.signInName);
-                    },
-                    child: Text(context.l10n.ok),
-                  ),
-                ],
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: Text(context.l10n.success),
+              content:  Text(
+                context.l10n.registerSuccessfully,
               ),
-            );
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Pop dialog
+                  context.goNamed(Routes.signInName);
+                  },
+                  child:  Text(context.l10n.ok),
+                ),
+            
+              ]
+            ),
+                );
+            
           } else if (signUpState?.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -213,7 +217,7 @@ class _SignUpFormState extends State<SignUpForm> {
             TextFormField(
               textInputAction: TextInputAction.done,
 
-              validator: (value) =>
+               validator: (value) =>
                   FormValidators.validatePhone(context, value),
               controller: _phoneController,
               style: Theme.of(context).textTheme.bodySmall,

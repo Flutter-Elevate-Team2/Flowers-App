@@ -13,8 +13,8 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 50,
-        titleSpacing: 0,
+          leadingWidth: 50,
+          titleSpacing: 0,
         title: Text((context).l10n.signUpTitle),
         leading: IconButton(
           padding: EdgeInsets.zero,

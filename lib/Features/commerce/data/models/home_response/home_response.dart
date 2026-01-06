@@ -7,7 +7,7 @@ import 'occasion.dart';
 part 'home_response.g.dart';
 
 @JsonSerializable()
-class HomeResponse {
+class HomeResponse  {
   String? message;
   List<Category>? categories;
   List<BestSeller>? bestSeller;
@@ -25,4 +25,5 @@ class HomeResponse {
   }
 
   Map<String, dynamic> toJson() => _$HomeResponseToJson(this);
+
 }

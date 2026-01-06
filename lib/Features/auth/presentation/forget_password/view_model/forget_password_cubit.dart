@@ -41,11 +41,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   }
 
   Future<void> _handleSendOtp(SendOtp intent) async {
-    emit(
-      state.copyWith(
-        sendOtpState: BaseState<ForgetPasswordEntity>(isLoading: true),
-      ),
-    );
+    emit(state.copyWith(sendOtpState: BaseState<ForgetPasswordEntity>(isLoading: true)));
 
     final request = ForgetPasswordRequest(email: intent.email);
 
@@ -74,11 +70,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   }
 
   Future<void> _handleVerifyOtp(VerifyOtp intent) async {
-    emit(
-      state.copyWith(
-        verifyOtpState: BaseState<VerifyPasswordEntity>(isLoading: true),
-      ),
-    );
+    emit(state.copyWith(verifyOtpState: BaseState<VerifyPasswordEntity>(isLoading: true)));
 
     final request = VerifyPasswordRequest(resetCode: intent.otp);
 
@@ -107,11 +99,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   }
 
   Future<void> _handleResetPassword(ResetPassword intent) async {
-    emit(
-      state.copyWith(
-        resetPasswordState: BaseState<ResetPasswordEntity>(isLoading: true),
-      ),
-    );
+    emit(state.copyWith(resetPasswordState: BaseState<ResetPasswordEntity>(isLoading: true)));
 
     final request = ResetPasswordRequest(
       newPassword: intent.newPassword,

@@ -21,12 +21,12 @@ class HomeSectionFactory {
   }) {
     final List<HomeSectionType> effectiveOrder =
         order ??
-        [
-          HomeSectionType.header,
-          HomeSectionType.categories,
-          HomeSectionType.bestSellers,
-          HomeSectionType.occasions,
-        ];
+            [
+              HomeSectionType.header,
+              HomeSectionType.categories,
+              HomeSectionType.bestSellers,
+              HomeSectionType.occasions,
+            ];
 
     final List<Widget> widgets = [];
 

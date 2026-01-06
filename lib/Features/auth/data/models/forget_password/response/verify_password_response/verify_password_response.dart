@@ -4,13 +4,13 @@ part 'verify_password_response.g.dart';
 
 @JsonSerializable()
 class VerifyPasswordResponse {
-  String? status;
+	String? status;
 
-  VerifyPasswordResponse({this.status});
+	VerifyPasswordResponse({this.status});
 
-  factory VerifyPasswordResponse.fromJson(Map<String, dynamic> json) {
-    return _$VerifyPasswordResponseFromJson(json);
-  }
+	factory VerifyPasswordResponse.fromJson(Map<String, dynamic> json) {
+		return _$VerifyPasswordResponseFromJson(json);
+	}
 
-  Map<String, dynamic> toJson() => _$VerifyPasswordResponseToJson(this);
+	Map<String, dynamic> toJson() => _$VerifyPasswordResponseToJson(this);
 }

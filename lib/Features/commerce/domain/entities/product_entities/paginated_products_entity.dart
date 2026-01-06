@@ -3,7 +3,10 @@ import 'package:flowers_app/Features/commerce/domain/entities/product_entities/p
 
 class PaginatedProductsEntity {
   final List<ProductEntity> products;
-  final MetaDataEntity meta;
+  final MetaDataEntity  meta;
 
-  PaginatedProductsEntity({required this.products, required this.meta});
+  PaginatedProductsEntity({
+    required this.products,
+    required this.meta,
+  });
 }

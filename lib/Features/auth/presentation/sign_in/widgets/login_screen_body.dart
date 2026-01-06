@@ -1,3 +1,4 @@
+
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_event.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_state.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_view_model.dart';
@@ -95,10 +96,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         TextFormField(
                           textInputAction: TextInputAction.done,
                           validator: (value) =>
-                              FormValidators.validateLoginPassword(
-                                context,
-                                value,
-                              ),
+                              FormValidators.validateLoginPassword(context, value),
                           obscureText: !_isPasswordVisible,
                           controller: _passwordController,
                           onChanged: (value) {
