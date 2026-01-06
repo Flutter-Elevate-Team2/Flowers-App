@@ -4,13 +4,13 @@ part 'verify_password_request.g.dart';
 
 @JsonSerializable()
 class VerifyPasswordRequest {
-	String? resetCode;
+  String? resetCode;
 
-	VerifyPasswordRequest({this.resetCode});
+  VerifyPasswordRequest({this.resetCode});
 
-	factory VerifyPasswordRequest.fromJson(Map<String, dynamic> json) {
-		return _$VerifyPasswordRequestFromJson(json);
-	}
+  factory VerifyPasswordRequest.fromJson(Map<String, dynamic> json) {
+    return _$VerifyPasswordRequestFromJson(json);
+  }
 
-	Map<String, dynamic> toJson() => _$VerifyPasswordRequestToJson(this);
+  Map<String, dynamic> toJson() => _$VerifyPasswordRequestToJson(this);
 }

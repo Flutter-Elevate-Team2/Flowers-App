@@ -39,9 +39,9 @@ class ProductSearchField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).copyWith(focusColor: Theme.of(context).colorScheme.primary).focusColor,
+            color: Theme.of(context)
+                .copyWith(focusColor: Theme.of(context).colorScheme.primary)
+                .focusColor,
           ),
         ),
       ),

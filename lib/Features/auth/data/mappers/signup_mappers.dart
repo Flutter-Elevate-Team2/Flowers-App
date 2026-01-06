@@ -20,5 +20,3 @@ extension UserDtoMapper on UserDto {
     );
   }
 }
-
-

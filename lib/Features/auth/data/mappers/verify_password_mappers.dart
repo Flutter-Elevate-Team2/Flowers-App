@@ -3,8 +3,6 @@ import 'package:flowers_app/Features/auth/domain/entities/verify_password_entity
 
 extension VerifyPasswordMapper on VerifyPasswordResponse {
   VerifyPasswordEntity toEntity() {
-    return VerifyPasswordEntity(
-      status: status ?? '',
-    );
+    return VerifyPasswordEntity(status: status ?? '');
   }
 }

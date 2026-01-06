@@ -17,6 +17,7 @@ class BestSellerEntity {
     required this.description,
     required this.images,
     required this.priceAfterDiscount,
-    required this.quantity, required this.discount,
+    required this.quantity,
+    required this.discount,
   });
 }

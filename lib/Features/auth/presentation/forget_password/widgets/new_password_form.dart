@@ -66,16 +66,14 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
             barrierDismissible: false,
             builder: (context) => AlertDialog(
               title: Text(context.l10n.success),
-              content:  Text(
-                context.l10n.resetSuccessfully,
-              ),
+              content: Text(context.l10n.resetSuccessfully),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context); // Pop dialog
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
-                  child:  Text(context.l10n.ok),
+                  child: Text(context.l10n.ok),
                 ),
               ],
             ),
@@ -99,7 +97,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
           child: Column(
             children: [
               TextFormField(
-                 style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) =>
                     FormValidators.validatePassword(context, value),
                 controller: _newPassword,
@@ -125,7 +123,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
               ),
               const SizedBox(height: 24),
               TextFormField(
-                 style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.validateConfirmPassword(
                   context,
                   value,

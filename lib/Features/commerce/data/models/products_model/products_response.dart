@@ -12,11 +12,7 @@ class ProductsResponse {
   @JsonKey(name: "products")
   final List<Products>? products;
 
-  ProductsResponse ({
-    this.message,
-    this.metadata,
-    this.products,
-  });
+  ProductsResponse({this.message, this.metadata, this.products});
 
   factory ProductsResponse.fromJson(Map<String, dynamic> json) {
     return _$ProductsResponseFromJson(json);
@@ -42,8 +38,7 @@ class Metadata {
   @JsonKey(name: "prevPage")
   final int? prevPage;
 
-
-  Metadata ({
+  Metadata({
     this.currentPage,
     this.totalPages,
     this.limit,
@@ -60,6 +55,3 @@ class Metadata {
     return _$MetadataToJson(this);
   }
 }
-
-
-

@@ -5,7 +5,8 @@ import 'package:injectable/injectable.dart';
 class SessionController {
   // Fix: Use broadcast if multiple listeners are expected, or keep standard.
   // Adding dispose method is crucial.
-  final StreamController<void> _sessionExpiredController = StreamController<void>.broadcast();
+  final StreamController<void> _sessionExpiredController =
+      StreamController<void>.broadcast();
 
   Stream<void> get onSessionExpired => _sessionExpiredController.stream;
 

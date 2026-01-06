@@ -6,11 +6,7 @@ class HomeStates {
 
   HomeStates({this.homeState});
 
-  HomeStates copyWith({
-    BaseState<HomeEntity>? homeState,
-  }) {
-    return HomeStates(
-      homeState: homeState ?? this.homeState,
-    );
+  HomeStates copyWith({BaseState<HomeEntity>? homeState}) {
+    return HomeStates(homeState: homeState ?? this.homeState);
   }
 }
