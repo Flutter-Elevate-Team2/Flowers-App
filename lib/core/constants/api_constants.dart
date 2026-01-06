@@ -10,6 +10,10 @@ class ApiConstants {
   static const String resetPassword = "/auth/resetPassword";
   static const String verifyResetCode = "/auth/verifyResetCode";
   static const String home = "/home";
+  static const String getProfile = "/profile-data";
+  static const String editProfile = "/editProfile";
+  static const String uploadPhoto = "/upload-photo";
+  static const String changePassword = "/change-password";
 
   // ================= Products Endpoints =================
   static const String getProducts = "/products";
