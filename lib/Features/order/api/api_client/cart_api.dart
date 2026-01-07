@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flowers_app/Features/order/data/models/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/cart_response_model.dart';
+import 'package:flowers_app/Features/order/data/models/quantity_request.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/error_logger.dart';
@@ -27,7 +28,8 @@ abstract class CartApi {
   @PUT("${ApiConstants.cart}/{id}")
   Future<CartResponseModel> updateCartProduct(
     @Path("id") String itemId,
-    @Field("quantity") int quantity,
+    @Body() QuantityRequest quantityRequest,
   );
 }
+
 //Todo: Remove the comments and implement the Cart API client and run build runner to generate the part file.
