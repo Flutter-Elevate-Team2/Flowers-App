@@ -1,10 +1,16 @@
 import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class ProductCardAddToCartButton extends StatelessWidget {
   final VoidCallback? onAddToCart;
+  final bool isLoading;
 
-  const ProductCardAddToCartButton({super.key, this.onAddToCart});
+  const ProductCardAddToCartButton({
+    super.key,
+    this.onAddToCart,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +18,11 @@ class ProductCardAddToCartButton extends StatelessWidget {
       width: double.infinity,
       height: 36,
       child: ElevatedButton(
-        onPressed: onAddToCart ?? () {},
+        onPressed: isLoading ? null : onAddToCart,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.mainColor,
+          backgroundColor: isLoading
+              ? Colors.grey.shade400
+              : AppColors.mainColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -30,9 +38,9 @@ class ProductCardAddToCartButton extends StatelessWidget {
               size: 18,
             ),
             const SizedBox(width: 6),
-            const Text(
-              "Add to cart",
-              style: TextStyle(
+            Text(
+              context.l10n.addToCart,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,

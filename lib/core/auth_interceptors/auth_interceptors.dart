@@ -25,7 +25,7 @@ class AuthInterceptor extends Interceptor {
     bool isPublicPath = _publicPaths.any((path) => options.path.endsWith(path));
 
     if (!isPublicPath) {
-      final token = _prefs.getString('token');
+      final token = _prefs.getString('user_token');
 
       if (token != null && token.isNotEmpty) {
         options.headers["Authorization"] = "Bearer $token";

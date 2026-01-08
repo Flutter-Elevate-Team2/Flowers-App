@@ -97,9 +97,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             ProductDetailsBottomBar(
-              onAddToCart: () {
-                // TODO: Implement Add to Cart logic
-              },
+              product: widget.product,
             ),
           ],
         ),
