@@ -1,12 +1,11 @@
 
 import 'package:equatable/equatable.dart';
 
-import '../../../products/data/models/products_model/products_dto.dart';
-
+import '../../../products/domain/entities/product_entity.dart';
 
 class CartItemEntity extends Equatable{
 
-  final Products? product;
+  final ProductEntity? product;
 
   final int? price;
 
@@ -19,7 +18,7 @@ class CartItemEntity extends Equatable{
     this.quantity,
     this.id,
   });
-  CartItemEntity copyWith (Products product,
+  CartItemEntity copyWith (ProductEntity product,
       int price,
       int quantity,
       String id
