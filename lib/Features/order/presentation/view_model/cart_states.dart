@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart_response_entity.dart';
 
-class CartStates {
+class CartStates extends Equatable {
   final CartResponseEntity? cartData;
 
   final bool isUpdatingItem;
@@ -8,7 +9,7 @@ class CartStates {
 
   final String? errorMessage;
 
-  CartStates({
+  const CartStates({
     this.cartData,
     this.isUpdatingItem = false,
     this.updatingItemId,
@@ -28,4 +29,12 @@ class CartStates {
       errorMessage: errorMessage,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    cartData,
+    isUpdatingItem,
+    updatingItemId,
+    errorMessage,
+  ];
 }
