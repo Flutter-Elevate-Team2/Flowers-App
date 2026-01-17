@@ -59,6 +59,22 @@ import '../../Features/commerce/presentation/home/view_model/home_view_model.dar
     as _i945;
 import '../../Features/commerce/presentation/products/view_model/products_view_model.dart'
     as _i378;
+import '../../Features/order/api/api_client/cart_api.dart' as _i930;
+import '../../Features/order/api/data_source_imple/remot_data_source_imple/cart_remote_data_source_imple.dart'
+    as _i151;
+import '../../Features/order/data/data_source/cart_remote_data_source/cart_remote_data_source_contract.dart'
+    as _i12;
+import '../../Features/order/data/repo/cart_repo_imple.dart' as _i641;
+import '../../Features/order/domain/repo/cart_repo_contract.dart' as _i476;
+import '../../Features/order/domain/use_cases/add_to_cart_use_case.dart'
+    as _i65;
+import '../../Features/order/domain/use_cases/delete_cart_item_use_case.dart'
+    as _i879;
+import '../../Features/order/domain/use_cases/get_cart_use_case.dart' as _i812;
+import '../../Features/order/domain/use_cases/update_cart_item_use_case.dart'
+    as _i64;
+import '../../Features/order/presentation/view_model/cart_view_model.dart'
+    as _i564;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -106,8 +122,35 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i516.CommerceApi>(
       () => _i516.CommerceApi(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i930.CartApi>(() => _i930.CartApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i12.CartRemoteDataSourceContract>(
+      () => _i151.CartRemoteDataSourceImple(gh<_i930.CartApi>()),
+    );
+    gh.lazySingleton<_i476.CartRepoContract>(
+      () => _i641.CartRepoImple(gh<_i12.CartRemoteDataSourceContract>()),
+    );
+    gh.factory<_i65.AddToCartUseCase>(
+      () => _i65.AddToCartUseCase(gh<_i476.CartRepoContract>()),
+    );
+    gh.factory<_i879.DeleteCartItemUseCase>(
+      () => _i879.DeleteCartItemUseCase(gh<_i476.CartRepoContract>()),
+    );
+    gh.factory<_i812.GetCartUseCase>(
+      () => _i812.GetCartUseCase(gh<_i476.CartRepoContract>()),
+    );
+    gh.factory<_i64.UpdateCartItemUseCase>(
+      () => _i64.UpdateCartItemUseCase(gh<_i476.CartRepoContract>()),
+    );
     gh.factory<_i978.AuthRemoteDataSourceContract>(
       () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
+    );
+    gh.factory<_i564.CartViewModel>(
+      () => _i564.CartViewModel(
+        gh<_i812.GetCartUseCase>(),
+        gh<_i65.AddToCartUseCase>(),
+        gh<_i64.UpdateCartItemUseCase>(),
+        gh<_i879.DeleteCartItemUseCase>(),
+      ),
     );
     gh.factory<_i10.CommerceRemoteDataSourceContract>(
       () => _i532.CommerceRemoteDataSourceImpl(gh<_i516.CommerceApi>()),

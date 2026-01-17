@@ -5,6 +5,7 @@ import 'package:flowers_app/Features/order/domain/entities/cart_item_entity.dart
 import 'package:flowers_app/Features/order/presentation/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_states.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/shared/cart_action_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -99,22 +100,4 @@ class CartActionSection extends StatelessWidget {
       },
     );
   }
-}
-abstract class CartActionStyle {
-  Widget buildAddButton(
-      BuildContext context, {
-        required bool isLoading,
-        required VoidCallback onAdd,
-      });
-
-  Widget buildQuantitySelector(
-      BuildContext context, {
-        required int quantity,
-        required bool isLoading,
-        required VoidCallback? onIncrement,
-        required VoidCallback? onDecrement,
-        required VoidCallback? onDelete,
-      });
-
-  Widget buildSoldOut(BuildContext context);
 }

@@ -12,6 +12,7 @@ import 'package:flowers_app/Features/commerce/domain/entities/product_entities/p
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
+import 'package:flowers_app/Features/order/presentation/views/cart_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -43,10 +44,13 @@ class Routes {
 
   static const String categoryPath = '/category';
   static const String categoryName = 'category';
+
   static const String productDetailsPath = '/productdetails';
   static const String productDetailsName = 'productdetails';
+
   static const String bestSellerPath = '/bestseller';
   static const String bestSellerName = 'bestSeller';
+
 }
 
 class AppRouter {
@@ -63,7 +67,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.cartPath,
     redirect: (context, state) async {
       final authRepo = getIt<AuthRepoContract>();
       final bool isLoggedIn = await authRepo.isLoggedIn();
@@ -139,7 +143,7 @@ class AppRouter {
                 path: Routes.cartPath,
                 name: Routes.cartName,
                 builder: (context, state) =>
-                    const Center(child: Text("Cart Screen")),
+                    const CartScreen(),
               ),
             ],
           ),

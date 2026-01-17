@@ -382,4 +382,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get occasionDescription => 'Bloom with our exquisite best sellers';
+
+  @override
+  String get deliveryTo => 'Delivery to';
+
+  @override
+  String get subtotal => 'Subtotal';
+
+  @override
+  String get deliveryFee => 'Delivery Fee';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get yourCartIsEmpty => 'Your cart is empty';
+
+  @override
+  String get addSomeFlowers => 'Add some beautiful flowers to get started 🌸';
 }

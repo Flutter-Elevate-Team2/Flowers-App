@@ -22,6 +22,7 @@ abstract class AppTheme {
       shadow: AppColors.black.withValues(alpha: 0.1),
     ),
     textTheme: TextTheme(
+      titleMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.normal , color: AppColors.gray),
       bodySmall: getTextStyle(fontSize: 14 , fontWeight: FontWeight.w400),
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),

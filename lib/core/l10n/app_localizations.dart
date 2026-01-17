@@ -825,6 +825,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bloom with our exquisite best sellers'**
   String get occasionDescription;
+
+  /// Label for delivery address
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery to'**
+  String get deliveryTo;
+
+  /// Label for cart subtotal
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotal;
+
+  /// Label for delivery fee
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Fee'**
+  String get deliveryFee;
+
+  /// Label for cart total
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Button text to proceed to checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkout;
+
+  /// Label for number of items in cart
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// Message displayed when the cart is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get yourCartIsEmpty;
+
+  /// Encouragement message to add items to the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Add some beautiful flowers to get started 🌸'**
+  String get addSomeFlowers;
 }
 
 class _AppLocalizationsDelegate

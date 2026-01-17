@@ -432,5 +432,24 @@
   "occasionDescription": "Bloom with our exquisite best sellers",
   "@occasionDescription": {
     "description": "Description for the occasions section"
-  }
+  },
+  "deliveryTo" : "Delivery to",
+  "@deliveryTo" : {
+    "description": "Label for delivery address"},
+  "subtotal": "Subtotal",
+  "@subtotal": { "description": "Label for cart subtotal" },
+  "deliveryFee": "Delivery Fee",
+  "@deliveryFee": { "description": "Label for delivery fee" },
+  "total": "Total",
+  "@total": { "description": "Label for cart total" },
+  "checkout": "Checkout",
+  "@checkout": { "description": "Button text to proceed to checkout" },
+  "items": "items",
+  "@items": { "description": "Label for number of items in cart" },
+  "yourCartIsEmpty": "Your cart is empty",
+  "@yourCartIsEmpty": { "description": "Message displayed when the cart is empty" },
+  "addSomeFlowers": "Add some beautiful flowers to get started \uD83C\uDF38",
+    "@addSomeFlowers": { "description": "Encouragement message to add items to the cart" }
+
+
 }
