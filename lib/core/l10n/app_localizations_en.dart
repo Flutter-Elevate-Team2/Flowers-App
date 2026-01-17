@@ -384,6 +384,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get occasionDescription => 'Bloom with our exquisite best sellers';
 
   @override
+  String get loginRequired => 'Login Required';
+
+  @override
+  String get cancelDialog => 'cancel';
+
+  @override
+  String get pleaseLoginToAdd => 'Please login first to add items to cart';
+
+  @override
   String get deliveryTo => 'Delivery to';
 
   @override

@@ -9,11 +9,14 @@ class CartStates extends Equatable {
 
   final String? errorMessage;
 
+  final bool requiresLogin;
+
   const CartStates({
     this.cartData,
     this.isUpdatingItem = false,
     this.updatingItemId,
     this.errorMessage,
+    this.requiresLogin = false,
   });
 
   CartStates copyWith({
@@ -21,12 +24,14 @@ class CartStates extends Equatable {
     bool? isUpdatingItem,
     String? updatingItemId,
     String? errorMessage,
+    bool? requiresLogin,
   }) {
     return CartStates(
       cartData: cartData ?? this.cartData,
       isUpdatingItem: isUpdatingItem ?? this.isUpdatingItem,
       updatingItemId: updatingItemId,
       errorMessage: errorMessage,
+      requiresLogin: requiresLogin ?? false,
     );
   }
 
@@ -36,5 +41,6 @@ class CartStates extends Equatable {
     isUpdatingItem,
     updatingItemId,
     errorMessage,
+    requiresLogin,
   ];
 }

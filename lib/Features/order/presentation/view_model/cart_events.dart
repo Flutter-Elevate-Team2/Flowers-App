@@ -21,3 +21,5 @@ class UpdateCartItemEvent extends CartEvent {
   final QuantityRequest quantityRequest;
   UpdateCartItemEvent({required this.itemId, required this.quantityRequest});
 }
+
+class CartLoginHandledEvent extends CartEvent {}

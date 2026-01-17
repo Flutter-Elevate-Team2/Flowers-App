@@ -826,6 +826,24 @@ abstract class AppLocalizations {
   /// **'Bloom with our exquisite best sellers'**
   String get occasionDescription;
 
+  /// Message displayed when a feature requires login
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get loginRequired;
+
+  /// Label for the cancel button in a dialog
+  ///
+  /// In en, this message translates to:
+  /// **'cancel'**
+  String get cancelDialog;
+
+  /// Message displayed when we want to add to cart without login
+  ///
+  /// In en, this message translates to:
+  /// **'Please login first to add items to cart'**
+  String get pleaseLoginToAdd;
+
   /// Label for delivery address
   ///
   /// In en, this message translates to:
