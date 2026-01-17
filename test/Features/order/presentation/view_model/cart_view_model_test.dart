@@ -1,4 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -25,6 +27,8 @@ import 'cart_view_model_test.mocks.dart';
   AddToCartUseCase,
   UpdateCartItemUseCase,
   DeleteCartItemUseCase,
+  HasValidTokenUseCase,
+  SessionController
 ])
 
 void main() {
@@ -44,8 +48,11 @@ void _runCartViewModelTests() {
 
 void _getCartTest() {
   blocTest<CartViewModel, CartStates>(
-    'GetCartDataEvent emits cartData',
+    'GetCartDataEvent emits cartData when token exists',
     build: () {
+      when(mockHasValidTokenUseCase.call())
+          .thenAnswer((_) async => true);
+
       _stubGetCartSuccess();
       return cartViewModel;
     },
@@ -60,6 +67,9 @@ void _addToCartTest() {
   blocTest<CartViewModel, CartStates>(
     'AddToCartEvent emits loading then updated cartData',
     build: () {
+      when(mockHasValidTokenUseCase.call())
+          .thenAnswer((_) async => true);
+
       _stubAddToCartSuccess();
       return cartViewModel;
     },
@@ -69,7 +79,10 @@ void _addToCartTest() {
       ),
     ),
     expect: () => [
-      CartStates().copyWith(isUpdatingItem: true, updatingItemId: '1'),
+      CartStates().copyWith(
+        isUpdatingItem: true,
+        updatingItemId: '1',
+      ),
       CartStates().copyWith(
         cartData: fakeCartResponse,
         isUpdatingItem: false,
@@ -77,6 +90,26 @@ void _addToCartTest() {
       ),
     ],
   );
+  blocTest<CartViewModel, CartStates>(
+    'AddToCart emits requiresLogin when user not logged in',
+    build: () {
+      when(mockHasValidTokenUseCase.call())
+          .thenAnswer((_) async => false);
+      return cartViewModel;
+    },
+    act: (bloc) => bloc.doIntent(
+      AddToCartEvent(
+        CartRequest(product: '1', quantity: 1),
+      ),
+    ),
+    expect: () => [
+      CartStates().copyWith(requiresLogin: true),
+    ],
+    verify: (_) {
+      verifyNever(mockAddToCartUseCase.call(any));
+    },
+  );
+
 }
 
 void _updateCartItemTest() {
@@ -127,6 +160,9 @@ late MockGetCartUseCase mockGetCartUseCase;
 late MockAddToCartUseCase mockAddToCartUseCase;
 late MockUpdateCartItemUseCase mockUpdateCartItemUseCase;
 late MockDeleteCartItemUseCase mockDeleteCartItemUseCase;
+late MockHasValidTokenUseCase mockHasValidTokenUseCase;
+late MockSessionController mockSessionController;
+
 
 final fakeCartResponse = _buildFakeCartResponse();
 
@@ -135,12 +171,22 @@ void _setUpCartViewModel() {
   mockAddToCartUseCase = MockAddToCartUseCase();
   mockUpdateCartItemUseCase = MockUpdateCartItemUseCase();
   mockDeleteCartItemUseCase = MockDeleteCartItemUseCase();
+  mockHasValidTokenUseCase = MockHasValidTokenUseCase();
+  mockSessionController = MockSessionController();
+
+  when(mockSessionController.onLogin)
+      .thenAnswer((_) => const Stream.empty());
+
+  when(mockSessionController.onLogout)
+      .thenAnswer((_) => const Stream.empty());
 
   cartViewModel = CartViewModel(
     mockGetCartUseCase,
     mockAddToCartUseCase,
     mockUpdateCartItemUseCase,
     mockDeleteCartItemUseCase,
+    mockHasValidTokenUseCase,
+    mockSessionController,
   );
 }
 
