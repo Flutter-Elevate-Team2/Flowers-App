@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CartScreenAppBar extends StatelessWidget {
-  int? cartItems;
-   CartScreenAppBar({ this.cartItems ,super.key});
+  final int? cartItems;
+   const CartScreenAppBar({ this.cartItems ,super.key});
 
   @override
   Widget build(BuildContext context) {

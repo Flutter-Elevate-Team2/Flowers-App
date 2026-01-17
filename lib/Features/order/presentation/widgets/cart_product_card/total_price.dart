@@ -3,8 +3,8 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class TotalPrice extends StatelessWidget {
-  int? totalPrice = 0 ;
-  TotalPrice({this.totalPrice ,super.key});
+  final int? totalPrice ;
+  const TotalPrice({this.totalPrice ,super.key});
 
   @override
   Widget build(BuildContext context) {
