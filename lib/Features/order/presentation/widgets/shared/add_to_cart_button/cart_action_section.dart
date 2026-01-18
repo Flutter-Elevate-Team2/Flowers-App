@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/Features/order/data/models/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/quantity_request.dart';
@@ -13,14 +15,18 @@ class CartActionSection extends StatelessWidget {
   final ProductEntity product;
   final CartActionStyle style;
 
-  const CartActionSection({
+    CartActionSection({
     super.key,
     required this.product,
     required this.style,
   });
 
+  Timer? _debounce;
+
+
   @override
   Widget build(BuildContext context) {
+
     return BlocSelector<CartViewModel, CartStates, CartItemEntity?>(
       selector: (state) {
         final items = state.cartData?.cart?.cartItems ?? [];
@@ -57,23 +63,13 @@ class CartActionSection extends StatelessWidget {
             onIncrement: quantity >= maxQuantity || isLoading
                 ? null
                 : () {
-              context.read<CartViewModel>().doIntent(
-                UpdateCartItemEvent(
-                  itemId: product.id,
-                  quantityRequest: QuantityRequest(quantity: quantity + 1),
-                ),
-              );
+              _updateQuantity(context, product.id, quantity + 1);
             },
             onDecrement: isLoading || quantity <= 1
                 ? null
                 : () {
-              context.read<CartViewModel>().doIntent(
-                UpdateCartItemEvent(
-                  itemId: product.id,
-                  quantityRequest: QuantityRequest(quantity: quantity - 1),
-                ),
-              );
-            },
+                  _updateQuantity(context, product.id, quantity - 1 );
+                  },
             onDelete: isLoading
                 ? null
                 : () {
@@ -100,4 +96,16 @@ class CartActionSection extends StatelessWidget {
       },
     );
   }
+  void _updateQuantity(BuildContext context, String productId, int qty) {
+    _debounce?.cancel();
+    _debounce = Timer( Duration(milliseconds: 600), () {
+      context.read<CartViewModel>().doIntent(
+        UpdateCartItemEvent(
+          itemId: productId,
+          quantityRequest: QuantityRequest(quantity: qty),
+        ),
+      );
+    });
+  }
+
 }

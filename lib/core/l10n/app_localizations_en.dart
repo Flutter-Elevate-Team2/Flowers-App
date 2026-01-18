@@ -415,4 +415,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addSomeFlowers => 'Add some beautiful flowers to get started 🌸';
+
+  @override
+  String get youAreNotLoggedIn => 'You are not logged in';
+
+  @override
+  String get pleaseLoginToContinue =>
+      'Please Login to view your cart and add items.';
 }

@@ -118,30 +118,6 @@ class CartProductCard extends StatelessWidget {
                             style: ProductInCartStyle(),
                           )
 
-                          // plus minus buttons
-                          // Row(
-                          //   mainAxisSize: MainAxisSize.min,
-                          //   children: [
-                          //     GestureDetector(
-                          //       onTap: onAddToCart,
-                          //       child: Icon(Icons.remove, color: AppColors.black),
-                          //     ),
-                          //     Text(
-                          //       ' ${cartItem.quantity} ',
-                          //       style: Theme.of(context).textTheme.bodySmall
-                          //           ?.copyWith(
-                          //         color: AppColors.black,
-                          //         fontWeight: FontWeight.bold,
-                          //       ),
-                          //     ),
-                          //     GestureDetector(
-                          //       onTap: onAddToCart,
-                          //       child: Icon(Icons.add, color: AppColors.black),
-                          //     ),
-                          //   ],
-                          // ),
-
-
                         ],
                       ),)
 

@@ -444,7 +444,6 @@
   "pleaseLoginToAdd": "Please login first to add items to cart",
   "@pleaseLoginToAdd": {
     "description": "Message displayed when we want to add to cart without login"
-  }
   },
   "deliveryTo" : "Delivery to",
   "@deliveryTo" : {
@@ -462,7 +461,9 @@
   "yourCartIsEmpty": "Your cart is empty",
   "@yourCartIsEmpty": { "description": "Message displayed when the cart is empty" },
   "addSomeFlowers": "Add some beautiful flowers to get started \uD83C\uDF38",
-    "@addSomeFlowers": { "description": "Encouragement message to add items to the cart" }
-
-
+    "@addSomeFlowers": { "description": "Encouragement message to add items to the cart" },
+  "youAreNotLoggedIn": "You are not logged in",
+    "@youAreNotLoggedIn": { "description": "Message displayed when the user is not logged in" },
+  "pleaseLoginToContinue": "Please Login to view your cart and add items.",
+    "@pleaseLoginToContinue": { "description": "Prompt to login to access certain features" }
 }

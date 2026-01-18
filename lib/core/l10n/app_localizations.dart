@@ -891,6 +891,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add some beautiful flowers to get started 🌸'**
   String get addSomeFlowers;
+
+  /// Message displayed when the user is not logged in
+  ///
+  /// In en, this message translates to:
+  /// **'You are not logged in'**
+  String get youAreNotLoggedIn;
+
+  /// Prompt to login to access certain features
+  ///
+  /// In en, this message translates to:
+  /// **'Please Login to view your cart and add items.'**
+  String get pleaseLoginToContinue;
 }
 
 class _AppLocalizationsDelegate
