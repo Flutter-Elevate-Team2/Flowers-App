@@ -1,9 +1,11 @@
 import 'package:flowers_app/Features/profile/presentation/widgets/language_bottom_sheet.dart';
+import 'package:flowers_app/Features/profile/presentation/widgets/logout_dialog.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header_shimmer.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_menu_item.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +57,8 @@ class ProfileScreenBody extends StatelessWidget {
               onTap: () {},
             ),
             Divider(
-              color: Theme.of(context).colorScheme.outlineVariant,
-              height: 32,
+              color: AppColors.gray,
+                            height: 32,
             ),
 
             ProfileMenuItem(
@@ -66,14 +68,14 @@ class ProfileScreenBody extends StatelessWidget {
               trailing: Switch(
                 value: true,
                 onChanged: (val) {},
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).primaryColor,
                 activeTrackColor: Theme.of(
                   context,
                 ).colorScheme.primary.withValues(alpha: 0.2),
               ),
             ),
             Divider(
-              color: Theme.of(context).colorScheme.outlineVariant,
+            color: AppColors.gray,
               height: 32,
             ),
 
@@ -111,14 +113,19 @@ class ProfileScreenBody extends StatelessWidget {
               onTap: () {},
             ),
             Divider(
-              color: Theme.of(context).colorScheme.outlineVariant,
+             color: AppColors.gray,
               height: 32,
             ),
             // Logout
             ProfileMenuItem(
               title: context.l10n.logout,
               leadingIcon: Icons.logout,
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const LogoutDialog(),
+                );
+              },
             ),
             const SizedBox(height: 32),
             Center(

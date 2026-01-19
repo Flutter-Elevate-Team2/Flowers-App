@@ -19,6 +19,7 @@ abstract class ProfileApi {
   factory ProfileApi(Dio dio) = _ProfileApi;
 
   @GET(ApiConstants.getProfile)
+  @Extra({'cache_policy': CachePolicy.noCache})
   Future<ProfileDto> getProfile();
   @PUT(ApiConstants.editProfile)
   Future<ProfileDto> editProfile(@Body() EditProfileRequest request);

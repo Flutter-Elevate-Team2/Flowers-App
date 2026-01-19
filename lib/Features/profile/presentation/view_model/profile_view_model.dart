@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flowers_app/Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';
 import 'package:flowers_app/Features/profile/domain/entities/change_password_entity.dart';
 import 'package:flowers_app/Features/profile/domain/entities/user_entity.dart';
@@ -11,7 +14,6 @@ import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'dart:io';
 
 @injectable
 class ProfileViewModel extends Cubit<ProfileState> {
@@ -19,13 +21,17 @@ class ProfileViewModel extends Cubit<ProfileState> {
   final EditProfileUseCase _editProfileUseCase;
   final ChangePasswordUseCase _changePasswordUseCase;
   final UploadPhotoUseCase _uploadPhotoUseCase;
+  final ProfileLocalDataSourceContract _localDataSource;
 
   ProfileViewModel(
     this._getProfileUseCase,
     this._editProfileUseCase,
     this._changePasswordUseCase,
     this._uploadPhotoUseCase,
-  ) : super(ProfileState());
+    this._localDataSource,
+  ) : super(ProfileState()) {
+    _loadCachedImage();
+  }
 
   void doIntent(ProfileEvent event) {
     switch (event) {
@@ -40,6 +46,12 @@ class ProfileViewModel extends Cubit<ProfileState> {
         break;
       case UploadPhotoEvent():
         _uploadPhoto(event.file);
+        break;
+      case SelectProfileImageEvent():
+        _selectProfileImage(event.image);
+        break;
+      case LogoutEvent():
+        _logout();
         break;
     }
   }
@@ -129,9 +141,11 @@ class ProfileViewModel extends Cubit<ProfileState> {
     final response = await _uploadPhotoUseCase.call(file);
     switch (response) {
       case SuccessResponse<String>():
+        await _localDataSource.clearSelectedImagePath();
         emit(
           state.copyWith(
             uploadPhotoState: BaseState(isLoading: false, data: response.data),
+            clearSelectedImage: true,
           ),
         );
         _getProfile();
@@ -147,5 +161,29 @@ class ProfileViewModel extends Cubit<ProfileState> {
         );
         break;
     }
+  }
+
+  void _selectProfileImage(File image) {
+    emit(state.copyWith(selectedProfileImage: image));
+    _localDataSource.saveSelectedImagePath(image.path);
+  }
+
+  Future<void> _loadCachedImage() async {
+    final cachedPath = await _localDataSource.getSelectedImagePath();
+    if (cachedPath != null) {
+      final file = File(cachedPath);
+      if (await file.exists()) {
+        emit(state.copyWith(selectedProfileImage: file));
+      } else {
+        await _localDataSource.clearSelectedImagePath();
+      }
+    }
+  }
+
+  Future<void> _logout() async {
+    // TODO: Implement proper logout with LogoutUseCase
+    emit(state.copyWith(logoutState: BaseState(isLoading: true)));
+    // Placeholder for now
+    emit(state.copyWith(logoutState: BaseState(isLoading: false)));
   }
 }

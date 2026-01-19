@@ -21,3 +21,10 @@ class UploadPhotoEvent extends ProfileEvent {
   final File file;
   UploadPhotoEvent(this.file);
 }
+
+class SelectProfileImageEvent extends ProfileEvent {
+  final File image;
+  SelectProfileImageEvent(this.image);
+}
+
+class LogoutEvent extends ProfileEvent {}
