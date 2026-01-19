@@ -2,7 +2,9 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class UpdateProfileButton extends StatelessWidget {
-  const UpdateProfileButton({super.key});
+  final VoidCallback? onPressed;
+
+  const UpdateProfileButton({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,7 @@ class UpdateProfileButton extends StatelessWidget {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           context.l10n.update,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(

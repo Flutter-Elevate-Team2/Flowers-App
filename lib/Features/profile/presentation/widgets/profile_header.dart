@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  final UserEntity? user;
+
+  const ProfileHeader({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +18,19 @@ class ProfileHeader extends StatelessWidget {
         CircleAvatar(
           radius: 45,
           backgroundColor: Colors.transparent,
-          child: SvgPicture.asset(Assets.icons.photo, width: 90, height: 90),
+          backgroundImage: (user?.photoUrl != null && user!.photoUrl.isNotEmpty)
+              ? NetworkImage(user!.photoUrl)
+              : null,
+          child: (user?.photoUrl == null || user!.photoUrl.isEmpty)
+              ? SvgPicture.asset(Assets.icons.photo, width: 90, height: 90)
+              : null,
         ),
         const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Nour",
+              user != null ? "${user!.firstName} ${user!.lastName}" : "Guest",
               style: Theme.of(
                 context,
               ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -42,7 +50,7 @@ class ProfileHeader extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          "Nour_Mohamed@gmail.com",
+          user?.email ?? "",
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
           ),

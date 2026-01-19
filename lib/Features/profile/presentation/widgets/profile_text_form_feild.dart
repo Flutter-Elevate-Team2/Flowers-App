@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 
 class ProfileTextField extends StatelessWidget {
   final String label;
-  final String initialValue;
+  final String? initialValue;
   final bool isObscure;
   final Widget? trailing;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final bool readOnly;
 
   const ProfileTextField({
     super.key,
     required this.label,
-    required this.initialValue,
+    this.initialValue,
     this.isObscure = false,
     this.trailing,
+    this.controller,
+    this.validator,
+    this.readOnly = false,
   });
 
   @override
@@ -20,9 +26,11 @@ class ProfileTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
-          initialValue: initialValue,
+          controller: controller,
+          initialValue: controller == null ? initialValue : null,
           obscureText: isObscure,
-          readOnly: true, // Static UI
+          readOnly: readOnly,
+          validator: validator,
           style: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),

@@ -9,9 +9,7 @@ import 'package:flowers_app/Features/profile/data/models/profile_dto.dart';
 import 'package:flowers_app/Features/profile/data/models/upload_photo_response.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
-import 'package:retrofit/dio.dart';
-import 'package:retrofit/http.dart';
-
+import 'package:retrofit/retrofit.dart';
 part 'profile_api_client.g.dart';
 
 @lazySingleton
@@ -21,7 +19,6 @@ abstract class ProfileApi {
   factory ProfileApi(Dio dio) = _ProfileApi;
 
   @GET(ApiConstants.getProfile)
-  @Extra({'cache_policy': CachePolicy.refreshForceCache})
   Future<ProfileDto> getProfile();
   @PUT(ApiConstants.editProfile)
   Future<ProfileDto> editProfile(@Body() EditProfileRequest request);
@@ -29,5 +26,7 @@ abstract class ProfileApi {
   @MultiPart()
   Future<UploadPhotoResponse> uploadPhoto(@Part(name: "photo") File photo);
   @PATCH(ApiConstants.changePassword)
-  Future<ChangePasswordResponse> changePassword(@Body() ChangePasswordRequest request);
+  Future<ChangePasswordResponse> changePassword(
+    @Body() ChangePasswordRequest request,
+  );
 }

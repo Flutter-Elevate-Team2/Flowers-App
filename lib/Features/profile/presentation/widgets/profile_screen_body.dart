@@ -1,9 +1,13 @@
 import 'package:flowers_app/Features/profile/presentation/widgets/language_bottom_sheet.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header.dart';
+import 'package:flowers_app/Features/profile/presentation/widgets/profile_header_shimmer.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_menu_item.dart';
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreenBody extends StatelessWidget {
@@ -18,9 +22,28 @@ class ProfileScreenBody extends StatelessWidget {
           children: [
             const ProfileAppBar(),
             const SizedBox(height: 16),
-            const ProfileHeader(),
+            BlocBuilder<ProfileViewModel, ProfileState>(
+              buildWhen: (previous, current) =>
+                  previous.profileState != current.profileState,
+              builder: (context, state) {
+                final profileState = state.profileState;
+                if (profileState?.isLoading == true) {
+                  return const ProfileHeaderShimmer();
+                } else if (profileState?.errorMessage != null) {
+                  return Center(
+                    child: Text(
+                      profileState!.errorMessage!,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  );
+                }
+                return ProfileHeader(user: profileState?.data);
+              },
+            ),
             const SizedBox(height: 32),
-           
+
             ProfileMenuItem(
               title: context.l10n.myOrders,
               leadingIcon: Icons.calendar_today_outlined,
@@ -35,7 +58,7 @@ class ProfileScreenBody extends StatelessWidget {
               color: Theme.of(context).colorScheme.outlineVariant,
               height: 32,
             ),
-          
+
             ProfileMenuItem(
               title: context.l10n.notifications,
               leadingIcon: Icons.notifications_none_outlined,
@@ -53,7 +76,7 @@ class ProfileScreenBody extends StatelessWidget {
               color: Theme.of(context).colorScheme.outlineVariant,
               height: 32,
             ),
-           
+
             ProfileMenuItem(
               title: context.l10n.language,
               leadingIcon: Icons.translate,

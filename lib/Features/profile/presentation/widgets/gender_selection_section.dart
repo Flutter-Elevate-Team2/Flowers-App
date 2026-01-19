@@ -3,7 +3,9 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class GenderSelectionSection extends StatelessWidget {
-  const GenderSelectionSection({super.key});
+  final String selectedGender;
+
+  const GenderSelectionSection({super.key, required this.selectedGender});
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +23,12 @@ class GenderSelectionSection extends StatelessWidget {
           children: [
             GenderRadioButton(
               label: context.l10n.genderFemale,
-              isSelected: true,
+              isSelected: selectedGender == 'female',
             ),
             const SizedBox(width: 24),
             GenderRadioButton(
               label: context.l10n.genderMale,
-              isSelected: false,
+              isSelected: selectedGender == 'male',
             ),
           ],
         ),

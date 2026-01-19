@@ -25,7 +25,7 @@ class AuthInterceptor extends Interceptor {
     bool isPublicPath = _publicPaths.any((path) => options.path.endsWith(path));
 
     if (!isPublicPath) {
-      final token = _prefs.getString('token');
+      final token = _prefs.getString(ApiConstants.tokenKey);
 
       if (token != null && token.isNotEmpty) {
         options.headers["Authorization"] = "Bearer $token";
@@ -37,12 +37,16 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 401 && !_isLoggingOut) {
-      // Add !_isLoggingOut check
       bool isPublicPath = _publicPaths.any(
         (path) => err.requestOptions.path.endsWith(path),
       );
 
-      if (!isPublicPath) {
+      // Don't logout for change password - 401 means incorrect current password
+      bool isChangePassword = err.requestOptions.path.endsWith(
+        ApiConstants.changePassword,
+      );
+
+      if (!isPublicPath && !isChangePassword) {
         _isLoggingOut = true; // Set flag
         await _performLogout();
         _isLoggingOut = false; // Reset flag
@@ -53,7 +57,7 @@ class AuthInterceptor extends Interceptor {
 
   Future<void> _performLogout() async {
     // Change to async
-    await _prefs.remove('token');
+    await _prefs.remove(ApiConstants.tokenKey);
     _sessionController.expireSession();
   }
 }
