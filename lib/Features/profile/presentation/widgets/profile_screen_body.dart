@@ -1,0 +1,175 @@
+import 'package:flowers_app/Features/profile/presentation/widgets/language_bottom_sheet.dart';
+import 'package:flowers_app/Features/profile/presentation/widgets/profile_header.dart';
+import 'package:flowers_app/Features/profile/presentation/widgets/profile_menu_item.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/gen/assets.gen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+class ProfileScreenBody extends StatelessWidget {
+  const ProfileScreenBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const ProfileAppBar(),
+            const SizedBox(height: 16),
+            const ProfileHeader(),
+            const SizedBox(height: 32),
+           
+            ProfileMenuItem(
+              title: context.l10n.myOrders,
+              leadingIcon: Icons.calendar_today_outlined,
+              onTap: () {},
+            ),
+            ProfileMenuItem(
+              title: context.l10n.savedAddress,
+              leadingIcon: Icons.location_on_outlined,
+              onTap: () {},
+            ),
+            Divider(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              height: 32,
+            ),
+          
+            ProfileMenuItem(
+              title: context.l10n.notifications,
+              leadingIcon: Icons.notifications_none_outlined,
+              titleColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+              trailing: Switch(
+                value: true,
+                onChanged: (val) {},
+                activeColor: Theme.of(context).colorScheme.primary,
+                activeTrackColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.2),
+              ),
+            ),
+            Divider(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              height: 32,
+            ),
+           
+            ProfileMenuItem(
+              title: context.l10n.language,
+              leadingIcon: Icons.translate,
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    context.l10n.english,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const LanguageBottomSheet(),
+                );
+              },
+            ),
+            ProfileMenuItem(
+              title: context.l10n.aboutUs,
+              leadingIcon: Icons.info_outline,
+              onTap: () {},
+            ),
+            ProfileMenuItem(
+              title: context.l10n.termsAndConditions,
+              leadingIcon: Icons.description_outlined,
+              onTap: () {},
+            ),
+            Divider(
+              color: Theme.of(context).colorScheme.outlineVariant,
+              height: 32,
+            ),
+            // Logout
+            ProfileMenuItem(
+              title: context.l10n.logout,
+              leadingIcon: Icons.logout,
+              onTap: () {},
+            ),
+            const SizedBox(height: 32),
+            Center(
+              child: Text(
+                "v 6.3.0 - (446)",
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileAppBar extends StatelessWidget {
+  const ProfileAppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Row(
+        children: [
+          SvgPicture.asset(Assets.icons.flowerLogo, height: 25),
+          const SizedBox(width: 8),
+          Text(
+            context.l10n.flowery,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const Spacer(),
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Icon(
+                Icons.notifications_none_outlined,
+                size: 28,
+                color: Theme.of(context).iconTheme.color,
+              ),
+
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.error,
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '3',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onError,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

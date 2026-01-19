@@ -382,4 +382,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get occasionDescription => 'Bloom with our exquisite best sellers';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get change => 'Change';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get currentPasswordLabel => 'Current password';
+
+  @override
+  String get currentPasswordHint => 'Current password';
+
+  @override
+  String get myOrders => 'My orders';
+
+  @override
+  String get savedAddress => 'Saved address';
+
+  @override
+  String get notifications => 'Notification';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get aboutUs => 'About us';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get changeLanguage => 'Change Language';
 }

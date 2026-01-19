@@ -12,6 +12,9 @@ import 'package:flowers_app/Features/commerce/domain/entities/product_entities/p
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +50,10 @@ class Routes {
   static const String productDetailsName = 'productdetails';
   static const String bestSellerPath = '/bestseller';
   static const String bestSellerName = 'bestSeller';
+  static const String resetPasswordPath = '/resetpassword';
+  static const String resetPasswordName = 'resetPassword';
+  static const String editProfilePath = '/editprofile';
+  static const String editProfileName = 'editProfile';
 }
 
 class AppRouter {
@@ -151,8 +158,7 @@ class AppRouter {
               GoRoute(
                 path: Routes.profilePath,
                 name: Routes.profileName,
-                builder: (context, state) =>
-                    const Center(child: Text("Profile Screen")),
+                builder: (context, state) => const ProfileScreen(),
               ),
             ],
           ),
@@ -193,6 +199,18 @@ class AppRouter {
           final product = state.extra as ProductEntity;
           return ProductDetailsScreen(product: product);
         },
+      ),
+
+      /// ====== RESET PASSWORD SCREEN ======
+      GoRoute(
+        path: Routes.resetPasswordPath,
+        name: Routes.resetPasswordName,
+        builder: (context, state) => const ResetPasswordScreen(),
+      ),
+      GoRoute(
+        path: Routes.editProfilePath,
+        name: Routes.editProfileName,
+        builder: (context, state) => const EditProfileScreen(),
       ),
     ],
   );
