@@ -424,4 +424,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changeLanguage => 'Change Language';
+
+  @override
+  String get logoutTitle => 'LOGOUT';
+
+  @override
+  String get confirmLogout => 'Confirm logout!!';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get passwordChangedSuccess => 'Password changed successfully';
+
+  @override
+  String get appVersion => 'v 6.3.0 - (446)';
+
+  @override
+  String failedToPickImage(String error) {
+    return 'Failed to pick image: $error';
+  }
 }

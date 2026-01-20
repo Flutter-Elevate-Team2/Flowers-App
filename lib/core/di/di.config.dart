@@ -223,6 +223,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i512.EditProfileUseCase>(),
         gh<_i994.ChangePasswordUseCase>(),
         gh<_i417.UploadPhotoUseCase>(),
+        gh<_i40.LogoutUseCase>(),
         gh<_i709.ProfileLocalDataSourceContract>(),
       ),
     );

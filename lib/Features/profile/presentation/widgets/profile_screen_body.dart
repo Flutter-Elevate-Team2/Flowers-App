@@ -56,10 +56,7 @@ class ProfileScreenBody extends StatelessWidget {
               leadingIcon: Icons.location_on_outlined,
               onTap: () {},
             ),
-            Divider(
-              color: AppColors.gray,
-                            height: 32,
-            ),
+            Divider(color: AppColors.gray, height: 32),
 
             ProfileMenuItem(
               title: context.l10n.notifications,
@@ -74,10 +71,7 @@ class ProfileScreenBody extends StatelessWidget {
                 ).colorScheme.primary.withValues(alpha: 0.2),
               ),
             ),
-            Divider(
-            color: AppColors.gray,
-              height: 32,
-            ),
+            Divider(color: AppColors.gray, height: 32),
 
             ProfileMenuItem(
               title: context.l10n.language,
@@ -112,25 +106,25 @@ class ProfileScreenBody extends StatelessWidget {
               leadingIcon: Icons.description_outlined,
               onTap: () {},
             ),
-            Divider(
-             color: AppColors.gray,
-              height: 32,
-            ),
-            // Logout
+            Divider(color: AppColors.gray, height: 32),
             ProfileMenuItem(
               title: context.l10n.logout,
               leadingIcon: Icons.logout,
               onTap: () {
+                final viewModel = context.read<ProfileViewModel>();
                 showDialog(
                   context: context,
-                  builder: (context) => const LogoutDialog(),
+                  builder: (dialogContext) => BlocProvider.value(
+                    value: viewModel,
+                    child: const LogoutDialog(),
+                  ),
                 );
               },
             ),
             const SizedBox(height: 32),
             Center(
               child: Text(
-                "v 6.3.0 - (446)",
+                context.l10n.appVersion,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 ),

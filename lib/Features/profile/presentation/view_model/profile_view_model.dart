@@ -6,6 +6,7 @@ import 'package:flowers_app/Features/profile/domain/entities/change_password_ent
 import 'package:flowers_app/Features/profile/domain/entities/user_entity.dart';
 import 'package:flowers_app/Features/profile/domain/use_cases/change_password_use_case.dart';
 import 'package:flowers_app/Features/profile/domain/use_cases/edit_profile_use_case.dart';
+import 'package:flowers_app/Features/profile/domain/use_cases/logout_use_case.dart';
 import 'package:flowers_app/Features/profile/domain/use_cases/profile_use_case.dart';
 import 'package:flowers_app/Features/profile/domain/use_cases/upload_photo_use_case.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_event.dart';
@@ -21,6 +22,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
   final EditProfileUseCase _editProfileUseCase;
   final ChangePasswordUseCase _changePasswordUseCase;
   final UploadPhotoUseCase _uploadPhotoUseCase;
+  final LogoutUseCase _logoutUseCase;
   final ProfileLocalDataSourceContract _localDataSource;
 
   ProfileViewModel(
@@ -28,6 +30,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
     this._editProfileUseCase,
     this._changePasswordUseCase,
     this._uploadPhotoUseCase,
+    this._logoutUseCase,
     this._localDataSource,
   ) : super(ProfileState()) {
     _loadCachedImage();
@@ -181,9 +184,24 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _logout() async {
-    // TODO: Implement proper logout with LogoutUseCase
     emit(state.copyWith(logoutState: BaseState(isLoading: true)));
-    // Placeholder for now
-    emit(state.copyWith(logoutState: BaseState(isLoading: false)));
+    final response = await _logoutUseCase.call();
+    switch (response) {
+      case SuccessResponse<String>():
+        emit(
+          state.copyWith(logoutState: BaseState(isLoading: false, data: null)),
+        );
+        break;
+      case ErrorResponse<String>():
+        emit(
+          state.copyWith(
+            logoutState: BaseState(
+              isLoading: false,
+              errorMessage: response.errorMessage,
+            ),
+          ),
+        );
+        break;
+    }
   }
 }

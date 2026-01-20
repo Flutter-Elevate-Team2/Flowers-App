@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_event.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,12 +26,10 @@ class ProfileAvatarSection extends StatelessWidget {
       if (pickedFile != null && context.mounted) {
         final File selectedImage = File(pickedFile.path);
 
-        // Store in Bloc state first
         context.read<ProfileViewModel>().doIntent(
           SelectProfileImageEvent(selectedImage),
         );
 
-        // Then upload to backend
         context.read<ProfileViewModel>().doIntent(
           UploadPhotoEvent(selectedImage),
         );
@@ -39,7 +38,7 @@ class ProfileAvatarSection extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to pick image: $e'),
+            content: Text(context.l10n.failedToPickImage(e.toString())),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );

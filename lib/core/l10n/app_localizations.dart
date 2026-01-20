@@ -909,6 +909,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change Language'**
   String get changeLanguage;
+
+  /// Title for logout confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'LOGOUT'**
+  String get logoutTitle;
+
+  /// Message asking user to confirm logout
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm logout!!'**
+  String get confirmLogout;
+
+  /// Cancel button text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Success message after password change
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get passwordChangedSuccess;
+
+  /// App version display text
+  ///
+  /// In en, this message translates to:
+  /// **'v 6.3.0 - (446)'**
+  String get appVersion;
+
+  /// Error message when image selection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to pick image: {error}'**
+  String failedToPickImage(String error);
 }
 
 class _AppLocalizationsDelegate
