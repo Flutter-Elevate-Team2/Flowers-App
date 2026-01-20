@@ -100,8 +100,8 @@ class CartViewModel extends Cubit<CartStates> {
 
     if (response is SuccessResponse<CartResponseEntity>) {
       emit(CartStates.fromCart(response.data));
-    } else {
-      _handleError(id);
+    } else if (response is ErrorResponse<CartResponseEntity>) {
+      _handleError(id , response.errorMessage);
       _stopLoading(id, removeOptimistic: true);
     }
   }
@@ -132,8 +132,8 @@ class CartViewModel extends Cubit<CartStates> {
 
     if (response is SuccessResponse<CartResponseEntity>) {
       emit(CartStates.fromCart(response.data));
-    } else {
-      _handleError(itemId);
+    } else if (response is ErrorResponse<CartResponseEntity>) {
+      _handleError(itemId , response.errorMessage);
     }
 
     _stopLoading(itemId, removeOptimistic: true);
@@ -143,8 +143,8 @@ class CartViewModel extends Cubit<CartStates> {
     final response = await _deleteCartItemUseCase(itemId);
     if (response is SuccessResponse<CartResponseEntity>) {
       emit(CartStates.fromCart(response.data));
-    } else {
-      _handleError(itemId);
+    }else if (response is ErrorResponse<CartResponseEntity>) {
+      _handleError(itemId , response.errorMessage);
     }
 
     _stopLoading(itemId, removeOptimistic: true);
@@ -164,16 +164,17 @@ class CartViewModel extends Cubit<CartStates> {
     );
   }
 
-  void _handleError(String itemId) {
+  void _handleError(String itemId , String errorMessage) {
     emit(
       state.copyWith(
-        errorMessage: 'Update failed, please try again',
+        errorMessage:errorMessage ,
         lastFailedItemId: itemId,
         optimisticQuantities: Map<String, int>.from(state.optimisticQuantities)
           ..remove(itemId),
       ),
     );
   }
+
 
   void _resetLoginRequired() {
     if (state.requiresLogin) emit(state.copyWith(requiresLogin: false));

@@ -5,34 +5,40 @@ import 'package:flutter/material.dart';
 class ProductInCartStyle extends CartActionStyle {
   @override
   Widget buildAddButton(
-      BuildContext context, {
-        required bool isLoading,
-        required VoidCallback onAdd,
-      }) {
+    BuildContext context, {
+    Key? key,
+    required bool isLoading,
+    required VoidCallback onAdd,
+  }) {
     return const SizedBox.shrink();
   }
 
   @override
   Widget buildQuantitySelector(
-      BuildContext context, {
-        required int quantity,
-        required bool isLoading,
-        required VoidCallback? onIncrement,
-        required VoidCallback? onDecrement,
-        required VoidCallback? onDelete,
-      }) {
+    BuildContext context, {
+    Key? key,
+    required int quantity,
+    required bool isLoading,
+
+    required bool isIncrementDisabled,
+    required bool isDecrementDisabled,
+
+    required VoidCallback? onIncrement,
+    required VoidCallback? onDecrement,
+    required VoidCallback? onDelete,
+  }) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
           icon: const Icon(Icons.remove),
-          onPressed: onDecrement,
+          onPressed: isDecrementDisabled ? null : onDecrement,
           color: AppColors.black,
         ),
         Text(quantity.toString()),
         IconButton(
           icon: const Icon(Icons.add),
-          onPressed: onIncrement,
+          onPressed: isIncrementDisabled ? null : onIncrement,
           color: AppColors.black,
         ),
       ],

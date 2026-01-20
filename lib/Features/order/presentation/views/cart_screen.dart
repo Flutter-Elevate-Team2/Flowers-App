@@ -5,9 +5,11 @@ import 'package:flowers_app/Features/order/presentation/widgets/cart_product_car
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/empty_cart_view.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/guest_cart_view.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/shimmer/cart_body_shimmer.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/helpers/error_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -19,8 +21,14 @@ class CartScreen extends StatelessWidget {
         final cartItems = state.cartData?.cart?.cartItems ?? [];
 
         // Guest User
-        if (state.cartData == null) {
-          return Scaffold(body: GuestCartView(onLogin: () {}));
+        if (state.cartData == null  && state.errorMessage != null) {
+          return Scaffold(
+            body: GuestCartView(
+              onLogin: () {
+                context.pushNamed(Routes.signInName);
+              },
+            ),
+          );
         }
         // Loading State
         if (state.cartData == null && state.errorMessage == null) {

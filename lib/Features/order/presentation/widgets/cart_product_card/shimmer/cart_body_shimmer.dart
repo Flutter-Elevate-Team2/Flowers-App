@@ -15,7 +15,7 @@ class CartBodyShimmer extends StatelessWidget {
           // Cart Items List
           Expanded(
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: 4,
               itemBuilder: (context, index) {
                 return Card(
                   margin: EdgeInsets.symmetric(vertical: 8),
