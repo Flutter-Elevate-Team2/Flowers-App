@@ -4,18 +4,19 @@ import 'package:flowers_app/Features/order/presentation/view_model/cart_view_mod
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/cart_product_card.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/check_out_button.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/total_price.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CartBody extends StatelessWidget {
   final CartEntity? cart;
 
-
-  const CartBody({ this.cart , super.key});
+  const CartBody({this.cart, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final  items = cart?.cartItems ?? [];
+    final items = cart?.cartItems ?? [];
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -24,15 +25,25 @@ class CartBody extends StatelessWidget {
           // Cart Items List
           Expanded(
             child: ListView.builder(
-              itemCount: items.length ,
+              itemCount: items.length,
               itemBuilder: (context, index) {
                 final item = items[index];
                 return Card(
                   margin: EdgeInsets.symmetric(vertical: 8),
-                  child: CartProductCard(cartItem: item ,onToggleDelete: () {
-                    context.read<CartViewModel>().doIntent(
-                      DeleteCartItemEvent(item.product!.id) ,
-                    );                  },) ,
+                  child: CartProductCard(
+                    cartItem: item,
+                    onTap: () {
+                      context.pushNamed(
+                        Routes.productDetailsName,
+                        extra: item.product,
+                      );
+                    },
+                    onToggleDelete: () {
+                      context.read<CartViewModel>().doIntent(
+                        DeleteCartItemEvent(item.product!.id),
+                      );
+                    },
+                  ),
                 );
               },
             ),
@@ -41,11 +52,10 @@ class CartBody extends StatelessWidget {
           // Subtotal & Total
           Column(
             children: [
-            TotalPrice(totalPrice:cart!.totalPrice ),
+              TotalPrice(totalPrice: cart!.totalPrice),
               SizedBox(height: 48),
               // Checkout Button
-              CheckOutButton()
-
+              CheckOutButton(),
             ],
           ),
         ],
