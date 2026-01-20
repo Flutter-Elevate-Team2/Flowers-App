@@ -1,6 +1,6 @@
 import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_add_to_cart_button.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_quantity_selector.dart';
-import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/cart_action_section.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/shared/cart_action_style.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -10,26 +10,40 @@ class ProductCardCartStyle extends CartActionStyle {
   @override
   Widget buildAddButton(
     BuildContext context, {
+    Key? key,
     required bool isLoading,
     required VoidCallback onAdd,
   }) {
-    return ProductCardAddToCartButton(onAddToCart: isLoading ? null : onAdd);
+    return ProductCardAddToCartButton(
+      key: key,
+      isLoading: isLoading,
+      onAddToCart: onAdd,
+    );
   }
 
   @override
   Widget buildQuantitySelector(
     BuildContext context, {
+    Key? key,
     required int quantity,
     required bool isLoading,
+    required bool isIncrementDisabled,
+    required bool isDecrementDisabled,
     required VoidCallback? onIncrement,
     required VoidCallback? onDecrement,
     required VoidCallback? onDelete,
   }) {
     return ProductQuantitySelector(
+      key: key,
       quantity: quantity,
-      onIncrement: isLoading ? null : onIncrement,
-      onDecrement: isLoading ? null : onDecrement,
-      onDelete: isLoading ? null : onDelete,
+      isLoading: isLoading,
+
+      isIncrementDisabled: isIncrementDisabled,
+      isDecrementDisabled: isDecrementDisabled,
+
+      onIncrement: onIncrement,
+      onDecrement: onDecrement,
+      onDelete: onDelete,
     );
   }
 

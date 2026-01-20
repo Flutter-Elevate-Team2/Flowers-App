@@ -3,44 +3,68 @@ import 'package:flowers_app/Features/order/domain/entities/cart_response_entity.
 
 class CartStates extends Equatable {
   final CartResponseEntity? cartData;
-
-  final bool isUpdatingItem;
-  final String? updatingItemId;
-
+  final Map<String, int> serverQuantities;
+  final Map<String, int> optimisticQuantities;
+  final Set<String> updatingItemIds;
   final String? errorMessage;
-
+  final String? lastFailedItemId;
   final bool requiresLogin;
 
   const CartStates({
     this.cartData,
-    this.isUpdatingItem = false,
-    this.updatingItemId,
+    this.serverQuantities = const {},
+    this.optimisticQuantities = const {},
+    this.updatingItemIds = const {},
     this.errorMessage,
+    this.lastFailedItemId,
     this.requiresLogin = false,
   });
 
+  factory CartStates.fromCart(CartResponseEntity cart) {
+    final quantities = <String, int>{};
+
+    for (final item in cart.cart?.cartItems ?? []) {
+      final id = item.product?.id;
+      if (id != null) {
+        quantities[id] = item.quantity ?? 0;
+      }
+    }
+
+    return CartStates(cartData: cart, serverQuantities: quantities);
+  }
+
+  int getDisplayedQuantity(String productId) {
+    return optimisticQuantities[productId] ?? serverQuantities[productId] ?? 0;
+  }
+
   CartStates copyWith({
     CartResponseEntity? cartData,
-    bool? isUpdatingItem,
-    String? updatingItemId,
+    Map<String, int>? serverQuantities,
+    Map<String, int>? optimisticQuantities,
+    Set<String>? updatingItemIds,
     String? errorMessage,
+    String? lastFailedItemId,
     bool? requiresLogin,
   }) {
     return CartStates(
       cartData: cartData ?? this.cartData,
-      isUpdatingItem: isUpdatingItem ?? this.isUpdatingItem,
-      updatingItemId: updatingItemId,
+      serverQuantities: serverQuantities ?? this.serverQuantities,
+      optimisticQuantities: optimisticQuantities ?? this.optimisticQuantities,
+      updatingItemIds: updatingItemIds ?? this.updatingItemIds,
       errorMessage: errorMessage,
-      requiresLogin: requiresLogin ?? false,
+      lastFailedItemId: lastFailedItemId,
+      requiresLogin: requiresLogin ?? this.requiresLogin,
     );
   }
 
   @override
   List<Object?> get props => [
     cartData,
-    isUpdatingItem,
-    updatingItemId,
+    serverQuantities,
+    optimisticQuantities,
+    updatingItemIds,
     errorMessage,
+    lastFailedItemId,
     requiresLogin,
   ];
 }
