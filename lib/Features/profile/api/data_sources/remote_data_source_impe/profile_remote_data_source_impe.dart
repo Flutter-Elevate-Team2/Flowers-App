@@ -5,6 +5,7 @@ import 'package:flowers_app/Features/profile/data/data_sources/remote_data_sourc
 import 'package:flowers_app/Features/profile/data/models/change_password_request.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_response.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';
+import 'package:flowers_app/Features/profile/data/models/logout_response.dart';
 import 'package:flowers_app/Features/profile/data/models/profile_dto.dart';
 import 'package:flowers_app/Features/profile/data/models/upload_photo_response.dart';
 import 'package:injectable/injectable.dart';
@@ -35,5 +36,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSourceContract {
     ChangePasswordRequest request,
   ) async {
     return await _profileApi.changePassword(request);
+  }
+
+  @override
+  Future<LogoutResponse> logout() async {
+    return await _profileApi.logout();
   }
 }

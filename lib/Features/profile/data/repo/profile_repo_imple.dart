@@ -5,6 +5,7 @@ import 'package:flowers_app/Features/profile/data/mappers/profile_mapper.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_request.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_response.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';
+import 'package:flowers_app/Features/profile/data/models/logout_response.dart';
 import 'package:flowers_app/Features/profile/data/models/profile_dto.dart';
 import 'package:flowers_app/Features/profile/data/models/upload_photo_response.dart';
 import 'package:flowers_app/Features/profile/domain/entities/change_password_entity.dart';
@@ -47,6 +48,13 @@ class ProfileRepoImpl with ApiExecutionMixin implements ProfileRepoContract {
     return execute<ChangePasswordResponse, ChangePasswordEntity>(
       action: () async => await _remoteDataSource.changePassword(request),
       mapper: (response) => response.toEntity(),
+    );
+  }
+  @override
+  Future<BaseResponse<String>> logout() async {
+    return execute<LogoutResponse, String>(
+      action: () async => await _remoteDataSource.logout(),
+      mapper: (response) => response.message,
     );
   }
 }

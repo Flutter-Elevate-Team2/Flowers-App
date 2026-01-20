@@ -74,6 +74,7 @@ import '../../Features/profile/domain/use_cases/change_password_use_case.dart'
     as _i994;
 import '../../Features/profile/domain/use_cases/edit_profile_use_case.dart'
     as _i512;
+import '../../Features/profile/domain/use_cases/logout_use_case.dart' as _i40;
 import '../../Features/profile/domain/use_cases/profile_use_case.dart' as _i951;
 import '../../Features/profile/domain/use_cases/upload_photo_use_case.dart'
     as _i417;
@@ -150,6 +151,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i671.ProfileRepoContract>(
       () => _i327.ProfileRepoImpl(gh<_i897.ProfileRemoteDataSourceContract>()),
+    );
+    gh.factory<_i40.LogoutUseCase>(
+      () => _i40.LogoutUseCase(
+        gh<_i671.ProfileRepoContract>(),
+        gh<_i460.SharedPreferences>(),
+        gh<_i306.SessionController>(),
+      ),
     );
     gh.factory<_i409.CheckAuthUseCase>(
       () => _i409.CheckAuthUseCase(gh<_i30.AuthRepoContract>()),

@@ -10,4 +10,8 @@ abstract class ProfileRepoContract {
   Future<BaseResponse<UserEntity>> getProfileData();
   Future<BaseResponse<UserEntity>> editProfile(EditProfileRequest request);
   Future<BaseResponse<String>> uploadPhoto(File file);
-Future<BaseResponse<ChangePasswordEntity>> changePassword(ChangePasswordRequest request);}
+  Future<BaseResponse<ChangePasswordEntity>> changePassword(
+    ChangePasswordRequest request,
+  );
+  Future<BaseResponse<String>> logout();
+}
