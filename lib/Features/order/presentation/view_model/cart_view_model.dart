@@ -67,10 +67,7 @@ class CartViewModel extends Cubit<CartStates> {
   }
 
   Future<void> _getCart() async {
-    if (!await _hasTokenUseCase()) {
-      if (state.cartData == null) emit(const CartStates());
-      return;
-    }
+
 
     final response = await _getCartUseCase();
     if (response is SuccessResponse<CartResponseEntity>) {

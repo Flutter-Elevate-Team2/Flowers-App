@@ -21,7 +21,7 @@ class CartScreen extends StatelessWidget {
         final cartItems = state.cartData?.cart?.cartItems ?? [];
 
         // Guest User
-        if (state.cartData == null  && state.errorMessage != null) {
+        if (state.cartData == null) {
           return Scaffold(
             body: GuestCartView(
               onLogin: () {
