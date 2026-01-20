@@ -14,6 +14,7 @@ class ApiConstants {
   static const String editProfile = "/editProfile";
   static const String uploadPhoto = "/upload-photo";
   static const String changePassword = "/change-password";
+  static const String logout = "/auth/logout";
 
   // ================= Products Endpoints =================
   static const String getProducts = "/products";
