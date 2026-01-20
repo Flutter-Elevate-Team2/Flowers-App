@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/Features/order/data/models/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/quantity_request.dart';
-import 'package:flowers_app/Features/order/domain/entities/cart_item_entity.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_states.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_view_model.dart';
@@ -15,97 +12,91 @@ class CartActionSection extends StatelessWidget {
   final ProductEntity product;
   final CartActionStyle style;
 
-    CartActionSection({
+  const CartActionSection({
     super.key,
     required this.product,
     required this.style,
   });
 
-  Timer? _debounce;
-
-
   @override
   Widget build(BuildContext context) {
+    final vm = context.read<CartViewModel>();
 
-    return BlocSelector<CartViewModel, CartStates, CartItemEntity?>(
-      selector: (state) {
-        final items = state.cartData?.cart?.cartItems ?? [];
+    return BlocListener<CartViewModel, CartStates>(
+      listener: (context, state) {
+        if (state.lastFailedItemId == product.id &&
+            state.errorMessage != null) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+        }
+      },
+      child: BlocBuilder<CartViewModel, CartStates>(
+        buildWhen: (prev, curr) {
+          return prev.getDisplayedQuantity(product.id) !=
+                  curr.getDisplayedQuantity(product.id) ||
+              prev.updatingItemIds.contains(product.id) !=
+                  curr.updatingItemIds.contains(product.id);
+        },
+        builder: (context, state) {
+          final quantity = state.getDisplayedQuantity(product.id);
 
-        CartItemEntity? cartItem;
-        for (var e in items) {
-          if (e.product?.id == product.id) {
-            cartItem = e;
-            break;
+          final isLoading =
+              state.updatingItemIds.contains(product.id) ||
+              state.optimisticQuantities.containsKey(product.id);
+
+          if (product.quantity <= 0) {
+            return style.buildSoldOut(context);
           }
-        }
-        return cartItem;
-      },
-      builder: (context, cartItem) {
-        final state = context.watch<CartViewModel>().state;
-        final isLoading =
-            state.isUpdatingItem && state.updatingItemId == product.id;
 
-        final maxQuantity = product.quantity;
+          final isIncrementDisabled = isLoading || quantity >= product.quantity;
 
-        // ❌ Sold out
-        if (maxQuantity <= 0) {
-          return style.buildSoldOut(context);
-        }
+          final isDecrementDisabled = isLoading;
 
-        // ✅ In cart → quantity selector
-        if (cartItem != null) {
-          final quantity = cartItem.quantity ?? 1;
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            child: quantity > 0
+                ? style.buildQuantitySelector(
+                    context,
+                    key: const ValueKey('quantity'),
+                    quantity: quantity,
+                    isLoading: isLoading,
 
-          return style.buildQuantitySelector(
-            context,
-            quantity: quantity,
-            isLoading: isLoading,
-            onIncrement: quantity >= maxQuantity || isLoading
-                ? null
-                : () {
-              _updateQuantity(context, product.id, quantity + 1);
-            },
-            onDecrement: isLoading || quantity <= 1
-                ? null
-                : () {
-                  _updateQuantity(context, product.id, quantity - 1 );
-                  },
-            onDelete: isLoading
-                ? null
-                : () {
-              context.read<CartViewModel>().doIntent(
-                DeleteCartItemEvent(product.id),
-              );
-            },
+                    isIncrementDisabled: isIncrementDisabled,
+                    isDecrementDisabled: isDecrementDisabled,
+
+                    onIncrement: () => vm.doIntent(
+                      UpdateCartItemEvent(
+                        itemId: product.id,
+                        quantityRequest: QuantityRequest(
+                          quantity: quantity + 1,
+                        ),
+                      ),
+                    ),
+                    onDecrement: () => vm.doIntent(
+                      UpdateCartItemEvent(
+                        itemId: product.id,
+                        quantityRequest: QuantityRequest(
+                          quantity: quantity - 1,
+                        ),
+                      ),
+                    ),
+                    onDelete: () =>
+                        vm.doIntent(DeleteCartItemEvent(product.id)),
+                  )
+                : style.buildAddButton(
+                    context,
+                    key: const ValueKey('add'),
+                    isLoading: isLoading,
+                    onAdd: () => vm.doIntent(
+                      AddToCartEvent(
+                        CartRequest(product: product.id, quantity: 1),
+                      ),
+                    ),
+                  ),
           );
-
-        }
-
-        // ➕ Not in cart
-        return style.buildAddButton(
-          context,
-          isLoading: isLoading,
-          onAdd: () {
-            context.read<CartViewModel>().doIntent(
-              AddToCartEvent(
-                CartRequest(product: product.id, quantity: 1),
-              ),
-            );
-          },
-        );
-      },
+        },
+      ),
     );
   }
-  void _updateQuantity(BuildContext context, String productId, int qty) {
-    _debounce?.cancel();
-    _debounce = Timer( Duration(milliseconds: 600), () {
-      context.read<CartViewModel>().doIntent(
-        UpdateCartItemEvent(
-          itemId: productId,
-          quantityRequest: QuantityRequest(quantity: qty),
-        ),
-      );
-    });
-  }
-
 }

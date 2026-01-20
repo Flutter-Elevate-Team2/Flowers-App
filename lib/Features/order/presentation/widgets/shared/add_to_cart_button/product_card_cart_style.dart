@@ -10,26 +10,40 @@ class ProductCardCartStyle extends CartActionStyle {
   @override
   Widget buildAddButton(
     BuildContext context, {
+    Key? key,
     required bool isLoading,
     required VoidCallback onAdd,
   }) {
-    return ProductCardAddToCartButton(onAddToCart: isLoading ? null : onAdd);
+    return ProductCardAddToCartButton(
+      key: key,
+      isLoading: isLoading,
+      onAddToCart: onAdd,
+    );
   }
 
   @override
   Widget buildQuantitySelector(
     BuildContext context, {
+    Key? key,
     required int quantity,
     required bool isLoading,
+    required bool isIncrementDisabled,
+    required bool isDecrementDisabled,
     required VoidCallback? onIncrement,
     required VoidCallback? onDecrement,
     required VoidCallback? onDelete,
   }) {
     return ProductQuantitySelector(
+      key: key,
       quantity: quantity,
-      onIncrement: isLoading ? null : onIncrement,
-      onDecrement: isLoading ? null : onDecrement,
-      onDelete: isLoading ? null : onDelete,
+      isLoading: isLoading,
+
+      isIncrementDisabled: isIncrementDisabled,
+      isDecrementDisabled: isDecrementDisabled,
+
+      onIncrement: onIncrement,
+      onDecrement: onDecrement,
+      onDelete: onDelete,
     );
   }
 

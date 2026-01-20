@@ -18,35 +18,46 @@ class ProductCardAddToCartButton extends StatelessWidget {
       width: double.infinity,
       height: 36,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onAddToCart,
+        onPressed: isLoading ? () {} : onAddToCart,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isLoading
-              ? Colors.grey.shade400
-              : AppColors.mainColor,
+          backgroundColor: Theme.of(context).primaryColor,
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           padding: EdgeInsets.zero,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.shopping_cart_outlined,
-              color: Colors.white,
-              size: 18,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              context.l10n.addToCart,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: isLoading
+              ? SizedBox(
+                  key: const ValueKey('loader'),
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.white,
+                  ),
+                )
+              : Row(
+                  key: const ValueKey('content'),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shopping_cart_outlined,
+                      color: AppColors.white,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      context.l10n.addToCart,
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

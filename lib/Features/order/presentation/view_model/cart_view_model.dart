@@ -1,20 +1,20 @@
 import 'dart:async';
 
 import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
+import 'package:flowers_app/Features/order/data/models/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/quantity_request.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/add_to_cart_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/delete_cart_item_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/get_cart_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/update_cart_item_use_case.dart';
-import 'package:flowers_app/core/controller/session_controller.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_states.dart';
-
 import 'package:flowers_app/core/base_response/base_response.dart';
-import 'package:flowers_app/Features/order/data/models/cart_request_dto.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
+import 'package:flowers_app/core/utils/debouncer/debouncer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 @Injectable()
 class CartViewModel extends Cubit<CartStates> {
@@ -24,6 +24,8 @@ class CartViewModel extends Cubit<CartStates> {
   final DeleteCartItemUseCase _deleteCartItemUseCase;
   final HasValidTokenUseCase _hasTokenUseCase;
   final SessionController _sessionController;
+  final Debouncer _debouncer;
+
   StreamSubscription? _loginSubscription;
   StreamSubscription? _logoutSubscription;
 
@@ -34,7 +36,8 @@ class CartViewModel extends Cubit<CartStates> {
     this._deleteCartItemUseCase,
     this._hasTokenUseCase,
     this._sessionController,
-  ) : super(CartStates()) {
+    this._debouncer,
+  ) : super(const CartStates()) {
     _listenToSession();
   }
 
@@ -44,115 +47,143 @@ class CartViewModel extends Cubit<CartStates> {
     } else if (event is AddToCartEvent) {
       _addToCart(event.cartRequest);
     } else if (event is UpdateCartItemEvent) {
-      _updateCartItem(event.itemId, event.quantityRequest);
+      _optimisticUpdate(event.itemId, event.quantityRequest.quantity);
     } else if (event is DeleteCartItemEvent) {
-      _deleteCartItem(event.itemId);
+      _optimisticUpdate(event.itemId, 0);
     } else if (event is CartLoginHandledEvent) {
       _resetLoginRequired();
     }
   }
 
   void _listenToSession() {
-    _loginSubscription =
-        _sessionController.onLogin.listen((_) {
-          if (state.requiresLogin) emit(state.copyWith(requiresLogin: false));
-          _getCart();
-        });
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      if (state.requiresLogin) emit(state.copyWith(requiresLogin: false));
+      _getCart();
+    });
 
-    _logoutSubscription =
-        _sessionController.onLogout.listen((_) {
-          _clearCart();
-        });
+    _logoutSubscription = _sessionController.onLogout.listen((_) {
+      emit(const CartStates());
+    });
   }
 
-  void _clearCart() {
-    emit(CartStates());
-  }
-
-  /// Get Cart
-  void _getCart() async {
-    final isLoggedIn = await _hasTokenUseCase();
-
-    if (!isLoggedIn) {
-      emit(state.copyWith(cartData: null));
+  Future<void> _getCart() async {
+    if (!await _hasTokenUseCase()) {
+      if (state.cartData == null) emit(const CartStates());
       return;
     }
-    final response = await _getCartUseCase.call();
 
+    final response = await _getCartUseCase();
     if (response is SuccessResponse<CartResponseEntity>) {
-      emit(state.copyWith(cartData: response.data));
+      emit(CartStates.fromCart(response.data));
     }
   }
 
-  /// Add to Cart
-  void _addToCart(CartRequest request) async {
-    final isLoggedIn = await _hasTokenUseCase();
-
-    if (!isLoggedIn) {
+  Future<void> _addToCart(CartRequest request) async {
+    if (!await _hasTokenUseCase()) {
       emit(state.copyWith(requiresLogin: true));
       return;
     }
 
-    emit(state.copyWith(isUpdatingItem: true, updatingItemId: request.product));
+    final id = request.product!;
 
-    final response = await _addToCartUseCase.call(request);
+    emit(
+      state.copyWith(
+        updatingItemIds: {...state.updatingItemIds, id},
+        optimisticQuantities: {
+          ...state.optimisticQuantities,
+          id: request.quantity ?? 1,
+        },
+      ),
+    );
+
+    final response = await _addToCartUseCase(request);
 
     if (response is SuccessResponse<CartResponseEntity>) {
-      emit(
-        state.copyWith(
-          cartData: response.data,
-          isUpdatingItem: false,
-          updatingItemId: null,
-        ),
-      );
+      emit(CartStates.fromCart(response.data));
+    } else {
+      _handleError(id);
+      _stopLoading(id, removeOptimistic: true);
     }
   }
 
-  /// Update Cart Item
-  void _updateCartItem(String itemId, QuantityRequest request) async {
-    emit(state.copyWith(isUpdatingItem: true, updatingItemId: itemId));
+  void _optimisticUpdate(String itemId, int quantity) {
+    final optimistic = Map<String, int>.from(state.optimisticQuantities)
+      ..[itemId] = quantity;
+    final updating = {...state.updatingItemIds, itemId};
 
-    final response = await _updateCartItemUseCase.call(itemId, request);
+    emit(
+      state.copyWith(
+        optimisticQuantities: optimistic,
+        updatingItemIds: updating,
+      ),
+    );
 
-    if (response is SuccessResponse<CartResponseEntity>) {
-      emit(
-        state.copyWith(
-          cartData: response.data,
-          isUpdatingItem: false,
-          updatingItemId: null,
-        ),
-      );
-    }
+    _debouncer.run(() async {
+      if (quantity > 0) {
+        await _updateCartItem(itemId, QuantityRequest(quantity: quantity));
+      } else {
+        await _deleteCartItem(itemId);
+      }
+    });
   }
 
-  /// Delete Cart Item
-  void _deleteCartItem(String itemId) async {
-    emit(state.copyWith(isUpdatingItem: true, updatingItemId: itemId));
-
-    final response = await _deleteCartItemUseCase.call(itemId);
+  Future<void> _updateCartItem(String itemId, QuantityRequest request) async {
+    final response = await _updateCartItemUseCase(itemId, request);
 
     if (response is SuccessResponse<CartResponseEntity>) {
-      emit(
-        state.copyWith(
-          cartData: response.data,
-          isUpdatingItem: false,
-          updatingItemId: null,
-        ),
-      );
+      emit(CartStates.fromCart(response.data));
+    } else {
+      _handleError(itemId);
     }
+
+    _stopLoading(itemId, removeOptimistic: true);
+  }
+
+  Future<void> _deleteCartItem(String itemId) async {
+    final response = await _deleteCartItemUseCase(itemId);
+    if (response is SuccessResponse<CartResponseEntity>) {
+      emit(CartStates.fromCart(response.data));
+    } else {
+      _handleError(itemId);
+    }
+
+    _stopLoading(itemId, removeOptimistic: true);
+  }
+
+  void _stopLoading(String itemId, {bool removeOptimistic = false}) {
+    final updating = Set<String>.from(state.updatingItemIds)..remove(itemId);
+    final optimistic = removeOptimistic
+        ? (Map<String, int>.from(state.optimisticQuantities)..remove(itemId))
+        : state.optimisticQuantities;
+
+    emit(
+      state.copyWith(
+        updatingItemIds: updating,
+        optimisticQuantities: optimistic,
+      ),
+    );
+  }
+
+  void _handleError(String itemId) {
+    emit(
+      state.copyWith(
+        errorMessage: 'Update failed, please try again',
+        lastFailedItemId: itemId,
+        optimisticQuantities: Map<String, int>.from(state.optimisticQuantities)
+          ..remove(itemId),
+      ),
+    );
   }
 
   void _resetLoginRequired() {
-    if (state.requiresLogin) {
-      emit(state.copyWith(requiresLogin: false));
-    }
+    if (state.requiresLogin) emit(state.copyWith(requiresLogin: false));
   }
 
   @override
   Future<void> close() {
     _loginSubscription?.cancel();
     _logoutSubscription?.cancel();
+    _debouncer.dispose();
     return super.close();
   }
-
 }
