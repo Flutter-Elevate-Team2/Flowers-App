@@ -28,7 +28,7 @@ class CartProductCard extends StatelessWidget {
       builder: (context, constraints) {
         return Container(
           padding: EdgeInsets.all(8),
-          height: 120,
+          height: 121,
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(12),
