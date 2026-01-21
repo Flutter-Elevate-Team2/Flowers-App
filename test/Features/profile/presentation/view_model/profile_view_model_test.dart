@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flowers_app/Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';
 import 'package:flowers_app/Features/profile/domain/entities/change_password_entity.dart';
 import 'package:flowers_app/Features/profile/domain/entities/user_entity.dart';
@@ -25,7 +24,6 @@ import 'profile_view_model_test.mocks.dart';
   ChangePasswordUseCase,
   UploadPhotoUseCase,
   LogoutUseCase,
-  ProfileLocalDataSourceContract,
 ])
 void main() {
   late ProfileViewModel viewModel;
@@ -34,7 +32,6 @@ void main() {
   late MockChangePasswordUseCase mockChangePasswordUseCase;
   late MockUploadPhotoUseCase mockUploadPhotoUseCase;
   late MockLogoutUseCase mockLogoutUseCase;
-  late MockProfileLocalDataSourceContract mockLocalDataSource;
 
   final tUserEntity = UserEntity(
     id: '1',
@@ -64,11 +61,6 @@ void main() {
     mockChangePasswordUseCase = MockChangePasswordUseCase();
     mockUploadPhotoUseCase = MockUploadPhotoUseCase();
     mockLogoutUseCase = MockLogoutUseCase();
-    mockLocalDataSource = MockProfileLocalDataSourceContract();
-
-    when(
-      mockLocalDataSource.getSelectedImagePath(),
-    ).thenAnswer((_) async => null);
 
     viewModel = ProfileViewModel(
       mockGetProfileUseCase,
@@ -76,7 +68,6 @@ void main() {
       mockChangePasswordUseCase,
       mockUploadPhotoUseCase,
       mockLogoutUseCase,
-      mockLocalDataSource,
     );
   });
 
@@ -270,10 +261,6 @@ void main() {
     test('SelectProfileImage updates selectedProfileImage state', () async {
       final testFile = File('test_path.jpg');
 
-      when(
-        mockLocalDataSource.saveSelectedImagePath(any),
-      ).thenAnswer((_) async {});
-
       final expectedStates = [
         predicate<ProfileState>((s) => s.selectedProfileImage == testFile),
       ];
@@ -281,10 +268,64 @@ void main() {
       expectLater(viewModel.stream, emitsInOrder(expectedStates));
 
       viewModel.doIntent(SelectProfileImageEvent(testFile));
+    });
+  });
 
-      verify(
-        mockLocalDataSource.saveSelectedImagePath('test_path.jpg'),
-      ).called(1);
+  group('ProfileViewModel - UploadPhoto', () {
+    test('UploadPhoto emits [Loading, Success] when usecase succeeds', () async {
+      final testFile = File('test_image.jpg');
+      const successMessage = 'Photo uploaded successfully';
+
+      when(
+        mockUploadPhotoUseCase.call(any),
+      ).thenAnswer((_) async => SuccessResponse(data: successMessage));
+
+      // After upload success, _getProfile is called, so we need to mock it too
+      when(
+        mockGetProfileUseCase.call(),
+      ).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
+
+      final expectedStates = [
+        predicate<ProfileState>((s) => s.uploadPhotoState?.isLoading == true),
+        predicate<ProfileState>(
+          (s) =>
+              s.uploadPhotoState?.isLoading == false &&
+              s.uploadPhotoState?.data == successMessage &&
+              s.selectedProfileImage == null, // cleared after success
+        ),
+        // Profile refresh states
+        predicate<ProfileState>((s) => s.profileState?.isLoading == true),
+        predicate<ProfileState>(
+          (s) =>
+              s.profileState?.isLoading == false &&
+              s.profileState?.data == tUserEntity,
+        ),
+      ];
+
+      expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+      viewModel.doIntent(UploadPhotoEvent(testFile));
+    });
+
+    test('UploadPhoto emits [Loading, Error] when usecase fails', () async {
+      final testFile = File('test_image.jpg');
+
+      when(
+        mockUploadPhotoUseCase.call(any),
+      ).thenAnswer((_) async => ErrorResponse(errorMessage: 'Upload failed'));
+
+      final expectedStates = [
+        predicate<ProfileState>((s) => s.uploadPhotoState?.isLoading == true),
+        predicate<ProfileState>(
+          (s) =>
+              s.uploadPhotoState?.isLoading == false &&
+              s.uploadPhotoState?.errorMessage == 'Upload failed',
+        ),
+      ];
+
+      expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+      viewModel.doIntent(UploadPhotoEvent(testFile));
     });
   });
 }

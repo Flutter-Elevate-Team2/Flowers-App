@@ -12,7 +12,7 @@ class ApiConstants {
   static const String home = "/home";
   static const String getProfile = "/auth/profile-data";
   static const String editProfile = "/auth/editProfile";
-  static const String uploadPhoto = "/auth/upload-photo";
+  static const String uploadPhoto = "auth/upload-photo";
   static const String changePassword = "/auth/change-password";
   static const String logout = "/auth/logout";
 

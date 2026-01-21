@@ -62,10 +62,6 @@ import '../../Features/commerce/presentation/products/view_model/products_view_m
 import '../../Features/profile/api/api_client/profile_api_client.dart' as _i255;
 import '../../Features/profile/api/data_sources/remote_data_source_impe/profile_remote_data_source_impe.dart'
     as _i408;
-import '../../Features/profile/api/profile_local_data_source_imple/profile_local_data_source_impl.dart'
-    as _i250;
-import '../../Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart'
-    as _i709;
 import '../../Features/profile/data/data_sources/remote_data_source_contract/profile_remote_data_source_contract.dart'
     as _i897;
 import '../../Features/profile/data/repo/profile_repo_imple.dart' as _i327;
@@ -112,9 +108,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i164.AuthLocalDataSourceContract>(
       () => _i1051.AuthLocalDataSourceImple(gh<_i460.SharedPreferences>()),
-    );
-    gh.factory<_i709.ProfileLocalDataSourceContract>(
-      () => _i250.ProfileLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.singleton<_i695.CacheOptions>(
       () => dioModule.cacheOptions(gh<_i695.MemCacheStore>()),
@@ -204,6 +197,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i417.UploadPhotoUseCase>(
       () => _i417.UploadPhotoUseCase(gh<_i671.ProfileRepoContract>()),
     );
+    gh.lazySingleton<_i149.ProfileViewModel>(
+      () => _i149.ProfileViewModel(
+        gh<_i951.GetProfileUseCase>(),
+        gh<_i512.EditProfileUseCase>(),
+        gh<_i994.ChangePasswordUseCase>(),
+        gh<_i417.UploadPhotoUseCase>(),
+        gh<_i40.LogoutUseCase>(),
+      ),
+    );
     gh.factory<_i710.LoginViewModel>(
       () => _i710.LoginViewModel(gh<_i512.LoginUseCase>()),
     );
@@ -215,16 +217,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i762.ForgetPasswordUsecase>(),
         gh<_i13.VerifyPasswordUsecase>(),
         gh<_i785.ResetPasswordUsecase>(),
-      ),
-    );
-    gh.factory<_i149.ProfileViewModel>(
-      () => _i149.ProfileViewModel(
-        gh<_i951.GetProfileUseCase>(),
-        gh<_i512.EditProfileUseCase>(),
-        gh<_i994.ChangePasswordUseCase>(),
-        gh<_i417.UploadPhotoUseCase>(),
-        gh<_i40.LogoutUseCase>(),
-        gh<_i709.ProfileLocalDataSourceContract>(),
       ),
     );
     return this;

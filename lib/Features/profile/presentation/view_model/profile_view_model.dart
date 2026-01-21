@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flowers_app/Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';
 import 'package:flowers_app/Features/profile/domain/entities/change_password_entity.dart';
 import 'package:flowers_app/Features/profile/domain/entities/user_entity.dart';
@@ -16,14 +15,13 @@ import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class ProfileViewModel extends Cubit<ProfileState> {
   final GetProfileUseCase _getProfileUseCase;
   final EditProfileUseCase _editProfileUseCase;
   final ChangePasswordUseCase _changePasswordUseCase;
   final UploadPhotoUseCase _uploadPhotoUseCase;
   final LogoutUseCase _logoutUseCase;
-  final ProfileLocalDataSourceContract _localDataSource;
 
   ProfileViewModel(
     this._getProfileUseCase,
@@ -31,10 +29,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
     this._changePasswordUseCase,
     this._uploadPhotoUseCase,
     this._logoutUseCase,
-    this._localDataSource,
-  ) : super(ProfileState()) {
-    _loadCachedImage();
-  }
+  ) : super(ProfileState());
 
   void doIntent(ProfileEvent event) {
     switch (event) {
@@ -60,8 +55,10 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _getProfile() async {
+    if (isClosed) return;
     emit(state.copyWith(profileState: BaseState(isLoading: true)));
     final response = await _getProfileUseCase.call();
+    if (isClosed) return;
     switch (response) {
       case SuccessResponse<UserEntity>():
         emit(
@@ -84,8 +81,10 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _editProfile(EditProfileRequest request) async {
+    if (isClosed) return;
     emit(state.copyWith(editProfileState: BaseState(isLoading: true)));
     final response = await _editProfileUseCase.call(request);
+    if (isClosed) return;
     switch (response) {
       case SuccessResponse<UserEntity>():
         emit(
@@ -140,17 +139,20 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _uploadPhoto(File file) async {
+    if (isClosed) return;
     emit(state.copyWith(uploadPhotoState: BaseState(isLoading: true)));
     final response = await _uploadPhotoUseCase.call(file);
+    if (isClosed) return;
     switch (response) {
       case SuccessResponse<String>():
-        await _localDataSource.clearSelectedImagePath();
         emit(
           state.copyWith(
             uploadPhotoState: BaseState(isLoading: false, data: response.data),
-            clearSelectedImage: true,
+            clearSelectedImage:
+                true, // Clear local image after successful upload
           ),
         );
+        // Refresh profile to get the updated photoUrl from server
         _getProfile();
         break;
       case ErrorResponse<String>():
@@ -167,20 +169,8 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   void _selectProfileImage(File image) {
+    if (isClosed) return;
     emit(state.copyWith(selectedProfileImage: image));
-    _localDataSource.saveSelectedImagePath(image.path);
-  }
-
-  Future<void> _loadCachedImage() async {
-    final cachedPath = await _localDataSource.getSelectedImagePath();
-    if (cachedPath != null) {
-      final file = File(cachedPath);
-      if (await file.exists()) {
-        emit(state.copyWith(selectedProfileImage: file));
-      } else {
-        await _localDataSource.clearSelectedImagePath();
-      }
-    }
   }
 
   Future<void> _logout() async {

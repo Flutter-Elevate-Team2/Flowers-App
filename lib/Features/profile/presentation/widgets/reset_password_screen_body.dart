@@ -58,6 +58,7 @@ class _ResetPasswordScreenBodyState extends State<ResetPasswordScreenBody> {
           listener: (context, state) {
             final changePassState = state.changePasswordState;
             if (changePassState?.isLoading == true) {
+              // loading handled in UI
             } else if (changePassState?.errorMessage != null) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -65,6 +66,7 @@ class _ResetPasswordScreenBodyState extends State<ResetPasswordScreenBody> {
                   backgroundColor: Theme.of(context).colorScheme.error,
                 ),
               );
+            } else if (changePassState?.data != null) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(context.l10n.passwordChangedSuccess),

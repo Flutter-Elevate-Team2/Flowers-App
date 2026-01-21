@@ -24,7 +24,7 @@ abstract class ProfileApi {
   Future<ProfileDto> getProfile();
   @PUT(ApiConstants.editProfile)
   Future<ProfileDto> editProfile(@Body() EditProfileRequest request);
-  @POST(ApiConstants.uploadPhoto)
+  @PUT(ApiConstants.uploadPhoto)
   @MultiPart()
   Future<UploadPhotoResponse> uploadPhoto(@Part(name: "photo") File photo);
   @PATCH(ApiConstants.changePassword)
