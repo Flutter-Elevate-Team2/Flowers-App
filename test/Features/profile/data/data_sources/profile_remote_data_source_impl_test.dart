@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flowers_app/Features/profile/api/api_client/profile_api_client.dart';
-import 'package:flowers_app/Features/profile/api/data_sources/remote_data_source_impe/profile_remote_data_source_impe.dart';
+import 'package:flowers_app/Features/profile/api/data_sources/remote_data_source_impl/profile_remote_data_source_impl.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_request.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_response.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';

@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/profile/data/data_sources/local_data_source/profile_local_data_source.dart';
+import 'package:flowers_app/Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';

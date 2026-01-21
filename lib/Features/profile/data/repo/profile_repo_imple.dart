@@ -15,7 +15,7 @@ import '../../../../core/base_response/base_response.dart';
 import '../../../../core/helpers/api_execution_mixin.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repo/profile_repo_contract.dart';
-import '../data_sources/local_data_source/profile_local_data_source.dart';
+import '../data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import '../data_sources/remote_data_source_contract/profile_remote_data_source_contract.dart';
 
 @Injectable(as: ProfileRepoContract)

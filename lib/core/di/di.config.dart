@@ -60,11 +60,11 @@ import '../../Features/commerce/presentation/home/view_model/home_view_model.dar
 import '../../Features/commerce/presentation/products/view_model/products_view_model.dart'
     as _i378;
 import '../../Features/profile/api/api_client/profile_api_client.dart' as _i255;
-import '../../Features/profile/api/data_sources/remote_data_source_impe/profile_remote_data_source_impe.dart'
+import '../../Features/profile/api/data_sources/remote_data_source_impl/profile_remote_data_source_impl.dart'
     as _i408;
-import '../../Features/profile/data/data_sources/local_data_source/profile_local_data_source.dart'
+import '../../Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart'
     as _i948;
-import '../../Features/profile/data/data_sources/local_data_source/profile_local_data_source_impl.dart'
+import '../../Features/profile/api/data_sources/local_data_source_impl/profile_local_data_source_impl.dart'
     as _i840;
 import '../../Features/profile/data/data_sources/remote_data_source_contract/profile_remote_data_source_contract.dart'
     as _i897;

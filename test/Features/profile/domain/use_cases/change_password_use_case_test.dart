@@ -38,7 +38,7 @@ void main() {
       );
 
       when(
-        mockRepo.changePassword(any),
+        mockRepo.changePassword(any, any),
       ).thenAnswer((_) async => successResponse);
 
       // Act
@@ -47,7 +47,7 @@ void main() {
       // Assert
       expect(result, successResponse);
       expect(result, isA<SuccessResponse<ChangePasswordEntity>>());
-      verify(mockRepo.changePassword(any)).called(1);
+      verify(mockRepo.changePassword(any, any)).called(1);
     });
 
     test('call should return ErrorResponse when repository fails', () async {
@@ -59,7 +59,9 @@ void main() {
         errorMessage: errorMessage,
       );
 
-      when(mockRepo.changePassword(any)).thenAnswer((_) async => errorResponse);
+      when(
+        mockRepo.changePassword(any, any),
+      ).thenAnswer((_) async => errorResponse);
 
       // Act
       final result = await useCase.call(oldPassword, newPassword);
@@ -67,7 +69,7 @@ void main() {
       // Assert
       expect(result, errorResponse);
       expect(result, isA<ErrorResponse<ChangePasswordEntity>>());
-      verify(mockRepo.changePassword(any)).called(1);
+      verify(mockRepo.changePassword(any, any)).called(1);
     });
   });
 }
