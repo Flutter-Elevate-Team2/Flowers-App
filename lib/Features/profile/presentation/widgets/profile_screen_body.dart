@@ -18,6 +18,8 @@ class ProfileScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageViewModel = context.read<LanguageCubit>();
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -81,7 +83,9 @@ class ProfileScreenBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    context.l10n.english,
+                  languageViewModel.state.languageCode == 'ar'
+                        ? context.l10n.arabic
+                        : context.l10n.english,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.primary,
@@ -90,7 +94,6 @@ class ProfileScreenBody extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                final languageViewModel = context.read<LanguageCubit>();
                 showModalBottomSheet(
                   context: context,
                   backgroundColor: Colors.transparent,
