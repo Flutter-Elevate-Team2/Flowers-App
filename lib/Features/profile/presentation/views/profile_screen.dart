@@ -15,8 +15,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    // Dispatch the GetProfileEvent when the screen is initialized
-    context.read<ProfileViewModel>().doIntent(GetProfileEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ProfileViewModel>().doIntent(GetProfileEvent());
+      }
+    });
   }
 
   @override

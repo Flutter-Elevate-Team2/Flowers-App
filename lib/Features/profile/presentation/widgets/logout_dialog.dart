@@ -28,6 +28,7 @@ class LogoutDialog extends StatelessWidget {
               ),
             );
           } else {
+            Navigator.of(context).pop();
             context.goNamed(Routes.signInName);
           }
         }

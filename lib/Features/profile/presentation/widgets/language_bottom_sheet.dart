@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/profile/presentation/widgets/language_item.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -40,53 +41,13 @@ class LanguageBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          _buildLanguageItem(context, context.l10n.arabic, false),
+          LanguageItem(language: context.l10n.arabic, isSelected: false),
           const SizedBox(height: 16),
-          _buildLanguageItem(context, context.l10n.english, true),
+          LanguageItem(language: context.l10n.english, isSelected: true),
         ],
       ),
     );
   }
 
-  Widget _buildLanguageItem(
-    BuildContext context,
-    String language,
-    bool isSelected,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: isSelected
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(
-                  context,
-                ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          Text(
-            language,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          ),
-          const Spacer(),
-          if (isSelected)
-            Icon(
-              Icons.radio_button_checked,
-              color: Theme.of(context).colorScheme.primary,
-            )
-          else
-            Icon(
-              Icons.radio_button_off,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-        ],
-      ),
-    );
-  }
 }
+
