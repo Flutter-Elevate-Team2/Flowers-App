@@ -125,7 +125,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i255.ProfileApi>(() => _i255.ProfileApi(gh<_i361.Dio>()));
     gh.factory<_i897.ProfileRemoteDataSourceContract>(
-      () => _i408.ProfileRemoteDataSourceImpl(gh<_i255.ProfileApi>()),
+      () => _i652.ProfileRemoteDataSourceImpl(gh<_i255.ProfileApi>()),
     );
     gh.factory<_i978.AuthRemoteDataSourceContract>(
       () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
@@ -135,6 +135,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i596.CommerceRepoContract>(
       () => _i48.CommerceRepoImpl(gh<_i10.CommerceRemoteDataSourceContract>()),
+    );
+    gh.factory<_i994.ChangePasswordUseCase>(
+      () => _i994.ChangePasswordUseCase(gh<_i671.ProfileRepoContract>()),
+    );
+    gh.factory<_i512.EditProfileUseCase>(
+      () => _i512.EditProfileUseCase(gh<_i671.ProfileRepoContract>()),
+    );
+    gh.factory<_i40.LogoutUseCase>(
+      () => _i40.LogoutUseCase(gh<_i671.ProfileRepoContract>()),
+    );
+    gh.factory<_i951.GetProfileUseCase>(
+      () => _i951.GetProfileUseCase(gh<_i671.ProfileRepoContract>()),
     );
     gh.factory<_i30.AuthRepoContract>(
       () => _i573.AuthRepoImple(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flowers_app/Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/data_sources/remote_data_source_contract/profile_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_request.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_response.dart';
@@ -18,14 +19,16 @@ import 'package:mockito/mockito.dart';
 
 import 'profile_repo_impl_test.mocks.dart';
 
-@GenerateMocks([ProfileRemoteDataSourceContract])
+@GenerateMocks([ProfileRemoteDataSourceContract, ProfileLocalDataSource])
 void main() {
   late ProfileRepoImpl repo;
   late MockProfileRemoteDataSourceContract mockRemoteDataSource;
+  late MockProfileLocalDataSource mockLocalDataSource;
 
   setUp(() {
     mockRemoteDataSource = MockProfileRemoteDataSourceContract();
-    repo = ProfileRepoImpl(mockRemoteDataSource);
+    mockLocalDataSource = MockProfileLocalDataSource();
+    repo = ProfileRepoImpl(mockRemoteDataSource, mockLocalDataSource);
   });
 
   group('ProfileRepoImpl Tests', () {
@@ -150,7 +153,7 @@ void main() {
           ).thenAnswer((_) async => response);
 
           // Act
-          final result = await repo.changePassword(request);
+          final result = await repo.changePassword('old', 'new');
 
           // Assert
           expect(result, isA<SuccessResponse<ChangePasswordEntity>>());
@@ -178,6 +181,7 @@ void main() {
           expect(result, isA<SuccessResponse<String>>());
           expect((result as SuccessResponse).data, 'Logged out');
           verify(mockRemoteDataSource.logout()).called(1);
+          verify(mockLocalDataSource.clearUserData()).called(1);
         },
       );
     });
