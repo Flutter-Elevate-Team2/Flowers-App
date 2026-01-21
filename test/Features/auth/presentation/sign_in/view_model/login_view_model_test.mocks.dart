@@ -3,13 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:flowers_app/core/base_response/base_response.dart' as _i4;
+import 'package:flowers_app/core/base_response/base_response.dart' as _i5;
+import 'package:flowers_app/core/controller/session_controller.dart' as _i8;
 import 'package:flowers_app/Features/auth/domain/entities/login_entity.dart'
-    as _i5;
-import 'package:flowers_app/Features/auth/domain/use_cases/login_usecase.dart'
     as _i2;
+import 'package:flowers_app/Features/auth/domain/use_cases/guest_login_usecase.dart'
+    as _i7;
+import 'package:flowers_app/Features/auth/domain/use_cases/login_usecase.dart'
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 
@@ -28,16 +31,21 @@ import 'package:mockito/src/dummies.dart' as _i6;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
+class _FakeLoginEntity_0 extends _i1.SmartFake implements _i2.LoginEntity {
+  _FakeLoginEntity_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [LoginUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLoginUseCase extends _i1.Mock implements _i2.LoginUseCase {
+class MockLoginUseCase extends _i1.Mock implements _i3.LoginUseCase {
   MockLoginUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.BaseResponse<_i5.LoginEntity>> call({
+  _i4.Future<_i5.BaseResponse<_i2.LoginEntity>> call({
     required String? email,
     required String? password,
     required bool? isRememberMe,
@@ -48,8 +56,8 @@ class MockLoginUseCase extends _i1.Mock implements _i2.LoginUseCase {
               #password: password,
               #isRememberMe: isRememberMe,
             }),
-            returnValue: _i3.Future<_i4.BaseResponse<_i5.LoginEntity>>.value(
-              _i6.dummyValue<_i4.BaseResponse<_i5.LoginEntity>>(
+            returnValue: _i4.Future<_i5.BaseResponse<_i2.LoginEntity>>.value(
+              _i6.dummyValue<_i5.BaseResponse<_i2.LoginEntity>>(
                 this,
                 Invocation.method(#call, [], {
                   #email: email,
@@ -59,5 +67,81 @@ class MockLoginUseCase extends _i1.Mock implements _i2.LoginUseCase {
               ),
             ),
           )
-          as _i3.Future<_i4.BaseResponse<_i5.LoginEntity>>);
+          as _i4.Future<_i5.BaseResponse<_i2.LoginEntity>>);
+}
+
+/// A class which mocks [GuestLoginUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGuestLoginUseCase extends _i1.Mock implements _i7.GuestLoginUseCase {
+  MockGuestLoginUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<_i2.LoginEntity> call() =>
+      (super.noSuchMethod(
+            Invocation.method(#call, []),
+            returnValue: _i4.Future<_i2.LoginEntity>.value(
+              _FakeLoginEntity_0(this, Invocation.method(#call, [])),
+            ),
+          )
+          as _i4.Future<_i2.LoginEntity>);
+}
+
+/// A class which mocks [SessionController].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSessionController extends _i1.Mock implements _i8.SessionController {
+  MockSessionController() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Stream<void> get onSessionExpired =>
+      (super.noSuchMethod(
+            Invocation.getter(#onSessionExpired),
+            returnValue: _i4.Stream<void>.empty(),
+          )
+          as _i4.Stream<void>);
+
+  @override
+  _i4.Stream<void> get onLogin =>
+      (super.noSuchMethod(
+            Invocation.getter(#onLogin),
+            returnValue: _i4.Stream<void>.empty(),
+          )
+          as _i4.Stream<void>);
+
+  @override
+  _i4.Stream<void> get onLogout =>
+      (super.noSuchMethod(
+            Invocation.getter(#onLogout),
+            returnValue: _i4.Stream<void>.empty(),
+          )
+          as _i4.Stream<void>);
+
+  @override
+  void expireSession() => super.noSuchMethod(
+    Invocation.method(#expireSession, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void notifyLogin() => super.noSuchMethod(
+    Invocation.method(#notifyLogin, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void notifyLogout() => super.noSuchMethod(
+    Invocation.method(#notifyLogout, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
