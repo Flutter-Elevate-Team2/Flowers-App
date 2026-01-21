@@ -46,7 +46,7 @@ void main() {
         firstName: 'John',
         lastName: 'Doe',
         phone: '123',
-        gender: 'Male',
+       
       );
       final userModel = UserModel(id: '1', firstName: 'John', lastName: 'Doe');
       final profileDto = ProfileDto(message: 'Updated', user: userModel);
