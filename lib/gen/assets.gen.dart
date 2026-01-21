@@ -12,11 +12,14 @@
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Photo.svg
+  String get photo => 'assets/icons/Photo.svg';
+
   /// File path: assets/icons/flower_logo.svg
   String get flowerLogo => 'assets/icons/flower_logo.svg';
 
   /// List of all assets
-  List<String> get values => [flowerLogo];
+  List<String> get values => [photo, flowerLogo];
 }
 
 class $AssetsLottieGen {

@@ -10,6 +10,11 @@ class ApiConstants {
   static const String resetPassword = "/auth/resetPassword";
   static const String verifyResetCode = "/auth/verifyResetCode";
   static const String home = "/home";
+  static const String getProfile = "/auth/profile-data";
+  static const String editProfile = "/auth/editProfile";
+  static const String uploadPhoto = "auth/upload-photo";
+  static const String changePassword = "/auth/change-password";
+  static const String logout = "/auth/logout";
 
   // ================= Products Endpoints =================
   static const String getProducts = "/products";
@@ -17,6 +22,8 @@ class ApiConstants {
   static const int defaultLimit = 40;
   static const int defaultTotalPages = 1;
   static const int defaultTotalItems = 0;
+  static const String tokenKey = "user_token";
+
 // ================= Cart Endpoints =================
 static const String cart="/cart";
 

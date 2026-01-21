@@ -903,6 +903,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Login to view your cart and add items.'**
   String get pleaseLoginToContinue;
+
+  /// Title for edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get editProfile;
+
+  /// Button text to change password
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get change;
+
+  /// Button text to update profile or password
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// Label for current password field
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPasswordLabel;
+
+  /// Hint for current password field
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPasswordHint;
+
+  /// Profile menu item for orders
+  ///
+  /// In en, this message translates to:
+  /// **'My orders'**
+  String get myOrders;
+
+  /// Profile menu item for saved addresses
+  ///
+  /// In en, this message translates to:
+  /// **'Saved address'**
+  String get savedAddress;
+
+  /// Profile menu item for notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get notifications;
+
+  /// Profile menu item for language
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Language option English
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// Language option Arabic
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// Profile menu item for about us
+  ///
+  /// In en, this message translates to:
+  /// **'About us'**
+  String get aboutUs;
+
+  /// Profile menu item for logout
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Title for language selection bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguage;
+
+  /// Title for logout confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'LOGOUT'**
+  String get logoutTitle;
+
+  /// Message asking user to confirm logout
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm logout!!'**
+  String get confirmLogout;
+
+  /// Cancel button text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Success message after password change
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get passwordChangedSuccess;
+
+  /// App version display text
+  ///
+  /// In en, this message translates to:
+  /// **'v 6.3.0 - (446)'**
+  String get appVersion;
+
+  /// Error message when image selection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to pick image: {error}'**
+  String failedToPickImage(String error);
 }
 
 class _AppLocalizationsDelegate

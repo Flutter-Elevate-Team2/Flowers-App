@@ -7,10 +7,14 @@ import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
 import 'package:flowers_app/core/helpers/session_expired_handler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Features/order/presentation/view_model/cart_events.dart';
 import 'Features/order/presentation/view_model/cart_view_model.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -54,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           create: (_) =>
           getIt<CartViewModel>()..doIntent(GetCartDataEvent()),
         ),
-      ],
+      BlocProvider(create: (context) => getIt<ProfileViewModel>())],
       child :
      MaterialApp.router(
       routerConfig: AppRouter.router,

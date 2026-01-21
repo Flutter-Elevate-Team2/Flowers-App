@@ -422,4 +422,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pleaseLoginToContinue =>
       'Please Login to view your cart and add items.';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get change => 'Change';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get currentPasswordLabel => 'Current password';
+
+  @override
+  String get currentPasswordHint => 'Current password';
+
+  @override
+  String get myOrders => 'My orders';
+
+  @override
+  String get savedAddress => 'Saved address';
+
+  @override
+  String get notifications => 'Notification';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get aboutUs => 'About us';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get changeLanguage => 'Change Language';
+
+  @override
+  String get logoutTitle => 'LOGOUT';
+
+  @override
+  String get confirmLogout => 'Confirm logout!!';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get passwordChangedSuccess => 'Password changed successfully';
+
+  @override
+  String get appVersion => 'v 6.3.0 - (446)';
+
+  @override
+  String failedToPickImage(String error) {
+    return 'Failed to pick image: $error';
+  }
 }
