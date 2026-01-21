@@ -9,6 +9,7 @@ class CartStates extends Equatable {
   final String? errorMessage;
   final String? lastFailedItemId;
   final bool requiresLogin;
+  final bool isLoading;
 
   const CartStates({
     this.cartData,
@@ -18,6 +19,7 @@ class CartStates extends Equatable {
     this.errorMessage,
     this.lastFailedItemId,
     this.requiresLogin = false,
+    this.isLoading = false,
   });
 
   factory CartStates.fromCart(CartResponseEntity cart) {
@@ -45,6 +47,7 @@ class CartStates extends Equatable {
     String? errorMessage,
     String? lastFailedItemId,
     bool? requiresLogin,
+    bool? isLoading,
   }) {
     return CartStates(
       cartData: cartData ?? this.cartData,
@@ -54,6 +57,7 @@ class CartStates extends Equatable {
       errorMessage: errorMessage,
       lastFailedItemId: lastFailedItemId,
       requiresLogin: requiresLogin ?? this.requiresLogin,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 
@@ -66,5 +70,6 @@ class CartStates extends Equatable {
     errorMessage,
     lastFailedItemId,
     requiresLogin,
+    isLoading,
   ];
 }

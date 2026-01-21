@@ -20,7 +20,9 @@ class CartScreen extends StatelessWidget {
       builder: (context, state) {
         final cartItems = state.cartData?.cart?.cartItems ?? [];
 
-        // Guest User
+        if (state.isLoading) {
+          return const Scaffold(body: CartBodyShimmer());
+        }
         if (state.cartData == null) {
           return Scaffold(
             body: GuestCartView(
@@ -29,23 +31,16 @@ class CartScreen extends StatelessWidget {
               },
             ),
           );
-        }
-        // Loading State
-        if (state.cartData == null && state.errorMessage == null) {
-          return const Scaffold(body: CartBodyShimmer());
-          // Error State
         } else if (state.errorMessage != null) {
-          Scaffold(
+          return Scaffold(
             body: Center(
               child: Text(ErrorMapper.mapError(context, state.errorMessage!)),
             ),
           );
         }
-        // Empty Cart
         if (cartItems.isEmpty) {
-          return Scaffold(body: EmptyCartView());
+          return const Scaffold(body: EmptyCartView());
         }
-        // Cart with items
         return Scaffold(
           appBar: AppBar(
             title: CartScreenAppBar(

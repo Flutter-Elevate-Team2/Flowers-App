@@ -73,15 +73,24 @@ void main() {
 
   group('CartViewModel – Optimistic UI Tests', () {
     blocTest<CartViewModel, CartStates>(
-      'GetCartDataEvent emits final cartData with server quantities',
+      'GetCartDataEvent emits loading then cartData with server quantities',
       build: () {
         when(mockHasValidTokenUseCase.call()).thenAnswer((_) async => true);
         _stubGetCartSuccess(mockGetCartUseCase);
         return cartViewModel;
       },
       act: (bloc) => bloc.doIntent(GetCartDataEvent()),
-      expect: () => [CartStates.fromCart(fakeCartResponse)],
+      expect: () => [
+        const CartStates(
+          isLoading: true,
+          errorMessage: null,
+        ),
+        CartStates.fromCart(fakeCartResponse).copyWith(
+          isLoading: false,
+        ),
+      ],
     );
+
 
     blocTest<CartViewModel, CartStates>(
       'AddToCart emits ONE optimistic state then final cartData',
