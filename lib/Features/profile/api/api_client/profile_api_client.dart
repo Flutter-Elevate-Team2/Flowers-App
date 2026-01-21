@@ -28,7 +28,9 @@ abstract class ProfileApi {
   @MultiPart()
   Future<UploadPhotoResponse> uploadPhoto(@Part(name: "photo") File photo);
   @PATCH(ApiConstants.changePassword)
-  Future<ChangePasswordResponse> changePassword(@Body() ChangePasswordRequest request);
+  Future<ChangePasswordResponse> changePassword(
+    @Body() ChangePasswordRequest request,
+  );
   @GET(ApiConstants.logout)
   Future<LogoutResponse> logout();
 }
