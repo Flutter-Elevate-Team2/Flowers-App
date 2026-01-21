@@ -167,13 +167,13 @@ void main() {
 
 void _stubGetCartSuccess(MockGetCartUseCase mock) {
   when(mock.call()).thenAnswer(
-    (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
+        (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
   );
 }
 
 void _stubAddToCartSuccess(MockAddToCartUseCase mock) {
   when(mock.call(any)).thenAnswer(
-    (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
+        (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
   );
 }
 
@@ -184,13 +184,13 @@ void _stubUpdateCartItemSuccess(MockUpdateCartItemUseCase mock) {
       argThat(isA<QuantityRequest>().having((q) => q.quantity, 'quantity', 2)),
     ),
   ).thenAnswer(
-    (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
+        (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
   );
 }
 
 void _stubDeleteCartItemSuccess(MockDeleteCartItemUseCase mock) {
   when(mock.call('1')).thenAnswer(
-    (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
+        (_) async => SuccessResponse<CartResponseEntity>(data: fakeCartResponse),
   );
 }
 
