@@ -84,7 +84,7 @@ class LogoutDialog extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
                           child: Text(
-                            context.l10n.cancel,
+                            context.l10n.cancelDialog,
                             style: Theme.of(context).textTheme.bodyMedium
                                 ?.copyWith(
                                   color: Theme.of(

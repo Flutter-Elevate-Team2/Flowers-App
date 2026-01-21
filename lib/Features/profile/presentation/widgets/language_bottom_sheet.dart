@@ -1,12 +1,16 @@
 import 'package:flowers_app/Features/profile/presentation/widgets/language_item.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
 import 'package:flutter/material.dart';
 
 class LanguageBottomSheet extends StatelessWidget {
-  const LanguageBottomSheet({super.key});
+  final LanguageCubit viewModel;
+  const LanguageBottomSheet({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
+    final currentLocale = viewModel.state;
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -41,13 +45,23 @@ class LanguageBottomSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          LanguageItem(language: context.l10n.arabic, isSelected: false),
+          LanguageItem(
+            language: context.l10n.arabic,
+            isSelected: currentLocale.languageCode == 'ar',
+            onTap: () {
+              viewModel.changeLanguage('ar');
+            },
+          ),
           const SizedBox(height: 16),
-          LanguageItem(language: context.l10n.english, isSelected: true),
+          LanguageItem(
+            language: context.l10n.english,
+            isSelected: currentLocale.languageCode == 'en',
+            onTap: () {
+              viewModel.changeLanguage('en');
+            },
+          ),
         ],
       ),
     );
   }
-
 }
-

@@ -9,6 +9,7 @@ import 'package:flowers_app/Features/profile/presentation/widgets/profile_text_f
 import 'package:flowers_app/Features/profile/presentation/widgets/edit_profile_shimmer.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/update_profile_buttom.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/form_validators.dart';
 import 'package:flutter/material.dart';
@@ -91,9 +92,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
               } else if (editState?.data != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Profile updated successfully"),
-                    backgroundColor: Colors.green,
+                   SnackBar(
+                    content: Text(context.l10n.profileUpdatedSuccess),
+                    backgroundColor: AppColors.green,
                   ),
                 );
               }
@@ -115,9 +116,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 );
               } else if (uploadState?.data != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Photo uploaded successfully"),
-                    backgroundColor: Colors.green,
+                   SnackBar(
+                    content: Text(context.l10n.photoUploadedSuccessfully),
+                    backgroundColor: AppColors.green,
                   ),
                 );
               }
@@ -154,7 +155,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 validator: (v) =>
                                     FormValidators.validateRequired(
                                       v,
-                                      "Required",
+                                      context.l10n.required,
                                     ),
                               ),
                             ),
@@ -166,7 +167,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 validator: (v) =>
                                     FormValidators.validateRequired(
                                       v,
-                                      "Required",
+                                      context.l10n.required,
                                     ),
                               ),
                             ),

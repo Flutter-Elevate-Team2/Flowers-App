@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/di/di.dart';
@@ -9,7 +10,6 @@ import 'package:flowers_app/core/helpers/session_expired_handler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Features/order/presentation/view_model/cart_events.dart';
@@ -55,19 +55,25 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CartViewModel>(
-          create: (_) =>
-          getIt<CartViewModel>()..doIntent(GetCartDataEvent()),
+          create: (_) => getIt<CartViewModel>()..doIntent(GetCartDataEvent()),
         ),
-      BlocProvider(create: (context) => getIt<ProfileViewModel>())],
-      child :
-     MaterialApp.router(
-      routerConfig: AppRouter.router,
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      theme: AppTheme.lightTheme,
-     )
+        BlocProvider(create: (_) => LanguageCubit()),
+        BlocProvider(create: (context) => getIt<ProfileViewModel>()),
+      ],
+      child: BlocBuilder<LanguageCubit, Locale>(
+        builder: (context, locale) {
+          return MaterialApp.router(
+            locale: locale,
+            routerConfig: AppRouter.router,
+            debugShowCheckedModeBanner: false,
+            onGenerateTitle: (context) =>
+                AppLocalizations.of(context)!.appTitle,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            theme: AppTheme.lightTheme,
+          );
+        },
+      ),
     );
   }
 }

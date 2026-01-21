@@ -1,0 +1,172 @@
+{
+  "@@locale": "ar",
+
+  "appTitle": "Flowers App",
+  "ok": "حسنا",
+
+  "resetSuccessfully": "تم إعادة تعيين كلمة المرور بنجاح! يرجى تسجيل الدخول باستخدام كلمة المرور الجديدة.",
+  "registerSuccessfully": "تم إنشاء حسابك بنجاح! يرجى تسجيل الدخول للمتابعة.",
+  "success": "تم بنجاح",
+
+  "flowery": "Flowery",
+
+  "home": "الرئيسية",
+  "categories": "التصنيفات",
+  "cart": "السلة",
+  "profile": "الملف الشخصي",
+
+  "searchHint": "بحث",
+  "viewAll": "عرض الكل",
+  "bestSeller": "الأكثر مبيعاً",
+  "occasion": "المناسبات",
+  "deliverTo": "التوصيل إلى",
+  "testLocation": "الشيخ زايد - 2XVP+XC",
+  "retryButton": "إعادة المحاولة",
+
+  "emailLabel": "البريد الإلكتروني",
+  "emailHint": "أدخل بريدك الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "passwordHint": "أدخل كلمة المرور",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "confirmPasswordHint": "تأكيد كلمة المرور",
+  "phoneLabel": "رقم الهاتف",
+  "phoneHint": "أدخل رقم الهاتف",
+  "firstNameLabel": "الاسم الأول",
+  "firstNameHint": "أدخل الاسم الأول",
+  "lastNameLabel": "اسم العائلة",
+  "lastNameHint": "أدخل اسم العائلة",
+
+  "loginTitle": "تسجيل الدخول",
+  "rememberMe": "تذكرني",
+  "forgotPasswordLink": "نسيت كلمة المرور؟",
+  "guestLogin": "المتابعة كزائر",
+  "noAccountSignUp": "ليس لديك حساب؟",
+
+  "termsAndConditions": "الشروط والأحكام",
+
+  "signUpTitle": "إنشاء حساب",
+  "genderLabel": "النوع",
+  "genderMale": "ذكر",
+  "genderFemale": "أنثى",
+  "termsConditions": "بإنشائك حساباً، فإنك توافق على ",
+  "haveAccountLogin": "لديك حساب بالفعل؟",
+
+  "forgotPasswordTitle": "نسيت كلمة المرور",
+  "forgotPasswordSubTitle": "يرجى إدخال البريد الإلكتروني المرتبط بحسابك",
+  "confirmButton": "تأكيد",
+
+  "verificationTitle": "تأكيد البريد الإلكتروني",
+  "verificationSubTitle": "يرجى إدخال الرمز المرسل إلى بريدك الإلكتروني",
+  "resendCode": "لم يصلك الرمز؟",
+  "resend": "إعادة الإرسال",
+
+  "resetPasswordTitle": "إعادة تعيين كلمة المرور",
+  "resetPasswordSubTitle": "يجب ألا تكون كلمة المرور فارغة وأن تحتوي على 6 أحرف على الأقل، حرف كبير ورقم.",
+
+  "newPasswordLabel": "كلمة مرور جديدة",
+
+  "emailRequired": "البريد الإلكتروني مطلوب",
+  "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "passwordTooShort": "كلمة المرور يجب ألا تقل عن 8 أحرف",
+  "passwordWeak": "يجب أن تحتوي كلمة المرور على حرف كبير وصغير ورقم ورمز",
+  "passwordMismatch": "كلمتا المرور غير متطابقتين",
+
+  "nameRequired": "الاسم مطلوب",
+  "firstNameRequired": "الاسم الأول مطلوب",
+  "lastNameRequired": "اسم العائلة مطلوب",
+
+  "phoneRequired": "رقم الهاتف مطلوب",
+  "phoneInvalid": "يجب أن يبدأ الرقم بـ +20",
+
+  "validationEnterCompleteCode": "يرجى إدخال رمز مكون من 6 أرقام",
+  "invalidEmailError": "البريد الإلكتروني غير صحيح",
+  "invalidPasswordError": "كلمة المرور غير صحيحة",
+  "weakPasswordError": "كلمة المرور ضعيفة",
+  "invalidCodeError": "الرمز غير صحيح",
+
+  "connectionTimeoutError": "انتهت مهلة الاتصال، تحقق من الإنترنت.",
+  "sendTimeoutError": "انتهت مهلة الطلب، حاول مرة أخرى.",
+  "receiveTimeoutError": "الخادم استغرق وقتاً طويلاً في الرد.",
+  "connectionError": "خطأ في الاتصال بالشبكة.",
+  "noInternetError": "لا يوجد اتصال بالإنترنت.",
+  "networkError": "حدث خطأ في الشبكة.",
+  "requestCancelledError": "تم إلغاء الطلب.",
+  "badCertificateError": "خطأ في شهادة الأمان.",
+  "badRequestError": "طلب غير صالح.",
+  "unauthorizedError": "انتهت الجلسة، يرجى تسجيل الدخول مرة أخرى.",
+  "forbiddenError": "تم رفض الوصول.",
+  "notFoundError": "العنصر غير موجود.",
+  "conflictError": "حدث تعارض في البيانات.",
+  "internalServerError": "خطأ في الخادم، حاول لاحقاً.",
+  "serviceUnavailableError": "الخدمة غير متاحة حالياً.",
+  "formatExceptionError": "خطأ في تنسيق البيانات.",
+  "parsingError": "حدث خطأ أثناء معالجة البيانات.",
+
+  "loginButton": "تسجيل الدخول",
+
+  "egp": "جنيه",
+  "status": "الحالة:",
+  "inStock": "متوفر",
+  "outOfStock": "غير متوفر",
+  "includeTax": "جميع الأسعار شاملة الضريبة",
+  "description": "الوصف",
+
+  "searchLabel": "بحث",
+  "searchNoResults": "لا توجد نتائج",
+  "searchFor": "ابحث عن أي منتج تريده",
+
+  "addToCart": "أضف إلى السلة",
+  "filter": "تصفية",
+  "sort": "ترتيب حسب",
+  "lowestPrice": "الأقل سعراً",
+  "highestPrice": "الأعلى سعراً",
+  "newest": "الأحدث",
+  "oldest": "الأقدم",
+  "discount": "الخصم",
+
+  "noProductsFound": "لا توجد منتجات",
+  "loginRequired": "تسجيل الدخول مطلوب",
+  "cancelDialog": "إلغاء",
+  "pleaseLoginToAdd": "يرجى تسجيل الدخول لإضافة عناصر إلى السلة",
+
+  "subtotal": "الإجمالي الفرعي",
+  "deliveryFee": "رسوم التوصيل",
+  "total": "الإجمالي",
+  "checkout": "إتمام الشراء",
+  "items": "عناصر",
+
+  "yourCartIsEmpty": "سلة التسوق فارغة",
+  "addSomeFlowers": "أضف بعض الزهور الجميلة للبدء 🌸",
+  "youAreNotLoggedIn": "أنت غير مسجل الدخول",
+  "pleaseLoginToContinue": "يرجى تسجيل الدخول لعرض السلة",
+
+  "editProfile": "تعديل الملف الشخصي",
+  "change": "تغيير",
+  "update": "تحديث",
+  "currentPasswordLabel": "كلمة المرور الحالية",
+  "currentPasswordHint": "كلمة المرور الحالية",
+
+  "myOrders": "طلباتي",
+  "savedAddress": "العناوين المحفوظة",
+  "notifications": "الإشعارات",
+
+
+  "language": "اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+
+  "aboutUs": "من نكون",
+
+  "logout": "تسجيل الخروج",
+  "changeLanguage": "تغيير اللغة",
+  "logoutTitle": "تسجيل الخروج",
+  "confirmLogout": "هل أنت متأكد من تسجيل الخروج؟",
+  "profileUpdatedSuccess": "تم تحديث الملف الشخصي بنجاح",
+  "photoUploadedSuccessfully": "تم رفع الصورة بنجاح",
+
+
+  "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
+  "failedToPickImage": "فشل في اختيار الصورة: {error}",
+  "required": "مطلوب"
+}

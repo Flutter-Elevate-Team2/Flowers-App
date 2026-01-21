@@ -61,6 +61,22 @@ import '../../Features/commerce/presentation/home/view_model/home_view_model.dar
     as _i945;
 import '../../Features/commerce/presentation/products/view_model/products_view_model.dart'
     as _i378;
+import '../../Features/order/api/api_client/cart_api.dart' as _i930;
+import '../../Features/order/api/data_source_imple/remot_data_source_imple/cart_remote_data_source_imple.dart'
+    as _i151;
+import '../../Features/order/data/data_source/cart_remote_data_source/cart_remote_data_source_contract.dart'
+    as _i12;
+import '../../Features/order/data/repo/cart_repo_imple.dart' as _i641;
+import '../../Features/order/domain/repo/cart_repo_contract.dart' as _i476;
+import '../../Features/order/domain/use_cases/add_to_cart_use_case.dart'
+    as _i65;
+import '../../Features/order/domain/use_cases/delete_cart_item_use_case.dart'
+    as _i879;
+import '../../Features/order/domain/use_cases/get_cart_use_case.dart' as _i812;
+import '../../Features/order/domain/use_cases/update_cart_item_use_case.dart'
+    as _i64;
+import '../../Features/order/presentation/view_model/cart_view_model.dart'
+    as _i564;
 import '../../Features/profile/api/api_client/profile_api_client.dart' as _i255;
 import '../../Features/profile/api/data_sources/remote_data_source_impe/profile_remote_data_source_impe.dart'
     as _i408;
@@ -78,22 +94,6 @@ import '../../Features/profile/domain/use_cases/upload_photo_use_case.dart'
     as _i417;
 import '../../Features/profile/presentation/view_model/profile_view_model.dart'
     as _i149;
-import '../../Features/order/api/api_client/cart_api.dart' as _i930;
-import '../../Features/order/api/data_source_imple/remot_data_source_imple/cart_remote_data_source_imple.dart'
-    as _i151;
-import '../../Features/order/data/data_source/cart_remote_data_source/cart_remote_data_source_contract.dart'
-    as _i12;
-import '../../Features/order/data/repo/cart_repo_imple.dart' as _i641;
-import '../../Features/order/domain/repo/cart_repo_contract.dart' as _i476;
-import '../../Features/order/domain/use_cases/add_to_cart_use_case.dart'
-    as _i65;
-import '../../Features/order/domain/use_cases/delete_cart_item_use_case.dart'
-    as _i879;
-import '../../Features/order/domain/use_cases/get_cart_use_case.dart' as _i812;
-import '../../Features/order/domain/use_cases/update_cart_item_use_case.dart'
-    as _i64;
-import '../../Features/order/presentation/view_model/cart_view_model.dart'
-    as _i564;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -151,6 +151,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i516.CommerceApi(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i930.CartApi>(() => _i930.CartApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i255.ProfileApi>(() => _i255.ProfileApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i12.CartRemoteDataSourceContract>(
       () => _i151.CartRemoteDataSourceImple(gh<_i930.CartApi>()),
     );
@@ -180,7 +181,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i442.Debouncer>(),
       ),
     );
-    gh.lazySingleton<_i255.ProfileApi>(() => _i255.ProfileApi(gh<_i361.Dio>()));
     gh.factory<_i897.ProfileRemoteDataSourceContract>(
       () => _i408.ProfileRemoteDataSourceImpl(gh<_i255.ProfileApi>()),
     );
@@ -242,6 +242,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i783.GetHomeSectionsUseCase>(),
       ),
     );
+    gh.factory<_i710.LoginViewModel>(
+      () => _i710.LoginViewModel(
+        gh<_i512.LoginUseCase>(),
+        gh<_i655.GuestLoginUseCase>(),
+        gh<_i306.SessionController>(),
+      ),
+    );
     gh.factory<_i994.ChangePasswordUseCase>(
       () => _i994.ChangePasswordUseCase(gh<_i671.ProfileRepoContract>()),
     );
@@ -261,13 +268,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i994.ChangePasswordUseCase>(),
         gh<_i417.UploadPhotoUseCase>(),
         gh<_i40.LogoutUseCase>(),
-      ),
-    );
-    gh.factory<_i710.LoginViewModel>(
-      () => _i710.LoginViewModel(
-        gh<_i512.LoginUseCase>(),
-        gh<_i655.GuestLoginUseCase>(),
-        gh<_i306.SessionController>(),
       ),
     );
     gh.factory<_i945.HomeViewModel>(

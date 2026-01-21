@@ -25,7 +25,6 @@ class AuthInterceptor extends Interceptor {
     bool isPublicPath = _publicPaths.any((path) => options.path.endsWith(path));
 
     if (!isPublicPath) {
-      final token = _prefs.getString('user_token');
       final token = _prefs.getString(ApiConstants.tokenKey);
 
       if (token != null && token.isNotEmpty) {

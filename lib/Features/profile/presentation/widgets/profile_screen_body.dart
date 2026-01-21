@@ -7,6 +7,7 @@ import 'package:flowers_app/Features/profile/presentation/view_model/profile_sta
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
 import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +66,7 @@ class ProfileScreenBody extends StatelessWidget {
               trailing: Switch(
                 value: true,
                 onChanged: (val) {},
-                activeColor: Theme.of(context).primaryColor,
+                activeThumbColor: Theme.of(context).primaryColor,
                 activeTrackColor: Theme.of(
                   context,
                 ).colorScheme.primary.withValues(alpha: 0.2),
@@ -89,10 +90,13 @@ class ProfileScreenBody extends StatelessWidget {
                 ],
               ),
               onTap: () {
+                final languageViewModel = context.read<LanguageCubit>();
                 showModalBottomSheet(
                   context: context,
                   backgroundColor: Colors.transparent,
-                  builder: (context) => const LanguageBottomSheet(),
+                  builder: (context) =>  LanguageBottomSheet(
+                    viewModel: languageViewModel,
+                  ),
                 );
               },
             ),

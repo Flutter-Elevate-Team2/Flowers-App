@@ -472,7 +472,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmLogout => 'Confirm logout!!';
 
   @override
-  String get cancel => 'Cancel';
+  String get profileUpdatedSuccess => 'Profile updated successfully';
+
+  @override
+  String get photoUploadedSuccessfully => 'Photo uploaded successfully';
 
   @override
   String get passwordChangedSuccess => 'Password changed successfully';
@@ -484,4 +487,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String failedToPickImage(String error) {
     return 'Failed to pick image: $error';
   }
+
+  @override
+  String get required => 'Required';
 }
