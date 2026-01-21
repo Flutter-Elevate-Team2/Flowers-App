@@ -6,7 +6,7 @@ import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
 import 'package:flowers_app/core/helpers/session_expired_handler.dart';
-import 'package:flowers_app/Features/profile/presentation/view_model/profile_event.dart';
+
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -49,12 +49,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              getIt<ProfileViewModel>()..doIntent(GetProfileEvent()),
-        ),
-      ],
+      providers: [BlocProvider(create: (context) => getIt<ProfileViewModel>())],
       child: MaterialApp.router(
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,
