@@ -7,10 +7,21 @@ class ChangePasswordRequest {
   final String password;
   final String newPassword;
 
-  ChangePasswordRequest({
+  const ChangePasswordRequest({
     required this.password,
     required this.newPassword,
   });
 
   Map<String, dynamic> toJson() => _$ChangePasswordRequestToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ChangePasswordRequest &&
+          runtimeType == other.runtimeType &&
+          password == other.password &&
+          newPassword == other.newPassword;
+
+  @override
+  int get hashCode => password.hashCode ^ newPassword.hashCode;
 }
