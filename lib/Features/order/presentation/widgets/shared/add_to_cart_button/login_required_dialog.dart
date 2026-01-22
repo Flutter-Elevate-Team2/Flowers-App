@@ -19,9 +19,7 @@ class LoginRequiredDialog extends StatelessWidget {
             // Title
             Text(
               context.l10n.loginRequired,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 12),
@@ -30,9 +28,7 @@ class LoginRequiredDialog extends StatelessWidget {
             Text(
               context.l10n.pleaseLoginToAdd,
               textAlign: TextAlign.center,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: AppColors.gray),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.gray),
             ),
 
             const SizedBox(height: 24),
@@ -43,19 +39,21 @@ class LoginRequiredDialog extends StatelessWidget {
                 // Cancel button
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      if (context.canPop()) {
+                        context.pop();
+                      }
+                    },
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      side: BorderSide(color: AppColors.gray),
+                      side: const BorderSide(color: AppColors.gray),
                       padding: const EdgeInsets.all(20),
                     ),
                     child: Text(
                       context.l10n.cancelDialog,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: AppColors.black),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.black),
                     ),
                   ),
                 ),
@@ -66,7 +64,9 @@ class LoginRequiredDialog extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      if (context.canPop()) {
+                        context.pop();
+                      }
                       context.pushNamed(Routes.signInName);
                     },
                     style: ElevatedButton.styleFrom(
@@ -79,9 +79,7 @@ class LoginRequiredDialog extends StatelessWidget {
                     ),
                     child: Text(
                       context.l10n.loginButton,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: AppColors.white),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.white),
                     ),
                   ),
                 ),

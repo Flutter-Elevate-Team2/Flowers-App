@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/login_required_dialog.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/language_bottom_sheet.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/logout_dialog.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header.dart';
@@ -18,129 +19,140 @@ class ProfileScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languageViewModel = context.read<LanguageCubit>();
+    return BlocBuilder<ProfileViewModel, ProfileState>(
+      builder: (context, state) {
+        final profileState = state.profileState;
+        final languageViewModel = context.read<LanguageCubit>();
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const ProfileAppBar(),
-            const SizedBox(height: 16),
-            BlocBuilder<ProfileViewModel, ProfileState>(
-              buildWhen: (previous, current) =>
-                  previous.profileState != current.profileState,
-              builder: (context, state) {
-                final profileState = state.profileState;
-                if (profileState?.isLoading == true) {
-                  return const ProfileHeaderShimmer();
-                } else if (profileState?.errorMessage != null) {
-                  return Center(
-                    child: Text(
-                      profileState!.errorMessage!,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                  );
-                }
-                return ProfileHeader(user: profileState?.data);
-              },
-            ),
-            const SizedBox(height: 32),
+        if (profileState?.isLoading == true) {
+          return const SafeArea(child: ProfileHeaderShimmer());
+        }
+        if (profileState?.data == null && profileState?.errorMessage == null) {
+          return const Center(
+            child: LoginRequiredDialog(),
+          );
+        }
 
-            ProfileMenuItem(
-              title: context.l10n.myOrders,
-              leadingIcon: Icons.calendar_today_outlined,
-              onTap: () {},
-            ),
-            ProfileMenuItem(
-              title: context.l10n.savedAddress,
-              leadingIcon: Icons.location_on_outlined,
-              onTap: () {},
-            ),
-            Divider(color: AppColors.gray, height: 32),
-
-            ProfileMenuItem(
-              title: context.l10n.notifications,
-              leadingIcon: Icons.notifications_none_outlined,
-              titleColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-              trailing: Switch(
-                value: true,
-                onChanged: (val) {},
-                activeThumbColor: Theme.of(context).primaryColor,
-                activeTrackColor: Theme.of(
-                  context,
-                ).colorScheme.primary.withValues(alpha: 0.2),
-              ),
-            ),
-            Divider(color: AppColors.gray, height: 32),
-
-            ProfileMenuItem(
-              title: context.l10n.language,
-              leadingIcon: Icons.translate,
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                  languageViewModel.state.languageCode == 'ar'
-                        ? context.l10n.arabic
-                        : context.l10n.english,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+        if (profileState?.errorMessage != null) {
+          return Center(
+            child: Text(
+              profileState!.errorMessage!,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.error,
                   ),
-                ],
-              ),
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) =>  LanguageBottomSheet(
-                    viewModel: languageViewModel,
-                  ),
-                );
-              },
             ),
-            ProfileMenuItem(
-              title: context.l10n.aboutUs,
-              leadingIcon: Icons.info_outline,
-              onTap: () {},
-            ),
-            ProfileMenuItem(
-              title: context.l10n.termsAndConditions,
-              leadingIcon: Icons.description_outlined,
-              onTap: () {},
-            ),
-            Divider(color: AppColors.gray, height: 32),
-            ProfileMenuItem(
-              title: context.l10n.logout,
-              leadingIcon: Icons.logout,
-              onTap: () {
-                final viewModel = context.read<ProfileViewModel>();
-                showDialog(
-                  context: context,
-                  builder: (dialogContext) => BlocProvider.value(
-                    value: viewModel,
-                    child: const LogoutDialog(),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 32),
-            Center(
-              child: Text(
-                context.l10n.appVersion,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          );
+        }
+
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const ProfileAppBar(),
+                const SizedBox(height: 16),
+
+                ProfileHeader(user: profileState?.data),
+
+                const SizedBox(height: 32),
+
+                ProfileMenuItem(
+                  title: context.l10n.myOrders,
+                  leadingIcon: Icons.calendar_today_outlined,
+                  onTap: () {},
                 ),
-              ),
+                ProfileMenuItem(
+                  title: context.l10n.savedAddress,
+                  leadingIcon: Icons.location_on_outlined,
+                  onTap: () {},
+                ),
+                Divider(color: AppColors.gray, height: 32),
+
+                ProfileMenuItem(
+                  title: context.l10n.notifications,
+                  leadingIcon: Icons.notifications_none_outlined,
+                  titleColor:
+                      Theme.of(context).colorScheme.surfaceContainerHighest,
+                  trailing: Switch(
+                    value: true,
+                    onChanged: (val) {},
+                    activeThumbColor: Theme.of(context).primaryColor,
+                    activeTrackColor: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.2),
+                  ),
+                ),
+                Divider(color: AppColors.gray, height: 32),
+
+                ProfileMenuItem(
+                  title: context.l10n.language,
+                  leadingIcon: Icons.translate,
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        languageViewModel.state.languageCode == 'ar'
+                            ? context.l10n.arabic
+                            : context.l10n.english,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                    ],
+                  ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => LanguageBottomSheet(
+                        viewModel: languageViewModel,
+                      ),
+                    );
+                  },
+                ),
+                ProfileMenuItem(
+                  title: context.l10n.aboutUs,
+                  leadingIcon: Icons.info_outline,
+                  onTap: () {},
+                ),
+                ProfileMenuItem(
+                  title: context.l10n.termsAndConditions,
+                  leadingIcon: Icons.description_outlined,
+                  onTap: () {},
+                ),
+                Divider(color: AppColors.gray, height: 32),
+
+                ProfileMenuItem(
+                  title: context.l10n.logout,
+                  leadingIcon: Icons.logout,
+                  onTap: () {
+                    final viewModel = context.read<ProfileViewModel>();
+                    showDialog(
+                      context: context,
+                      builder: (dialogContext) => BlocProvider.value(
+                        value: viewModel,
+                        child: const LogoutDialog(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 32),
+                Center(
+                  child: Text(
+                    context.l10n.appVersion,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.surfaceContainerHighest,
+                        ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
             ),
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -159,9 +171,9 @@ class ProfileAppBar extends StatelessWidget {
           Text(
             context.l10n.flowery,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w500,
-            ),
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                ),
           ),
           const Spacer(),
           Stack(
