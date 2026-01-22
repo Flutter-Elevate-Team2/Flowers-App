@@ -46,7 +46,7 @@ class CartViewModel extends Cubit<CartStates> {
       _getCart();
     } else if (event is AddToCartEvent) {
       _addToCart(event.cartRequest);
-    }  else if (event is UpdateCartItemEvent) {
+    } else if (event is UpdateCartItemEvent) {
       _optimisticUpdate(event.itemId, event.quantityRequest.quantity);
     } else if (event is DeleteCartItemEvent) {
       _optimisticUpdate(event.itemId, 0);
@@ -67,6 +67,8 @@ class CartViewModel extends Cubit<CartStates> {
   }
 
   Future<void> _getCart() async {
+    if (!await _hasTokenUseCase()) return;
+
     emit(state.copyWith(isLoading: true, errorMessage: null));
 
     final response = await _getCartUseCase();

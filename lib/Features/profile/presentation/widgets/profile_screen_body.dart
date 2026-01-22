@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/login_required_dialog.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/guest_cart_view.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/language_bottom_sheet.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/logout_dialog.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header.dart';
@@ -6,6 +6,7 @@ import 'package:flowers_app/Features/profile/presentation/widgets/profile_header
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_menu_item.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreenBody extends StatelessWidget {
   const ProfileScreenBody({super.key});
@@ -28,8 +30,8 @@ class ProfileScreenBody extends StatelessWidget {
           return const SafeArea(child: ProfileHeaderShimmer());
         }
         if (profileState?.data == null && profileState?.errorMessage == null) {
-          return const Center(
-            child: LoginRequiredDialog(),
+          return Center(
+            child: GuestCartView(onLogin: () => context.pushNamed(Routes.signInName), subTitle: "",),
           );
         }
 
