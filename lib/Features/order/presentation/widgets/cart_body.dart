@@ -2,9 +2,10 @@ import 'package:flowers_app/Features/order/domain/entities/cart_entity.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/view_model/cart_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/cart_product_card.dart';
-import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/check_out_button.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/total_price.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +13,7 @@ import 'package:go_router/go_router.dart';
 class CartBody extends StatelessWidget {
   final CartEntity? cart;
 
-  const CartBody({this.cart, super.key});
+  const CartBody({required this.cart, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +53,14 @@ class CartBody extends StatelessWidget {
           // Subtotal & Total
           Column(
             children: [
-              TotalPrice(totalPrice: cart!.totalPrice),
+              TotalPrice(
+                subTotal: cart?.totalPrice ?? 0,
+                deliveryFee: cart?.deliveryFee ?? 0,
+                totalPrice: cart?.finalPrice  ?? 0,
+              ),
               SizedBox(height: 48),
               // Checkout Button
-              CheckOutButton(),
+              CustomButton(title: context.l10n.checkout, onPressed: () {}),
             ],
           ),
         ],
