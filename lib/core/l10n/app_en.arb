@@ -511,5 +511,8 @@
     "placeholders": { "error": { "type": "String" } }
   },
   "required": "Required",
-    "@required": { "description": "Validation message when a required field is empty" }
+    "@required": { "description": "Validation message when a required field is empty" },
+
+  "guest" : "guest",
+  "@guest" : { "description": "guest" }
 }

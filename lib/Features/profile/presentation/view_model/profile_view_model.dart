@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
@@ -13,6 +14,7 @@ import 'package:flowers_app/Features/profile/presentation/view_model/profile_eve
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -24,15 +26,31 @@ class ProfileViewModel extends Cubit<ProfileState> {
   final UploadPhotoUseCase _uploadPhotoUseCase;
   final LogoutUseCase _logoutUseCase;
   final HasValidTokenUseCase _hasTokenUseCase;
+  final SessionController _sessionController;
+  StreamSubscription? _loginSubscription;
+  StreamSubscription? _logoutSubscription;
 
   ProfileViewModel(
-    this._getProfileUseCase,
-    this._editProfileUseCase,
-    this._changePasswordUseCase,
-    this._uploadPhotoUseCase,
-    this._logoutUseCase,
-    this._hasTokenUseCase,
-  ) : super(ProfileState());
+      this._getProfileUseCase,
+      this._editProfileUseCase,
+      this._changePasswordUseCase,
+      this._uploadPhotoUseCase,
+      this._logoutUseCase,
+      this._hasTokenUseCase,
+      this._sessionController,
+      ) : super(ProfileState()) {
+    _listenToSession();
+  }
+
+  void _listenToSession() {
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      _getProfile();
+    });
+
+    _logoutSubscription = _sessionController.onLogout.listen((_) {
+      emit(ProfileState());
+    });
+  }
 
   void doIntent(ProfileEvent event) {
     switch (event) {
@@ -60,6 +78,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
   Future<void> _getProfile() async {
     final bool hasToken = await _hasTokenUseCase.call();
     if (!hasToken) {
+      emit(ProfileState());
       return;
     }
 
@@ -195,5 +214,11 @@ class ProfileViewModel extends Cubit<ProfileState> {
         );
         break;
     }
+  }
+  @override
+  Future<void> close() {
+    _loginSubscription?.cancel();
+    _logoutSubscription?.cancel();
+    return super.close();
   }
 }

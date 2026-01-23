@@ -13,6 +13,7 @@ import 'package:flowers_app/Features/profile/presentation/view_model/profile_eve
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -26,6 +27,7 @@ import 'profile_view_model_test.mocks.dart';
   UploadPhotoUseCase,
   LogoutUseCase,
   HasValidTokenUseCase,
+  SessionController
 ])
 void main() {
   late ProfileViewModel viewModel;
@@ -35,6 +37,7 @@ void main() {
   late MockUploadPhotoUseCase mockUploadPhotoUseCase;
   late MockLogoutUseCase mockLogoutUseCase;
   late MockHasValidTokenUseCase mockHasTokenUseCase;
+  late MockSessionController mockSessionController;
 
   final tUserEntity = UserEntity(
     id: '1',
@@ -65,6 +68,12 @@ void main() {
     mockUploadPhotoUseCase = MockUploadPhotoUseCase();
     mockLogoutUseCase = MockLogoutUseCase();
     mockHasTokenUseCase = MockHasValidTokenUseCase();
+    mockSessionController = MockSessionController();
+
+    when(mockSessionController.onLogin)
+        .thenAnswer((_) => const Stream.empty());
+    when(mockSessionController.onLogout)
+        .thenAnswer((_) => const Stream.empty());
 
     viewModel = ProfileViewModel(
       mockGetProfileUseCase,
@@ -73,73 +82,119 @@ void main() {
       mockUploadPhotoUseCase,
       mockLogoutUseCase,
       mockHasTokenUseCase,
+      mockSessionController,
     );
   });
 
   tearDown(() => viewModel.close());
 
   group('ProfileViewModel - GetProfile (New Guest Mode Logic)', () {
-    test('GetProfile should NOT emit anything and NOT call usecase when user is Guest', () async {
-      // Arrange
-      when(mockHasTokenUseCase.call()).thenAnswer((_) async => false);
+    test(
+      'GetProfile emits empty ProfileState when user is Guest',
+          () async {
+        // Arrange
+        when(mockHasTokenUseCase.call()).thenAnswer((_) async => false);
 
-      // Act
-      viewModel.doIntent(GetProfileEvent());
+        // Assert
+        expectLater(
+          viewModel.stream,
+          emits(
+            predicate<ProfileState>(
+                  (s) => s.profileState == null,
+            ),
+          ),
+        );
 
-      // Assert
-      expect(viewModel.stream, neverEmits(anything));
-      verifyNever(mockGetProfileUseCase.call());
-    });
+        // Act
+        viewModel.doIntent(GetProfileEvent());
 
-    test('GetProfile emits [Loading, Success] when user is LoggedIn and usecase succeeds', () async {
-      when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
-      when(mockGetProfileUseCase.call()).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
+        verifyNever(mockGetProfileUseCase.call());
+      },
+    );
 
-      final expectedStates = [
-        predicate<ProfileState>((s) => s.profileState?.isLoading == true),
-        predicate<ProfileState>((s) => s.profileState?.data == tUserEntity),
-      ];
-
-      expectLater(viewModel.stream, emitsInOrder(expectedStates));
-
-      viewModel.doIntent(GetProfileEvent());
-    });
-  });
-
-  group('ProfileViewModel - EditProfile', () {
-    test('EditProfile emits [Loading, Success] when usecase succeeds', () async {
-        final request = EditProfileRequest(firstName: 'John', lastName: 'Doe', email: 'john@test.com', phone: '123');
-        when(mockEditProfileUseCase.call(any)).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
+    test(
+      'GetProfile emits [Loading, Success] when user is LoggedIn and usecase succeeds',
+      () async {
+        when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
+        when(
+          mockGetProfileUseCase.call(),
+        ).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
 
         final expectedStates = [
-          predicate<ProfileState>((s) => s.editProfileState?.isLoading == true),
-          predicate<ProfileState>((s) => s.editProfileState?.data == tUserEntity),
+          predicate<ProfileState>((s) => s.profileState?.isLoading == true),
+          predicate<ProfileState>((s) => s.profileState?.data == tUserEntity),
         ];
 
         expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+        viewModel.doIntent(GetProfileEvent());
+      },
+    );
+  });
+
+  group('ProfileViewModel - EditProfile', () {
+    test(
+      'EditProfile emits [Loading, Success] when usecase succeeds',
+      () async {
+        final request = EditProfileRequest(
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'john@test.com',
+          phone: '123',
+        );
+
+        when(
+          mockEditProfileUseCase.call(any),
+        ).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
+
+        expectLater(
+          viewModel.stream,
+          emitsInOrder([
+            predicate<ProfileState>(
+              (s) => s.editProfileState?.isLoading == true,
+            ),
+            predicate<ProfileState>(
+              (s) =>
+                  s.editProfileState?.isLoading == false &&
+                  s.editProfileState?.data == tUserEntity &&
+                  s.profileState?.data == tUserEntity,
+            ),
+          ]),
+        );
+
         viewModel.doIntent(EditProfileEvent(request));
       },
     );
   });
 
   group('ProfileViewModel - UploadPhoto', () {
-    test('UploadPhoto emits [Loading, Success] and refreshes profile', () async {
-      final testFile = File('test.jpg');
+    test(
+      'UploadPhoto emits [Loading, Success] and refreshes profile',
+      () async {
+        final testFile = File('test.jpg');
 
-      when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
-      when(mockUploadPhotoUseCase.call(any)).thenAnswer((_) async => SuccessResponse(data: 'Uploaded'));
-      when(mockGetProfileUseCase.call()).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
+        when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
+        when(
+          mockUploadPhotoUseCase.call(any),
+        ).thenAnswer((_) async => SuccessResponse(data: 'Uploaded'));
+        when(
+          mockGetProfileUseCase.call(),
+        ).thenAnswer((_) async => SuccessResponse(data: tUserEntity));
 
-      final expectedStates = [
-        predicate<ProfileState>((s) => s.uploadPhotoState?.isLoading == true),
-        predicate<ProfileState>((s) => s.uploadPhotoState?.isLoading == false && s.selectedProfileImage == null),
-        predicate<ProfileState>((s) => s.profileState?.isLoading == true),
-        predicate<ProfileState>((s) => s.profileState?.data == tUserEntity),
-      ];
+        final expectedStates = [
+          predicate<ProfileState>((s) => s.uploadPhotoState?.isLoading == true),
+          predicate<ProfileState>(
+            (s) =>
+                s.uploadPhotoState?.isLoading == false &&
+                s.selectedProfileImage == null,
+          ),
+          predicate<ProfileState>((s) => s.profileState?.isLoading == true),
+          predicate<ProfileState>((s) => s.profileState?.data == tUserEntity),
+        ];
 
-      expectLater(viewModel.stream, emitsInOrder(expectedStates));
-      viewModel.doIntent(UploadPhotoEvent(testFile));
-    });
+        expectLater(viewModel.stream, emitsInOrder(expectedStates));
+        viewModel.doIntent(UploadPhotoEvent(testFile));
+      },
+    );
   });
-
 }

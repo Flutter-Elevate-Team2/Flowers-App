@@ -45,6 +45,7 @@ class CategoryBody extends StatelessWidget {
               Material(
                 child: DefaultTabBar(
                   tabs,
+                  isLoading: categories == null,
                   onTap: (index) {
                     if (index == 0) {
                       // "All" tab

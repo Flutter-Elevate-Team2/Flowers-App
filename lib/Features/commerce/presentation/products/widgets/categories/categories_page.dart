@@ -40,7 +40,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     final searchController = TextEditingController();
-    final tabs = ["All", ...?widget.categories?.map((e) => e.name)];
+    final tabs = ["All", ...(
+        widget.categories == null
+            ? List.generate(7, (_) => '')
+            : widget.categories!.map((e) => e.name)
+    ),];
 
     return SafeArea(
       child: DefaultTabController(
