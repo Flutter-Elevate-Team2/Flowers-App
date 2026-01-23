@@ -61,8 +61,11 @@ class CartViewModel extends Cubit<CartStates> {
       _getCart();
     });
 
-    _logoutSubscription = _sessionController.onLogout.listen((_) {
-      emit(const CartStates());
+    _logoutSubscription = _sessionController.onLogout.listen((reason) {
+      if (reason == SessionEndReason.guest ||
+          reason == SessionEndReason.logout) {
+        emit(const CartStates());
+      }
     });
   }
 

@@ -91,7 +91,7 @@ class LoginViewModel extends Cubit<LoginState> {
   }
 
   void _handleGuestLogin() async {
-    _sessionController.notifyLogout();
+    _sessionController.notifyLogout(SessionEndReason.guest);
 
     final guestUser = await _guestLoginUseCase();
     emit(state.copyWith(

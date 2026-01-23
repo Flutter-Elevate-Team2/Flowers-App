@@ -35,7 +35,7 @@ void main() {
     mockSessionController = MockSessionController();
 
     when(mockSessionController.notifyLogin()).thenReturn(null);
-    when(mockSessionController.notifyLogout()).thenReturn(null);
+    when(mockSessionController.notifyLogout(SessionEndReason.guest)).thenReturn(null);
 
     viewModel = LoginViewModel(mockLoginUseCase , mockGuestLoginUseCase , mockSessionController);
   });
@@ -101,7 +101,7 @@ void main() {
 
       viewModel.doIntent(GuestLoginClickedEvent());
 
-      verify(mockSessionController.notifyLogout()).called(1);
+      verify(mockSessionController.notifyLogout(SessionEndReason.guest)).called(1);
     });
   });
 }
