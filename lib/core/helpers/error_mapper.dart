@@ -5,8 +5,22 @@ import 'package:flutter/material.dart';
 class ErrorMapper {
   static String mapError(BuildContext context, String errorKey) {
     final l10n = AppLocalizations.of(context);
-    if (l10n == null) return errorKey;
+    if (l10n == null) return _fallbackMessage(errorKey);
 
+    // Try to map the key
+    final mapped = _tryMapKey(l10n, errorKey);
+    if (mapped != null) return mapped;
+
+    // Check if it's a server message (not an error key)
+    if (_isServerMessage(errorKey)) {
+      return errorKey; // Display server message as-is
+    }
+
+    // Final fallback
+    return l10n.unknownError;
+  }
+
+  static String? _tryMapKey(AppLocalizations l10n, String errorKey) {
     switch (errorKey) {
       // Network
       case ErrorStrings.noInternet:
@@ -81,11 +95,26 @@ class ErrorMapper {
         return l10n.unknownError;
 
       default:
-        // If the key also happens to be a direct message (e.g. from server)
-        // return it as is, or return unknown error.
-        // But for this task we assume inputs are keys or direct server messages.
-        // We return the key itself if no match, assuming it might be a server message.
-        return errorKey;
+        return null;
     }
+  }
+
+  static bool _isServerMessage(String text) {
+    // Server messages are usually complete sentences
+    return text.contains(' ') &&
+        !text.startsWith('ERROR_') &&
+        !text.contains('_');
+  }
+
+  static String _fallbackMessage(String key) {
+    // English fallback messages
+    const fallbacks = {
+      ErrorStrings.noInternet: 'No internet connection',
+      ErrorStrings.connectionTimeout: 'Connection timeout',
+      ErrorStrings.unauthorized: 'Unauthorized access',
+      ErrorStrings.notFound: 'Resource not found',
+      ErrorStrings.internalServerError: 'Server error',
+    };
+    return fallbacks[key] ?? 'An error occurred. Please try again.';
   }
 }
