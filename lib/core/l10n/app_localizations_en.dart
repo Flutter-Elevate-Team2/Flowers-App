@@ -490,4 +490,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get required => 'Required';
+
+  @override
+  String get guest => 'guest';
 }

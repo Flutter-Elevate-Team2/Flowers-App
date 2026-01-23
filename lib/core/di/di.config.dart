@@ -242,6 +242,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i318.SignUpViewModel>(
       () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
     );
+    gh.lazySingleton<_i149.ProfileViewModel>(
+      () => _i149.ProfileViewModel(
+        gh<_i951.GetProfileUseCase>(),
+        gh<_i512.EditProfileUseCase>(),
+        gh<_i994.ChangePasswordUseCase>(),
+        gh<_i417.UploadPhotoUseCase>(),
+        gh<_i40.LogoutUseCase>(),
+        gh<_i187.HasValidTokenUseCase>(),
+        gh<_i306.SessionController>(),
+      ),
+    );
     gh.factory<_i762.ForgetPasswordUsecase>(
       () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
     );
@@ -268,16 +279,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i512.LoginUseCase>(),
         gh<_i655.GuestLoginUseCase>(),
         gh<_i306.SessionController>(),
-      ),
-    );
-    gh.lazySingleton<_i149.ProfileViewModel>(
-      () => _i149.ProfileViewModel(
-        gh<_i951.GetProfileUseCase>(),
-        gh<_i512.EditProfileUseCase>(),
-        gh<_i994.ChangePasswordUseCase>(),
-        gh<_i417.UploadPhotoUseCase>(),
-        gh<_i40.LogoutUseCase>(),
-        gh<_i187.HasValidTokenUseCase>(),
       ),
     );
     gh.factory<_i945.HomeViewModel>(

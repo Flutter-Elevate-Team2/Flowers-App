@@ -1039,6 +1039,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Required'**
   String get required;
+
+  /// guest
+  ///
+  /// In en, this message translates to:
+  /// **'guest'**
+  String get guest;
 }
 
 class _AppLocalizationsDelegate
