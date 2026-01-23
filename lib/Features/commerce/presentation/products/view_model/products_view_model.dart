@@ -140,12 +140,12 @@ class ProductsViewModel extends Cubit<ProductsStates> {
       _prevPage = shouldPaginate ? data.meta.prevPage : null;
       _nextPage = shouldPaginate ? data.meta.nextPage : null;
 
-      List<ProductEntity> allProducts;
+      List<ProductEntity> allProducts = [];
       if (_query.page == 1) {
-        allProducts = List.of(data.products, growable: true);
+        allProducts = data.products;
       } else {
-        allProducts = List.of(state.productsState?.data ?? [], growable: true);
-        allProducts.addAll(data.products);
+        final currentList = state.productsState?.data ?? [];
+        allProducts = [...currentList, ...data.products];
       }
 
       emit(
