@@ -1,20 +1,20 @@
-import 'package:flowers_app/core/extension/context_extension.dart';
-
 import 'package:flutter/material.dart';
 
-class CheckOutButton extends StatelessWidget {
-  const CheckOutButton({super.key});
+class CustomButton extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+  const CustomButton({required this.title, required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(vertical: 14),
         ),
-        child: Text(context.l10n.checkout, style: TextStyle(fontSize: 16)),
+        child: Text(title, style: TextStyle(fontSize: 16)),
       ),
     );
   }
