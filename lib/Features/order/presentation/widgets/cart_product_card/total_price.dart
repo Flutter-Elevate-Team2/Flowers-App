@@ -7,11 +7,13 @@ class TotalPrice extends StatelessWidget {
   final int subTotal;
   final int deliveryFee;
   final int totalPrice;
+  final String? locale;
 
   const TotalPrice({
     required this.subTotal,
     required this.deliveryFee,
     required this.totalPrice,
+    required this.locale,
     super.key,
   });
 
@@ -26,7 +28,10 @@ class TotalPrice extends StatelessWidget {
               context.l10n.subtotal,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            Text( PriceFormatter.formatPrice(subTotal), style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              PriceFormatter.formatPrice(subTotal , locale: locale),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ],
         ),
         SizedBox(height: 8),
@@ -38,7 +43,7 @@ class TotalPrice extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
-              PriceFormatter.formatPrice(deliveryFee),
+              PriceFormatter.formatPrice(deliveryFee, locale: locale),
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
@@ -52,7 +57,7 @@ class TotalPrice extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             Text(
-              PriceFormatter.formatPrice(totalPrice),
+              PriceFormatter.formatPrice(totalPrice, locale: locale),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],

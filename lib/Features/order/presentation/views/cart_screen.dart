@@ -8,6 +8,7 @@ import 'package:flowers_app/Features/order/presentation/widgets/cart_product_car
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/error_mapper.dart';
+import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final language = context.read<LanguageCubit>().state.languageCode;
     return BlocBuilder<CartViewModel, CartStates>(
       builder: (context, state) {
         final cartItems = state.cartData?.cart?.cartItems ?? [];
@@ -48,7 +50,7 @@ class CartScreen extends StatelessWidget {
               cartItems: state.cartData?.numOfCartItems ?? 0,
             ),
           ),
-          body: CartBody(cart: state.cartData?.cart),
+          body: CartBody(cart: state.cartData?.cart , locale: language,),
         );
       },
     );

@@ -12,8 +12,10 @@ import 'package:go_router/go_router.dart';
 
 class CartBody extends StatelessWidget {
   final CartEntity? cart;
+  final String? locale;
 
-  const CartBody({required this.cart, super.key});
+
+  const CartBody({required this.cart, required this.locale,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class CartBody extends StatelessWidget {
                 subTotal: cart?.totalPrice ?? 0,
                 deliveryFee: cart?.deliveryFee ?? 0,
                 totalPrice: cart?.finalPrice  ?? 0,
+                locale: locale,
               ),
               SizedBox(height: 48),
               // Checkout Button
