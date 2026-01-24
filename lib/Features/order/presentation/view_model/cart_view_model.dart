@@ -47,7 +47,7 @@ class CartViewModel extends Cubit<CartStates> {
       _getCart();
     } else if (event is AddToCartEvent) {
       _addToCart(event.cartRequest);
-    }  else if (event is UpdateCartItemEvent) {
+    } else if (event is UpdateCartItemEvent) {
       _optimisticUpdate(event.itemId, event.quantityRequest.quantity);
     } else if (event is DeleteCartItemEvent) {
       _optimisticUpdate(event.itemId, 0);
@@ -138,7 +138,6 @@ class CartViewModel extends Cubit<CartStates> {
     });
   }
 
-
   Future<void> _updateCartItem(String itemId, QuantityRequest request) async {
     final response = await _updateCartItemUseCase(itemId, request);
 
@@ -178,11 +177,11 @@ class CartViewModel extends Cubit<CartStates> {
     );
   }
 
-  void _handleError(String itemId) {
-    final optimistic = Map<String, int>.from(state.optimisticQuantities)..remove(itemId);
+  void _handleError(String itemId, String errorMessage) {
+    final optimistic = Map<String, int>.from(state.optimisticQuantities)
+      ..remove(itemId);
     final updating = Set<String>.from(state.updatingItemIds)..remove(itemId);
 
-  void _handleError(String itemId, String errorMessage) {
     emit(
       state.copyWith(
         errorMessage: errorMessage,
@@ -192,15 +191,6 @@ class CartViewModel extends Cubit<CartStates> {
       ),
     );
   }
-
-
-  // Future<void> _onCartOpened() async {
-  //   if (!await _hasTokenUseCase()) {
-  //     emit(const CartStates(isLoading: false));
-  //     return;
-  //   }
-  //   _getCart();
-  // }
 
   void _resetLoginRequired() {
     if (state.requiresLogin) emit(state.copyWith(requiresLogin: false));
