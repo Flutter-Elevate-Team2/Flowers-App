@@ -1,0 +1,3 @@
+import 'package:flowers_app/Features/user_address/data/data_sources/user_address_remote_data_source_contract.dart';
+
+class UserAddressRemoteDataSourceImple implements UserAddressRemoteDataSourceContract {}
