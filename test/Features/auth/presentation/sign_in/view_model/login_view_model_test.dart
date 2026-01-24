@@ -12,11 +12,7 @@ import 'package:mockito/mockito.dart';
 
 import 'login_view_model_test.mocks.dart';
 
-@GenerateMocks([
-  LoginUseCase,
-  GuestLoginUseCase,
-  SessionController,
-])
+@GenerateMocks([LoginUseCase, GuestLoginUseCase, SessionController])
 void main() {
   late LoginViewModel viewModel;
   late MockLoginUseCase mockLoginUseCase;
@@ -37,7 +33,11 @@ void main() {
     when(mockSessionController.notifyLogin()).thenReturn(null);
     when(mockSessionController.notifyLogout()).thenReturn(null);
 
-    viewModel = LoginViewModel(mockLoginUseCase , mockGuestLoginUseCase , mockSessionController);
+    viewModel = LoginViewModel(
+      mockLoginUseCase,
+      mockGuestLoginUseCase,
+      mockSessionController,
+    );
   });
 
   tearDown(() => viewModel.close());
@@ -59,49 +59,62 @@ void main() {
 
     test('Login emits [Loading, Success] when usecase succeeds', () async {
       // ARRANGE
-      final tEntity = LoginEntity(token: "token", message: "Success", user: null);
+      final tEntity = LoginEntity(
+        token: "token",
+        message: "Success",
+        user: null,
+      );
 
-      when(mockLoginUseCase.call(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-        isRememberMe: anyNamed('isRememberMe'),
-      )).thenAnswer((_) async => SuccessResponse(data: tEntity));
+      when(
+        mockLoginUseCase.call(
+          email: anyNamed('email'),
+          password: anyNamed('password'),
+          isRememberMe: anyNamed('isRememberMe'),
+        ),
+      ).thenAnswer((_) async => SuccessResponse(data: tEntity));
 
       // ASSERT
       final expectedStates = [
         predicate<LoginState>((s) => s.loginState?.isLoading == true),
-        predicate<LoginState>((s) =>
-            s.loginState?.isLoading == false &&
-            s.loginState?.data == tEntity),
+        predicate<LoginState>(
+          (s) =>
+              s.loginState?.isLoading == false && s.loginState?.data == tEntity,
+        ),
       ];
 
       expectLater(viewModel.stream, emitsInOrder(expectedStates));
 
       // ACT
-      viewModel.doIntent(LoginButtonClickedEvent(email: 'test', password: 'pass'));
-    });
-
-    test('GuestLogin emits success and resets rememberMe', () async {
-      final guestEntity =
-      LoginEntity(token: 'guest', message: 'guest', user: null);
-
-      when(mockGuestLoginUseCase.call())
-          .thenAnswer((_) async => guestEntity);
-
-      expectLater(
-        viewModel.stream,
-        emits(
-          predicate<LoginState>(
-                (s) =>
-            s.loginState?.data == guestEntity &&
-                s.isRememberMe == false,
-          ),
-        ),
+      viewModel.doIntent(
+        LoginButtonClickedEvent(email: 'test', password: 'pass'),
       );
-
-      viewModel.doIntent(GuestLoginClickedEvent());
-
-      verify(mockSessionController.notifyLogout()).called(1);
     });
+
+    test(
+      'GuestLogin emits success, resets rememberMe, and notifies logout',
+      () async {
+        final guestEntity = LoginEntity(
+          token: 'guest',
+          message: 'guest',
+          user: null,
+        );
+
+        when(mockGuestLoginUseCase.call()).thenAnswer((_) async => guestEntity);
+
+        expectLater(
+          viewModel.stream,
+          emits(
+            predicate<LoginState>(
+              (s) =>
+                  s.loginState?.data == guestEntity && s.isRememberMe == false,
+            ),
+          ),
+        );
+
+        viewModel.doIntent(GuestLoginClickedEvent());
+
+        verify(mockSessionController.notifyLogout()).called(1);
+      },
+    );
   });
 }

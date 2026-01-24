@@ -7,9 +7,7 @@ class QuantityRequest {
   @JsonKey(name: "quantity")
   final int quantity;
 
-  QuantityRequest ({required
-    this.quantity,
-  });
+  QuantityRequest({required this.quantity});
 
   factory QuantityRequest.fromJson(Map<String, dynamic> json) {
     return _$QuantityRequestFromJson(json);
@@ -19,5 +17,3 @@ class QuantityRequest {
     return _$QuantityRequestToJson(this);
   }
 }
-
-

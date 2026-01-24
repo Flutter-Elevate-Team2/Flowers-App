@@ -25,6 +25,7 @@ class CartViewModel extends Cubit<CartStates> {
   final HasValidTokenUseCase _hasTokenUseCase;
   final SessionController _sessionController;
   final Debouncer _debouncer;
+  final Map<String, int> _pendingQuantities = {};
 
   StreamSubscription? _loginSubscription;
   StreamSubscription? _logoutSubscription;
@@ -86,7 +87,11 @@ class CartViewModel extends Cubit<CartStates> {
       return;
     }
 
-    final id = request.product!;
+    final product = request.product;
+    if (product == null) {
+      return;
+    }
+    final id = product;
 
     emit(
       state.copyWith(
@@ -109,6 +114,8 @@ class CartViewModel extends Cubit<CartStates> {
   }
 
   void _optimisticUpdate(String itemId, int quantity) {
+    _pendingQuantities[itemId] = quantity;
+
     final optimistic = Map<String, int>.from(state.optimisticQuantities)
       ..[itemId] = quantity;
     final updating = {...state.updatingItemIds, itemId};
@@ -121,6 +128,8 @@ class CartViewModel extends Cubit<CartStates> {
     );
 
     _debouncer.run(() async {
+      if (_pendingQuantities[itemId] != quantity) return;
+
       if (quantity > 0) {
         await _updateCartItem(itemId, QuantityRequest(quantity: quantity));
       } else {
@@ -128,6 +137,7 @@ class CartViewModel extends Cubit<CartStates> {
       }
     });
   }
+
 
   Future<void> _updateCartItem(String itemId, QuantityRequest request) async {
     final response = await _updateCartItemUseCase(itemId, request);
@@ -138,6 +148,7 @@ class CartViewModel extends Cubit<CartStates> {
       _handleError(itemId, response.errorMessage);
     }
 
+    _pendingQuantities.remove(itemId);
     _stopLoading(itemId, removeOptimistic: true);
   }
 
@@ -149,6 +160,7 @@ class CartViewModel extends Cubit<CartStates> {
       _handleError(itemId, response.errorMessage);
     }
 
+    _pendingQuantities.remove(itemId);
     _stopLoading(itemId, removeOptimistic: true);
   }
 
@@ -166,16 +178,21 @@ class CartViewModel extends Cubit<CartStates> {
     );
   }
 
+  void _handleError(String itemId) {
+    final optimistic = Map<String, int>.from(state.optimisticQuantities)..remove(itemId);
+    final updating = Set<String>.from(state.updatingItemIds)..remove(itemId);
+
   void _handleError(String itemId, String errorMessage) {
     emit(
       state.copyWith(
         errorMessage: errorMessage,
         lastFailedItemId: itemId,
-        optimisticQuantities: Map<String, int>.from(state.optimisticQuantities)
-          ..remove(itemId),
+        optimisticQuantities: optimistic,
+        updatingItemIds: updating,
       ),
     );
   }
+
 
   // Future<void> _onCartOpened() async {
   //   if (!await _hasTokenUseCase()) {

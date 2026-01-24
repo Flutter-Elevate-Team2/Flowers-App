@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flowers_app/core/utils/debouncer/immediate_debouncer.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -148,18 +146,59 @@ void main() {
     );
 
     blocTest<CartViewModel, CartStates>(
-      'AddToCart emits requiresLogin when not logged in and never calls UseCase',
+      'AddToCart emits optimistic state then error state on failure',
       build: () {
-        when(mockHasValidTokenUseCase.call()).thenAnswer((_) async => false);
+        when(mockHasValidTokenUseCase.call()).thenAnswer((_) async => true);
+        when(mockAddToCartUseCase.call(any)).thenAnswer(
+              (_) async => ErrorResponse(errorMessage: 'Failed')
+        );
         return cartViewModel;
       },
       act: (bloc) =>
           bloc.doIntent(AddToCartEvent(CartRequest(product: '1', quantity: 1))),
-      expect: () => [initialState().copyWith(requiresLogin: true)],
-      verify: (_) {
-        verifyNever(mockAddToCartUseCase.call(any));
-      },
+      expect: () => [
+        initialState().copyWith(
+          optimisticQuantities: {'1': 1},
+          updatingItemIds: {'1'},
+        ),
+        initialState().copyWith(
+          errorMessage: 'Update failed, please try again',
+          lastFailedItemId: '1',
+          optimisticQuantities: {}, // optimistic removed
+          updatingItemIds: {},
+        ),
+      ],
     );
+
+    blocTest<CartViewModel, CartStates>(
+      'UpdateCartItem emits optimistic state then error state on failure',
+      build: () {
+        when(mockUpdateCartItemUseCase.call(any, any)).thenAnswer(
+              (_) async => ErrorResponse(errorMessage:'Failed'),
+        );
+        return cartViewModel;
+      },
+      act: (bloc) => bloc.doIntent(
+        UpdateCartItemEvent(
+          itemId: '1',
+          quantityRequest: QuantityRequest(quantity: 2),
+        ),
+      ),
+      expect: () => [
+        initialState().copyWith(
+          optimisticQuantities: {'1': 2},
+          updatingItemIds: {'1'},
+        ),
+        initialState().copyWith(
+          errorMessage: 'Update failed, please try again',
+          lastFailedItemId: '1',
+          optimisticQuantities: {},
+          updatingItemIds: {},
+        ),
+      ],
+    );
+
+
   });
 }
 

@@ -15,7 +15,11 @@ class LoginViewModel extends Cubit<LoginState> {
   final GuestLoginUseCase _guestLoginUseCase;
   final SessionController _sessionController;
 
-  LoginViewModel(this._loginUseCase, this._guestLoginUseCase , this._sessionController) : super(LoginState());
+  LoginViewModel(
+    this._loginUseCase,
+    this._guestLoginUseCase,
+    this._sessionController,
+  ) : super(LoginState());
 
   void doIntent(LoginEvent event) {
     switch (event) {
@@ -41,16 +45,19 @@ class LoginViewModel extends Cubit<LoginState> {
     emit(LoginState());
   }
 
- void _toggleRememberMe() {
-    emit(state.copyWith(
-      isRememberMe: !state.isRememberMe,
-      loginState: BaseState(),
-    ));
+  void _toggleRememberMe() {
+    emit(
+      state.copyWith(
+        isRememberMe: !state.isRememberMe,
+        loginState: BaseState(),
+      ),
+    );
   }
 
   void _resetErrorState() {
-    if (state.loginState?.errorMessage != null || state.loginState?.isLoading == true) {
-       emit(state.copyWith(loginState: BaseState()));
+    if (state.loginState?.errorMessage != null ||
+        state.loginState?.isLoading == true) {
+      emit(state.copyWith(loginState: BaseState()));
     }
   }
 
@@ -69,10 +76,7 @@ class LoginViewModel extends Cubit<LoginState> {
 
         emit(
           state.copyWith(
-            loginState: BaseState(
-              isLoading: false,
-              data: response.data,
-            ),
+            loginState: BaseState(isLoading: false, data: response.data),
           ),
         );
         break;
@@ -89,17 +93,15 @@ class LoginViewModel extends Cubit<LoginState> {
         break;
     }
   }
-
-  void _handleGuestLogin() async {
+  Future<void> _handleGuestLogin() async {
     _sessionController.notifyLogout();
 
     final guestUser = await _guestLoginUseCase();
-    emit(state.copyWith(
-        loginState: BaseState(
-          isLoading: false,
-          data: guestUser
-        ),
+    emit(
+      state.copyWith(
+        loginState: BaseState(isLoading: false, data: guestUser),
         isRememberMe: false,
-      ));
+      ),
+    );
   }
 }
