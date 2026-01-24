@@ -1,6 +1,6 @@
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
-import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/cart_action_section.dart';
-import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/product_details_cart_style.dart';
+import 'package:flowers_app/Features/order/presentation/cart/widgets/shared/add_to_cart_button/cart_action_section.dart';
+import 'package:flowers_app/Features/order/presentation/cart/widgets/shared/add_to_cart_button/product_details_cart_style.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 

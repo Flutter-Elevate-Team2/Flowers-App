@@ -12,7 +12,7 @@ import 'package:flowers_app/Features/commerce/domain/entities/product_entities/p
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
-import 'package:flowers_app/Features/order/presentation/views/cart_screen.dart';
+import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';

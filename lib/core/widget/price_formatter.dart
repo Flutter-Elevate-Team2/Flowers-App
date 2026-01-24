@@ -1,12 +1,9 @@
 import 'package:intl/intl.dart';
 
 class PriceFormatter {
-  static String formatPrice(int price , {String? locale}) {
-
-    final isArabic = locale?.startsWith('ar') ?? false;
-
+  static String formatPrice(int price, {String? locale}) {
     final formatter = NumberFormat.currency(
-      symbol: isArabic ? 'جنيه' : 'EGP',
+      symbol: locale == 'ar' ? 'جنيه' : 'EGP',
       customPattern: '#,## ¤',
       locale: locale,
     );
