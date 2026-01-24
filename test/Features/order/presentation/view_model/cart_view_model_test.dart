@@ -162,7 +162,7 @@ void main() {
           updatingItemIds: {'1'},
         ),
         initialState().copyWith(
-          errorMessage: 'Update failed, please try again',
+          errorMessage: 'Failed',
           lastFailedItemId: '1',
           optimisticQuantities: {}, // optimistic removed
           updatingItemIds: {},
@@ -190,7 +190,7 @@ void main() {
           updatingItemIds: {'1'},
         ),
         initialState().copyWith(
-          errorMessage: 'Update failed, please try again',
+          errorMessage: 'Failed',
           lastFailedItemId: '1',
           optimisticQuantities: {},
           updatingItemIds: {},
