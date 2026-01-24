@@ -486,4 +486,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get required => 'مطلوب';
+
+  @override
+  String get guest => 'زائر';
 }

@@ -6,6 +6,7 @@ import 'package:flowers_app/Features/order/presentation/widgets/cart_product_car
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/guest_cart_view.dart';
 import 'package:flowers_app/Features/order/presentation/widgets/cart_product_card/shimmer/cart_body_shimmer.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/error_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +29,7 @@ class CartScreen extends StatelessWidget {
             body: GuestCartView(
               onLogin: () {
                 context.pushNamed(Routes.signInName);
-              },
+              }, subTitle: context.l10n.pleaseLoginToContinue,
             ),
           );
         } else if (state.errorMessage != null) {

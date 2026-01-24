@@ -9,6 +9,7 @@ import 'package:flowers_app/Features/profile/data/models/logout_response.dart';
 import 'package:flowers_app/Features/profile/data/models/profile_dto.dart';
 import 'package:flowers_app/Features/profile/data/models/upload_photo_response.dart';
 import 'package:flowers_app/Features/profile/domain/entities/change_password_entity.dart';
+import 'package:flowers_app/core/constants/error_strings.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/base_response/base_response.dart';
@@ -75,6 +76,13 @@ class ProfileRepoImpl with ApiExecutionMixin implements ProfileRepoContract {
 
     if (result is SuccessResponse) {
       await _localDataSource.clearUserData();
+    } else if (result is ErrorResponse) {
+      final error = result as ErrorResponse;
+
+      if (error.errorMessage == ErrorStrings.unauthorized) {
+        await _localDataSource.clearUserData();
+        return SuccessResponse(data: "Logged out successfully");
+      }
     }
 
     return result;

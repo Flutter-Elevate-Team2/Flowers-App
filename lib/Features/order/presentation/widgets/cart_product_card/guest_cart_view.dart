@@ -6,8 +6,9 @@ import 'package:lottie/lottie.dart';
 
 class GuestCartView extends StatelessWidget {
   final VoidCallback onLogin;
+  final String? subTitle;
 
-  const GuestCartView({super.key, required this.onLogin});
+  const GuestCartView({super.key, required this.onLogin, this.subTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +27,20 @@ class GuestCartView extends StatelessWidget {
             Text(
               context.l10n.youAreNotLoggedIn,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.mainColor
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: AppColors.mainColor),
             ),
             const SizedBox(height: 8),
             Text(
-              context.l10n.pleaseLoginToContinue,
+              subTitle ?? context.l10n.pleaseLoginToContinue,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium,
-
             ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: onLogin,
-              child:  Text(context.l10n.loginButton),
+              child: Text(context.l10n.loginButton),
             ),
           ],
         ),

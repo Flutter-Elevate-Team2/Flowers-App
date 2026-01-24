@@ -1,6 +1,7 @@
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_event.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/form_validators.dart';
@@ -73,7 +74,7 @@ class _ResetPasswordScreenBodyState extends State<ResetPasswordScreenBody> {
                   backgroundColor: Colors.green,
                 ),
               );
-              context.pop();
+              context.pushReplacementNamed(Routes.signInName);
             }
           },
           child: Padding(

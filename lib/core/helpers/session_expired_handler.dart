@@ -7,25 +7,29 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionExpiredHandler {
-  static bool _isShowing = false; // Add this static field
+  static bool _isShowing = false;
 
   static void handle(BuildContext? context) {
-    if (_isShowing) return; // Prevent duplicate dialogs
+    if (_isShowing) return;
 
     final currentContext =
         context ?? AppRouter.rootNavigatorKey.currentState?.context;
 
     if (currentContext != null && currentContext.mounted) {
-      _isShowing = true; // Set flag before showing dialog
+      _isShowing = true;
 
-      final strings = AppLocalizations.of(currentContext)!;
+      final localizations = AppLocalizations.of(currentContext);
+
+      final title = localizations?.sessionExpiredTitle ?? "Session Expired";
+      final message = localizations?.sessionExpiredMessage ?? "Your session has expired. Please login again.";
+      final loginButtonText = localizations?.loginButton ?? "Login";
 
       showDialog(
         context: currentContext,
         barrierDismissible: false,
         builder: (dialogContext) => AlertDialog(
-          title: Text(strings.sessionExpiredTitle),
-          content: Text(strings.sessionExpiredMessage),
+          title: Text(title),
+          content: Text(message),
           actions: [
             TextButton(
               onPressed: () async {
@@ -37,7 +41,6 @@ class SessionExpiredHandler {
                 }
 
                 if (currentContext.mounted) {
-                  // Clear navigation stack
                   while (currentContext.canPop()) {
                     currentContext.pop();
                   }
@@ -45,13 +48,13 @@ class SessionExpiredHandler {
                 }
               },
               child: Text(
-                strings.loginButton,
+                loginButtonText,
                 style: TextStyle(color: AppTheme.lightTheme.primaryColor),
               ),
             ),
           ],
         ),
-      ).then((_) => _isShowing = false); // Reset flag when dialog closes
+      ).then((_) => _isShowing = false);
     } else {
       debugPrint(
         "⚠️ Warning: Context is null or not mounted. Cannot show Session Expired Dialog.",

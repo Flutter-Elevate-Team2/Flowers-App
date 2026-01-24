@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:injectable/injectable.dart';
 
+enum SessionEndReason { logout, guest, passwordChanged }
+
 @singleton
 class SessionController {
   // Fix: Use broadcast if multiple listeners are expected, or keep standard.
@@ -17,13 +19,13 @@ class SessionController {
   }
 
   final StreamController<void> _loginController =
-  StreamController<void>.broadcast();
+      StreamController<void>.broadcast();
 
-  final StreamController<void> _logoutController =
-  StreamController<void>.broadcast();
+  final StreamController<SessionEndReason> _logoutController =
+  StreamController<SessionEndReason>.broadcast();
 
   Stream<void> get onLogin => _loginController.stream;
-  Stream<void> get onLogout => _logoutController.stream;
+  Stream<SessionEndReason> get onLogout => _logoutController.stream;
 
   void notifyLogin() {
     if (!_loginController.isClosed) {
@@ -31,9 +33,9 @@ class SessionController {
     }
   }
 
-  void notifyLogout() {
+  void notifyLogout(SessionEndReason reason) {
     if (!_logoutController.isClosed) {
-      _logoutController.add(null);
+      _logoutController.add(reason);
     }
   }
 

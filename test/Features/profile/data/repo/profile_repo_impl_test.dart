@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flowers_app/Features/profile/data/data_sources/local_data_source_contract/profile_local_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/data_sources/remote_data_source_contract/profile_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/profile/data/models/change_password_request.dart';
@@ -88,7 +89,6 @@ void main() {
             firstName: 'John',
             lastName: 'Doe',
             phone: '1234567890',
-           
           );
           final userModel = UserModel(
             id: '1',
@@ -171,7 +171,6 @@ void main() {
         () async {
           // Arrange
           final response = LogoutResponse(message: 'Logged out');
-
           when(mockRemoteDataSource.logout()).thenAnswer((_) async => response);
 
           // Act
@@ -182,6 +181,56 @@ void main() {
           expect((result as SuccessResponse).data, 'Logged out');
           verify(mockRemoteDataSource.logout()).called(1);
           verify(mockLocalDataSource.clearUserData()).called(1);
+        },
+      );
+
+      test(
+        'should return SuccessResponse and clear data when remote call fails with 401 Unauthorized',
+        () async {
+          // Arrange
+          final dioException = DioException(
+            requestOptions: RequestOptions(path: 'logout'),
+            response: Response(
+              requestOptions: RequestOptions(path: 'logout'),
+              statusCode: 401,
+            ),
+            type: DioExceptionType.badResponse,
+          );
+
+          when(mockRemoteDataSource.logout()).thenThrow(dioException);
+
+          // Act
+          final result = await repo.logout();
+
+          // Assert
+          expect(result, isA<SuccessResponse<String>>());
+
+          verify(mockLocalDataSource.clearUserData()).called(1);
+        },
+      );
+
+      test(
+        'should return ErrorResponse and NOT clear data when remote call fails with other errors (e.g., 500)',
+        () async {
+          // Arrange
+          final dioException = DioException(
+            requestOptions: RequestOptions(path: 'logout'),
+            response: Response(
+              requestOptions: RequestOptions(path: 'logout'),
+              statusCode: 500,
+            ),
+            type: DioExceptionType.badResponse,
+          );
+
+          when(mockRemoteDataSource.logout()).thenThrow(dioException);
+
+          // Act
+          final result = await repo.logout();
+
+          // Assert
+          expect(result, isA<ErrorResponse<String>>());
+
+          verifyNever(mockLocalDataSource.clearUserData());
         },
       );
     });

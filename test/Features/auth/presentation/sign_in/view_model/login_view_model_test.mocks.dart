@@ -114,12 +114,12 @@ class MockSessionController extends _i1.Mock implements _i8.SessionController {
           as _i4.Stream<void>);
 
   @override
-  _i4.Stream<void> get onLogout =>
+  _i4.Stream<_i8.SessionEndReason> get onLogout =>
       (super.noSuchMethod(
             Invocation.getter(#onLogout),
-            returnValue: _i4.Stream<void>.empty(),
+            returnValue: _i4.Stream<_i8.SessionEndReason>.empty(),
           )
-          as _i4.Stream<void>);
+          as _i4.Stream<_i8.SessionEndReason>);
 
   @override
   void expireSession() => super.noSuchMethod(
@@ -134,8 +134,8 @@ class MockSessionController extends _i1.Mock implements _i8.SessionController {
   );
 
   @override
-  void notifyLogout() => super.noSuchMethod(
-    Invocation.method(#notifyLogout, []),
+  void notifyLogout(_i8.SessionEndReason? reason) => super.noSuchMethod(
+    Invocation.method(#notifyLogout, [reason]),
     returnValueForMissingStub: null,
   );
 

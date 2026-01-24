@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
 import 'package:flowers_app/Features/profile/data/models/edit_profile_request.dart';
 import 'package:flowers_app/Features/profile/domain/entities/change_password_entity.dart';
 import 'package:flowers_app/Features/profile/domain/entities/user_entity.dart';
@@ -12,6 +14,7 @@ import 'package:flowers_app/Features/profile/presentation/view_model/profile_eve
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -22,14 +25,32 @@ class ProfileViewModel extends Cubit<ProfileState> {
   final ChangePasswordUseCase _changePasswordUseCase;
   final UploadPhotoUseCase _uploadPhotoUseCase;
   final LogoutUseCase _logoutUseCase;
+  final HasValidTokenUseCase _hasTokenUseCase;
+  final SessionController _sessionController;
+  StreamSubscription? _loginSubscription;
+  StreamSubscription? _logoutSubscription;
 
   ProfileViewModel(
-    this._getProfileUseCase,
-    this._editProfileUseCase,
-    this._changePasswordUseCase,
-    this._uploadPhotoUseCase,
-    this._logoutUseCase,
-  ) : super(ProfileState());
+      this._getProfileUseCase,
+      this._editProfileUseCase,
+      this._changePasswordUseCase,
+      this._uploadPhotoUseCase,
+      this._logoutUseCase,
+      this._hasTokenUseCase,
+      this._sessionController,
+      ) : super(ProfileState()) {
+    _listenToSession();
+  }
+
+  void _listenToSession() {
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      _getProfile();
+    });
+
+    _logoutSubscription = _sessionController.onLogout.listen((_) {
+      emit(ProfileState());
+    });
+  }
 
   void doIntent(ProfileEvent event) {
     switch (event) {
@@ -55,9 +76,17 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _getProfile() async {
+    final bool hasToken = await _hasTokenUseCase.call();
+    if (!hasToken) {
+      emit(ProfileState());
+      return;
+    }
+
     if (isClosed) return;
     emit(state.copyWith(profileState: BaseState(isLoading: true)));
+
     final response = await _getProfileUseCase.call();
+
     if (isClosed) return;
     switch (response) {
       case SuccessResponse<UserEntity>():
@@ -80,6 +109,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
     }
   }
 
+
   Future<void> _editProfile(EditProfileRequest request) async {
     if (isClosed) return;
     emit(state.copyWith(editProfileState: BaseState(isLoading: true)));
@@ -90,7 +120,6 @@ class ProfileViewModel extends Cubit<ProfileState> {
         emit(
           state.copyWith(
             editProfileState: BaseState(isLoading: false, data: response.data),
-            // Update profile data as well to reflect changes
             profileState: BaseState(isLoading: false, data: response.data),
           ),
         );
@@ -110,18 +139,12 @@ class ProfileViewModel extends Cubit<ProfileState> {
 
   Future<void> _changePassword(String oldPassword, String newPassword) async {
     emit(state.copyWith(changePasswordState: BaseState(isLoading: true)));
-    final response = await _changePasswordUseCase.call(
-      oldPassword,
-      newPassword,
-    );
+    final response = await _changePasswordUseCase.call(oldPassword, newPassword);
     switch (response) {
       case SuccessResponse<ChangePasswordEntity>():
         emit(
           state.copyWith(
-            changePasswordState: BaseState(
-              isLoading: false,
-              data: response.data,
-            ),
+            changePasswordState: BaseState(isLoading: false, data: response.data),
           ),
         );
         break;
@@ -148,11 +171,9 @@ class ProfileViewModel extends Cubit<ProfileState> {
         emit(
           state.copyWith(
             uploadPhotoState: BaseState(isLoading: false, data: response.data),
-            clearSelectedImage:
-                true, // Clear local image after successful upload
+            clearSelectedImage: true,
           ),
         );
-        // Refresh profile to get the updated photoUrl from server
         _getProfile();
         break;
       case ErrorResponse<String>():
@@ -193,5 +214,11 @@ class ProfileViewModel extends Cubit<ProfileState> {
         );
         break;
     }
+  }
+  @override
+  Future<void> close() {
+    _loginSubscription?.cancel();
+    _logoutSubscription?.cancel();
+    return super.close();
   }
 }
