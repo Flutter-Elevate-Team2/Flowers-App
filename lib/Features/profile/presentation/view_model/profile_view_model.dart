@@ -31,14 +31,14 @@ class ProfileViewModel extends Cubit<ProfileState> {
   StreamSubscription? _logoutSubscription;
 
   ProfileViewModel(
-      this._getProfileUseCase,
-      this._editProfileUseCase,
-      this._changePasswordUseCase,
-      this._uploadPhotoUseCase,
-      this._logoutUseCase,
-      this._hasTokenUseCase,
-      this._sessionController,
-      ) : super(ProfileState()) {
+    this._getProfileUseCase,
+    this._editProfileUseCase,
+    this._changePasswordUseCase,
+    this._uploadPhotoUseCase,
+    this._logoutUseCase,
+    this._hasTokenUseCase,
+    this._sessionController,
+  ) : super(ProfileState()) {
     _listenToSession();
   }
 
@@ -48,6 +48,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
     });
 
     _logoutSubscription = _sessionController.onLogout.listen((_) {
+      if (isClosed) return;
       emit(ProfileState());
     });
   }
@@ -109,7 +110,6 @@ class ProfileViewModel extends Cubit<ProfileState> {
     }
   }
 
-
   Future<void> _editProfile(EditProfileRequest request) async {
     if (isClosed) return;
     emit(state.copyWith(editProfileState: BaseState(isLoading: true)));
@@ -138,13 +138,20 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _changePassword(String oldPassword, String newPassword) async {
+    if (isClosed) return;
     emit(state.copyWith(changePasswordState: BaseState(isLoading: true)));
-    final response = await _changePasswordUseCase.call(oldPassword, newPassword);
+    final response = await _changePasswordUseCase.call(
+      oldPassword,
+      newPassword,
+    );
     switch (response) {
       case SuccessResponse<ChangePasswordEntity>():
         emit(
           state.copyWith(
-            changePasswordState: BaseState(isLoading: false, data: response.data),
+            changePasswordState: BaseState(
+              isLoading: false,
+              data: response.data,
+            ),
           ),
         );
         break;
@@ -195,6 +202,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
   }
 
   Future<void> _logout() async {
+    if (isClosed) return;
     emit(state.copyWith(logoutState: BaseState(isLoading: true)));
     final response = await _logoutUseCase.call();
     switch (response) {
@@ -215,6 +223,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
         break;
     }
   }
+
   @override
   Future<void> close() {
     _loginSubscription?.cancel();

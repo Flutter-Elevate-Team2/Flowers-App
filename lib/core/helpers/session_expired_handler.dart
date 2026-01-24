@@ -1,4 +1,5 @@
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
@@ -34,7 +35,7 @@ class SessionExpiredHandler {
             TextButton(
               onPressed: () async {
                 final prefs = getIt<SharedPreferences>();
-                await prefs.remove('token');
+                await prefs.remove(ApiConstants.tokenKey);
 
                 if (dialogContext.mounted) {
                   Navigator.of(dialogContext).pop();
