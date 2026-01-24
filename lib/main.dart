@@ -11,6 +11,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Features/order/presentation/view_model/cart_events.dart';
 import 'Features/order/presentation/view_model/cart_view_model.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -51,19 +52,17 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CartViewModel>(
-          create: (_) =>
-          getIt<CartViewModel>()..doIntent(GetCartDataEvent()),
+          create: (_) => getIt<CartViewModel>()..doIntent(GetCartDataEvent()),
         ),
       ],
-      child :
-     MaterialApp.router(
-      routerConfig: AppRouter.router,
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      theme: AppTheme.lightTheme,
-     )
+      child: MaterialApp.router(
+        routerConfig: AppRouter.router,
+        debugShowCheckedModeBanner: false,
+        onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        theme: AppTheme.lightTheme,
+      ),
     );
   }
 }
