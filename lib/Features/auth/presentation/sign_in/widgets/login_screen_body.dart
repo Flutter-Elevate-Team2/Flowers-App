@@ -3,13 +3,13 @@ import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_state.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_view_model.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/widgets/guest_button.dart';
-import 'package:flowers_app/Features/auth/presentation/sign_in/widgets/login_button.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/widgets/remember_me_row.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/widgets/sign_up_row.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/form_validators.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -138,7 +138,8 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                             child: CircularProgressIndicator(),
                           )
                         else
-                          LoginButton(
+                          CustomButton(
+                            title: context.l10n.loginButton,
                             onPressed: () {
                               setState(() {
                                 _autoValidateMode = AutovalidateMode.always;
