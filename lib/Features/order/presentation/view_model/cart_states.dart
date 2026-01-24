@@ -39,23 +39,30 @@ class CartStates extends Equatable {
     return optimisticQuantities[productId] ?? serverQuantities[productId] ?? 0;
   }
 
+  static const Object _sentinel = Object();
+
   CartStates copyWith({
     CartResponseEntity? cartData,
     Map<String, int>? serverQuantities,
     Map<String, int>? optimisticQuantities,
     Set<String>? updatingItemIds,
-    String? errorMessage,
-    String? lastFailedItemId,
+    Object? errorMessage = _sentinel,
+    Object? lastFailedItemId = _sentinel,
     bool? requiresLogin,
     bool? isLoading,
   }) {
+    final String? resolvedErrorMessage =
+    identical(errorMessage, _sentinel) ? this.errorMessage : errorMessage as String?;
+    final String? resolvedLastFailedItemId =
+    identical(lastFailedItemId, _sentinel) ? this.lastFailedItemId : lastFailedItemId as String?;
+
     return CartStates(
       cartData: cartData ?? this.cartData,
       serverQuantities: serverQuantities ?? this.serverQuantities,
       optimisticQuantities: optimisticQuantities ?? this.optimisticQuantities,
       updatingItemIds: updatingItemIds ?? this.updatingItemIds,
-      errorMessage: errorMessage,
-      lastFailedItemId: lastFailedItemId,
+      errorMessage: resolvedErrorMessage,
+      lastFailedItemId: resolvedLastFailedItemId,
       requiresLogin: requiresLogin ?? this.requiresLogin,
       isLoading: isLoading ?? this.isLoading,
     );

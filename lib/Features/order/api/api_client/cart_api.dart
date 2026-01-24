@@ -31,5 +31,3 @@ abstract class CartApi {
     @Body() QuantityRequest quantityRequest,
   );
 }
-
-//Todo: Remove the comments and implement the Cart API client and run build runner to generate the part file.
