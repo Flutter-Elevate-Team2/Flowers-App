@@ -27,4 +27,6 @@ class ApiConstants {
 // ================= Cart Endpoints =================
 static const String cart="/cart";
 
+// ================= Checkout Endpoints =================
+static const String orders ="/orders";
 }

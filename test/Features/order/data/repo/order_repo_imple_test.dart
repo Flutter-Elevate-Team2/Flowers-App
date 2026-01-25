@@ -3,10 +3,16 @@ import 'package:flowers_app/Features/order/data/data_source/order_remote_data_so
 import 'package:flowers_app/Features/order/data/models/cart/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/cart/cart_response_model.dart';
 import 'package:flowers_app/Features/order/data/models/cart/quantity_request.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/cash_checkout_response_model.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/credit/credit_checkout_response_model.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
 import 'package:flowers_app/Features/order/data/repo/order_repo_imple.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_item_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_response_entity.dart';
+import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
+import 'package:flowers_app/Features/order/domain/entities/checkout/credit_checkout_response_entity.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -62,6 +68,21 @@ void main() {
   );
   final tCartResponseModel = CartResponseModel(message: "success");
   final tCartRequest = CartRequest(product: "flowers", quantity: 3);
+  final tCashCheckoutResponseModel = CashCheckoutResponseModel(
+    message: "success",
+  );
+  final tCreditCheckoutResponseModel = CreditCheckoutResponseModel(
+    message: "success",
+  );
+  final tOrderCheckoutRequest = OrderRequest(
+    shippingAddress: ShippingAddressRequest(
+      street: "123 Flower St",
+      phone: "01000000000",
+      city: "Bloomtown",
+      lat: "30.0",
+      long: "31.0",
+    ),
+  );
   setUp(() {
     mockOrderRemoteDataSourceContract = MockOrderRemoteDataSourceContract();
     orderRepoImple = OrderRepoImple(mockOrderRemoteDataSourceContract);
@@ -133,6 +154,44 @@ void main() {
         expect(result, isA<SuccessResponse<CartResponseEntity>>());
         verify(
           mockOrderRemoteDataSourceContract.addToCart(tCartRequest),
+        ).called(1);
+      },
+    );
+    test(
+      'should return SuccessResponse when cashOrderCheckout is successful',
+      () async {
+        when(
+          mockOrderRemoteDataSourceContract.cashOrderCheckout(
+            tOrderCheckoutRequest,
+          ),
+        ).thenAnswer((_) async => tCashCheckoutResponseModel);
+        final result = await orderRepoImple.cashOrderCheckout(
+          tOrderCheckoutRequest,
+        );
+        expect(result, isA<SuccessResponse<CashCheckoutResponseEntity>>());
+        verify(
+          mockOrderRemoteDataSourceContract.cashOrderCheckout(
+            tOrderCheckoutRequest,
+          ),
+        ).called(1);
+      },
+    );
+    test(
+      'should return SuccessResponse when creditOrderCheckout is successful',
+          () async {
+        when(
+          mockOrderRemoteDataSourceContract.creditOrderCheckout(
+            tOrderCheckoutRequest,
+          ),
+        ).thenAnswer((_) async => tCreditCheckoutResponseModel);
+        final result = await orderRepoImple.creditOrderCheckout(
+          tOrderCheckoutRequest,
+        );
+        expect(result, isA<SuccessResponse<CreditCheckoutResponseEntity>>());
+        verify(
+          mockOrderRemoteDataSourceContract.creditOrderCheckout(
+            tOrderCheckoutRequest,
+          ),
         ).called(1);
       },
     );
