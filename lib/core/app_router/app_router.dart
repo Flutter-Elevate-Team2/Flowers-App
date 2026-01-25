@@ -13,6 +13,7 @@ import 'package:flowers_app/Features/commerce/presentation/products/views/screen
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
+import 'package:flowers_app/Features/order/presentation/checkout/view_model/credit_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
@@ -58,6 +59,9 @@ class Routes {
   static const String editProfilePath = '/editprofile';
   static const String editProfileName = 'editProfile';
 
+  static const String checkoutPath = '/checkout';
+  static const String checkoutName = 'checkout';
+
 }
 
 class AppRouter {
@@ -74,7 +78,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.checkoutPath,
     redirect: (context, state) async {
       final authRepo = getIt<AuthRepoContract>();
       final bool isLoggedIn = await authRepo.isLoggedIn();
@@ -215,6 +219,11 @@ class AppRouter {
         path: Routes.editProfilePath,
         name: Routes.editProfileName,
         builder: (context, state) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: Routes.checkoutPath,
+        name: Routes.checkoutName,
+        builder: (context, state) => const CheckoutScreen() ,
       ),
     ],
   );

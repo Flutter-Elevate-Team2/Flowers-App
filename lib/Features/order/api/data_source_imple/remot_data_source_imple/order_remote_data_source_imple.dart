@@ -3,6 +3,9 @@ import 'package:flowers_app/Features/order/data/data_source/order_remote_data_so
 import 'package:flowers_app/Features/order/data/models/cart/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/cart/cart_response_model.dart';
 import 'package:flowers_app/Features/order/data/models/cart/quantity_request.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/cash_checkout_response_model.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/credit/credit_checkout_response_model.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: OrderRemoteDataSourceContract)
@@ -30,5 +33,13 @@ class OrderRemoteDataSourceImple implements OrderRemoteDataSourceContract {
     QuantityRequest quantityRequest,
   ) {
     return _orderApi.updateCartProduct(id, quantityRequest);
+  }
+  @override
+  Future<CashCheckoutResponseModel>cashOrderCheckout(OrderRequest orderRequest) {
+    return _orderApi.cashOrderCheckout(orderRequest);
+  }
+  @override
+  Future<CreditCheckoutResponseModel>creditOrderCheckout(OrderRequest orderRequest) {
+    return _orderApi.creditOrderCheckout(orderRequest , "http://localhost:3000");
   }
 }
