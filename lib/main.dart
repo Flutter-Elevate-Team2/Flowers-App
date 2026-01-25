@@ -15,10 +15,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Features/order/presentation/cart/view_model/cart_events.dart';
 import 'Features/order/presentation/cart/view_model/cart_view_model.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await configureDependencies();
+
   runApp(const MyApp());
 }
 
@@ -72,7 +74,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             theme: AppTheme.lightTheme,
-        );
+          );
         },
       ),
     );

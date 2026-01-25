@@ -16,6 +16,7 @@ import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.d
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -57,7 +58,8 @@ class Routes {
   static const String resetPasswordName = 'resetPassword';
   static const String editProfilePath = '/editprofile';
   static const String editProfileName = 'editProfile';
-
+  static const String addAddressPath = '/addaddress';
+  static const String addAddressName = 'addAddress';
 }
 
 class AppRouter {
@@ -74,7 +76,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.signInPath,
+    initialLocation: Routes.addAddressName,
     redirect: (context, state) async {
       final authRepo = getIt<AuthRepoContract>();
       final bool isLoggedIn = await authRepo.isLoggedIn();
@@ -149,8 +151,7 @@ class AppRouter {
               GoRoute(
                 path: Routes.cartPath,
                 name: Routes.cartName,
-                builder: (context, state) =>
-                    const CartScreen(),
+                builder: (context, state) => const CartScreen(),
               ),
             ],
           ),
@@ -215,6 +216,11 @@ class AppRouter {
         path: Routes.editProfilePath,
         name: Routes.editProfileName,
         builder: (context, state) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: Routes.addAddressPath,
+        name: Routes.addAddressName,
+        builder: (context, state) => const AddAddressScreen(),
       ),
     ],
   );
