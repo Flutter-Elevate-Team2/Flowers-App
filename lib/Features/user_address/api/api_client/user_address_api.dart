@@ -4,7 +4,7 @@ import 'package:flowers_app/Features/user_address/data/models/edit_address_reque
 import 'package:flowers_app/Features/user_address/data/models/edit_address_response/edit_address_response.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
-import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'user_address_api.g.dart';
 
