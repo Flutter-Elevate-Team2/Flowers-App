@@ -13,6 +13,7 @@ import 'package:flowers_app/Features/commerce/presentation/products/views/screen
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/views/check_out_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
@@ -57,6 +58,9 @@ class Routes {
   static const String resetPasswordName = 'resetPassword';
   static const String editProfilePath = '/editprofile';
   static const String editProfileName = 'editProfile';
+
+  static const String checkoutPath = '/checkout';
+  static const String checkoutName = 'checkout';
 
 }
 
@@ -215,6 +219,13 @@ class AppRouter {
         path: Routes.editProfilePath,
         name: Routes.editProfileName,
         builder: (context, state) => const EditProfileScreen(),
+      ),
+
+      /// ====== Check out SCREEN ======
+      GoRoute(
+        path: Routes.checkoutPath,
+        name: Routes.checkoutName,
+        builder: (context, state) => const CheckOutScreen(),
       ),
     ],
   );
