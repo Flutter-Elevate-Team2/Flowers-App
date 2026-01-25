@@ -14,10 +14,10 @@ abstract class UserAddressApi {
   @factoryMethod
   factory UserAddressApi(Dio dio) = _UserAddressApi;
 
-  @PATCH(ApiConstants.addresses)
+  @PATCH(ApiConstants.address)
   Future<EditAddressResponse> editAddress(
     @Path("id") String id,
     @Body() EditAddressRequest body);
-  @DELETE(ApiConstants.addresses)
+  @DELETE(ApiConstants.address)
   Future<DeleteAddressResponse> deleteAddress(@Path("id") String id);
 }
