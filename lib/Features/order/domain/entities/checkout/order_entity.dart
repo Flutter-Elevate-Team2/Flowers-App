@@ -59,7 +59,6 @@ class OrderEntity extends Equatable{
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id,totalPrice,user,paymentType,isPaid,isDelivered,state,orderItems,createdAt,updatedAt,orderNumber];
 
 
