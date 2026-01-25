@@ -97,6 +97,18 @@ import '../../Features/profile/presentation/view_model/profile_view_model.dart'
     as _i149;
 import '../../Features/user_address/api/api_client/user_address_api.dart'
     as _i87;
+import '../../Features/user_address/api/data_sources_imple/user_address_remote_data_source_imple.dart'
+    as _i520;
+import '../../Features/user_address/data/data_sources/user_address_remote_data_source_contract.dart'
+    as _i832;
+import '../../Features/user_address/data/repo/user_address_repo_imple.dart'
+    as _i780;
+import '../../Features/user_address/domain/repo/user_address_repo_contract.dart'
+    as _i646;
+import '../../Features/user_address/domain/use_case/add_address_use_case.dart'
+    as _i193;
+import '../../Features/user_address/domain/use_case/get_addresses_use_case.dart'
+    as _i373;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -158,6 +170,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i87.UserAddressApi>(
       () => _i87.UserAddressApi(gh<_i361.Dio>()),
     );
+    gh.factory<_i832.UserAddressRemoteDataSourceContract>(
+      () => _i520.UserAddressRemoteDataSourceImple(gh<_i87.UserAddressApi>()),
+    );
     gh.factory<_i897.ProfileRemoteDataSourceContract>(
       () => _i652.ProfileRemoteDataSourceImpl(gh<_i255.ProfileApi>()),
     );
@@ -169,6 +184,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i10.CommerceRemoteDataSourceContract>(
       () => _i532.CommerceRemoteDataSourceImpl(gh<_i516.CommerceApi>()),
+    );
+    gh.lazySingleton<_i646.UserAddressRepoContract>(
+      () => _i780.UserAddressRepoImple(
+        gh<_i832.UserAddressRemoteDataSourceContract>(),
+      ),
     );
     gh.factory<_i596.CommerceRepoContract>(
       () => _i48.CommerceRepoImpl(gh<_i10.CommerceRemoteDataSourceContract>()),
@@ -188,6 +208,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i417.UploadPhotoUseCase>(
       () => _i417.UploadPhotoUseCase(gh<_i671.ProfileRepoContract>()),
+    );
+    gh.factory<_i193.AddAddressUseCase>(
+      () => _i193.AddAddressUseCase(gh<_i646.UserAddressRepoContract>()),
+    );
+    gh.factory<_i373.GetAddressesUseCase>(
+      () => _i373.GetAddressesUseCase(gh<_i646.UserAddressRepoContract>()),
     );
     gh.factory<_i409.CheckAuthUseCase>(
       () => _i409.CheckAuthUseCase(gh<_i30.AuthRepoContract>()),

@@ -1,3 +1,8 @@
+import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_response_entity.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
+
 abstract class UserAddressRepoContract {
-  // Define abstract methods for user address repository here
+  Future<BaseResponse<AddressResponseEntity>> addAddress(AddAddressRequest request);
+  Future<BaseResponse<AddressResponseEntity>> getAddresses();
 }
