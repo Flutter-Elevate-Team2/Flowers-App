@@ -4,6 +4,7 @@ import 'package:flowers_app/Features/user_address/data/models/city_model.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 
 class AddAddressScreenBody extends StatefulWidget {
   const AddAddressScreenBody({super.key});
@@ -115,8 +116,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
             TextFormField(
               style: Theme.of(context).textTheme.bodySmall,
               decoration: InputDecoration(
-                labelText: "Address",
-                hintText: "Enter your address",
+                labelText: context.l10n.addressLabel,
+                hintText: context.l10n.addressHint,
               ),
             ),
             SizedBox(height: 16),
@@ -124,8 +125,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               textInputAction: TextInputAction.next,
               style: Theme.of(context).textTheme.bodyMedium,
               decoration: InputDecoration(
-                labelText: "Phone Number",
-                hintText: "Enter your phone number",
+                labelText: context.l10n.phoneNumberLabel,
+                hintText: context.l10n.phoneNumberHint,
               ),
             ),
             SizedBox(height: 16),
@@ -133,8 +134,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               textInputAction: TextInputAction.next,
               style: Theme.of(context).textTheme.bodyMedium,
               decoration: InputDecoration(
-                labelText: "Recipient name",
-                hintText: "Enter recipient name",
+                labelText: context.l10n.recipientNameLabel,
+                hintText: context.l10n.recipientNameHint,
               ),
             ),
             SizedBox(height: 24),
@@ -145,13 +146,13 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                     value: _selectedCity,
                     isExpanded: true,
                     decoration: InputDecoration(
-                      labelText: "City",
+                      labelText: context.l10n.cityLabel,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
                       ),
                     ),
-                    hint: Text("Cairo"),
+                    hint: Text(context.l10n.cityHint),
                     items: _cities.map((CityModel city) {
                       return DropdownMenuItem<CityModel>(
                         value: city,
@@ -170,13 +171,13 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                     value: _selectedArea,
                     isExpanded: true,
                     decoration: InputDecoration(
-                      labelText: "Area",
+                      labelText: context.l10n.areaLabel,
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 8,
                       ),
                     ),
-                    hint: Text("October"),
+                    hint: Text(context.l10n.areaHint),
                     items: _filteredAreas.map((AreaModel area) {
                       return DropdownMenuItem<AreaModel>(
                         value: area,
@@ -198,7 +199,7 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               ],
             ),
             SizedBox(height: 48),
-            CustomButton(title: "save Address", onPressed: () {}),
+            CustomButton(title: context.l10n.saveAddress, onPressed: () {}),
           ],
         ),
       ),

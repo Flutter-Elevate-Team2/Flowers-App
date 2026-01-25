@@ -514,5 +514,28 @@
     "@required": { "description": "Validation message when a required field is empty" },
 
   "guest" : "guest",
-  "@guest" : { "description": "guest" }
+  "@guest" : { "description": "guest" },
+
+  "addressLabel": "Address",
+  "@addressLabel": { "description": "Label for address input field" },
+  "addressHint": "Enter your address",
+  "@addressHint": { "description": "Hint for address input field" },
+  "phoneNumberLabel": "Phone Number",
+  "@phoneNumberLabel": { "description": "Label for phone number input field" },
+  "phoneNumberHint": "Enter your phone number",
+  "@phoneNumberHint": { "description": "Hint for phone number input field" },
+  "recipientNameLabel": "Recipient name",
+  "@recipientNameLabel": { "description": "Label for recipient name input field" },
+  "recipientNameHint": "Enter recipient name",
+  "@recipientNameHint": { "description": "Hint for recipient name input field" },
+  "cityLabel": "City",
+  "@cityLabel": { "description": "Label for city dropdown" },
+  "cityHint": "Cairo",
+  "@cityHint": { "description": "Hint for city dropdown" },
+  "areaLabel": "Area",
+  "@areaLabel": { "description": "Label for area dropdown" },
+  "areaHint": "October",
+  "@areaHint": { "description": "Hint for area dropdown" },
+  "saveAddress": "Save Address",
+  "@saveAddress": { "description": "Button text to save address" }
 }

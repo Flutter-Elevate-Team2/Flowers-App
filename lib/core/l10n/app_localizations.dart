@@ -1045,6 +1045,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'guest'**
   String get guest;
+
+  /// Label for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
+
+  /// Hint for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your address'**
+  String get addressHint;
+
+  /// Label for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumberLabel;
+
+  /// Hint for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get phoneNumberHint;
+
+  /// Label for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient name'**
+  String get recipientNameLabel;
+
+  /// Hint for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter recipient name'**
+  String get recipientNameHint;
+
+  /// Label for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// Hint for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Cairo'**
+  String get cityHint;
+
+  /// Label for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaLabel;
+
+  /// Hint for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get areaHint;
+
+  /// Button text to save address
+  ///
+  /// In en, this message translates to:
+  /// **'Save Address'**
+  String get saveAddress;
 }
 
 class _AppLocalizationsDelegate

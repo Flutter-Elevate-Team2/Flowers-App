@@ -493,4 +493,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guest => 'guest';
+
+  @override
+  String get addressLabel => 'Address';
+
+  @override
+  String get addressHint => 'Enter your address';
+
+  @override
+  String get phoneNumberLabel => 'Phone Number';
+
+  @override
+  String get phoneNumberHint => 'Enter your phone number';
+
+  @override
+  String get recipientNameLabel => 'Recipient name';
+
+  @override
+  String get recipientNameHint => 'Enter recipient name';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get cityHint => 'Cairo';
+
+  @override
+  String get areaLabel => 'Area';
+
+  @override
+  String get areaHint => 'October';
+
+  @override
+  String get saveAddress => 'Save Address';
 }
