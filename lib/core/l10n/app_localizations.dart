@@ -1045,6 +1045,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'guest'**
   String get guest;
+
+  /// Button text to add a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Add new address'**
+  String get addNewAddress;
 }
 
 class _AppLocalizationsDelegate

@@ -1,10 +1,9 @@
-import 'package:flowers_app/Features/user_address/data/models/delete_address_response/delete_address_response.dart';
-import 'package:flowers_app/Features/user_address/data/models/edit_address_response/address.dart';
-import 'package:flowers_app/Features/user_address/data/models/edit_address_response/edit_address_response.dart';
+import 'package:flowers_app/Features/user_address/data/models/address_dto.dart';
+import 'package:flowers_app/Features/user_address/data/models/address_response_model.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_response_entity.dart';
 
-extension AddressDtoMapper on Address {
+extension AddressDtoMapper on AddressDto {
   AddressEntity toEntity() {
     return AddressEntity(
       id: id ?? '',
@@ -18,20 +17,11 @@ extension AddressDtoMapper on Address {
   }
 }
 
-extension EditAddressResponseMapper on EditAddressResponse  {
+extension AddressResponseMapper on AddressResponseModel {
   AddressResponseEntity toEntity() {
     return AddressResponseEntity(
       message: message ?? '',
-      addresses: address?.map((e) => e.toEntity()).toList() ?? [],
-    );
-  }
-}
-extension DeleteAddressResponseMapper on DeleteAddressResponse  {
-  AddressResponseEntity toEntity() {
-    return AddressResponseEntity(
-      message: message ?? '',
-      addresses: address?.map((e) => e.toEntity()).toList() ?? [],
-
+      addresses: addresses?.map((e) => e.toEntity()).toList() ?? [],
     );
   }
 }

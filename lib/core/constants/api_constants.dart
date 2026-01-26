@@ -15,7 +15,6 @@ class ApiConstants {
   static const String uploadPhoto = "auth/upload-photo";
   static const String changePassword = "/auth/change-password";
   static const String logout = "/auth/logout";
-  static const String address = "/address{id}";
 
   // ================= Products Endpoints =================
   static const String getProducts = "/products";
@@ -27,5 +26,8 @@ class ApiConstants {
 
 // ================= Cart Endpoints =================
 static const String cart="/cart";
+
+// ================= Address Endpoints =================
+static const String addresses="/addresses";
 
 }

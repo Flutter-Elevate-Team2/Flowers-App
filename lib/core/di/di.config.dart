@@ -105,6 +105,10 @@ import '../../Features/user_address/data/repo/user_address_repo_imple.dart'
     as _i780;
 import '../../Features/user_address/domain/repo/user_address_repo_contract.dart'
     as _i646;
+import '../../Features/user_address/domain/use_case/add_address_use_case.dart'
+    as _i193;
+import '../../Features/user_address/domain/use_case/get_addresses_use_case.dart'
+    as _i373;
 import '../../Features/user_address/domain/use_case/user_address_use_case.dart'
     as _i761;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
@@ -253,6 +257,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i761.UserAddressUseCase>(
       () => _i761.UserAddressUseCase(gh<_i646.UserAddressRepoContract>()),
+    );
+    gh.factory<_i193.AddAddressUseCase>(
+      () => _i193.AddAddressUseCase(gh<_i646.UserAddressRepoContract>()),
+    );
+    gh.factory<_i373.GetAddressesUseCase>(
+      () => _i373.GetAddressesUseCase(gh<_i646.UserAddressRepoContract>()),
     );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(

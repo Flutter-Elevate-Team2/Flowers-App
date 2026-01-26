@@ -493,4 +493,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guest => 'guest';
+
+  @override
+  String get addNewAddress => 'Add new address';
 }

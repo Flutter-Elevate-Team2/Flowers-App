@@ -1,11 +1,13 @@
-import 'package:flowers_app/Features/user_address/data/models/delete_address_response/delete_address_response.dart';
+import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
+import 'package:flowers_app/Features/user_address/data/models/address_response_model.dart';
 import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
-import 'package:flowers_app/Features/user_address/data/models/edit_address_response/edit_address_response.dart';
 
 abstract class UserAddressRemoteDataSourceContract {
-  Future<EditAddressResponse> editAddress(
+  Future<AddressResponseModel> editAddress(
     EditAddressRequest editAddressRequest,
-    String id
+    String id,
   );
-  Future<DeleteAddressResponse> deleteAddress(String id);
+  Future<AddressResponseModel> deleteAddress(String id);
+  Future<AddressResponseModel> addAddress(AddAddressRequest request);
+  Future<AddressResponseModel> getAddresses();
 }

@@ -489,4 +489,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guest => 'زائر';
+
+  @override
+  String get addNewAddress => 'إضافة عنوان جديد';
 }
