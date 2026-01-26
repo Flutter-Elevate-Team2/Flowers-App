@@ -1,5 +1,4 @@
 import 'package:flowers_app/Features/user_address/presentation/views/widgets/add_address_screen_body.dart';
-import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,7 +11,7 @@ class AddAddressScreen extends StatelessWidget {
       appBar: AppBar(
           leadingWidth: 50,
           titleSpacing: 0,
-        title: Text( context.l10n.addressLabel),
+        title: Text("Address"),
         leading: IconButton(
           padding: EdgeInsets.zero,
           constraints: BoxConstraints(),

@@ -169,5 +169,6 @@
   "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
   "failedToPickImage": "فشل في اختيار الصورة: {error}",
   "required": "مطلوب",
-  "guest": "زائر"
+  "guest": "زائر",
+  "addNewAddress": "إضافة عنوان جديد"
 }

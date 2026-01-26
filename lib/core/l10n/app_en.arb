@@ -136,7 +136,7 @@
   "@genderFemale": {
     "description": "Option for female gender"
   },
- 
+
   "forgotPasswordTitle": "Forget password",
   "@forgotPasswordTitle": {
     "description": "Title for the forgot password screen"
@@ -164,7 +164,7 @@
   "@resetPasswordTitle": { "description": "Title for the reset password screen" },
   "resetPasswordSubTitle": "Password must not be empty and must contain 6 characters with upper case letter and one number at least ",
   "@resetPasswordSubTitle": { "description": "Subtitle instructions for reset password" },
-  
+
   "newPasswordLabel": "New password",
   "@newPasswordLabel": {
     "description": "Label for the new password input field"
@@ -209,8 +209,8 @@
   "@phoneRequired": { "description": "Validation message when phone is empty" },
   "phoneInvalid": "Ensure the number starts with +20",
   "@phoneInvalid": { "description": "Validation message when phone format is wrong" },
-  
- 
+
+
   "validationEnterCompleteCode": "Please enter complete 6-digit code",
   "@validationEnterCompleteCode": {
     "description": "Validation message for incomplete OTP code"
@@ -537,5 +537,7 @@
   "areaHint": "October",
   "@areaHint": { "description": "Hint for area dropdown" },
   "saveAddress": "Save Address",
-  "@saveAddress": { "description": "Button text to save address" }
+  "@saveAddress": { "description": "Button text to save address" },
+  "addNewAddress": "Add new address",
+  "@addNewAddress": { "description": "Button text to add a new address" }
 }

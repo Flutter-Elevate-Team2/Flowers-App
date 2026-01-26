@@ -522,4 +522,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get saveAddress => 'Save Address';
+
+  @override
+  String get addNewAddress => 'إضافة عنوان جديد';
 }

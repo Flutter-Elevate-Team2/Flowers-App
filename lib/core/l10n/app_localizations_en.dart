@@ -526,4 +526,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveAddress => 'Save Address';
+
+  @override
+  String get addNewAddress => 'Add new address';
 }
