@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/area_model.dart';
 import 'package:flowers_app/Features/user_address/data/models/city_model.dart';
+import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
@@ -16,7 +18,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddAddressScreenBody extends StatefulWidget {
-  const AddAddressScreenBody({super.key});
+  final AddressEntity? addressToEdit;
+
+  const AddAddressScreenBody({super.key, this.addressToEdit});
 
   @override
   State<AddAddressScreenBody> createState() => _AddAddressScreenBodyState();
@@ -40,6 +44,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   final TextEditingController _nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool get _isEditMode => widget.addressToEdit != null;
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +65,34 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   Future<void> _loadData() async {
     await _loadCities();
     await _loadAreas();
+
+    if (!mounted) return;
+    if (_isEditMode) {
+      _prefillEditData();
+    }
+  }
+
+  void _prefillEditData() {
+    final address = widget.addressToEdit!;
+
+    // Pre-fill text fields
+    _addressController.text = address.street;
+    _phoneController.text = address.phone;
+    _nameController.text = address.username;
+
+    // Pre-fill location
+    _lat = double.tryParse(address.lat);
+    _long = double.tryParse(address.long);
+    _updateMarker();
+
+    // Pre-fill city (need to wait for cities to load)
+    if (_cities.isNotEmpty) {
+      _selectedCity = _cities.firstWhere(
+        (city) => city.governorateNameEn == address.city,
+        orElse: () => _cities.first,
+      );
+      _onCityChanged(_selectedCity);
+    }
   }
 
   Future<void> _loadCities() async {
@@ -81,6 +115,16 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
               .toList();
         });
+
+        // Pre-fill city if editing and cities just loaded
+        if (_isEditMode && _selectedCity == null) {
+          final address = widget.addressToEdit!;
+          _selectedCity = _cities.firstWhere(
+            (city) => city.governorateNameEn == address.city,
+            orElse: () => _cities.first,
+          );
+          _onCityChanged(_selectedCity);
+        }
       }
     } catch (e) {
       debugPrint('Error loading cities: $e');
@@ -116,7 +160,10 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   void _onCityChanged(CityModel? city) {
     setState(() {
       _selectedCity = city;
-      _selectedArea = null;
+      // Only reset area if not in edit mode or if city actually changed
+      if (!_isEditMode || _selectedArea?.governorateId != city?.id) {
+        _selectedArea = null;
+      }
       if (city != null) {
         _filteredAreas = _areas
             .where((area) => area.governorateId == city.id)
@@ -171,15 +218,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
       });
 
       await _updateMapLocation(_lat!, _long!);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Location Selected: $_lat, $_long"),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      }
     }
   }
 
@@ -188,7 +226,13 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
     return BlocProvider(
       create: (context) => getIt<UserAddressViewModel>(),
       child: BlocConsumer<UserAddressViewModel, UserAddressState>(
+        listenWhen: (previous, current) {
+          // Only listen when add or edit state actually changes
+          return previous.addAddressState != current.addAddressState ||
+              previous.editAddressState != current.editAddressState;
+        },
         listener: (context, state) {
+          // Handle add address response
           if (state.addAddressState?.isLoading == false) {
             if (state.addAddressState?.errorMessage != null) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -201,8 +245,26 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               context.pop();
             }
           }
+
+          // Handle edit address response
+          if (state.editAddressState?.isLoading == false) {
+            if (state.editAddressState?.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.editAddressState!.errorMessage!)),
+              );
+            } else if (state.editAddressState?.data != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Address updated successfully")),
+              );
+              context.pop();
+            }
+          }
         },
         builder: (context, state) {
+          final isLoading =
+              state.addAddressState?.isLoading == true ||
+              state.editAddressState?.isLoading == true;
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -401,10 +463,12 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                       ],
                     ),
                     const SizedBox(height: 48),
-                    state.addAddressState?.isLoading == true
+                    isLoading
                         ? const CircularProgressIndicator()
                         : CustomButton(
-                            title: "save Address",
+                            title: _isEditMode
+                                ? "Update Address"
+                                : "Save Address",
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 if (_lat == null || _long == null) {
@@ -418,18 +482,38 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   return;
                                 }
 
-                                final request = AddAddressRequest(
-                                  street: _addressController.text,
-                                  phone: _phoneController.text,
-                                  username: _nameController.text,
-                                  city: _selectedCity?.governorateNameEn,
-                                  lat: _lat.toString(),
-                                  long: _long.toString(),
-                                );
+                                if (_isEditMode) {
+                                  // Edit existing address
+                                  final request = EditAddressRequest(
+                                    street: _addressController.text,
+                                    phone: _phoneController.text,
+                                    username: _nameController.text,
+                                    city: _selectedCity?.governorateNameEn,
+                                    lat: _lat.toString(),
+                                    long: _long.toString(),
+                                  );
 
-                                context.read<UserAddressViewModel>().doIntent(
-                                  AddAddressEvent(request),
-                                );
+                                  context.read<UserAddressViewModel>().doIntent(
+                                    EditAddressEvent(
+                                      request,
+                                      widget.addressToEdit!.id,
+                                    ),
+                                  );
+                                } else {
+                                  // Add new address
+                                  final request = AddAddressRequest(
+                                    street: _addressController.text,
+                                    phone: _phoneController.text,
+                                    username: _nameController.text,
+                                    city: _selectedCity?.governorateNameEn,
+                                    lat: _lat.toString(),
+                                    long: _long.toString(),
+                                  );
+
+                                  context.read<UserAddressViewModel>().doIntent(
+                                    AddAddressEvent(request),
+                                  );
+                                }
                               }
                             },
                           ),

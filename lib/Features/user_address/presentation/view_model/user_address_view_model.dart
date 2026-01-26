@@ -41,6 +41,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
   }
 
   Future<void> _getAddresses() async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         getAddressesState: BaseState<AddressResponseEntity>(isLoading: true),
@@ -51,6 +52,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
 
     switch (response) {
       case SuccessResponse<AddressResponseEntity>():
+        if (isClosed) return;
         emit(
           state.copyWith(
             getAddressesState: BaseState(isLoading: false, data: response.data),
@@ -59,6 +61,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
         break;
 
       case ErrorResponse<AddressResponseEntity>():
+        if (isClosed) return;
         emit(
           state.copyWith(
             getAddressesState: BaseState(
@@ -82,13 +85,14 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
 
     switch (response) {
       case SuccessResponse<AddressResponseEntity>():
+        if (isClosed) return;
         emit(
           state.copyWith(
             addAddressState: BaseState(isLoading: false, data: response.data),
           ),
         );
-        // Refresh list after add
-        _getAddresses();
+        // Don't refresh here - let the screen handle it after navigation
+        // _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -115,13 +119,14 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
 
     switch (response) {
       case SuccessResponse<AddressResponseEntity>():
+        if (isClosed) return;
         emit(
           state.copyWith(
             editAddressState: BaseState(isLoading: false, data: response.data),
           ),
         );
-        // Refresh list after edit
-        _getAddresses();
+        // Don't refresh here - let the screen handle it after navigation
+        // _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -148,6 +153,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
 
     switch (response) {
       case SuccessResponse<AddressResponseEntity>():
+        if (isClosed) return;
         emit(
           state.copyWith(
             deleteAddressState: BaseState(
@@ -157,7 +163,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
           ),
         );
         // Refresh list after delete
-        _getAddresses();
+        await _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -171,5 +177,12 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
         );
         break;
     }
+  }
+
+  /// Resets the delete state to prevent snackbar from showing again
+  void resetDeleteState() {
+    emit(
+      state.copyWith(deleteAddressState: BaseState<AddressResponseEntity>()),
+    );
   }
 }

@@ -43,6 +43,11 @@ class SavedAddressScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: BlocConsumer<UserAddressViewModel, UserAddressState>(
+                    listenWhen: (previous, current) {
+                      // Only listen when deleteAddressState actually changes
+                      return previous.deleteAddressState !=
+                          current.deleteAddressState;
+                    },
                     listener: (context, state) {
                       if (state.deleteAddressState?.errorMessage != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -60,6 +65,8 @@ class SavedAddressScreen extends StatelessWidget {
                             content: Text("Address deleted successfully"),
                           ),
                         );
+                        // Reset delete state to prevent snackbar from showing again
+                        context.read<UserAddressViewModel>().resetDeleteState();
                       }
                     },
                     builder: (context, state) {
@@ -91,7 +98,17 @@ class SavedAddressScreen extends StatelessWidget {
                               );
                             },
                             onEdit: () {
-                              // TODO: Navigate to edit screen with EditAddressEvent intent
+                              context
+                                  .pushNamed(
+                                    Routes.addAddressName,
+                                    extra: addresses[index],
+                                  )
+                                  .then((_) {
+                                    if (!context.mounted) return;
+                                    context
+                                        .read<UserAddressViewModel>()
+                                        .doIntent(GetAddressesEvent());
+                                  });
                             },
                           );
                         },
@@ -104,7 +121,6 @@ class SavedAddressScreen extends StatelessWidget {
                   builder: (context) {
                     return AddAddressButton(
                       onPressed: () {
-                        
                         context.pushNamed(Routes.addAddressName).then((_) {
                           if (!context.mounted) return;
                           context.read<UserAddressViewModel>().doIntent(
