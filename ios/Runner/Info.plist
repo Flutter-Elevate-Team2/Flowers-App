@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GMSApiKey</key>
+	<string>AIzaSyBx10ci4eMaIGUs9BEe4wPzs2dZuclIeD0</string>
+	<key>MBXAccessToken</key>
+	<string>pk.eyJ1IjoibW9oYTI3MHgiLCJhIjoiY21rcmw1Ym1iMHplbjNicjJ4b295d3g0NiJ9.9SGyBfuahHPa824KCurCTw</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is required to select your address.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

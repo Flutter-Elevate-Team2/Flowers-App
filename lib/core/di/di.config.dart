@@ -111,6 +111,8 @@ import '../../Features/user_address/domain/use_case/get_addresses_use_case.dart'
     as _i373;
 import '../../Features/user_address/domain/use_case/user_address_use_case.dart'
     as _i761;
+import '../../Features/user_address/presentation/view_model/user_address_view_model.dart'
+    as _i764;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -255,14 +257,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i13.VerifyPasswordUsecase>(
       () => _i13.VerifyPasswordUsecase(gh<_i30.AuthRepoContract>()),
     );
-    gh.factory<_i761.UserAddressUseCase>(
-      () => _i761.UserAddressUseCase(gh<_i646.UserAddressRepoContract>()),
-    );
     gh.factory<_i193.AddAddressUseCase>(
       () => _i193.AddAddressUseCase(gh<_i646.UserAddressRepoContract>()),
     );
     gh.factory<_i373.GetAddressesUseCase>(
       () => _i373.GetAddressesUseCase(gh<_i646.UserAddressRepoContract>()),
+    );
+    gh.factory<_i761.UserAddressUseCase>(
+      () => _i761.UserAddressUseCase(gh<_i646.UserAddressRepoContract>()),
     );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(
@@ -306,6 +308,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i183.ProductsUseCase>(
       () => _i183.ProductsUseCase(gh<_i596.CommerceRepoContract>()),
+    );
+    gh.factory<_i764.UserAddressViewModel>(
+      () => _i764.UserAddressViewModel(
+        gh<_i373.GetAddressesUseCase>(),
+        gh<_i193.AddAddressUseCase>(),
+        gh<_i761.UserAddressUseCase>(),
+      ),
     );
     gh.factory<_i945.HomeViewModel>(
       () => _i945.HomeViewModel(gh<_i783.GetHomeSectionsUseCase>()),

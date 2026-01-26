@@ -32,9 +32,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   dio: ^5.9.0
   dio_cache_interceptor: ^4.0.5
+  equatable: ^2.0.7
   firebase_auth: ^6.1.3
   firebase_core: ^4.3.0
-  pretty_dio_logger: ^1.4.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
@@ -43,37 +43,40 @@ dependencies:
   flutter_svg: ^2.2.3
   get_it: ^9.2.0
   go_router: ^16.3.0
+  google_api_availability: ^5.0.1
+  google_maps_flutter: ^2.14.0
   hive: ^2.2.3
   image_picker: ^1.2.1
   injectable: ^2.5.2
   intl: ^0.20.2
-  path_provider: ^2.1.5
-  pinput: ^5.0.2
-  retrofit: ">=4.8.0 <4.9.0"
-  logger: ^2.6.0
   json_annotation: ^4.9.0
+  logger: ^2.6.0
+  lottie: ^3.3.2
+  mapbox_maps_flutter: ^2.18.0
+  palette_generator: ^0.3.3+7
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1
+  pinput: ^5.0.2
+  pretty_dio_logger: ^1.4.0
+  retrofit: ">=4.8.0 <4.9.0"
   shared_preferences: ^2.5.3
   shimmer: ^3.0.0
   skeletonizer: ^2.1.0+1
   smooth_page_indicator: ^2.0.1
-  equatable: ^2.0.7
-  palette_generator: ^0.3.3+7
-  lottie: ^3.3.2
 
 dev_dependencies:
-  retrofit_generator: ^9.1.5
+  bloc_test: ^10.0.0
   build_runner: ^2.4.8
-  json_serializable: ^6.8.0
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
   injectable_generator: ^2.6.2
+  json_serializable: ^6.8.0
   mockito: ^5.4.4
-  bloc_test: ^10.0.0
+  retrofit_generator: ^9.1.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
