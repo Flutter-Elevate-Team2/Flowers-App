@@ -4,6 +4,7 @@ import 'package:flowers_app/Features/user_address/presentation/view_model/user_a
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/widgets/add_address_button.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/widgets/address_card.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -103,12 +104,8 @@ class SavedAddressScreen extends StatelessWidget {
                   builder: (context) {
                     return AddAddressButton(
                       onPressed: () {
-                        // We need to refresh the list when returning from Add Address
-                        context.push('/addAddress').then((_) {
-                          // If using the same instance (if singleton) we might not need this if logic refreshes.
-                          // Since we are creating new Provider in AddAddressScreen, we might need to refresh here.
-                          // But checking above code: SavedAddress creates its OWN provider. AddAddress creates its OWN provider.
-                          // So returning here, this provider is still alive. We should refresh.
+                        
+                        context.pushNamed(Routes.addAddressName).then((_) {
                           if (!context.mounted) return;
                           context.read<UserAddressViewModel>().doIntent(
                             GetAddressesEvent(),
