@@ -9,6 +9,7 @@ import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/user_orders_response_model.dart';
 
 part 'order_api.g.dart';
 
@@ -43,4 +44,6 @@ abstract class OrderApi {
     @Body() OrderRequest orderRequest,
     @Query("url") String redirectUrl,
   );
+  @GET(ApiConstants.orders)
+  Future<UserOrdersResponseModel> getUserOrders();
 }

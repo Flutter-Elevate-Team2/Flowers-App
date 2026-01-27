@@ -4,6 +4,7 @@ import 'package:flowers_app/Features/order/data/models/checkout/order_request_dt
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/credit_checkout_response_entity.dart';
+import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_response_entity.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 
 abstract class OrderRepoContract {
@@ -20,4 +21,6 @@ abstract class OrderRepoContract {
   Future<BaseResponse<CreditCheckoutResponseEntity>> creditOrderCheckout(
       OrderRequest orderRequest,
       );
+  Future<BaseResponse<UserOrdersResponseEntity>> getUserOrders();
+
 }

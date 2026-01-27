@@ -7,6 +7,7 @@ import 'package:flowers_app/Features/order/data/models/checkout/cash_checkout_re
 import 'package:flowers_app/Features/order/data/models/checkout/credit/credit_checkout_response_model.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/user_orders_response_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -22,6 +23,9 @@ void main() {
     message: "success",
   );
   final tCreditCheckoutResponseModel = CreditCheckoutResponseModel(
+    message: "success",
+  );
+  final tUserOrdersResponseModel = UserOrdersResponseModel(
     message: "success",
   );
   final tCartRequest = CartRequest(product: "flowers", quantity: 3);
@@ -156,6 +160,25 @@ void main() {
         expect(result, isA<CreditCheckoutResponseModel>());
         verify(
           mockOrderApi.creditOrderCheckout(tOrderCheckoutRequest, "http://localhost:3000",),
+        ).called(1);
+      },
+    );
+
+    test(
+      'should return SuccessResponse when getUserOrders is successful',
+          () async {
+        // Arrange
+        when(
+          mockOrderApi.getUserOrders(),
+        ).thenAnswer((_) async => tUserOrdersResponseModel);
+
+        // Act
+        final result = await orderRemoteDataSourceImple.getUserOrders();
+
+        // Assert
+        expect(result, isA<UserOrdersResponseModel>());
+        verify(
+          mockOrderApi.getUserOrders(),
         ).called(1);
       },
     );
