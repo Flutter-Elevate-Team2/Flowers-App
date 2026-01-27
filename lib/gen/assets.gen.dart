@@ -18,6 +18,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/flower_logo.svg
   String get flowerLogo => 'assets/icons/flower_logo.svg';
 
+  /// File path: assets/icons/location_dot.svg
+  String get locationDot => 'assets/icons/location_dot.svg';
+
   /// List of all assets
   List<String> get values => [photo, flowerLogo];
 }
