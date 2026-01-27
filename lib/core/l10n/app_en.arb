@@ -546,5 +546,13 @@
   "edit": "Edit",
   "@edit": { "description": "Button text to edit an address" },
   "placeOrder": "Place order",
-  "@placeOrder": { "description": "Button text to place the order" }
+  "@placeOrder": { "description": "Button text to place the order" },
+  "thankYou": "Thank you!",
+  "@thankYou": { "description": "Thank you message"},
+  "goToHome": "Go to home",
+  "@goToHome": { "description": "Button text to go to home"},
+  "placedSuccessfully": "Your order has been placed successfully.\\nWe’ll start preparing it right away \uD83C\uDF38",
+  "@placedSuccessfully": { "description": "Success message after order placement" },
+  "creditCheckout": "Credit Checkout",
+  "@creditCheckout": { "description": "Title for credit card checkout"}
 }

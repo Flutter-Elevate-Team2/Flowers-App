@@ -186,5 +186,9 @@
   "deliveryAddress": "عنوان التوصيل",
   "addNew": "إضافة جديد",
   "edit": "تعديل",
-  "placeOrder": "تأكيد الطلب"
+  "placeOrder": "تأكيد الطلب",
+  "thankYou": "شكرًا لك!",
+  "goToHome": "الذهاب إلى الصفحة الرئيسية",
+  "placedSuccessfully": "تم تأكيد طلبك بنجاح.\nسنبدأ في تحضيره فورًا 🌸",
+  "creditCheckout": "الدفع بالبطاقة"
 }
