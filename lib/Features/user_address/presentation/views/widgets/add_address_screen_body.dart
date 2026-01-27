@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/area_model.dart';
 import 'package:flowers_app/Features/user_address/data/models/city_model.dart';
@@ -10,6 +9,7 @@ import 'package:flowers_app/Features/user_address/presentation/view_model/user_a
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/map_location_picker.dart';
 import 'package:flowers_app/core/di/di.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -74,18 +74,13 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
 
   void _prefillEditData() {
     final address = widget.addressToEdit!;
-
-    // Pre-fill text fields
     _addressController.text = address.street;
     _phoneController.text = address.phone;
     _nameController.text = address.username;
-
-    // Pre-fill location
     _lat = double.tryParse(address.lat);
     _long = double.tryParse(address.long);
     _updateMarker();
 
-    // Pre-fill city (need to wait for cities to load)
     if (_cities.isNotEmpty) {
       _selectedCity = _cities.firstWhere(
         (city) => city.governorateNameEn == address.city,
@@ -116,7 +111,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               .toList();
         });
 
-        // Pre-fill city if editing and cities just loaded
         if (_isEditMode && _selectedCity == null) {
           final address = widget.addressToEdit!;
           _selectedCity = _cities.firstWhere(
@@ -160,7 +154,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   void _onCityChanged(CityModel? city) {
     setState(() {
       _selectedCity = city;
-      // Only reset area if not in edit mode or if city actually changed
       if (!_isEditMode || _selectedArea?.governorateId != city?.id) {
         _selectedArea = null;
       }
@@ -227,12 +220,10 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
       create: (context) => getIt<UserAddressViewModel>(),
       child: BlocConsumer<UserAddressViewModel, UserAddressState>(
         listenWhen: (previous, current) {
-          // Only listen when add or edit state actually changes
           return previous.addAddressState != current.addAddressState ||
               previous.editAddressState != current.editAddressState;
         },
         listener: (context, state) {
-          // Handle add address response
           if (state.addAddressState?.isLoading == false) {
             if (state.addAddressState?.errorMessage != null) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -240,13 +231,12 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               );
             } else if (state.addAddressState?.data != null) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Address added successfully")),
+                SnackBar(content: Text(context.l10n.addressAddedSuccess)),
               );
               context.pop();
             }
           }
 
-          // Handle edit address response
           if (state.editAddressState?.isLoading == false) {
             if (state.editAddressState?.errorMessage != null) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -254,7 +244,7 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
               );
             } else if (state.editAddressState?.data != null) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Address updated successfully")),
+                SnackBar(content: Text(context.l10n.addressUpdatedSuccess)),
               );
               context.pop();
             }
@@ -274,7 +264,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                   children: [
                     const SizedBox(height: 24),
 
-                    // Live Map Preview Card
                     GestureDetector(
                       onTap: _pickLocationOnMap,
                       child: ClipRRect(
@@ -311,7 +300,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                 mapToolbarEnabled: false,
                                 compassEnabled: false,
                               ),
-                              // Tap to Edit Overlay
                               Positioned(
                                 bottom: 12,
                                 right: 12,
@@ -331,14 +319,14 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                       ),
                                     ],
                                   ),
-                                  child: const Row(
+                                  child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(Icons.edit_location, size: 18),
-                                      SizedBox(width: 4),
+                                      const Icon(Icons.edit_location, size: 18),
+                                      const SizedBox(width: 4),
                                       Text(
-                                        'Tap to change',
-                                        style: TextStyle(fontSize: 12),
+                                        context.l10n.tapToChange,
+                                        style: const TextStyle(fontSize: 12),
                                       ),
                                     ],
                                   ),
@@ -355,14 +343,14 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                       controller: _addressController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter address';
+                          return context.l10n.addressRequired;
                         }
                         return null;
                       },
                       style: Theme.of(context).textTheme.bodySmall,
-                      decoration: const InputDecoration(
-                        labelText: "Address",
-                        hintText: "Enter your address",
+                      decoration: InputDecoration(
+                        labelText: context.l10n.addressLabel,
+                        hintText: context.l10n.addressHint,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -370,16 +358,16 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                       controller: _phoneController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter phone';
+                          return context.l10n.phoneNumberRequired;
                         }
                         return null;
                       },
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.phone,
                       style: Theme.of(context).textTheme.bodyMedium,
-                      decoration: const InputDecoration(
-                        labelText: "Phone Number",
-                        hintText: "Enter your phone number",
+                      decoration: InputDecoration(
+                        labelText: context.l10n.phoneNumberLabel,
+                        hintText: context.l10n.phoneNumberHint,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -387,15 +375,15 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                       controller: _nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter name';
+                          return context.l10n.recipientNameRequired;
                         }
                         return null;
                       },
                       textInputAction: TextInputAction.next,
                       style: Theme.of(context).textTheme.bodyMedium,
-                      decoration: const InputDecoration(
-                        labelText: "Recipient name",
-                        hintText: "Enter recipient name",
+                      decoration: InputDecoration(
+                        labelText: context.l10n.recipientNameLabel,
+                        hintText: context.l10n.recipientNameHint,
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -405,21 +393,26 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                           child: DropdownButtonFormField<CityModel>(
                             initialValue: _selectedCity,
                             validator: (value) =>
-                                value == null ? 'Required' : null,
+                                value == null ? context.l10n.required : null,
                             isExpanded: true,
-                            decoration: const InputDecoration(
-                              labelText: "City",
-                              contentPadding: EdgeInsets.symmetric(
+                            decoration: InputDecoration(
+                              labelText: context.l10n.cityLabel,
+                              contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 8,
                               ),
                             ),
-                            hint: const Text("Cairo"),
+                            hint: Text(context.l10n.cairoHint),
                             items: _cities.map((CityModel city) {
                               return DropdownMenuItem<CityModel>(
                                 value: city,
                                 child: Text(
-                                  city.governorateNameEn,
+                                  Localizations.localeOf(
+                                            context,
+                                          ).languageCode ==
+                                          'ar'
+                                      ? city.governorateNameAr
+                                      : city.governorateNameEn,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               );
@@ -432,21 +425,26 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                           child: DropdownButtonFormField<AreaModel>(
                             initialValue: _selectedArea,
                             validator: (value) =>
-                                value == null ? 'Required' : null,
+                                value == null ? context.l10n.required : null,
                             isExpanded: true,
-                            decoration: const InputDecoration(
-                              labelText: "Area",
-                              contentPadding: EdgeInsets.symmetric(
+                            decoration: InputDecoration(
+                              labelText: context.l10n.areaLabel,
+                              contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 8,
                               ),
                             ),
-                            hint: const Text("October"),
+                            hint: Text(context.l10n.octoberHint),
                             items: _filteredAreas.map((AreaModel area) {
                               return DropdownMenuItem<AreaModel>(
                                 value: area,
                                 child: Text(
-                                  area.cityNameEn,
+                                  Localizations.localeOf(
+                                            context,
+                                          ).languageCode ==
+                                          'ar'
+                                      ? area.cityNameAr
+                                      : area.cityNameEn,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               );
@@ -467,15 +465,15 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                         ? const CircularProgressIndicator()
                         : CustomButton(
                             title: _isEditMode
-                                ? "Update Address"
-                                : "Save Address",
+                                ? context.l10n.updateAddress
+                                : context.l10n.saveAddress,
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 if (_lat == null || _long == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
+                                    SnackBar(
                                       content: Text(
-                                        "Please pick a location on map",
+                                        context.l10n.pleasePickLocation,
                                       ),
                                     ),
                                   );
@@ -483,7 +481,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                 }
 
                                 if (_isEditMode) {
-                                  // Edit existing address
                                   final request = EditAddressRequest(
                                     street: _addressController.text,
                                     phone: _phoneController.text,
@@ -500,7 +497,6 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                     ),
                                   );
                                 } else {
-                                  // Add new address
                                   final request = AddAddressRequest(
                                     street: _addressController.text,
                                     phone: _phoneController.text,

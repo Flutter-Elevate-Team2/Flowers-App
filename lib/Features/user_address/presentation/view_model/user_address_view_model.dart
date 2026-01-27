@@ -91,8 +91,6 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
             addAddressState: BaseState(isLoading: false, data: response.data),
           ),
         );
-        // Don't refresh here - let the screen handle it after navigation
-        // _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -125,8 +123,6 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
             editAddressState: BaseState(isLoading: false, data: response.data),
           ),
         );
-        // Don't refresh here - let the screen handle it after navigation
-        // _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -162,7 +158,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
             ),
           ),
         );
-        // Refresh list after delete
+        
         await _getAddresses();
         break;
 
@@ -179,7 +175,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
     }
   }
 
-  /// Resets the delete state to prevent snackbar from showing again
+  
   void resetDeleteState() {
     emit(
       state.copyWith(deleteAddressState: BaseState<AddressResponseEntity>()),

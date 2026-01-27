@@ -6,6 +6,7 @@ import 'package:flowers_app/Features/user_address/presentation/views/widgets/add
 import 'package:flowers_app/Features/user_address/presentation/views/widgets/address_card.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/di/di.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,6 @@ class SavedAddressScreen extends StatelessWidget {
                 Expanded(
                   child: BlocConsumer<UserAddressViewModel, UserAddressState>(
                     listenWhen: (previous, current) {
-                      // Only listen when deleteAddressState actually changes
                       return previous.deleteAddressState !=
                           current.deleteAddressState;
                     },
@@ -61,11 +61,10 @@ class SavedAddressScreen extends StatelessWidget {
                       if (state.deleteAddressState?.data != null &&
                           state.deleteAddressState?.isLoading == false) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Address deleted successfully"),
+                          SnackBar(
+                            content: Text(context.l10n.addressDeletedSuccess),
                           ),
                         );
-                        // Reset delete state to prevent snackbar from showing again
                         context.read<UserAddressViewModel>().resetDeleteState();
                       }
                     },
@@ -84,7 +83,9 @@ class SavedAddressScreen extends StatelessWidget {
                           state.getAddressesState?.data?.addresses ?? [];
 
                       if (addresses.isEmpty) {
-                        return const Center(child: Text("No saved addresses"));
+                        return Center(
+                          child: Text(context.l10n.noSavedAddresses),
+                        );
                       }
 
                       return ListView.builder(

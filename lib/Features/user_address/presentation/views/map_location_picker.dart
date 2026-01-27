@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_api_availability/google_api_availability.dart';
@@ -13,7 +14,7 @@ class MapLocationPicker extends StatefulWidget {
 
   const MapLocationPicker({
     super.key,
-    this.initialLat = 30.0444, // Default to Cairo
+    this.initialLat = 30.0444,
     this.initialLong = 31.2357,
   });
 
@@ -24,17 +25,13 @@ class MapLocationPicker extends StatefulWidget {
 class _MapLocationPickerState extends State<MapLocationPicker> {
   bool? _isGmsAvailable;
 
-  // Result
   late double selectedLat;
   late double selectedLong;
 
-  // Google Map Controller
   gmap.GoogleMapController? _googleMapController;
 
-  // Mapbox Controller
   mapbox.MapboxMap? _mapboxMap;
 
-  // Markers for tap selection
   Set<gmap.Marker> _googleMarkers = {};
 
   @override
@@ -97,11 +94,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
       if (!serviceEnabled) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Location services are disabled. Please enable them.',
-              ),
-            ),
+            SnackBar(content: Text(context.l10n.locationServicesDisabled)),
           );
         }
         return;
@@ -114,7 +107,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         if (permission == LocationPermission.denied) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Location permissions are denied')),
+              SnackBar(content: Text(context.l10n.locationPermissionsDenied)),
             );
           }
           return;
@@ -124,8 +117,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
       if (permission == LocationPermission.deniedForever) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Location permissions are permanently denied'),
+            SnackBar(
+              content: Text(context.l10n.locationPermissionsPermanentlyDenied),
             ),
           );
         }
@@ -170,17 +163,17 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Current location selected'),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(context.l10n.currentLocationSelected),
+            duration: const Duration(seconds: 2),
           ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error getting location: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${context.l10n.errorGettingLocation}$e')),
+        );
       }
     }
   }
@@ -193,7 +186,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pick Location'),
+        title: Text(context.l10n.pickLocation),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
@@ -205,51 +198,95 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
           ),
         ],
       ),
-      body: _isGmsAvailable! ? _buildGoogleMap() : _buildMapboxMap(),
+      body: _isGmsAvailable!
+          ? GoogleMapWidget(
+              initialLat: widget.initialLat,
+              initialLong: widget.initialLong,
+              markers: _googleMarkers,
+              onMapCreated: (controller) {
+                _googleMapController = controller;
+              },
+              onTap: (gmap.LatLng position) {
+                setState(() {
+                  selectedLat = position.latitude;
+                  selectedLong = position.longitude;
+                });
+                _updateGoogleMarker();
+              },
+            )
+          : MapboxMapWidget(
+              initialLat: widget.initialLat,
+              initialLong: widget.initialLong,
+              onMapCreated: (mapbox.MapboxMap mapboxMap) {
+                _mapboxMap = mapboxMap;
+                _mapboxMap?.location.updateSettings(
+                  mapbox.LocationComponentSettings(enabled: true),
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: _getCurrentLocation,
         child: const Icon(Icons.my_location),
       ),
     );
   }
+}
 
-  Widget _buildGoogleMap() {
+class GoogleMapWidget extends StatelessWidget {
+  final double initialLat;
+  final double initialLong;
+  final Set<gmap.Marker> markers;
+  final void Function(gmap.GoogleMapController) onMapCreated;
+  final void Function(gmap.LatLng) onTap;
+
+  const GoogleMapWidget({
+    super.key,
+    required this.initialLat,
+    required this.initialLong,
+    required this.markers,
+    required this.onMapCreated,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return gmap.GoogleMap(
       initialCameraPosition: gmap.CameraPosition(
-        target: gmap.LatLng(widget.initialLat, widget.initialLong),
+        target: gmap.LatLng(initialLat, initialLong),
         zoom: 15,
       ),
-      markers: _googleMarkers,
+      markers: markers,
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
-      onMapCreated: (controller) {
-        _googleMapController = controller;
-      },
-      onTap: (gmap.LatLng position) {
-        setState(() {
-          selectedLat = position.latitude;
-          selectedLong = position.longitude;
-        });
-        _updateGoogleMarker();
-      },
+      onMapCreated: onMapCreated,
+      onTap: onTap,
     );
   }
+}
 
-  Widget _buildMapboxMap() {
+class MapboxMapWidget extends StatelessWidget {
+  final double initialLat;
+  final double initialLong;
+  final void Function(mapbox.MapboxMap) onMapCreated;
+
+  const MapboxMapWidget({
+    super.key,
+    required this.initialLat,
+    required this.initialLong,
+    required this.onMapCreated,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return mapbox.MapWidget(
       cameraOptions: mapbox.CameraOptions(
         center: mapbox.Point(
-          coordinates: mapbox.Position(widget.initialLong, widget.initialLat),
+          coordinates: mapbox.Position(initialLong, initialLat),
         ),
         zoom: 15.0,
       ),
       styleUri: mapbox.MapboxStyles.MAPBOX_STREETS,
-      onMapCreated: (mapbox.MapboxMap mapboxMap) {
-        _mapboxMap = mapboxMap;
-        _mapboxMap?.location.updateSettings(
-          mapbox.LocationComponentSettings(enabled: true),
-        );
-      },
+      onMapCreated: onMapCreated,
     );
   }
 }

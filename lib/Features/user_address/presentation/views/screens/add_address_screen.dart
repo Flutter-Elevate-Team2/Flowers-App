@@ -1,5 +1,6 @@
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/widgets/add_address_screen_body.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +15,7 @@ class AddAddressScreen extends StatelessWidget {
       appBar: AppBar(
         leadingWidth: 50,
         titleSpacing: 0,
-        title: Text(addressToEdit != null ? "Edit Address" : "Add Address"),
+        title: Text(addressToEdit != null ? context.l10n.updateAddress : context.l10n.addNewAddress),
         leading: IconButton(
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
