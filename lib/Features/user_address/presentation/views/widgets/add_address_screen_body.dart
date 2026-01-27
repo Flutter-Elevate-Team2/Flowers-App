@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/area_model.dart';
 import 'package:flowers_app/Features/user_address/data/models/city_model.dart';
@@ -11,11 +13,15 @@ import 'package:flowers_app/Features/user_address/presentation/views/map_locatio
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
+import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_api_availability/google_api_availability.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
 
 class AddAddressScreenBody extends StatefulWidget {
   final AddressEntity? addressToEdit;
@@ -36,8 +42,16 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   double? _lat;
   double? _long;
 
+  // Google Maps Variables
   GoogleMapController? _mapPreviewController;
   Set<Marker> _markers = {};
+
+  // Mapbox Variables
+  mapbox.MapboxMap? _mapboxPreviewController;
+  mapbox.PointAnnotationManager? _pointAnnotationManager;
+
+  // GMS Check
+  bool? _isGmsAvailable;
 
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -49,8 +63,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   @override
   void initState() {
     super.initState();
+    _checkGmsAvailability();
     _loadData();
-    _updateMarker();
   }
 
   @override
@@ -62,6 +76,22 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
     super.dispose();
   }
 
+  Future<void> _checkGmsAvailability() async {
+    if (Platform.isIOS) {
+      setState(() => _isGmsAvailable = true);
+      return;
+    }
+    try {
+      final googleApiAvailability = GoogleApiAvailability.instance;
+      final status = await googleApiAvailability.checkGooglePlayServicesAvailability();
+      setState(() {
+        _isGmsAvailable = status == GooglePlayServicesAvailability.success;
+      });
+    } catch (e) {
+      setState(() => _isGmsAvailable = false);
+    }
+  }
+
   Future<void> _loadData() async {
     await _loadCities();
     await _loadAreas();
@@ -69,6 +99,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
     if (!mounted) return;
     if (_isEditMode) {
       _prefillEditData();
+    } else {
+        _updateMarkersAndCamera();
     }
   }
 
@@ -79,7 +111,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
     _nameController.text = address.username;
     _lat = double.tryParse(address.lat);
     _long = double.tryParse(address.long);
-    _updateMarker();
+
+    _updateMarkersAndCamera();
 
     if (_cities.isNotEmpty) {
       _selectedCity = _cities.firstWhere(
@@ -92,15 +125,10 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
 
   Future<void> _loadCities() async {
     try {
-      final String response = await rootBundle.loadString(
-        'assets/lottie/cities.json',
-      );
+      final String response = await rootBundle.loadString('assets/lottie/cities.json');
       final List<dynamic> data = json.decode(response);
       final governoratesData = data.firstWhere(
-        (element) =>
-            element is Map &&
-            element['type'] == 'table' &&
-            element['name'] == 'governorates',
+        (element) => element is Map && element['type'] == 'table' && element['name'] == 'governorates',
         orElse: () => null,
       );
 
@@ -127,15 +155,10 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
 
   Future<void> _loadAreas() async {
     try {
-      final String response = await rootBundle.loadString(
-        'assets/lottie/states (1).json',
-      );
+      final String response = await rootBundle.loadString('assets/lottie/states (1).json');
       final List<dynamic> data = json.decode(response);
       final citiesData = data.firstWhere(
-        (element) =>
-            element is Map &&
-            element['type'] == 'table' &&
-            element['name'] == 'cities',
+        (element) => element is Map && element['type'] == 'table' && element['name'] == 'cities',
         orElse: () => null,
       );
 
@@ -158,36 +181,73 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
         _selectedArea = null;
       }
       if (city != null) {
-        _filteredAreas = _areas
-            .where((area) => area.governorateId == city.id)
-            .toList();
+        _filteredAreas = _areas.where((area) => area.governorateId == city.id).toList();
       } else {
         _filteredAreas = [];
       }
     });
   }
 
-  void _updateMarker() {
+  // --- Map Helper Methods ---
+
+  Future<Uint8List> _getBytesFromSvg(String assetName, double width) async {
+    final String svgString = await rootBundle.loadString(assetName);
+    final PictureInfo pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
+    double devicePixelRatio = ui.window.devicePixelRatio;
+    int size = (width * devicePixelRatio).toInt();
+    final ui.PictureRecorder recorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(recorder);
+    canvas.scale(devicePixelRatio);
+    canvas.drawPicture(pictureInfo.picture);
+    final ui.Picture picture = recorder.endRecording();
+    final ui.Image image = await picture.toImage(size, size);
+    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
+  }
+
+  Future<void> _updateMarkersAndCamera() async {
     final lat = _lat ?? 30.0444;
     final long = _long ?? 31.2357;
 
-    setState(() {
-      _markers = {
-        Marker(
-          markerId: const MarkerId('selected_location'),
-          position: LatLng(lat, long),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        ),
-      };
-    });
-  }
-
-  Future<void> _updateMapLocation(double lat, double long) async {
-    if (_mapPreviewController != null) {
-      await _mapPreviewController!.animateCamera(
-        CameraUpdate.newLatLngZoom(LatLng(lat, long), 15),
-      );
-      _updateMarker();
+    if (_isGmsAvailable == true) {
+      setState(() {
+        _markers = {
+          Marker(
+            markerId: const MarkerId('selected_location'),
+            position: LatLng(lat, long),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          ),
+        };
+      });
+      if (_mapPreviewController != null) {
+        await _mapPreviewController!.animateCamera(
+          CameraUpdate.newLatLngZoom(LatLng(lat, long), 15),
+        );
+      }
+    } else {
+      if (_mapboxPreviewController != null) {
+         _mapboxPreviewController!.flyTo(
+            mapbox.CameraOptions(
+              center: mapbox.Point(coordinates: mapbox.Position(long, lat)),
+              zoom: 15.0,
+            ),
+            mapbox.MapAnimationOptions(duration: 1000),
+          );
+      }
+      if (_pointAnnotationManager != null) {
+          await _pointAnnotationManager!.deleteAll();
+          try {
+             final Uint8List iconData = await _getBytesFromSvg(Assets.icons.locationDot, 64.0);
+             var options = mapbox.PointAnnotationOptions(
+                geometry: mapbox.Point(coordinates: mapbox.Position(long, lat)),
+                image: iconData,
+                iconSize: 1.0,
+             );
+             await _pointAnnotationManager!.create(options);
+          } catch(e) {
+              debugPrint("Error marker mapbox preview: $e");
+          }
+      }
     }
   }
 
@@ -209,13 +269,16 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
         _lat = result['lat'];
         _long = result['long'];
       });
-
-      await _updateMapLocation(_lat!, _long!);
+      await _updateMarkersAndCamera();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isGmsAvailable == null) {
+        return const Center(child: CircularProgressIndicator());
+    }
+
     return BlocProvider(
       create: (context) => getIt<UserAddressViewModel>(),
       child: BlocConsumer<UserAddressViewModel, UserAddressState>(
@@ -279,7 +342,9 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                           ),
                           child: Stack(
                             children: [
-                              GoogleMap(
+                              // ------------------ Map Preview Check ------------------
+                              _isGmsAvailable!
+                              ? GoogleMap(
                                 initialCameraPosition: CameraPosition(
                                   target: LatLng(
                                     _lat ?? 30.0444,
@@ -299,7 +364,26 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                 zoomControlsEnabled: false,
                                 mapToolbarEnabled: false,
                                 compassEnabled: false,
+                              )
+                              : mapbox.MapWidget(
+                                  key: const ValueKey("mapbox_preview"),
+                                  cameraOptions: mapbox.CameraOptions(
+                                    center: mapbox.Point(
+                                      coordinates: mapbox.Position(
+                                         _long ?? 31.2357,
+                                         _lat ?? 30.0444
+                                      ),
+                                    ),
+                                    zoom: 15.0,
+                                  ),
+                                  styleUri: mapbox.MapboxStyles.MAPBOX_STREETS,
+                                  onMapCreated: (mapboxMap) async {
+                                     _mapboxPreviewController = mapboxMap;
+                                     _pointAnnotationManager = await mapboxMap.annotations.createPointAnnotationManager();
+                                     _updateMarkersAndCamera();
+                                  },
                               ),
+
                               Positioned(
                                 bottom: 12,
                                 right: 12,
@@ -332,6 +416,7 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   ),
                                 ),
                               ),
+                              Positioned.fill(child: Container(color: Colors.transparent)),
                             ],
                           ),
                         ),
@@ -491,11 +576,11 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   );
 
                                   context.read<UserAddressViewModel>().doIntent(
-                                    EditAddressEvent(
-                                      request,
-                                      widget.addressToEdit!.id,
-                                    ),
-                                  );
+                                        EditAddressEvent(
+                                          request,
+                                          widget.addressToEdit!.id,
+                                        ),
+                                      );
                                 } else {
                                   final request = AddAddressRequest(
                                     street: _addressController.text,
@@ -507,8 +592,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   );
 
                                   context.read<UserAddressViewModel>().doIntent(
-                                    AddAddressEvent(request),
-                                  );
+                                        AddAddressEvent(request),
+                                      );
                                 }
                               }
                             },

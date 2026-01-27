@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,7 +84,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   // ------------------ Helper: Convert SVG to Bytes ------------------
   Future<Uint8List> _getBytesFromSvg(String assetName, double width) async {
     final String svgString = await rootBundle.loadString(assetName);
-    final PictureInfo pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
+    final PictureInfo pictureInfo = await vg.loadPicture(
+      SvgStringLoader(svgString),
+      null,
+    );
     double devicePixelRatio = ui.window.devicePixelRatio;
     int size = (width * devicePixelRatio).toInt();
 
@@ -96,24 +100,48 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     final ui.Picture picture = recorder.endRecording();
     final ui.Image image = await picture.toImage(size, size);
 
-    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final ByteData? byteData = await image.toByteData(
+      format: ui.ImageByteFormat.png,
+    );
 
     return byteData!.buffer.asUint8List();
   }
 
   // ------------------ Google Maps Logic ------------------
-  void _updateGoogleMarker() {
-    setState(() {
-      _googleMarkers = {
-        gmap.Marker(
-          markerId: const gmap.MarkerId('selected_location'),
-          position: gmap.LatLng(selectedLat, selectedLong),
-          icon: gmap.BitmapDescriptor.defaultMarkerWithHue(
-            gmap.BitmapDescriptor.hueRed,
+  Future<void> _updateGoogleMarker() async {
+    try {
+      final Uint8List iconData = await _getBytesFromSvg(
+        Assets.icons.locationDot,
+        64.0,
+      );
+      final gmap.BitmapDescriptor customIcon = gmap.BitmapDescriptor.bytes(
+        iconData,
+      );
+
+      setState(() {
+        _googleMarkers = {
+          gmap.Marker(
+            markerId: const gmap.MarkerId('selected_location'),
+            position: gmap.LatLng(selectedLat, selectedLong),
+            icon: customIcon,
           ),
-        ),
-      };
-    });
+        };
+      });
+    } catch (e) {
+      debugPrint("Error loading Google Maps SVG: $e");
+      // Fallback to default marker if SVG loading fails
+      setState(() {
+        _googleMarkers = {
+          gmap.Marker(
+            markerId: const gmap.MarkerId('selected_location'),
+            position: gmap.LatLng(selectedLat, selectedLong),
+            icon: gmap.BitmapDescriptor.defaultMarkerWithHue(
+              gmap.BitmapDescriptor.hueRed,
+            ),
+          ),
+        };
+      });
+    }
   }
 
   // ------------------ Mapbox Logic ------------------
@@ -123,7 +151,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     await _pointAnnotationManager!.deleteAll();
 
     try {
-      final Uint8List iconData = await _getBytesFromSvg(Assets.icons.locationDot, 64.0);
+      final Uint8List iconData = await _getBytesFromSvg(
+        Assets.icons.locationDot,
+        64.0,
+      );
 
       var options = mapbox.PointAnnotationOptions(
         geometry: mapbox.Point(coordinates: mapbox.Position(long, lat)),
@@ -158,7 +189,9 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
       if (permission == LocationPermission.deniedForever) return;
 
       Position position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
       );
 
       setState(() {
@@ -178,7 +211,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         _mapboxMap!.flyTo(
           mapbox.CameraOptions(
             center: mapbox.Point(
-              coordinates: mapbox.Position(position.longitude, position.latitude),
+              coordinates: mapbox.Position(
+                position.longitude,
+                position.latitude,
+              ),
             ),
             zoom: 15.0,
           ),
@@ -210,20 +246,57 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              Navigator.of(context).pop({'lat': selectedLat, 'long': selectedLong});
+              Navigator.of(
+                context,
+              ).pop({'lat': selectedLat, 'long': selectedLong});
             },
           ),
         ],
       ),
-      body: _isGmsAvailable! ? GoogleMapWidget( initialLat: widget.initialLat, initialLong: widget.initialLong, markers: _googleMarkers, onMapCreated: (controller) { _googleMapController = controller; }, onTap: (gmap.LatLng position) { setState(() { selectedLat = position.latitude; selectedLong = position.longitude; }); _updateGoogleMarker(); }, ) : MapboxMapWidget( initialLat: widget.initialLat, initialLong: widget.initialLong, onMapCreated: (mapbox.MapboxMap mapboxMap) { _mapboxMap = mapboxMap; _mapboxMap?.location.updateSettings( mapbox.LocationComponentSettings(enabled: true), ); }, ),
+      body: _isGmsAvailable!
+          ? GoogleMapWidget(
+              initialLat: widget.initialLat,
+              initialLong: widget.initialLong,
+              markers: _googleMarkers,
+              onMapCreated: (controller) {
+                _googleMapController = controller;
+              },
+              onTap: (gmap.LatLng position) {
+                setState(() {
+                  selectedLat = position.latitude;
+                  selectedLong = position.longitude;
+                });
+                _updateGoogleMarker();
+              },
+            )
+          : MapboxMapWidget(
+              initialLat: widget.initialLat,
+              initialLong: widget.initialLong,
+              onMapCreated: (mapbox.MapboxMap mapboxMap) async {
+                _mapboxMap = mapboxMap;
+                _mapboxMap?.location.updateSettings(
+                  mapbox.LocationComponentSettings(enabled: true),
+                );
+                _pointAnnotationManager = await mapboxMap.annotations
+                    .createPointAnnotationManager();
+                _updateMapboxMarker(selectedLat, selectedLong);
+              },
+              onTapListener: (mapbox.MapContentGestureContext context) {
+                final lat = context.point.coordinates.lat.toDouble();
+                final lng = context.point.coordinates.lng.toDouble();
+                setState(() {
+                  selectedLat = lat;
+                  selectedLong = lng;
+                });
+                _updateMapboxMarker(lat, lng);
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: _getCurrentLocation,
         child: const Icon(Icons.my_location),
       ),
     );
   }
-
-  
 }
 
 class GoogleMapWidget extends StatelessWidget {
@@ -262,12 +335,14 @@ class MapboxMapWidget extends StatelessWidget {
   final double initialLat;
   final double initialLong;
   final void Function(mapbox.MapboxMap) onMapCreated;
+  final void Function(mapbox.MapContentGestureContext)? onTapListener;
 
   const MapboxMapWidget({
     super.key,
     required this.initialLat,
     required this.initialLong,
     required this.onMapCreated,
+    this.onTapListener,
   });
 
   @override
@@ -281,6 +356,7 @@ class MapboxMapWidget extends StatelessWidget {
       ),
       styleUri: mapbox.MapboxStyles.MAPBOX_STREETS,
       onMapCreated: onMapCreated,
+      onTapListener: onTapListener,
     );
   }
 }
