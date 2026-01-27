@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'dart:ui' as ui;
 
-import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_api_availability/google_api_availability.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
@@ -81,67 +78,23 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     }
   }
 
-  // ------------------ Helper: Convert SVG to Bytes ------------------
-  Future<Uint8List> _getBytesFromSvg(String assetName, double width) async {
-    final String svgString = await rootBundle.loadString(assetName);
-    final PictureInfo pictureInfo = await vg.loadPicture(
-      SvgStringLoader(svgString),
-      null,
-    );
-    double devicePixelRatio = ui.window.devicePixelRatio;
-    int size = (width * devicePixelRatio).toInt();
-
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
-
-    canvas.scale(devicePixelRatio);
-    canvas.drawPicture(pictureInfo.picture);
-
-    final ui.Picture picture = recorder.endRecording();
-    final ui.Image image = await picture.toImage(size, size);
-
-    final ByteData? byteData = await image.toByteData(
-      format: ui.ImageByteFormat.png,
-    );
-
-    return byteData!.buffer.asUint8List();
+  // ------------------ Helper: Convert PNG to Bytes ------------------
+  Future<Uint8List> _getBytesFromPng(String assetName) async {
+    final ByteData data = await rootBundle.load(assetName);
+    return data.buffer.asUint8List();
   }
 
   // ------------------ Google Maps Logic ------------------
-  Future<void> _updateGoogleMarker() async {
-    try {
-      final Uint8List iconData = await _getBytesFromSvg(
-        Assets.icons.locationDot,
-        64.0,
-      );
-      final gmap.BitmapDescriptor customIcon = gmap.BitmapDescriptor.bytes(
-        iconData,
-      );
-
-      setState(() {
-        _googleMarkers = {
-          gmap.Marker(
-            markerId: const gmap.MarkerId('selected_location'),
-            position: gmap.LatLng(selectedLat, selectedLong),
-            icon: customIcon,
-          ),
-        };
-      });
-    } catch (e) {
-      debugPrint("Error loading Google Maps SVG: $e");
-      // Fallback to default marker if SVG loading fails
-      setState(() {
-        _googleMarkers = {
-          gmap.Marker(
-            markerId: const gmap.MarkerId('selected_location'),
-            position: gmap.LatLng(selectedLat, selectedLong),
-            icon: gmap.BitmapDescriptor.defaultMarkerWithHue(
-              gmap.BitmapDescriptor.hueRed,
-            ),
-          ),
-        };
-      });
-    }
+  void _updateGoogleMarker() {
+    setState(() {
+      _googleMarkers = {
+        gmap.Marker(
+          markerId: const gmap.MarkerId('selected_location'),
+          position: gmap.LatLng(selectedLat, selectedLong),
+          icon: gmap.BitmapDescriptor.defaultMarker,
+        ),
+      };
+    });
   }
 
   // ------------------ Mapbox Logic ------------------
@@ -151,20 +104,19 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     await _pointAnnotationManager!.deleteAll();
 
     try {
-      final Uint8List iconData = await _getBytesFromSvg(
-        Assets.icons.locationDot,
-        64.0,
+      final Uint8List iconData = await _getBytesFromPng(
+        "assets/images/icons8-location-48.png",
       );
 
       var options = mapbox.PointAnnotationOptions(
         geometry: mapbox.Point(coordinates: mapbox.Position(long, lat)),
         image: iconData,
-        iconSize: 1.0,
+        iconSize: 2.0,
       );
 
       await _pointAnnotationManager!.create(options);
     } catch (e) {
-      debugPrint("Error loading mapbox SVG: $e");
+      debugPrint("Error loading mapbox PNG: $e");
     }
   }
 
@@ -254,7 +206,9 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         ],
       ),
       body: _isGmsAvailable!
-          ? GoogleMapWidget(
+          ? Stack(
+              children: [
+               GoogleMapWidget(
               initialLat: widget.initialLat,
               initialLong: widget.initialLong,
               markers: _googleMarkers,
@@ -268,6 +222,16 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 });
                 _updateGoogleMarker();
               },
+            ),
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: FloatingActionButton(
+                    onPressed: _getCurrentLocation,
+                    child: const Icon(Icons.my_location),
+                  ),
+                ),
+              ],
             )
           : MapboxMapWidget(
               initialLat: widget.initialLat,
@@ -291,10 +255,6 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 _updateMapboxMarker(lat, lng);
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getCurrentLocation,
-        child: const Icon(Icons.my_location),
-      ),
     );
   }
 }

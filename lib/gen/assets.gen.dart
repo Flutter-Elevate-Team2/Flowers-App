@@ -22,7 +22,7 @@ class $AssetsIconsGen {
   String get locationDot => 'assets/icons/location_dot.svg';
 
   /// List of all assets
-  List<String> get values => [photo, flowerLogo];
+  List<String> get values => [photo, flowerLogo, locationDot];
 }
 
 class $AssetsLottieGen {

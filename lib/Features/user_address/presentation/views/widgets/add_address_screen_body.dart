@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui' as ui;
+
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/area_model.dart';
 import 'package:flowers_app/Features/user_address/data/models/city_model.dart';
@@ -13,11 +13,9 @@ import 'package:flowers_app/Features/user_address/presentation/views/map_locatio
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
-import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_api_availability/google_api_availability.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -83,7 +81,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
     }
     try {
       final googleApiAvailability = GoogleApiAvailability.instance;
-      final status = await googleApiAvailability.checkGooglePlayServicesAvailability();
+      final status = await googleApiAvailability
+          .checkGooglePlayServicesAvailability();
       setState(() {
         _isGmsAvailable = status == GooglePlayServicesAvailability.success;
       });
@@ -100,7 +99,7 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
     if (_isEditMode) {
       _prefillEditData();
     } else {
-        _updateMarkersAndCamera();
+      _updateMarkersAndCamera();
     }
   }
 
@@ -125,10 +124,15 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
 
   Future<void> _loadCities() async {
     try {
-      final String response = await rootBundle.loadString('assets/lottie/cities.json');
+      final String response = await rootBundle.loadString(
+        'assets/lottie/cities.json',
+      );
       final List<dynamic> data = json.decode(response);
       final governoratesData = data.firstWhere(
-        (element) => element is Map && element['type'] == 'table' && element['name'] == 'governorates',
+        (element) =>
+            element is Map &&
+            element['type'] == 'table' &&
+            element['name'] == 'governorates',
         orElse: () => null,
       );
 
@@ -155,10 +159,15 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
 
   Future<void> _loadAreas() async {
     try {
-      final String response = await rootBundle.loadString('assets/lottie/states (1).json');
+      final String response = await rootBundle.loadString(
+        'assets/lottie/states (1).json',
+      );
       final List<dynamic> data = json.decode(response);
       final citiesData = data.firstWhere(
-        (element) => element is Map && element['type'] == 'table' && element['name'] == 'cities',
+        (element) =>
+            element is Map &&
+            element['type'] == 'table' &&
+            element['name'] == 'cities',
         orElse: () => null,
       );
 
@@ -181,7 +190,9 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
         _selectedArea = null;
       }
       if (city != null) {
-        _filteredAreas = _areas.where((area) => area.governorateId == city.id).toList();
+        _filteredAreas = _areas
+            .where((area) => area.governorateId == city.id)
+            .toList();
       } else {
         _filteredAreas = [];
       }
@@ -190,19 +201,9 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
 
   // --- Map Helper Methods ---
 
-  Future<Uint8List> _getBytesFromSvg(String assetName, double width) async {
-    final String svgString = await rootBundle.loadString(assetName);
-    final PictureInfo pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
-    double devicePixelRatio = ui.window.devicePixelRatio;
-    int size = (width * devicePixelRatio).toInt();
-    final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder);
-    canvas.scale(devicePixelRatio);
-    canvas.drawPicture(pictureInfo.picture);
-    final ui.Picture picture = recorder.endRecording();
-    final ui.Image image = await picture.toImage(size, size);
-    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData!.buffer.asUint8List();
+  Future<Uint8List> _getBytesFromPng(String assetName) async {
+    final ByteData data = await rootBundle.load(assetName);
+    return data.buffer.asUint8List();
   }
 
   Future<void> _updateMarkersAndCamera() async {
@@ -215,7 +216,7 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
           Marker(
             markerId: const MarkerId('selected_location'),
             position: LatLng(lat, long),
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            icon: BitmapDescriptor.defaultMarker,
           ),
         };
       });
@@ -226,27 +227,30 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
       }
     } else {
       if (_mapboxPreviewController != null) {
-         _mapboxPreviewController!.flyTo(
-            mapbox.CameraOptions(
-              center: mapbox.Point(coordinates: mapbox.Position(long, lat)),
-              zoom: 15.0,
-            ),
-            mapbox.MapAnimationOptions(duration: 1000),
-          );
+        _mapboxPreviewController!.flyTo(
+          mapbox.CameraOptions(
+            center: mapbox.Point(coordinates: mapbox.Position(long, lat)),
+            zoom: 15.0,
+          ),
+          mapbox.MapAnimationOptions(duration: 1000),
+        );
       }
       if (_pointAnnotationManager != null) {
-          await _pointAnnotationManager!.deleteAll();
-          try {
-             final Uint8List iconData = await _getBytesFromSvg(Assets.icons.locationDot, 64.0);
-             var options = mapbox.PointAnnotationOptions(
-                geometry: mapbox.Point(coordinates: mapbox.Position(long, lat)),
-                image: iconData,
-                iconSize: 1.0,
-             );
-             await _pointAnnotationManager!.create(options);
-          } catch(e) {
-              debugPrint("Error marker mapbox preview: $e");
-          }
+        await _pointAnnotationManager!.deleteAll();
+        try {
+          final Uint8List iconData = await _getBytesFromPng(
+            "assets/images/icons8-location-48.png",
+          );
+
+          var options = mapbox.PointAnnotationOptions(
+            geometry: mapbox.Point(coordinates: mapbox.Position(long, lat)),
+            image: iconData,
+            iconSize: 2.0,
+          );
+          await _pointAnnotationManager!.create(options);
+        } catch (e) {
+          debugPrint("Error marker mapbox preview: $e");
+        }
       }
     }
   }
@@ -276,7 +280,7 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
   @override
   Widget build(BuildContext context) {
     if (_isGmsAvailable == null) {
-        return const Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     return BlocProvider(
@@ -344,45 +348,48 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                             children: [
                               // ------------------ Map Preview Check ------------------
                               _isGmsAvailable!
-                              ? GoogleMap(
-                                initialCameraPosition: CameraPosition(
-                                  target: LatLng(
-                                    _lat ?? 30.0444,
-                                    _long ?? 31.2357,
-                                  ),
-                                  zoom: 15,
-                                ),
-                                markers: _markers,
-                                onMapCreated: (controller) {
-                                  _mapPreviewController = controller;
-                                },
-                                scrollGesturesEnabled: false,
-                                zoomGesturesEnabled: false,
-                                rotateGesturesEnabled: false,
-                                tiltGesturesEnabled: false,
-                                myLocationButtonEnabled: false,
-                                zoomControlsEnabled: false,
-                                mapToolbarEnabled: false,
-                                compassEnabled: false,
-                              )
-                              : mapbox.MapWidget(
-                                  key: const ValueKey("mapbox_preview"),
-                                  cameraOptions: mapbox.CameraOptions(
-                                    center: mapbox.Point(
-                                      coordinates: mapbox.Position(
-                                         _long ?? 31.2357,
-                                         _lat ?? 30.0444
+                                  ? GoogleMap(
+                                      initialCameraPosition: CameraPosition(
+                                        target: LatLng(
+                                          _lat ?? 30.0444,
+                                          _long ?? 31.2357,
+                                        ),
+                                        zoom: 15,
                                       ),
+                                      markers: _markers,
+                                      onMapCreated: (controller) {
+                                        _mapPreviewController = controller;
+                                      },
+                                      scrollGesturesEnabled: false,
+                                      zoomGesturesEnabled: false,
+                                      rotateGesturesEnabled: false,
+                                      tiltGesturesEnabled: false,
+                                      myLocationButtonEnabled: false,
+                                      zoomControlsEnabled: false,
+                                      mapToolbarEnabled: false,
+                                      compassEnabled: false,
+                                    )
+                                  : mapbox.MapWidget(
+                                      key: const ValueKey("mapbox_preview"),
+                                      cameraOptions: mapbox.CameraOptions(
+                                        center: mapbox.Point(
+                                          coordinates: mapbox.Position(
+                                            _long ?? 31.2357,
+                                            _lat ?? 30.0444,
+                                          ),
+                                        ),
+                                        zoom: 15.0,
+                                      ),
+                                      styleUri:
+                                          mapbox.MapboxStyles.MAPBOX_STREETS,
+                                      onMapCreated: (mapboxMap) async {
+                                        _mapboxPreviewController = mapboxMap;
+                                        _pointAnnotationManager =
+                                            await mapboxMap.annotations
+                                                .createPointAnnotationManager();
+                                        _updateMarkersAndCamera();
+                                      },
                                     ),
-                                    zoom: 15.0,
-                                  ),
-                                  styleUri: mapbox.MapboxStyles.MAPBOX_STREETS,
-                                  onMapCreated: (mapboxMap) async {
-                                     _mapboxPreviewController = mapboxMap;
-                                     _pointAnnotationManager = await mapboxMap.annotations.createPointAnnotationManager();
-                                     _updateMarkersAndCamera();
-                                  },
-                              ),
 
                               Positioned(
                                 bottom: 12,
@@ -416,7 +423,9 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   ),
                                 ),
                               ),
-                              Positioned.fill(child: Container(color: Colors.transparent)),
+                              Positioned.fill(
+                                child: Container(color: Colors.transparent),
+                              ),
                             ],
                           ),
                         ),
@@ -576,11 +585,11 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   );
 
                                   context.read<UserAddressViewModel>().doIntent(
-                                        EditAddressEvent(
-                                          request,
-                                          widget.addressToEdit!.id,
-                                        ),
-                                      );
+                                    EditAddressEvent(
+                                      request,
+                                      widget.addressToEdit!.id,
+                                    ),
+                                  );
                                 } else {
                                   final request = AddAddressRequest(
                                     street: _addressController.text,
@@ -592,8 +601,8 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
                                   );
 
                                   context.read<UserAddressViewModel>().doIntent(
-                                        AddAddressEvent(request),
-                                      );
+                                    AddAddressEvent(request),
+                                  );
                                 }
                               }
                             },
