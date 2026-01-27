@@ -1,7 +1,9 @@
 import 'dart:io';
-
-import 'package:flowers_app/core/extension/context_extension.dart';
+import 'dart:ui' as ui;
+import 'package:flowers_app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_api_availability/google_api_availability.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
@@ -25,13 +27,18 @@ class MapLocationPicker extends StatefulWidget {
 class _MapLocationPickerState extends State<MapLocationPicker> {
   bool? _isGmsAvailable;
 
+  // Result
   late double selectedLat;
   late double selectedLong;
 
+  // Google Map Controller
   gmap.GoogleMapController? _googleMapController;
 
+  // Mapbox Variables
   mapbox.MapboxMap? _mapboxMap;
+  mapbox.PointAnnotationManager? _pointAnnotationManager;
 
+  // Markers for Google
   Set<gmap.Marker> _googleMarkers = {};
 
   @override
@@ -73,6 +80,28 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     }
   }
 
+  // ------------------ Helper: Convert SVG to Bytes ------------------
+  Future<Uint8List> _getBytesFromSvg(String assetName, double width) async {
+    final String svgString = await rootBundle.loadString(assetName);
+    final PictureInfo pictureInfo = await vg.loadPicture(SvgStringLoader(svgString), null);
+    double devicePixelRatio = ui.window.devicePixelRatio;
+    int size = (width * devicePixelRatio).toInt();
+
+    final ui.PictureRecorder recorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(recorder);
+
+    canvas.scale(devicePixelRatio);
+    canvas.drawPicture(pictureInfo.picture);
+
+    final ui.Picture picture = recorder.endRecording();
+    final ui.Image image = await picture.toImage(size, size);
+
+    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    return byteData!.buffer.asUint8List();
+  }
+
+  // ------------------ Google Maps Logic ------------------
   void _updateGoogleMarker() {
     setState(() {
       _googleMarkers = {
@@ -87,49 +116,49 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     });
   }
 
+  // ------------------ Mapbox Logic ------------------
+  Future<void> _updateMapboxMarker(double lat, double long) async {
+    if (_pointAnnotationManager == null) return;
+
+    await _pointAnnotationManager!.deleteAll();
+
+    try {
+      final Uint8List iconData = await _getBytesFromSvg(Assets.icons.locationDot, 64.0);
+
+      var options = mapbox.PointAnnotationOptions(
+        geometry: mapbox.Point(coordinates: mapbox.Position(long, lat)),
+        image: iconData,
+        iconSize: 1.0,
+      );
+
+      await _pointAnnotationManager!.create(options);
+    } catch (e) {
+      debugPrint("Error loading mapbox SVG: $e");
+    }
+  }
+
+  // ------------------ Current Location Logic ------------------
   Future<void> _getCurrentLocation() async {
     try {
-      // Check if location services are enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(context.l10n.locationServicesDisabled)),
+            const SnackBar(content: Text('Location services are disabled.')),
           );
         }
         return;
       }
 
-      // Check location permissions
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(context.l10n.locationPermissionsDenied)),
-            );
-          }
-          return;
-        }
+        if (permission == LocationPermission.denied) return;
       }
+      if (permission == LocationPermission.deniedForever) return;
 
-      if (permission == LocationPermission.deniedForever) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.l10n.locationPermissionsPermanentlyDenied),
-            ),
-          );
-        }
-        return;
-      }
-
-      // Get current position
       Position position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-        ),
+        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
       );
 
       setState(() {
@@ -137,7 +166,6 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         selectedLong = position.longitude;
       });
 
-      // Animate camera to current location
       if (_isGmsAvailable == true && _googleMapController != null) {
         await _googleMapController!.animateCamera(
           gmap.CameraUpdate.newLatLngZoom(
@@ -147,34 +175,25 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         );
         _updateGoogleMarker();
       } else if (_mapboxMap != null) {
-        await _mapboxMap!.flyTo(
+        _mapboxMap!.flyTo(
           mapbox.CameraOptions(
             center: mapbox.Point(
-              coordinates: mapbox.Position(
-                position.longitude,
-                position.latitude,
-              ),
+              coordinates: mapbox.Position(position.longitude, position.latitude),
             ),
             zoom: 15.0,
           ),
           mapbox.MapAnimationOptions(duration: 1000),
         );
+        _updateMapboxMarker(position.latitude, position.longitude);
       }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.l10n.currentLocationSelected),
-            duration: const Duration(seconds: 2),
-          ),
+          const SnackBar(content: Text('Current location selected')),
         );
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${context.l10n.errorGettingLocation}$e')),
-        );
-      }
+      debugPrint("Error getting location: $e");
     }
   }
 
@@ -186,50 +205,25 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.pickLocation),
+        title: const Text('Pick Location'),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              Navigator.of(
-                context,
-              ).pop({'lat': selectedLat, 'long': selectedLong});
+              Navigator.of(context).pop({'lat': selectedLat, 'long': selectedLong});
             },
           ),
         ],
       ),
-      body: _isGmsAvailable!
-          ? GoogleMapWidget(
-              initialLat: widget.initialLat,
-              initialLong: widget.initialLong,
-              markers: _googleMarkers,
-              onMapCreated: (controller) {
-                _googleMapController = controller;
-              },
-              onTap: (gmap.LatLng position) {
-                setState(() {
-                  selectedLat = position.latitude;
-                  selectedLong = position.longitude;
-                });
-                _updateGoogleMarker();
-              },
-            )
-          : MapboxMapWidget(
-              initialLat: widget.initialLat,
-              initialLong: widget.initialLong,
-              onMapCreated: (mapbox.MapboxMap mapboxMap) {
-                _mapboxMap = mapboxMap;
-                _mapboxMap?.location.updateSettings(
-                  mapbox.LocationComponentSettings(enabled: true),
-                );
-              },
-            ),
+      body: _isGmsAvailable! ? GoogleMapWidget( initialLat: widget.initialLat, initialLong: widget.initialLong, markers: _googleMarkers, onMapCreated: (controller) { _googleMapController = controller; }, onTap: (gmap.LatLng position) { setState(() { selectedLat = position.latitude; selectedLong = position.longitude; }); _updateGoogleMarker(); }, ) : MapboxMapWidget( initialLat: widget.initialLat, initialLong: widget.initialLong, onMapCreated: (mapbox.MapboxMap mapboxMap) { _mapboxMap = mapboxMap; _mapboxMap?.location.updateSettings( mapbox.LocationComponentSettings(enabled: true), ); }, ),
       floatingActionButton: FloatingActionButton(
         onPressed: _getCurrentLocation,
         child: const Icon(Icons.my_location),
       ),
     );
   }
+
+  
 }
 
 class GoogleMapWidget extends StatelessWidget {
