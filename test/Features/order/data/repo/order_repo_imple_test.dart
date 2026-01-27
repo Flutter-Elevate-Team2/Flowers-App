@@ -7,12 +7,14 @@ import 'package:flowers_app/Features/order/data/models/checkout/cash_checkout_re
 import 'package:flowers_app/Features/order/data/models/checkout/credit/credit_checkout_response_model.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/user_orders_response_model.dart';
 import 'package:flowers_app/Features/order/data/repo/order_repo_imple.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_item_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/credit_checkout_response_entity.dart';
+import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_response_entity.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -68,6 +70,9 @@ void main() {
   );
   final tCartResponseModel = CartResponseModel(message: "success");
   final tCartRequest = CartRequest(product: "flowers", quantity: 3);
+  final tUserOrdersResponseModel = UserOrdersResponseModel(
+    message: "success",
+  );
   final tCashCheckoutResponseModel = CashCheckoutResponseModel(
     message: "success",
   );
@@ -193,6 +198,17 @@ void main() {
             tOrderCheckoutRequest,
           ),
         ).called(1);
+      },
+    );
+    test(
+      'should return SuccessResponse when getUserOrders is successful',
+          () async {
+        when(
+          mockOrderRemoteDataSourceContract.getUserOrders(),
+        ).thenAnswer((_) async => tUserOrdersResponseModel);
+        final result = await orderRepoImple.getUserOrders();
+        expect(result, isA<SuccessResponse<UserOrdersResponseEntity>>());
+        verify(mockOrderRemoteDataSourceContract.getUserOrders()).called(1);
       },
     );
   });
