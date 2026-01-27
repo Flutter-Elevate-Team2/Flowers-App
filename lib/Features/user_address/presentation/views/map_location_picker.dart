@@ -208,21 +208,21 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
       body: _isGmsAvailable!
           ? Stack(
               children: [
-               GoogleMapWidget(
-              initialLat: widget.initialLat,
-              initialLong: widget.initialLong,
-              markers: _googleMarkers,
-              onMapCreated: (controller) {
-                _googleMapController = controller;
-              },
-              onTap: (gmap.LatLng position) {
-                setState(() {
-                  selectedLat = position.latitude;
-                  selectedLong = position.longitude;
-                });
-                _updateGoogleMarker();
-              },
-            ),
+                GoogleMapWidget(
+                  initialLat: widget.initialLat,
+                  initialLong: widget.initialLong,
+                  markers: _googleMarkers,
+                  onMapCreated: (controller) {
+                    _googleMapController = controller;
+                  },
+                  onTap: (gmap.LatLng position) {
+                    setState(() {
+                      selectedLat = position.latitude;
+                      selectedLong = position.longitude;
+                    });
+                    _updateGoogleMarker();
+                  },
+                ),
                 Positioned(
                   top: 16,
                   right: 16,
@@ -233,27 +233,39 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 ),
               ],
             )
-          : MapboxMapWidget(
-              initialLat: widget.initialLat,
-              initialLong: widget.initialLong,
-              onMapCreated: (mapbox.MapboxMap mapboxMap) async {
-                _mapboxMap = mapboxMap;
-                _mapboxMap?.location.updateSettings(
-                  mapbox.LocationComponentSettings(enabled: true),
-                );
-                _pointAnnotationManager = await mapboxMap.annotations
-                    .createPointAnnotationManager();
-                _updateMapboxMarker(selectedLat, selectedLong);
-              },
-              onTapListener: (mapbox.MapContentGestureContext context) {
-                final lat = context.point.coordinates.lat.toDouble();
-                final lng = context.point.coordinates.lng.toDouble();
-                setState(() {
-                  selectedLat = lat;
-                  selectedLong = lng;
-                });
-                _updateMapboxMarker(lat, lng);
-              },
+          : Stack(
+              children: [
+                MapboxMapWidget(
+                  initialLat: widget.initialLat,
+                  initialLong: widget.initialLong,
+                  onMapCreated: (mapbox.MapboxMap mapboxMap) async {
+                    _mapboxMap = mapboxMap;
+                    _mapboxMap?.location.updateSettings(
+                      mapbox.LocationComponentSettings(enabled: true),
+                    );
+                    _pointAnnotationManager = await mapboxMap.annotations
+                        .createPointAnnotationManager();
+                    _updateMapboxMarker(selectedLat, selectedLong);
+                  },
+                  onTapListener: (mapbox.MapContentGestureContext context) {
+                    final lat = context.point.coordinates.lat.toDouble();
+                    final lng = context.point.coordinates.lng.toDouble();
+                    setState(() {
+                      selectedLat = lat;
+                      selectedLong = lng;
+                    });
+                    _updateMapboxMarker(lat, lng);
+                  },
+                ),
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: FloatingActionButton(
+                    onPressed: _getCurrentLocation,
+                    child: const Icon(Icons.my_location),
+                  ),
+                ),
+              ],
             ),
     );
   }
