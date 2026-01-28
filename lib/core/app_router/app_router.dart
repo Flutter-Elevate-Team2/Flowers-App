@@ -13,9 +13,11 @@ import 'package:flowers_app/Features/commerce/presentation/products/views/screen
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/about_us_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/terms_conditions_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +59,10 @@ class Routes {
   static const String resetPasswordName = 'resetPassword';
   static const String editProfilePath = '/editprofile';
   static const String editProfileName = 'editProfile';
+  static const String aboutpageName = 'AboutUs';
+  static const String aboutpagePath = '/AboutUs';
+  static const String termsandConditionsPath = '/terms_conditions';
+  static const String termsandConditionsName = 'terms_conditions';
 
 }
 
@@ -100,6 +106,16 @@ class AppRouter {
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
         builder: (context, state) => const ForgetPasswordScreenFlow(),
+      ),
+      GoRoute(
+        path: Routes.termsandConditionsPath,
+        name: Routes.termsandConditionsName,
+        builder: (context, state) => TermsConditionsScreen(),
+      ),
+      GoRoute(
+        path: Routes.aboutpagePath,
+        name: Routes.aboutpageName,
+        builder: (context, state) => AboutUsScreen(),
       ),
 
       /// ====== MAIN SHELL ROUTE (BOTTOM NAV BAR) ======
