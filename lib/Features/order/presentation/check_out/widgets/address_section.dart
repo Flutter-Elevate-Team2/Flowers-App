@@ -5,32 +5,19 @@ import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
-class AddressSection extends StatefulWidget {
+class AddressSection extends StatelessWidget {
+  final List<AddressEntity> addresses;
+  final AddressEntity? selectedAddress;
   final ValueChanged<AddressEntity> onAddressSelected;
 
-  const AddressSection({super.key, required this.onAddressSelected});
+  const AddressSection({super.key, required this.onAddressSelected , this.addresses = const [], this.selectedAddress});
 
-  @override
-  State<AddressSection> createState() => _AddressSectionState();
-}
 
-class _AddressSectionState extends State<AddressSection> {
-  late List<AddressEntity> addresses;
-  late AddressEntity selectedAddress;
-
-  @override
-  void initState() {
-    super.initState();
-
-    selectedAddress = addresses.first;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.onAddressSelected(selectedAddress);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
 
     return CheckOutSectionWrapper(
       child: Column(
@@ -50,13 +37,8 @@ class _AddressSectionState extends State<AddressSection> {
               child: AddressTile(
                 title: address.username,
                 address: address.street,
-                isSelected: selectedAddress.id == address.id,
-                onTap: () {
-                  setState(() {
-                    selectedAddress = address;
-                  });
-                  widget.onAddressSelected(selectedAddress);
-                },
+                isSelected: selectedAddress?.id == address.id,
+                onTap: () => onAddressSelected(address),
                 onEdit: () {},
               ),
             );
