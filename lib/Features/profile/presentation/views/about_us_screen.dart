@@ -17,6 +17,8 @@ class AboutUsScreen extends StatelessWidget {
     return FutureBuilder<Map<String, dynamic>>(
       future: loadJson("assets/json/Flowery About Section JSON with Expanded Content.json"),
       builder: (context, snapshot) {
+        debugPrint("data file:${snapshot.data}/${snapshot.hasData}");
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: AppColors.white,
@@ -27,19 +29,19 @@ class AboutUsScreen extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data == null) {
-          return Center(child: Text(context.l10n.notFoundError));
+          return Scaffold(body: Center(child: Text(context.l10n.notFoundError)),);
         }
 
         if (snapshot.hasError) {
-          return Center(child: Text(context.l10n.unknownError));
+          return Scaffold(body: Center(child: Text(context.l10n.unknownError)),);
         }
 
         final data = snapshot.data!;
-        final sectionsJsonRaw = data[JsonKeys.terms];
+        final sectionsJsonRaw = data[JsonKeys.about];
         final sectionsJson = sectionsJsonRaw is List ? sectionsJsonRaw : null;
 
         if (sectionsJson == null) {
-          return Center(child: Text(context.l10n.notFoundError));
+          return Scaffold(body: Center(child: Text(context.l10n.notFoundError)),);
         }
 
         final sections =
