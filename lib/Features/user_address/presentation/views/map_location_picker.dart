@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flowers_app/core/constants/assets_manager.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -105,7 +107,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
     try {
       final Uint8List iconData = await _getBytesFromPng(
-        "assets/images/icons8-location-48.png",
+        AssetsManager.markerLocation,
       );
 
       var options = mapbox.PointAnnotationOptions(
@@ -127,7 +129,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
       if (!serviceEnabled) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location services are disabled.')),
+            SnackBar(content: Text(context.l10n.locationServicesDisabled)),
           );
         }
         return;
@@ -177,11 +179,13 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Current location selected')),
+          SnackBar(content: Text(context.l10n.currentLocationSelected)),
         );
       }
     } catch (e) {
-      debugPrint("Error getting location: $e");
+      if (mounted) {
+        debugPrint("${context.l10n.errorGettingLocation}$e");
+      }
     }
   }
 
@@ -193,7 +197,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pick Location'),
+        title: Text(context.l10n.pickLocation),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
