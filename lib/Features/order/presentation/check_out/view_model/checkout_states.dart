@@ -23,24 +23,33 @@ class CheckoutStates extends Equatable {
 
   CheckoutStates copyWith({
     bool? isLoading,
-    CashCheckoutResponseEntity? cashResponse,
-    CreditCheckoutResponseEntity? creditResponse,
-    String? errorMessage,
-    String? redirectUrl,
+    Object? cashResponse = _sentinel,
+    Object? creditResponse = _sentinel,
+    Object? errorMessage = _sentinel,
+    Object? redirectUrl = _sentinel,
     bool? isPaymentCompleted,
     bool? isPaymentCancelled,
   }) {
     return CheckoutStates(
       isLoading: isLoading ?? this.isLoading,
-      cashResponse: cashResponse ?? this.cashResponse,
-      creditResponse: creditResponse ?? this.creditResponse,
-      errorMessage: errorMessage ?? this.errorMessage,
-      redirectUrl: redirectUrl ?? this.redirectUrl,
+      cashResponse: cashResponse == _sentinel
+          ? this.cashResponse
+          : (cashResponse as CashCheckoutResponseEntity?),
+      creditResponse: creditResponse == _sentinel
+          ? this.creditResponse
+          : (creditResponse as CreditCheckoutResponseEntity?),
+      errorMessage: errorMessage == _sentinel
+          ? this.errorMessage
+          : (errorMessage as String?),
+      redirectUrl: redirectUrl == _sentinel
+          ? this.redirectUrl
+          : (redirectUrl as String?),
       isPaymentCompleted: isPaymentCompleted ?? this.isPaymentCompleted,
       isPaymentCancelled: isPaymentCancelled ?? this.isPaymentCancelled,
     );
   }
 
+  static const _sentinel = Object();
   @override
   List<Object?> get props => [
     isLoading,

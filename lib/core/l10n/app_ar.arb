@@ -189,6 +189,7 @@
   "placeOrder": "تأكيد الطلب",
   "thankYou": "شكرًا لك!",
   "goToHome": "الذهاب إلى الصفحة الرئيسية",
-  "placedSuccessfully": "تم تأكيد طلبك بنجاح.\nسنبدأ في تحضيره فورًا 🌸",
-  "creditCheckout": "الدفع بالبطاقة"
+  "placedSuccessfully": "تم تأكيد طلبك بنجاح. سنبدأ في تحضيره فورًا 🌸",
+  "creditCheckout": "الدفع بالبطاقة",
+  "paymentCancelled": "تم إلغاء الدفع"
 }

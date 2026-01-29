@@ -53,8 +53,7 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
       if (response is SuccessResponse<CreditCheckoutResponseEntity>) {
         final url = response.data.session?.url;
         if (url != null && url.isNotEmpty) {
-          final redirectUrl = url.replaceAll("localhost", "10.0.2.2");
-          emit(state.copyWith(isLoading: false, redirectUrl: redirectUrl));
+          emit(state.copyWith(isLoading: false, redirectUrl: url));
         } else {
           emit(
             state.copyWith(
@@ -74,10 +73,12 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
   }
 
   void _handleCancel() {
-    emit(state.copyWith(isPaymentCancelled: true));
+    emit(state.copyWith(isPaymentCancelled: true, isLoading: false));
   }
 
   void resetPaymentState() {
-    emit(state.copyWith(redirectUrl: null, cashResponse: null));
+    emit(
+      state.copyWith(redirectUrl: null, cashResponse: null, isLoading: false),
+    );
   }
 }

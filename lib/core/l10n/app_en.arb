@@ -551,8 +551,10 @@
   "@thankYou": { "description": "Thank you message"},
   "goToHome": "Go to home",
   "@goToHome": { "description": "Button text to go to home"},
-  "placedSuccessfully": "Your order has been placed successfully.\\nWe’ll start preparing it right away \uD83C\uDF38",
+  "placedSuccessfully": "Your order has been placed successfully. We’ll start preparing it right away \uD83C\uDF38",
   "@placedSuccessfully": { "description": "Success message after order placement" },
   "creditCheckout": "Credit Checkout",
-  "@creditCheckout": { "description": "Title for credit card checkout"}
+  "@creditCheckout": { "description": "Title for credit card checkout"},
+  "paymentCancelled": "Payment Cancelled",
+  "@paymentCancelled": { "description": "Message displayed when payment is cancelled" }
 }

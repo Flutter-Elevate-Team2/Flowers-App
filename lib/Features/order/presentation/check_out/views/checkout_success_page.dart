@@ -27,29 +27,27 @@ class CheckoutSuccessPage extends StatelessWidget {
                   repeat: true,
                 ),
 
-                const SizedBox(height: 16),
-
                 Text(
                   context.l10n.thankYou,
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.onSurface,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.secondary,
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 20),
 
                 Text(
                   context.l10n.placedSuccessfully,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: theme.colorScheme.tertiary,
+                    color: theme.colorScheme.secondary,
                     height: 1.5,
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
                 CustomButton(
                   title: context.l10n.goToHome,
