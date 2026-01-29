@@ -26,18 +26,22 @@ class CartScreen extends StatelessWidget {
         if (state.isLoading) {
           return const Scaffold(body: CartBodyShimmer());
         }
-        if (state.cartData == null) {
+        if (state.isGuest) {
           return Scaffold(
             body: GuestCartView(
               onLogin: () {
                 context.pushNamed(Routes.signInName);
-              }, subTitle: context.l10n.pleaseLoginToContinue,
+              },
+              subTitle: context.l10n.pleaseLoginToContinue,
             ),
           );
-        } else if (state.errorMessage != null) {
+        }
+        if (state.errorMessage != null) {
           return Scaffold(
             body: Center(
-              child: Text(ErrorMapper.mapError(context, state.errorMessage!)),
+              child: Text(
+                ErrorMapper.mapError(context, state.errorMessage!),
+              ),
             ),
           );
         }

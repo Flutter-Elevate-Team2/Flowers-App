@@ -30,4 +30,6 @@ static const String cart="/cart";
 // ================= Address Endpoints =================
 static const String addresses="/addresses";
 
+// ================= Checkout Endpoints =================
+static const String orders ="/orders";
 }

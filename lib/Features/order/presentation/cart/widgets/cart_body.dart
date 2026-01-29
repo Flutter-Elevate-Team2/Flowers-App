@@ -63,7 +63,9 @@ class CartBody extends StatelessWidget {
               ),
               SizedBox(height: 48),
               // Checkout Button
-              CustomButton(title: context.l10n.checkout, onPressed: () {}),
+              CustomButton(title: context.l10n.checkout, onPressed: () {
+                context.pushNamed(Routes.checkoutName);
+              }),
             ],
           ),
         ],

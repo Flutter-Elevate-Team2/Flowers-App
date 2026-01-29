@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
 import 'package:flowers_app/Features/order/data/models/cart/cart_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/cart/quantity_request.dart';
+import 'package:flowers_app/Features/order/domain/entities/cart/cart_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/cart/add_to_cart_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/cart/delete_cart_item_use_case.dart';
@@ -53,6 +54,8 @@ class CartViewModel extends Cubit<CartStates> {
       _optimisticUpdate(event.itemId, 0);
     } else if (event is CartLoginHandledEvent) {
       _resetLoginRequired();
+    } else if (event is ClearCartEvent) {
+      _clearCart();
     }
   }
 
@@ -65,20 +68,28 @@ class CartViewModel extends Cubit<CartStates> {
     _logoutSubscription = _sessionController.onLogout.listen((reason) {
       if (reason == SessionEndReason.guest ||
           reason == SessionEndReason.logout) {
-        emit(const CartStates());
+        emit(const CartStates(isGuest: true));
       }
     });
   }
 
   Future<void> _getCart() async {
-    if (!await _hasTokenUseCase()) return;
+    if (!await _hasTokenUseCase()) {
+      emit(const CartStates(isGuest: true));
+      return;
+    }
 
     emit(state.copyWith(isLoading: true, errorMessage: null));
 
     final response = await _getCartUseCase();
 
     if (response is SuccessResponse<CartResponseEntity>) {
-      emit(CartStates.fromCart(response.data).copyWith(isLoading: false));
+      emit(
+        CartStates.fromCart(response.data).copyWith(
+          isLoading: false,
+          isGuest: false,
+        ),
+      );
     } else if (response is ErrorResponse<CartResponseEntity>) {
       emit(
         state.copyWith(isLoading: false, errorMessage: response.errorMessage),
@@ -196,6 +207,18 @@ class CartViewModel extends Cubit<CartStates> {
       ),
     );
   }
+  void _clearCart() {
+    emit(
+      CartStates(
+        cartData: CartResponseEntity(
+          cart: CartEntity(cartItems: []),
+          numOfCartItems: 0,
+        ),
+        isGuest: false,
+      ),
+    );
+  }
+
 
   void _resetLoginRequired() {
     if (state.requiresLogin) emit(state.copyWith(requiresLogin: false));
