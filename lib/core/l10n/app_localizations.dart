@@ -1046,6 +1046,72 @@ abstract class AppLocalizations {
   /// **'guest'**
   String get guest;
 
+  /// Label for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
+
+  /// Hint for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your address'**
+  String get addressHint;
+
+  /// Label for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumberLabel;
+
+  /// Hint for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get phoneNumberHint;
+
+  /// Label for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient name'**
+  String get recipientNameLabel;
+
+  /// Hint for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter recipient name'**
+  String get recipientNameHint;
+
+  /// Label for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// Hint for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Cairo'**
+  String get cityHint;
+
+  /// Label for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaLabel;
+
+  /// Hint for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get areaHint;
+
+  /// Button text to save a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Save Address'**
+  String get saveAddress;
+
   /// Button text to add a new address
   ///
   /// In en, this message translates to:
@@ -1076,35 +1142,11 @@ abstract class AppLocalizations {
   /// **'Tap to change'**
   String get tapToChange;
 
-  /// Label for address input field
-  ///
-  /// In en, this message translates to:
-  /// **'Address'**
-  String get addressLabel;
-
-  /// Hint for address input field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your address'**
-  String get addressHint;
-
   /// Validation message when address is empty
   ///
   /// In en, this message translates to:
   /// **'Please enter address'**
   String get addressRequired;
-
-  /// Label for phone number input field
-  ///
-  /// In en, this message translates to:
-  /// **'Phone Number'**
-  String get phoneNumberLabel;
-
-  /// Hint for phone number input field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your phone number'**
-  String get phoneNumberHint;
 
   /// Validation message when phone is empty
   ///
@@ -1112,41 +1154,17 @@ abstract class AppLocalizations {
   /// **'Please enter phone'**
   String get phoneNumberRequired;
 
-  /// Label for recipient name input field
-  ///
-  /// In en, this message translates to:
-  /// **'Recipient name'**
-  String get recipientNameLabel;
-
-  /// Hint for recipient name input field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter recipient name'**
-  String get recipientNameHint;
-
   /// Validation message when recipient name is empty
   ///
   /// In en, this message translates to:
   /// **'Please enter name'**
   String get recipientNameRequired;
 
-  /// Label for city dropdown
-  ///
-  /// In en, this message translates to:
-  /// **'City'**
-  String get cityLabel;
-
   /// Hint text for city dropdown
   ///
   /// In en, this message translates to:
   /// **'Cairo'**
   String get cairoHint;
-
-  /// Label for area dropdown
-  ///
-  /// In en, this message translates to:
-  /// **'Area'**
-  String get areaLabel;
 
   /// Hint text for area dropdown
   ///
@@ -1159,12 +1177,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Address'**
   String get updateAddress;
-
-  /// Button text to save a new address
-  ///
-  /// In en, this message translates to:
-  /// **'Save Address'**
-  String get saveAddress;
 
   /// Validation message when location is not selected
   ///
