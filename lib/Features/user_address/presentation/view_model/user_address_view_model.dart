@@ -91,6 +91,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
             addAddressState: BaseState(isLoading: false, data: response.data),
           ),
         );
+        await _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -123,6 +124,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
             editAddressState: BaseState(isLoading: false, data: response.data),
           ),
         );
+        await _getAddresses();
         break;
 
       case ErrorResponse<AddressResponseEntity>():
@@ -158,7 +160,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
             ),
           ),
         );
-        
+
         await _getAddresses();
         break;
 
@@ -175,7 +177,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
     }
   }
 
-  
+
   void resetDeleteState() {
     emit(
       state.copyWith(deleteAddressState: BaseState<AddressResponseEntity>()),

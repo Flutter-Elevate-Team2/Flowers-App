@@ -1,7 +1,6 @@
 import 'package:flowers_app/Features/commerce/presentation/home/widgets/sections/address_selection_bottom_sheet.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/custom_search_bar.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
-import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
@@ -20,34 +19,36 @@ class HomeHeader extends StatefulWidget {
 }
 
 class _HomeHeaderState extends State<HomeHeader> {
-  AddressEntity? selectedAddress;
+  String? selectedAddressId;
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserAddressViewModel, UserAddressState>(
-      listener: (context, state) {
-        // Set initial address if null
-        if (state.getAddressesState?.data != null &&
-            selectedAddress == null &&
-            state.getAddressesState!.data!.addresses.isNotEmpty) {
-          setState(() {
-            selectedAddress = state.getAddressesState!.data!.addresses.first;
-          });
-        }
-
-        // Refresh addresses when a new address is added
-        if (state.addAddressState?.data != null &&
-            state.addAddressState!.isLoading == false) {
-          context.read<UserAddressViewModel>().doIntent(GetAddressesEvent());
-        }
-
-        // Refresh addresses when an address is edited
-        if (state.editAddressState?.data != null &&
-            state.editAddressState!.isLoading == false) {
-          context.read<UserAddressViewModel>().doIntent(GetAddressesEvent());
-        }
-      },
+    return BlocBuilder<UserAddressViewModel, UserAddressState>(
+      buildWhen: (previous, current) =>
+          previous.getAddressesState?.data != current.getAddressesState?.data ||
+          previous.getAddressesState?.isLoading !=
+              current.getAddressesState?.isLoading,
       builder: (context, state) {
+        final List<AddressEntity> addresses =
+            state.getAddressesState?.data?.addresses ?? [];
+
+        AddressEntity? displayAddress;
+
+        if (addresses.isNotEmpty) {
+          if (selectedAddressId != null) {
+            try {
+              displayAddress = addresses.firstWhere(
+                (element) => element.id == selectedAddressId,
+              );
+            } catch (e) {
+              displayAddress = addresses.first;
+              selectedAddressId = displayAddress.id;
+            }
+          } else {
+            displayAddress = addresses.first;
+          }
+        }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -55,7 +56,6 @@ class _HomeHeaderState extends State<HomeHeader> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 1. Logo Part
                 SvgPicture.asset(
                   Assets.icons.flowerLogo,
                   height: 20,
@@ -70,10 +70,7 @@ class _HomeHeaderState extends State<HomeHeader> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
-                // 2. Search Bar Part
                 Expanded(
                   child: SizedBox(
                     height: 36,
@@ -82,22 +79,26 @@ class _HomeHeaderState extends State<HomeHeader> {
                 ),
               ],
             ),
-
             const SizedBox(height: 12),
-
             GestureDetector(
-              onTap: () => _showAddressSelectionBottomSheet(context, state),
+              onTap: () => _showAddressSelectionBottomSheet(
+                context,
+                addresses,
+                displayAddress,
+              ),
               child: Row(
                 children: [
                   const Icon(Icons.location_on_outlined, size: 16),
                   const SizedBox(width: 4),
                   Text(
-                    "${selectedAddress?.street ?? context.l10n.deliverTo} ",
+                    displayAddress == null ? "${context.l10n.deliverTo} " : "",
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   Flexible(
                     child: Text(
-                      selectedAddress?.city ?? 'Select Address',
+                      displayAddress != null
+                          ? "${displayAddress.city}, ${displayAddress.street}"
+                          : context.l10n.addNewAddress,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -107,7 +108,6 @@ class _HomeHeaderState extends State<HomeHeader> {
                     ),
                   ),
                   const SizedBox(width: 8),
-
                   Transform.translate(
                     offset: const Offset(0, -3),
                     child: RotatedBox(
@@ -130,14 +130,13 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   void _showAddressSelectionBottomSheet(
     BuildContext context,
-    UserAddressState state,
+    List<AddressEntity> addresses,
+    AddressEntity? currentSelected,
   ) {
-    final addresses = state.getAddressesState?.data?.addresses ?? [];
-
     if (addresses.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('No saved addresses found')));
+      ).showSnackBar(SnackBar(content: Text(context.l10n.noSavedAddresses)));
       return;
     }
 
@@ -149,10 +148,10 @@ class _HomeHeaderState extends State<HomeHeader> {
       builder: (bottomSheetContext) {
         return AddressSelectionBottomSheet(
           addresses: addresses,
-          selectedAddress: selectedAddress,
+          selectedAddress: currentSelected,
           onAddressSelected: (address) {
             setState(() {
-              selectedAddress = address;
+              selectedAddressId = address.id;
             });
           },
         );
@@ -160,3 +159,5 @@ class _HomeHeaderState extends State<HomeHeader> {
     );
   }
 }
+
+

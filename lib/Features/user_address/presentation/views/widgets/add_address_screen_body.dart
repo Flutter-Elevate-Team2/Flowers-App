@@ -10,7 +10,6 @@ import 'package:flowers_app/Features/user_address/presentation/view_model/user_a
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/map_location_picker.dart';
-import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -283,338 +282,331 @@ class _AddAddressScreenBodyState extends State<AddAddressScreenBody> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    return BlocProvider(
-      create: (context) => getIt<UserAddressViewModel>(),
-      child: BlocConsumer<UserAddressViewModel, UserAddressState>(
-        listenWhen: (previous, current) {
-          return previous.addAddressState != current.addAddressState ||
-              previous.editAddressState != current.editAddressState;
-        },
-        listener: (context, state) {
-          if (state.addAddressState?.isLoading == false) {
-            if (state.addAddressState?.errorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.addAddressState!.errorMessage!)),
-              );
-            } else if (state.addAddressState?.data != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(context.l10n.addressAddedSuccess)),
-              );
-              context.pop();
-            }
+    return BlocConsumer<UserAddressViewModel, UserAddressState>(
+      listenWhen: (previous, current) {
+        return previous.addAddressState != current.addAddressState ||
+            previous.editAddressState != current.editAddressState;
+      },
+      listener: (context, state) {
+        if (state.addAddressState?.isLoading == false) {
+          if (state.addAddressState?.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.addAddressState!.errorMessage!)),
+            );
+          } else if (state.addAddressState?.data != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(context.l10n.addressAddedSuccess)),
+            );
+            context.pop();
           }
+        }
 
-          if (state.editAddressState?.isLoading == false) {
-            if (state.editAddressState?.errorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.editAddressState!.errorMessage!)),
-              );
-            } else if (state.editAddressState?.data != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(context.l10n.addressUpdatedSuccess)),
-              );
-              context.pop();
-            }
+        if (state.editAddressState?.isLoading == false) {
+          if (state.editAddressState?.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.editAddressState!.errorMessage!)),
+            );
+          } else if (state.editAddressState?.data != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(context.l10n.addressUpdatedSuccess)),
+            );
+            context.pop();
           }
-        },
-        builder: (context, state) {
-          final isLoading =
-              state.addAddressState?.isLoading == true ||
-              state.editAddressState?.isLoading == true;
+        }
+      },
+      builder: (context, state) {
+        final isLoading =
+            state.addAddressState?.isLoading == true ||
+            state.editAddressState?.isLoading == true;
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 24),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 24),
 
-                    GestureDetector(
-                      onTap: _pickLocationOnMap,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Container(
-                          height: 180,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey.shade300,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(16),
+                  GestureDetector(
+                    onTap: _pickLocationOnMap,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        height: 180,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                            width: 2,
                           ),
-                          child: Stack(
-                            children: [
-                              // ------------------ Map Preview Check ------------------
-                              _isGmsAvailable!
-                                  ? GoogleMap(
-                                      initialCameraPosition: CameraPosition(
-                                        target: LatLng(
-                                          _lat ?? 30.0444,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Stack(
+                          children: [
+                            // ------------------ Map Preview Check ------------------
+                            _isGmsAvailable!
+                                ? GoogleMap(
+                                    initialCameraPosition: CameraPosition(
+                                      target: LatLng(
+                                        _lat ?? 30.0444,
+                                        _long ?? 31.2357,
+                                      ),
+                                      zoom: 15,
+                                    ),
+                                    markers: _markers,
+                                    onMapCreated: (controller) {
+                                      _mapPreviewController = controller;
+                                    },
+                                    scrollGesturesEnabled: false,
+                                    zoomGesturesEnabled: false,
+                                    rotateGesturesEnabled: false,
+                                    tiltGesturesEnabled: false,
+                                    myLocationButtonEnabled: false,
+                                    zoomControlsEnabled: false,
+                                    mapToolbarEnabled: false,
+                                    compassEnabled: false,
+                                  )
+                                : mapbox.MapWidget(
+                                    key: const ValueKey("mapbox_preview"),
+                                    cameraOptions: mapbox.CameraOptions(
+                                      center: mapbox.Point(
+                                        coordinates: mapbox.Position(
                                           _long ?? 31.2357,
+                                          _lat ?? 30.0444,
                                         ),
-                                        zoom: 15,
                                       ),
-                                      markers: _markers,
-                                      onMapCreated: (controller) {
-                                        _mapPreviewController = controller;
-                                      },
-                                      scrollGesturesEnabled: false,
-                                      zoomGesturesEnabled: false,
-                                      rotateGesturesEnabled: false,
-                                      tiltGesturesEnabled: false,
-                                      myLocationButtonEnabled: false,
-                                      zoomControlsEnabled: false,
-                                      mapToolbarEnabled: false,
-                                      compassEnabled: false,
-                                    )
-                                  : mapbox.MapWidget(
-                                      key: const ValueKey("mapbox_preview"),
-                                      cameraOptions: mapbox.CameraOptions(
-                                        center: mapbox.Point(
-                                          coordinates: mapbox.Position(
-                                            _long ?? 31.2357,
-                                            _lat ?? 30.0444,
-                                          ),
-                                        ),
-                                        zoom: 15.0,
-                                      ),
-                                      styleUri:
-                                          mapbox.MapboxStyles.MAPBOX_STREETS,
-                                      onMapCreated: (mapboxMap) async {
-                                        _mapboxPreviewController = mapboxMap;
-                                        _pointAnnotationManager =
-                                            await mapboxMap.annotations
-                                                .createPointAnnotationManager();
-                                        _updateMarkersAndCamera();
-                                      },
+                                      zoom: 15.0,
                                     ),
+                                    styleUri:
+                                        mapbox.MapboxStyles.MAPBOX_STREETS,
+                                    onMapCreated: (mapboxMap) async {
+                                      _mapboxPreviewController = mapboxMap;
+                                      _pointAnnotationManager = await mapboxMap
+                                          .annotations
+                                          .createPointAnnotationManager();
+                                      _updateMarkersAndCamera();
+                                    },
+                                  ),
 
-                              Positioned(
-                                bottom: 12,
-                                right: 12,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(Icons.edit_location, size: 18),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        context.l10n.tapToChange,
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
+                            Positioned(
+                              bottom: 12,
+                              right: 12,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
                                 ),
-                              ),
-                              Positioned.fill(
-                                child: Container(color: Colors.transparent),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-                    TextFormField(
-                      controller: _addressController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return context.l10n.addressRequired;
-                        }
-                        return null;
-                      },
-                      style: Theme.of(context).textTheme.bodySmall,
-                      decoration: InputDecoration(
-                        labelText: context.l10n.addressLabel,
-                        hintText: context.l10n.addressHint,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _phoneController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return context.l10n.phoneNumberRequired;
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.phone,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      decoration: InputDecoration(
-                        labelText: context.l10n.phoneNumberLabel,
-                        hintText: context.l10n.phoneNumberHint,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _nameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return context.l10n.recipientNameRequired;
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.next,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      decoration: InputDecoration(
-                        labelText: context.l10n.recipientNameLabel,
-                        hintText: context.l10n.recipientNameHint,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField<CityModel>(
-                            initialValue: _selectedCity,
-                            validator: (value) =>
-                                value == null ? context.l10n.required : null,
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              labelText: context.l10n.cityLabel,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.edit_location, size: 18),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      context.l10n.tapToChange,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            hint: Text(context.l10n.cairoHint),
-                            items: _cities.map((CityModel city) {
-                              return DropdownMenuItem<CityModel>(
-                                value: city,
-                                child: Text(
-                                  Localizations.localeOf(
-                                            context,
-                                          ).languageCode ==
-                                          'ar'
-                                      ? city.governorateNameAr
-                                      : city.governorateNameEn,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: _onCityChanged,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: DropdownButtonFormField<AreaModel>(
-                            initialValue: _selectedArea,
-                            validator: (value) =>
-                                value == null ? context.l10n.required : null,
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              labelText: context.l10n.areaLabel,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
+                            Positioned.fill(
+                              child: Container(color: Colors.transparent),
                             ),
-                            hint: Text(context.l10n.octoberHint),
-                            items: _filteredAreas.map((AreaModel area) {
-                              return DropdownMenuItem<AreaModel>(
-                                value: area,
-                                child: Text(
-                                  Localizations.localeOf(
-                                            context,
-                                          ).languageCode ==
-                                          'ar'
-                                      ? area.cityNameAr
-                                      : area.cityNameEn,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: _selectedCity == null
-                                ? null
-                                : (AreaModel? area) {
-                                    setState(() {
-                                      _selectedArea = area;
-                                    });
-                                  },
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    const SizedBox(height: 48),
-                    isLoading
-                        ? const CircularProgressIndicator()
-                        : CustomButton(
-                            title: _isEditMode
-                                ? context.l10n.updateAddress
-                                : context.l10n.saveAddress,
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                if (_lat == null || _long == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        context.l10n.pleasePickLocation,
-                                      ),
+                  ),
+
+                  const SizedBox(height: 24),
+                  TextFormField(
+                    controller: _addressController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return context.l10n.addressRequired;
+                      }
+                      return null;
+                    },
+                    style: Theme.of(context).textTheme.bodySmall,
+                    decoration: InputDecoration(
+                      labelText: context.l10n.addressLabel,
+                      hintText: context.l10n.addressHint,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _phoneController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return context.l10n.phoneNumberRequired;
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.phone,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    decoration: InputDecoration(
+                      labelText: context.l10n.phoneNumberLabel,
+                      hintText: context.l10n.phoneNumberHint,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _nameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return context.l10n.recipientNameRequired;
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    decoration: InputDecoration(
+                      labelText: context.l10n.recipientNameLabel,
+                      hintText: context.l10n.recipientNameHint,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<CityModel>(
+                          initialValue: _selectedCity,
+                          validator: (value) =>
+                              value == null ? context.l10n.required : null,
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            labelText: context.l10n.cityLabel,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                          ),
+                          hint: Text(context.l10n.cairoHint),
+                          items: _cities.map((CityModel city) {
+                            return DropdownMenuItem<CityModel>(
+                              value: city,
+                              child: Text(
+                                Localizations.localeOf(context).languageCode ==
+                                        'ar'
+                                    ? city.governorateNameAr
+                                    : city.governorateNameEn,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: _onCityChanged,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: DropdownButtonFormField<AreaModel>(
+                          initialValue: _selectedArea,
+                          validator: (value) =>
+                              value == null ? context.l10n.required : null,
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            labelText: context.l10n.areaLabel,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                          ),
+                          hint: Text(context.l10n.octoberHint),
+                          items: _filteredAreas.map((AreaModel area) {
+                            return DropdownMenuItem<AreaModel>(
+                              value: area,
+                              child: Text(
+                                Localizations.localeOf(context).languageCode ==
+                                        'ar'
+                                    ? area.cityNameAr
+                                    : area.cityNameEn,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: _selectedCity == null
+                              ? null
+                              : (AreaModel? area) {
+                                  setState(() {
+                                    _selectedArea = area;
+                                  });
+                                },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 48),
+                  isLoading
+                      ? const CircularProgressIndicator()
+                      : CustomButton(
+                          title: _isEditMode
+                              ? context.l10n.updateAddress
+                              : context.l10n.saveAddress,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (_lat == null || _long == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      context.l10n.pleasePickLocation,
                                     ),
-                                  );
-                                  return;
-                                }
-
-                                if (_isEditMode) {
-                                  final request = EditAddressRequest(
-                                    street: _addressController.text,
-                                    phone: _phoneController.text,
-                                    username: _nameController.text,
-                                    city: _selectedCity?.governorateNameEn,
-                                    lat: _lat.toString(),
-                                    long: _long.toString(),
-                                  );
-
-                                  context.read<UserAddressViewModel>().doIntent(
-                                    EditAddressEvent(
-                                      request,
-                                      widget.addressToEdit!.id,
-                                    ),
-                                  );
-                                } else {
-                                  final request = AddAddressRequest(
-                                    street: _addressController.text,
-                                    phone: _phoneController.text,
-                                    username: _nameController.text,
-                                    city: _selectedCity?.governorateNameEn,
-                                    lat: _lat.toString(),
-                                    long: _long.toString(),
-                                  );
-
-                                  context.read<UserAddressViewModel>().doIntent(
-                                    AddAddressEvent(request),
-                                  );
-                                }
+                                  ),
+                                );
+                                return;
                               }
-                            },
-                          ),
-                    const SizedBox(height: 24),
-                  ],
-                ),
+
+                              if (_isEditMode) {
+                                final request = EditAddressRequest(
+                                  street: _addressController.text,
+                                  phone: _phoneController.text,
+                                  username: _nameController.text,
+                                  city: _selectedCity?.governorateNameEn,
+                                  lat: _lat.toString(),
+                                  long: _long.toString(),
+                                );
+
+                                context.read<UserAddressViewModel>().doIntent(
+                                  EditAddressEvent(
+                                    request,
+                                    widget.addressToEdit!.id,
+                                  ),
+                                );
+                              } else {
+                                final request = AddAddressRequest(
+                                  street: _addressController.text,
+                                  phone: _phoneController.text,
+                                  username: _nameController.text,
+                                  city: _selectedCity?.governorateNameEn,
+                                  lat: _lat.toString(),
+                                  long: _long.toString(),
+                                );
+
+                                context.read<UserAddressViewModel>().doIntent(
+                                  AddAddressEvent(request),
+                                );
+                              }
+                            }
+                          },
+                        ),
+                  const SizedBox(height: 24),
+                ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
