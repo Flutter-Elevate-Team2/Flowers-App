@@ -571,8 +571,7 @@
   "currentLocationSelected": "Current location selected",
   "@currentLocationSelected": { "description": "Message when current location is selected" },
   "errorGettingLocation": "Error getting location: ",
-  "@errorGettingLocation": { "description": "Error message prefix when getting location fails" }
-  "@guest" : { "description": "guest" },
+  "@errorGettingLocation": { "description": "Error message prefix when getting location fails" },
   "deliveryTime": "Delivery time",
   "@deliveryTime": { "description": "Label for delivery time" },
   "schedule": "Schedule",

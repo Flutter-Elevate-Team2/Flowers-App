@@ -14,8 +14,7 @@ class CartBody extends StatelessWidget {
   final CartEntity? cart;
   final String? locale;
 
-
-  const CartBody({required this.cart, required this.locale,super.key});
+  const CartBody({required this.cart, required this.locale, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +57,18 @@ class CartBody extends StatelessWidget {
               TotalPrice(
                 subTotal: cart?.totalPrice ?? 0,
                 deliveryFee: cart?.deliveryFee ?? 0,
-                totalPrice: cart?.finalPrice  ?? 0,
+                totalPrice: cart?.finalPrice ?? 0,
                 locale: locale,
               ),
               SizedBox(height: 48),
               // Checkout Button
-              CustomButton(title: context.l10n.checkout, onPressed: () {
-                context.pushNamed(Routes.checkoutName);
-              }),
+              CustomButton(
+                title: context.l10n.checkout,
+                onPressed: () {
+                  if (!context.mounted) return;
+                  context.pushNamed(Routes.checkoutName);
+                },
+              ),
             ],
           ),
         ],

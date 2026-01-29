@@ -78,7 +78,7 @@ dev_dependencies:
   injectable_generator: ^2.6.2
   json_serializable: ^6.8.0
   mockito: ^5.4.4
-  retrofit_generator: ^9.1.5
+  retrofit_generator: ^10.0.6
   flutter_launcher_icons: ^0.14.4
 flutter_launcher_icons:
   android: true

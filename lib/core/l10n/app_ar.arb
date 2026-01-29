@@ -136,7 +136,6 @@
   "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
   "failedToPickImage": "فشل في اختيار الصورة: {error}",
   "required": "مطلوب",
-  "guest": "زائر",
   "addNewAddress": "إضافة عنوان جديد",
   "addressAddedSuccess": "تم إضافة العنوان بنجاح",
   "addressUpdatedSuccess": "تم تحديث العنوان بنجاح",
@@ -164,9 +163,8 @@
   "locationPermissionsDenied": "تم رفض أذونات الموقع",
   "locationPermissionsPermanentlyDenied": "تم رفض أذونات الموقع بشكل دائم",
   "currentLocationSelected": "تم اختيار الموقع الحالي",
-  "errorGettingLocation": "خطأ في الحصول على الموقع: "
+  "errorGettingLocation": "خطأ في الحصول على الموقع: ",
   "guest": "زائر",
-
   "deliveryTime": "وقت التوصيل",
   "schedule": "جدولة",
   "instant": "فوري, ",

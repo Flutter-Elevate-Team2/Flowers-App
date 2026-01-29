@@ -574,4 +574,68 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorGettingLocation => 'خطأ في الحصول على الموقع: ';
+
+  @override
+  String get deliveryTime => 'وقت التوصيل';
+
+  @override
+  String get schedule => 'جدولة';
+
+  @override
+  String get instant => 'فوري, ';
+
+  @override
+  String get arriveBy => 'سيصل بحلول 03 سبتمبر 2024، 11:00 ص';
+
+  @override
+  String get itIsAGift => 'هدية';
+
+  @override
+  String get name => 'الاسم';
+
+  @override
+  String get enterName => 'أدخل الاسم';
+
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get enterPhoneNumber => 'أدخل رقم الهاتف';
+
+  @override
+  String get paymentMethod => 'طريقة الدفع';
+
+  @override
+  String get cashOnDelivery => 'الدفع عند الاستلام';
+
+  @override
+  String get creditCard => 'بطاقة ائتمان';
+
+  @override
+  String get deliveryAddress => 'عنوان التوصيل';
+
+  @override
+  String get addNew => 'إضافة جديد';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get placeOrder => 'تأكيد الطلب';
+
+  @override
+  String get thankYou => 'شكرًا لك!';
+
+  @override
+  String get goToHome => 'الذهاب إلى الصفحة الرئيسية';
+
+  @override
+  String get placedSuccessfully =>
+      'تم تأكيد طلبك بنجاح. سنبدأ في تحضيره فورًا 🌸';
+
+  @override
+  String get creditCheckout => 'الدفع بالبطاقة';
+
+  @override
+  String get paymentCancelled => 'تم إلغاء الدفع';
 }

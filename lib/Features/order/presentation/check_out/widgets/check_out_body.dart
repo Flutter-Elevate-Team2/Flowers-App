@@ -1,6 +1,6 @@
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
-import 'package:flowers_app/Features/order/domain/entities/checkout/address_entity.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_events.dart';

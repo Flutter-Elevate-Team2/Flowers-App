@@ -1,4 +1,4 @@
-import 'package:flowers_app/Features/order/domain/entities/checkout/address_entity.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/address_tile.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_section_wrapper.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
@@ -21,26 +21,7 @@ class _AddressSectionState extends State<AddressSection> {
   @override
   void initState() {
     super.initState();
-    addresses = [
-      AddressEntity(
-        id: "1",
-        title: "Home",
-        street: "2XVX+XC - Sheikh Zayed",
-        city: "Sheikh Zayed",
-        phone: "0123456789",
-        lat: 30.0,
-        long: 31.0,
-      ),
-      AddressEntity(
-        id: "2",
-        title: "Office",
-        street: "3XVX+XC - Cairo",
-        city: "Cairo",
-        phone: "01010800921",
-        lat: 30.1,
-        long: 31.2,
-      ),
-    ];
+
     selectedAddress = addresses.first;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onAddressSelected(selectedAddress);
@@ -67,7 +48,7 @@ class _AddressSectionState extends State<AddressSection> {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: AddressTile(
-                title: address.title,
+                title: address.username,
                 address: address.street,
                 isSelected: selectedAddress.id == address.id,
                 onTap: () {

@@ -1213,6 +1213,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error getting location: '**
   String get errorGettingLocation;
+
+  /// Label for delivery time
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery time'**
+  String get deliveryTime;
+
+  /// Label for delivery schedule
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get schedule;
+
+  /// Option for instant delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Instant, '**
+  String get instant;
+
+  /// Label for delivery arrival time
+  ///
+  /// In en, this message translates to:
+  /// **'Arrive by 03 Sep 2024, 11:00 AM'**
+  String get arriveBy;
+
+  /// Label for gift option
+  ///
+  /// In en, this message translates to:
+  /// **'It is a gift'**
+  String get itIsAGift;
+
+  /// Label for recipient name
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// Hint for recipient name
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the name'**
+  String get enterName;
+
+  /// Label for recipient phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumber;
+
+  /// Hint for recipient phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the phone number'**
+  String get enterPhoneNumber;
+
+  /// Label for payment method
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get paymentMethod;
+
+  /// Option for cash on delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Cash on delivery'**
+  String get cashOnDelivery;
+
+  /// Option for credit card payment
+  ///
+  /// In en, this message translates to:
+  /// **'Credit card'**
+  String get creditCard;
+
+  /// Label for delivery address
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery address'**
+  String get deliveryAddress;
+
+  /// Button text to add a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Add new'**
+  String get addNew;
+
+  /// Button text to edit an address
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Button text to place the order
+  ///
+  /// In en, this message translates to:
+  /// **'Place order'**
+  String get placeOrder;
+
+  /// Thank you message
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you!'**
+  String get thankYou;
+
+  /// Button text to go to home
+  ///
+  /// In en, this message translates to:
+  /// **'Go to home'**
+  String get goToHome;
+
+  /// Success message after order placement
+  ///
+  /// In en, this message translates to:
+  /// **'Your order has been placed successfully. We’ll start preparing it right away 🌸'**
+  String get placedSuccessfully;
+
+  /// Title for credit card checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Checkout'**
+  String get creditCheckout;
+
+  /// Message displayed when payment is cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Cancelled'**
+  String get paymentCancelled;
 }
 
 class _AppLocalizationsDelegate
