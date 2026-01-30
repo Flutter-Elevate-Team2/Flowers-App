@@ -16,22 +16,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-// تأكد من تشغيل الأمر: dart run build_runner build
 import 'user_address_view_model_test.mocks.dart';
 
 @GenerateMocks([
   GetAddressesUseCase,
   AddAddressUseCase,
   UserAddressUseCase,
-  SessionController // 1. إضافة SessionController للموكس
+  SessionController
 ])
 void main() {
   late UserAddressViewModel viewModel;
   late MockGetAddressesUseCase mockGetAddressesUseCase;
   late MockAddAddressUseCase mockAddAddressUseCase;
   late MockUserAddressUseCase mockUserAddressUseCase;
-  late MockSessionController mockSessionController; // 2. تعريف الموك
-  late StreamController<SessionEndReason> logoutStreamController; // 3. تعريف الـ Stream Controller
+  late MockSessionController mockSessionController;
+  late StreamController<SessionEndReason> logoutStreamController;
 
   final tAddressEntity = AddressEntity(
     id: '1',
@@ -49,25 +48,20 @@ void main() {
   );
 
   setUp(() {
-    // تجهيز البيانات الافتراضية للـ Dummy إذا لزم الأمر
     provideDummy<BaseResponse<AddressResponseEntity>>(
       SuccessResponse(data: tAddressResponseEntity),
     );
 
-    // تهيئة الموكس
     mockGetAddressesUseCase = MockGetAddressesUseCase();
     mockAddAddressUseCase = MockAddAddressUseCase();
     mockUserAddressUseCase = MockUserAddressUseCase();
     mockSessionController = MockSessionController();
 
-    // 4. تهيئة الـ Stream Controller
     logoutStreamController = StreamController<SessionEndReason>.broadcast();
 
-    // 5. مهم جداً: تحديد سلوك onLogout قبل إنشاء الـ ViewModel
     when(mockSessionController.onLogout)
         .thenAnswer((_) => logoutStreamController.stream);
 
-    // إنشاء الـ ViewModel مع التعديلات الجديدة
     viewModel = UserAddressViewModel(
       mockGetAddressesUseCase,
       mockAddAddressUseCase,
@@ -78,7 +72,7 @@ void main() {
 
   tearDown(() {
     viewModel.close();
-    logoutStreamController.close(); // 6. إغلاق الـ Stream
+    logoutStreamController.close();
   });
 
   group('UserAddressViewModel - GetAddresses', () {
@@ -154,7 +148,6 @@ void main() {
         mockAddAddressUseCase.call(any),
       ).thenAnswer((_) async => SuccessResponse(data: tAddressResponseEntity));
 
-      // نحتاج أيضاً لعمل Mock للـ GetAddresses لأنه يُستدعى بعد الإضافة
        when(mockGetAddressesUseCase.call()).thenAnswer(
           (_) async => SuccessResponse(data: tAddressResponseEntity),
         );
@@ -392,11 +385,9 @@ void main() {
   group('UserAddressViewModel - Logout Handling', () {
     test('Should emit empty UserAddressState when logout event occurs', () async {
       // Act
-      // محاكاة حدوث Logout
       logoutStreamController.add(SessionEndReason.logout);
 
       // Assert
-      // نتوقع أن الـ state ترجع للحالة الأولية (كل الحقول null أو false)
       expectLater(
         viewModel.stream,
         emits(
