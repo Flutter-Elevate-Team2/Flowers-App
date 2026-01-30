@@ -9,15 +9,21 @@ class AddressSection extends StatelessWidget {
   final List<AddressEntity> addresses;
   final AddressEntity? selectedAddress;
   final ValueChanged<AddressEntity> onAddressSelected;
+  final VoidCallback onAdd;
+  final ValueChanged<AddressEntity> onEdit;
 
-  const AddressSection({super.key, required this.onAddressSelected , this.addresses = const [], this.selectedAddress});
-
-
+  const AddressSection({
+    super.key,
+    required this.onAddressSelected,
+    required this.onAdd,
+    required this.onEdit,
+    this.addresses = const [],
+    this.selectedAddress,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
 
     return CheckOutSectionWrapper(
       child: Column(
@@ -39,14 +45,15 @@ class AddressSection extends StatelessWidget {
                 address: address.street,
                 isSelected: selectedAddress?.id == address.id,
                 onTap: () => onAddressSelected(address),
-                onEdit: () {},
+                onEdit: () => onEdit(address),
               ),
             );
           }),
+
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: onAdd,
               icon: Icon(Icons.add, color: theme.colorScheme.primary),
               label: Text(
                 context.l10n.addNew,

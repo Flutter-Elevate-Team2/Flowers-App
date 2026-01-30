@@ -1,6 +1,10 @@
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_events.dart';
@@ -13,10 +17,10 @@ import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_total_price.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/delivery_time_section.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/gift_section.dart';
-import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_section.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/widget/selected_address_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,24 +37,27 @@ class _CheckOutBodyState extends State<CheckOutBody> {
   AddressEntity? selectedAddress;
 
   @override
+  void initState() {
+    super.initState();
+    selectedAddress = context.read<SelectedAddressCubit>().state;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<CheckoutViewModel, CheckoutStates>(
       listener: (context, state) {
-        // Error message
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
         }
 
-        // Payment cancelled
         if (state.isPaymentCancelled) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.paymentCancelled)),
           );
         }
 
-        // Cash payment success → navigate
         if (state.cashResponse != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.read<CartViewModel>().doIntent(ClearCartEvent());
@@ -58,9 +65,9 @@ class _CheckOutBodyState extends State<CheckOutBody> {
           });
         }
 
-        // Credit card payment → open WebView
         if (state.redirectUrl != null) {
           final viewModel = context.read<CheckoutViewModel>();
+
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             final isSuccess = await Navigator.push<bool>(
               context,
@@ -70,6 +77,7 @@ class _CheckOutBodyState extends State<CheckOutBody> {
             );
 
             viewModel.resetPaymentState();
+
             if (isSuccess == true) {
               context.read<CartViewModel>().doIntent(ClearCartEvent());
               context.goNamed(Routes.thankYouName);
@@ -78,7 +86,8 @@ class _CheckOutBodyState extends State<CheckOutBody> {
         }
       },
       builder: (context, state) {
-        final viewModel = context.read<CheckoutViewModel>();
+        final checkoutViewModel = context.read<CheckoutViewModel>();
+
         final isLoading =
             state.isLoading ||
             state.redirectUrl != null ||
@@ -89,16 +98,57 @@ class _CheckOutBodyState extends State<CheckOutBody> {
             children: [
               const DeliveryTimeSection(),
               const SizedBox(height: 24),
-              AddressSection(
-                onAddressSelected: (address) {
-                  setState(() => selectedAddress = address);
+              BlocBuilder<SelectedAddressCubit, AddressEntity?>(
+                builder: (context, globalSelectedAddress) {
+                  selectedAddress = globalSelectedAddress;
+
+                  return BlocBuilder<UserAddressViewModel, UserAddressState>(
+                    builder: (context, addressState) {
+                      final addresses =
+                          addressState.getAddressesState?.data?.addresses ?? [];
+
+                      return AddressSection(
+                        addresses: addresses,
+                        selectedAddress: selectedAddress,
+                        onAddressSelected: (address) {
+                          setState(() => selectedAddress = address);
+
+                          /// 👈 تحديث العنوان Global
+                          context.read<SelectedAddressCubit>().select(address);
+                        },
+                        onAdd: () async {
+                          final result =
+                          await context.pushNamed(Routes.addAddressName);
+
+                          if (result == true && context.mounted) {
+                            context
+                                .read<UserAddressViewModel>()
+                                .doIntent(GetAddressesEvent());
+                          }
+                        },
+                        onEdit: (address) async {
+                          final result = await context.pushNamed(
+                            Routes.addAddressName,
+                            extra: address,
+                          );
+
+                          if (result == true && context.mounted) {
+                            context
+                                .read<UserAddressViewModel>()
+                                .doIntent(GetAddressesEvent());
+                          }
+                        },
+                      );
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 24),
               PaymentMethodSection(
                 selectedMethod: _selectedPaymentMethod,
-                onChanged: (method) =>
-                    setState(() => _selectedPaymentMethod = method),
+                onChanged: (method) {
+                  setState(() => _selectedPaymentMethod = method);
+                },
               ),
               const SizedBox(height: 24),
               const GiftSection(),
@@ -122,9 +172,11 @@ class _CheckOutBodyState extends State<CheckOutBody> {
                           );
 
                           if (_selectedPaymentMethod == PaymentMethod.cash) {
-                            viewModel.doIntent(CashPaymentEvent(orderRequest));
+                            checkoutViewModel.doIntent(
+                              CashPaymentEvent(orderRequest),
+                            );
                           } else {
-                            viewModel.doIntent(
+                            checkoutViewModel.doIntent(
                               CreditCardPaymentEvent(orderRequest),
                             );
                           }

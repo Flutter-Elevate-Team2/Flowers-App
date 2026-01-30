@@ -10,13 +10,13 @@ import 'package:flowers_app/core/helpers/session_expired_handler.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
+import 'package:flowers_app/core/widget/selected_address_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Features/order/presentation/cart/view_model/cart_events.dart';
 import 'Features/order/presentation/cart/view_model/cart_view_model.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +64,11 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(create: (_) => LanguageCubit()),
         BlocProvider(create: (context) => getIt<ProfileViewModel>()),
-        BlocProvider(create: (context) => getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent())),
+        BlocProvider(
+          create: (context) =>
+              getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
+        ),
+        BlocProvider(create: (_) => SelectedAddressCubit()),
       ],
       child: BlocBuilder<LanguageCubit, Locale>(
         builder: (context, locale) {
