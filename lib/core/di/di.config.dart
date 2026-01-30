@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -76,8 +76,15 @@ import '../../Features/order/domain/use_cases/cart/get_cart_use_case.dart'
     as _i245;
 import '../../Features/order/domain/use_cases/cart/update_cart_item_use_case.dart'
     as _i96;
+import '../../Features/order/domain/use_cases/checkout/cash_order_checkout.dart'
+    as _i331;
+import '../../Features/order/domain/use_cases/checkout/credit_card_checkout.dart'
+    as _i640;
+import '../../Features/order/domain/use_cases/get_user_orders.dart' as _i535;
 import '../../Features/order/presentation/cart/view_model/cart_view_model.dart'
     as _i84;
+import '../../Features/order/presentation/check_out/view_model/checkout_view_model.dart'
+    as _i1071;
 import '../../Features/profile/api/api_client/profile_api_client.dart' as _i255;
 import '../../Features/profile/api/data_sources/remote_data_source_impl/profile_remote_data_source_impl.dart'
     as _i652;
@@ -202,6 +209,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i96.UpdateCartItemUseCase>(
       () => _i96.UpdateCartItemUseCase(gh<_i21.OrderRepoContract>()),
     );
+    gh.factory<_i331.CashOrderCheckout>(
+      () => _i331.CashOrderCheckout(gh<_i21.OrderRepoContract>()),
+    );
+    gh.factory<_i640.CreditCardCheckout>(
+      () => _i640.CreditCardCheckout(gh<_i21.OrderRepoContract>()),
+    );
+    gh.factory<_i535.GetUserOrders>(
+      () => _i535.GetUserOrders(gh<_i21.OrderRepoContract>()),
+    );
     gh.factory<_i978.AuthRemoteDataSourceContract>(
       () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
     );
@@ -248,6 +264,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i164.AuthLocalDataSourceContract>(),
       ),
     );
+    gh.factory<_i1071.CheckoutViewModel>(
+      () => _i1071.CheckoutViewModel(
+        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
+        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
+      ),
+    );
     gh.factory<_i762.ForgetPasswordUsecase>(
       () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
     );
@@ -292,6 +314,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i306.SessionController>(),
       ),
     );
+    gh.factory<_i764.UserAddressViewModel>(
+      () => _i764.UserAddressViewModel(
+        gh<_i373.GetAddressesUseCase>(),
+        gh<_i193.AddAddressUseCase>(),
+        gh<_i761.UserAddressUseCase>(),
+        gh<_i306.SessionController>(),
+      ),
+    );
     gh.lazySingleton<_i149.ProfileViewModel>(
       () => _i149.ProfileViewModel(
         gh<_i951.GetProfileUseCase>(),
@@ -308,13 +338,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i183.ProductsUseCase>(
       () => _i183.ProductsUseCase(gh<_i596.CommerceRepoContract>()),
-    );
-    gh.factory<_i764.UserAddressViewModel>(
-      () => _i764.UserAddressViewModel(
-        gh<_i373.GetAddressesUseCase>(),
-        gh<_i193.AddAddressUseCase>(),
-        gh<_i761.UserAddressUseCase>(),
-      ),
     );
     gh.factory<_i945.HomeViewModel>(
       () => _i945.HomeViewModel(gh<_i783.GetHomeSectionsUseCase>()),

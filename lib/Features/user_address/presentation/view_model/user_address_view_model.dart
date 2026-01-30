@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_response_entity.dart';
@@ -8,6 +10,7 @@ import 'package:flowers_app/Features/user_address/presentation/view_model/user_a
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -16,12 +19,29 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
   final GetAddressesUseCase _getAddressesUseCase;
   final AddAddressUseCase _addAddressUseCase;
   final UserAddressUseCase _userAddressUseCase;
-
+  final SessionController _sessionController;
+  StreamSubscription? _logoutSubscription;
   UserAddressViewModel(
     this._getAddressesUseCase,
     this._addAddressUseCase,
     this._userAddressUseCase,
-  ) : super(UserAddressState());
+    this._sessionController,
+  ) : super(UserAddressState()) {
+    _listenToLogout();
+  }
+  void _listenToLogout() {
+    _logoutSubscription = _sessionController.onLogout.listen((_) {
+      if (!isClosed) {
+        emit(UserAddressState());
+      }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _logoutSubscription?.cancel();
+    return super.close();
+  }
 
   void doIntent(UserAddressEvent event) {
     switch (event) {
@@ -176,7 +196,6 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
         break;
     }
   }
-
 
   void resetDeleteState() {
     emit(
