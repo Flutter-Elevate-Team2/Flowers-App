@@ -17,7 +17,6 @@ import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_total_price.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/delivery_time_section.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/gift_section.dart';
-import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_section.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
@@ -115,17 +114,17 @@ class _CheckOutBodyState extends State<CheckOutBody> {
                         onAddressSelected: (address) {
                           setState(() => selectedAddress = address);
 
-                          /// 👈 تحديث العنوان Global
                           context.read<SelectedAddressCubit>().select(address);
                         },
                         onAdd: () async {
-                          final result =
-                          await context.pushNamed(Routes.addAddressName);
+                          final result = await context.pushNamed(
+                            Routes.addAddressName,
+                          );
 
                           if (result == true && context.mounted) {
-                            context
-                                .read<UserAddressViewModel>()
-                                .doIntent(GetAddressesEvent());
+                            context.read<UserAddressViewModel>().doIntent(
+                              GetAddressesEvent(),
+                            );
                           }
                         },
                         onEdit: (address) async {
@@ -135,9 +134,9 @@ class _CheckOutBodyState extends State<CheckOutBody> {
                           );
 
                           if (result == true && context.mounted) {
-                            context
-                                .read<UserAddressViewModel>()
-                                .doIntent(GetAddressesEvent());
+                            context.read<UserAddressViewModel>().doIntent(
+                              GetAddressesEvent(),
+                            );
                           }
                         },
                       );
