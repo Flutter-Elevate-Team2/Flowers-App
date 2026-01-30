@@ -1,3 +1,4 @@
+
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
@@ -11,9 +12,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class SavedAddressScreen extends StatelessWidget {
+class SavedAddressScreen extends StatefulWidget {
   const SavedAddressScreen({super.key});
 
+  @override
+  State<SavedAddressScreen> createState() => _SavedAddressScreenState();
+}
+
+class _SavedAddressScreenState extends State<SavedAddressScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserAddressViewModel>().doIntent(GetAddressesEvent());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
