@@ -136,7 +136,7 @@
   "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
   "failedToPickImage": "فشل في اختيار الصورة: {error}",
   "required": "مطلوب",
-  "addNewAddress": "اضغط لإضافة عنوان جديد",
+  "addNewAddress": "إضافة عنوان جديد",
   "addressAddedSuccess": "تم إضافة العنوان بنجاح",
   "addressUpdatedSuccess": "تم تحديث العنوان بنجاح",
   "addressDeletedSuccess": "تم حذف العنوان بنجاح",

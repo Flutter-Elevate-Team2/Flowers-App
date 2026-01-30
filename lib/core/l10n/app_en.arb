@@ -515,7 +515,7 @@
 
   "guest" : "guest",
   "@guest" : { "description": "guest" },
-  "addNewAddress": "Tab to add new address",
+  "addNewAddress": "Add new address",
   "@addNewAddress": { "description": "Button text to add a new address" },
 
   "addressAddedSuccess": "Address added successfully",
