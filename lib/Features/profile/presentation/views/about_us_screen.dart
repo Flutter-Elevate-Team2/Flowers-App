@@ -15,16 +15,16 @@ class AboutUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return FutureBuilder<Map<String, dynamic>>(
-      future: loadJson("assets/json/Flowery About Section JSON with Expanded Content.json"),
+      future: loadJson(
+        "assets/json/Flowery About Section JSON with Expanded Content.json",
+      ),
       builder: (context, snapshot) {
         debugPrint("data file:${snapshot.data}/${snapshot.hasData}");
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: AppColors.white,
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -44,8 +44,9 @@ class AboutUsScreen extends StatelessWidget {
           return Scaffold(body: Center(child: Text(context.l10n.notFoundError)),);
         }
 
-        final sections =
-        sectionsJson.map((e) => GenericSectionModel.fromJson(e)).toList();
+        final sections = sectionsJson
+            .map((e) => GenericSectionModel.fromJson(e))
+            .toList();
 
         return Scaffold(
           extendBodyBehindAppBar: true,
