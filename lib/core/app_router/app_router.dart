@@ -73,6 +73,9 @@ class Routes {
   static const String thankYouName = 'thankYou';
   static const String thankYouPath = '/thankyou';
 
+  static const orderPath = '/order';
+  static const orderName = 'order';
+
 }
 
 class AppRouter {

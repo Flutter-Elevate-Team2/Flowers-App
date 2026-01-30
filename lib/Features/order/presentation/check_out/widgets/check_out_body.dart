@@ -17,6 +17,7 @@ import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_total_price.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/delivery_time_section.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/gift_section.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_section.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
@@ -46,30 +47,36 @@ class _CheckOutBodyState extends State<CheckOutBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<CheckoutViewModel, CheckoutStates>(
       listener: (context, state) {
+        // Error message
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
         }
 
+        // Payment cancelled
         if (state.isPaymentCancelled) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(context.l10n.paymentCancelled)),
           );
         }
 
+        // Cash payment success → navigate
         if (state.cashResponse != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.read<CartViewModel>().doIntent(ClearCartEvent());
+            context.read<CheckoutViewModel>().resetPaymentState();
             context.goNamed(Routes.thankYouName);
           });
         }
 
+        // Credit card payment → open WebView
         if (state.redirectUrl != null) {
           final viewModel = context.read<CheckoutViewModel>();
 
           WidgetsBinding.instance.addPostFrameCallback((_) async {
-            final isSuccess = await Navigator.push<bool>(
+            if (!mounted) return;
+            await Navigator.push<bool>(
               context,
               MaterialPageRoute(
                 builder: (_) => CreditCheckoutWebView(url: state.redirectUrl!),
@@ -77,11 +84,6 @@ class _CheckOutBodyState extends State<CheckOutBody> {
             );
 
             viewModel.resetPaymentState();
-
-            if (isSuccess == true) {
-              context.read<CartViewModel>().doIntent(ClearCartEvent());
-              context.goNamed(Routes.thankYouName);
-            }
           });
         }
       },
