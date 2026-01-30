@@ -292,6 +292,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i306.SessionController>(),
       ),
     );
+    gh.factory<_i764.UserAddressViewModel>(
+      () => _i764.UserAddressViewModel(
+        gh<_i373.GetAddressesUseCase>(),
+        gh<_i193.AddAddressUseCase>(),
+        gh<_i761.UserAddressUseCase>(),
+        gh<_i306.SessionController>(),
+      ),
+    );
     gh.lazySingleton<_i149.ProfileViewModel>(
       () => _i149.ProfileViewModel(
         gh<_i951.GetProfileUseCase>(),
@@ -308,13 +316,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i183.ProductsUseCase>(
       () => _i183.ProductsUseCase(gh<_i596.CommerceRepoContract>()),
-    );
-    gh.factory<_i764.UserAddressViewModel>(
-      () => _i764.UserAddressViewModel(
-        gh<_i373.GetAddressesUseCase>(),
-        gh<_i193.AddAddressUseCase>(),
-        gh<_i761.UserAddressUseCase>(),
-      ),
     );
     gh.factory<_i945.HomeViewModel>(
       () => _i945.HomeViewModel(gh<_i783.GetHomeSectionsUseCase>()),
