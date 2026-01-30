@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
@@ -9,18 +11,27 @@ import 'package:flowers_app/Features/user_address/presentation/view_model/user_a
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+// تأكد من تشغيل الأمر: dart run build_runner build
 import 'user_address_view_model_test.mocks.dart';
 
-@GenerateMocks([GetAddressesUseCase, AddAddressUseCase, UserAddressUseCase])
+@GenerateMocks([
+  GetAddressesUseCase,
+  AddAddressUseCase,
+  UserAddressUseCase,
+  SessionController // 1. إضافة SessionController للموكس
+])
 void main() {
   late UserAddressViewModel viewModel;
   late MockGetAddressesUseCase mockGetAddressesUseCase;
   late MockAddAddressUseCase mockAddAddressUseCase;
   late MockUserAddressUseCase mockUserAddressUseCase;
+  late MockSessionController mockSessionController; // 2. تعريف الموك
+  late StreamController<SessionEndReason> logoutStreamController; // 3. تعريف الـ Stream Controller
 
   final tAddressEntity = AddressEntity(
     id: '1',
@@ -38,22 +49,37 @@ void main() {
   );
 
   setUp(() {
+    // تجهيز البيانات الافتراضية للـ Dummy إذا لزم الأمر
     provideDummy<BaseResponse<AddressResponseEntity>>(
       SuccessResponse(data: tAddressResponseEntity),
     );
 
+    // تهيئة الموكس
     mockGetAddressesUseCase = MockGetAddressesUseCase();
     mockAddAddressUseCase = MockAddAddressUseCase();
     mockUserAddressUseCase = MockUserAddressUseCase();
+    mockSessionController = MockSessionController();
 
+    // 4. تهيئة الـ Stream Controller
+    logoutStreamController = StreamController<SessionEndReason>.broadcast();
+
+    // 5. مهم جداً: تحديد سلوك onLogout قبل إنشاء الـ ViewModel
+    when(mockSessionController.onLogout)
+        .thenAnswer((_) => logoutStreamController.stream);
+
+    // إنشاء الـ ViewModel مع التعديلات الجديدة
     viewModel = UserAddressViewModel(
       mockGetAddressesUseCase,
       mockAddAddressUseCase,
       mockUserAddressUseCase,
+      mockSessionController,
     );
   });
 
-  tearDown(() => viewModel.close());
+  tearDown(() {
+    viewModel.close();
+    logoutStreamController.close(); // 6. إغلاق الـ Stream
+  });
 
   group('UserAddressViewModel - GetAddresses', () {
     test(
@@ -128,18 +154,33 @@ void main() {
         mockAddAddressUseCase.call(any),
       ).thenAnswer((_) async => SuccessResponse(data: tAddressResponseEntity));
 
+      // نحتاج أيضاً لعمل Mock للـ GetAddresses لأنه يُستدعى بعد الإضافة
+       when(mockGetAddressesUseCase.call()).thenAnswer(
+          (_) async => SuccessResponse(data: tAddressResponseEntity),
+        );
+
       // Assert
       expectLater(
         viewModel.stream,
         emitsInOrder([
+          // Add Loading
           predicate<UserAddressState>(
             (s) => s.addAddressState?.isLoading == true,
           ),
+          // Add Success
           predicate<UserAddressState>(
             (s) =>
                 s.addAddressState?.isLoading == false &&
                 s.addAddressState?.data == tAddressResponseEntity,
           ),
+           // Get Loading (triggered automatically)
+          predicate<UserAddressState>(
+              (s) => s.getAddressesState?.isLoading == true,
+            ),
+          // Get Success
+           predicate<UserAddressState>(
+              (s) => s.getAddressesState?.isLoading == false,
+            ),
         ]),
       );
 
@@ -203,17 +244,32 @@ void main() {
           (_) async => SuccessResponse(data: tAddressResponseEntity),
         );
 
+        // Mock GetAddresses as it is called after Edit
+         when(mockGetAddressesUseCase.call()).thenAnswer(
+          (_) async => SuccessResponse(data: tAddressResponseEntity),
+        );
+
         // Assert
         expectLater(
           viewModel.stream,
           emitsInOrder([
+            // Edit Loading
             predicate<UserAddressState>(
               (s) => s.editAddressState?.isLoading == true,
             ),
+            // Edit Success
             predicate<UserAddressState>(
               (s) =>
                   s.editAddressState?.isLoading == false &&
                   s.editAddressState?.data == tAddressResponseEntity,
+            ),
+             // Get Loading
+             predicate<UserAddressState>(
+              (s) => s.getAddressesState?.isLoading == true,
+            ),
+            // Get Success
+             predicate<UserAddressState>(
+              (s) => s.getAddressesState?.isLoading == false,
             ),
           ]),
         );
@@ -330,6 +386,29 @@ void main() {
 
       // Act
       viewModel.doIntent(DeleteAddressEvent(addressId));
+    });
+  });
+
+  group('UserAddressViewModel - Logout Handling', () {
+    test('Should emit empty UserAddressState when logout event occurs', () async {
+      // Act
+      // محاكاة حدوث Logout
+      logoutStreamController.add(SessionEndReason.logout);
+
+      // Assert
+      // نتوقع أن الـ state ترجع للحالة الأولية (كل الحقول null أو false)
+      expectLater(
+        viewModel.stream,
+        emits(
+          predicate<UserAddressState>(
+            (s) =>
+                s.getAddressesState == null &&
+                s.addAddressState == null &&
+                s.editAddressState == null &&
+                s.deleteAddressState == null,
+          ),
+        ),
+      );
     });
   });
 
