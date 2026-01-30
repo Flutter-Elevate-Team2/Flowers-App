@@ -25,8 +25,12 @@ class ApiConstants {
   static const String tokenKey = "user_token";
 
 // ================= Cart Endpoints =================
-static const String cart="/cart";
+  static const String cart="/cart";
 
 // ================= Checkout Endpoints =================
-static const String orders ="/orders";
+  static const String orders ="/orders";
+  static const String success = "success";
+  static const String cancel = "cancel";
+  static const String fail = "fail";
+  static const String allOrders = "allOrders";
 }

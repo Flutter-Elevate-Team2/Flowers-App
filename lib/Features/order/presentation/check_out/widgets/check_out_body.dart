@@ -54,6 +54,7 @@ class _CheckOutBodyState extends State<CheckOutBody> {
         if (state.cashResponse != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.read<CartViewModel>().doIntent(ClearCartEvent());
+            context.read<CheckoutViewModel>().resetPaymentState();
             context.goNamed(Routes.thankYouName);
           });
         }
@@ -62,7 +63,8 @@ class _CheckOutBodyState extends State<CheckOutBody> {
         if (state.redirectUrl != null) {
           final viewModel = context.read<CheckoutViewModel>();
           WidgetsBinding.instance.addPostFrameCallback((_) async {
-            final isSuccess = await Navigator.push<bool>(
+            if (!mounted) return;
+            await Navigator.push<bool>(
               context,
               MaterialPageRoute(
                 builder: (_) => CreditCheckoutWebView(url: state.redirectUrl!),
@@ -70,10 +72,6 @@ class _CheckOutBodyState extends State<CheckOutBody> {
             );
 
             viewModel.resetPaymentState();
-            if (isSuccess == true) {
-              context.read<CartViewModel>().doIntent(ClearCartEvent());
-              context.goNamed(Routes.thankYouName);
-            }
           });
         }
       },
