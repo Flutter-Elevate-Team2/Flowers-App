@@ -136,7 +136,7 @@
   "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
   "failedToPickImage": "فشل في اختيار الصورة: {error}",
   "required": "مطلوب",
-  "addNewAddress": "إضافة عنوان جديد",
+  "addNewAddress": "اضغط لإضافة عنوان جديد",
   "addressAddedSuccess": "تم إضافة العنوان بنجاح",
   "addressUpdatedSuccess": "تم تحديث العنوان بنجاح",
   "addressDeletedSuccess": "تم حذف العنوان بنجاح",
@@ -185,5 +185,7 @@
   "goToHome": "الذهاب إلى الصفحة الرئيسية",
   "placedSuccessfully": "تم تأكيد طلبك بنجاح. سنبدأ في تحضيره فورًا 🌸",
   "creditCheckout": "الدفع بالبطاقة",
-  "paymentCancelled": "تم إلغاء الدفع"
+  "paymentCancelled": "تم إلغاء الدفع",
+  "loading": "جار التحميل...",
+  "selectAddress": "اختار عنوان"
 }

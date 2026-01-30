@@ -6,12 +6,14 @@ class AddressTile extends StatelessWidget {
   final String title;
   final String address;
   final bool isSelected;
+  final String city;
   final VoidCallback onEdit;
   final VoidCallback onTap;
 
   const AddressTile({
     super.key,
     required this.title,
+    required this.city,
     required this.address,
     required this.isSelected,
     required this.onEdit,
@@ -59,7 +61,7 @@ class AddressTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    address,
+                    "$address - $city",
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.secondary,
                     ),

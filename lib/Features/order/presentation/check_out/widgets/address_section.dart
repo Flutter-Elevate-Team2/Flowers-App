@@ -41,6 +41,7 @@ class AddressSection extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: AddressTile(
+                city: address.city,
                 title: address.username,
                 address: address.street,
                 isSelected: selectedAddress?.id == address.id,

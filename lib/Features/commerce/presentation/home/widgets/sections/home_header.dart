@@ -54,12 +54,13 @@ class HomeHeader extends StatelessWidget {
             final addresses = state.getAddressesState?.data?.addresses ?? [];
             if (addresses.isNotEmpty &&
                 context.read<SelectedAddressCubit>().state == null) {
-              // 👈 اختار أول عنوان تلقائيًا
               context.read<SelectedAddressCubit>().select(addresses.first);
             }
           },
           child: const AddressSelector(),
-        ),      ],
+        ),
+        const SizedBox(height: 12),
+      ],
     );
   }
 }

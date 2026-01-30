@@ -20,6 +20,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
   final AddAddressUseCase _addAddressUseCase;
   final UserAddressUseCase _userAddressUseCase;
   final SessionController _sessionController;
+  StreamSubscription? _loginSubscription;
   StreamSubscription? _logoutSubscription;
   UserAddressViewModel(
     this._getAddressesUseCase,
@@ -28,6 +29,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
     this._sessionController,
   ) : super(UserAddressState()) {
     _listenToLogout();
+    _listenToLogin();
   }
   void _listenToLogout() {
     _logoutSubscription = _sessionController.onLogout.listen((_) {
@@ -36,10 +38,18 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
       }
     });
   }
+  void _listenToLogin() {
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      if (!isClosed) {
+        doIntent(GetAddressesEvent());
+      }
+    });
+  }
 
   @override
   Future<void> close() {
     _logoutSubscription?.cancel();
+    _loginSubscription?.cancel();
     return super.close();
   }
 

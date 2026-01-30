@@ -515,7 +515,7 @@
 
   "guest" : "guest",
   "@guest" : { "description": "guest" },
-  "addNewAddress": "Add new address",
+  "addNewAddress": "Tab to add new address",
   "@addNewAddress": { "description": "Button text to add a new address" },
 
   "addressAddedSuccess": "Address added successfully",
@@ -613,5 +613,9 @@
   "creditCheckout": "Credit Checkout",
   "@creditCheckout": { "description": "Title for credit card checkout"},
   "paymentCancelled": "Payment Cancelled",
-  "@paymentCancelled": { "description": "Message displayed when payment is cancelled" }
+  "@paymentCancelled": { "description": "Message displayed when payment is cancelled" },
+  "loading": "Loading...",
+  "@loading": { "description": "loading..." },
+  "selectAddress": "Select Address",
+  "@selectAddress": { "description": "Title for address selection screen" }
 }
