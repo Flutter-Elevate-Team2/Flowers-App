@@ -33,4 +33,6 @@ class ApiConstants {
   static const String cancel = "cancel";
   static const String fail = "fail";
   static const String allOrders = "allOrders";
+  static const String pending = "pending";
+  static const String completed = "completed";
 }
