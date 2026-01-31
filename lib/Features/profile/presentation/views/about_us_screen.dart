@@ -8,8 +8,7 @@ import '../../data/models/generic_section_model.dart';
 import '../widgets/generic_widget.dart';
 
 class AboutUsScreen extends StatelessWidget {
-  final String locale;
-  const AboutUsScreen({super.key, this.locale = JsonKeys.en});
+  const AboutUsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,12 @@ class AboutUsScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: sections
-                    .map((section) => buildGenericSection(section, locale))
+                    .map(
+                      (section) => buildGenericSection(
+                        section,
+                        Localizations.localeOf(context).languageCode,
+                      ),
+                    )
                     .toList(),
               ),
             ),
