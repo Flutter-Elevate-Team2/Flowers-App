@@ -1,6 +1,6 @@
-import 'package:flowers_app/Features/profile/data/models/about_model.dart';
 import 'package:flowers_app/Features/profile/data/models/generic_section_model.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../../core/utils/json_helpers/parse_font_weight.dart';
 import '../../../../../core/utils/json_helpers/parse_text_style.dart';
 import '../../../../core/utils/json_helpers/hex_to_color.dart';
@@ -29,24 +29,28 @@ Widget buildGenericSection(GenericSectionModel section, String locale) {
   List<Widget> children = [];
 
   if (title != null) {
-    children.add(Text(
-      title,
-      style: titleStyle,
-      textAlign: parseTextAlign(titleStyleMap['textAlign']?[locale]),
-    ));
+    children.add(
+      Text(
+        title,
+        style: titleStyle,
+        textAlign: parseTextAlign(titleStyleMap['textAlign']?[locale]),
+      ),
+    );
     children.add(const SizedBox(height: 8));
   }
 
   if (content is String) {
-    children.add(Text(
-      content,
-      style: contentStyle,
-      textAlign: parseTextAlign(contentStyleMap['textAlign']?[locale]),
-    ));
+    children.add(
+      Text(
+        content,
+        style: contentStyle,
+        textAlign: parseTextAlign(contentStyleMap['textAlign']?[locale]),
+      ),
+    );
   } else if (content is List) {
     children.addAll(
-      (content as List).map<Widget>(
-            (paragraph) => Padding(
+      (content).map<Widget>(
+        (paragraph) => Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
             paragraph,

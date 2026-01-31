@@ -617,5 +617,7 @@
   "loading": "Loading...",
   "@loading": { "description": "loading..." },
   "selectAddress": "Select Address",
-  "@selectAddress": { "description": "Title for address selection screen" }
+  "@selectAddress": { "description": "Title for address selection screen" },
+  "pleaseLoginToAddAddress": "Please login to add address",
+  "@pleaseLoginToAddAddress": { "description": "Please login to add address" }
 }

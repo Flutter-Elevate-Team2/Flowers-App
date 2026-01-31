@@ -378,7 +378,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noProductsFound => 'لا توجد منتجات';
 
   @override
-  String get occasionDescription => 'Bloom with our exquisite best sellers';
+  String get occasionDescription => 'تألّق مع أفضل زهورنا مبيعاً والأكثر روعة';
 
   @override
   String get loginRequired => 'تسجيل الدخول مطلوب';
@@ -644,4 +644,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectAddress => 'اختار عنوان';
+
+  @override
+  String get pleaseLoginToAddAddress => 'يرجى تسجيل الدخول لإضافة عنوان';
 }

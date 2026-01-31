@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginRequiredDialog extends StatelessWidget {
-  const LoginRequiredDialog({super.key});
+  final String content;
+  const LoginRequiredDialog({super.key, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +20,20 @@ class LoginRequiredDialog extends StatelessWidget {
             // Title
             Text(
               context.l10n.loginRequired,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 12),
 
             // Content
             Text(
-              context.l10n.pleaseLoginToAdd,
+              content,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.gray),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppColors.gray),
             ),
 
             const SizedBox(height: 24),
@@ -53,7 +58,9 @@ class LoginRequiredDialog extends StatelessWidget {
                     ),
                     child: Text(
                       context.l10n.cancelDialog,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.black),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: AppColors.black),
                     ),
                   ),
                 ),
@@ -79,7 +86,9 @@ class LoginRequiredDialog extends StatelessWidget {
                     ),
                     child: Text(
                       context.l10n.loginButton,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.white),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: AppColors.white),
                     ),
                   ),
                 ),

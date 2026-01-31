@@ -1351,6 +1351,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Address'**
   String get selectAddress;
+
+  /// Please login to add address
+  ///
+  /// In en, this message translates to:
+  /// **'Please login to add address'**
+  String get pleaseLoginToAddAddress;
 }
 
 class _AppLocalizationsDelegate
