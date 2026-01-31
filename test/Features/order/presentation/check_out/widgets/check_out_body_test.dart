@@ -1,35 +1,55 @@
+import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_states.dart';
+import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_states.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_body.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_section.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
+import 'package:flowers_app/core/widget/selected_address_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_body.dart';
-import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_view_model.dart';
-import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_states.dart';
-import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_view_model.dart';
-import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_states.dart';
 
 import 'check_out_body_test.mocks.dart';
 
-@GenerateMocks([CheckoutViewModel, CartViewModel, LanguageCubit])
+@GenerateMocks([
+  CheckoutViewModel,
+  CartViewModel,
+  LanguageCubit,
+  SelectedAddressCubit,
+  UserAddressViewModel,
+])
 void main() {
   late MockCheckoutViewModel checkoutCubit;
   late MockCartViewModel cartCubit;
   late MockLanguageCubit languageCubit;
+  late MockSelectedAddressCubit selectedAddressCubit;
+  late MockUserAddressViewModel userAddressViewModel;
 
   setUp(() {
     checkoutCubit = MockCheckoutViewModel();
     cartCubit = MockCartViewModel();
     languageCubit = MockLanguageCubit();
+    selectedAddressCubit = MockSelectedAddressCubit();
+    userAddressViewModel = MockUserAddressViewModel();
 
     when(languageCubit.state).thenReturn(const Locale('en'));
     when(languageCubit.stream).thenAnswer((_) => const Stream.empty());
+
+    // Stub SelectedAddressCubit
+    when(selectedAddressCubit.state).thenReturn(null);
+    when(selectedAddressCubit.stream).thenAnswer((_) => const Stream.empty());
+
+    // Stub UserAddressViewModel
+    when(userAddressViewModel.state).thenReturn(UserAddressState());
+    when(userAddressViewModel.stream).thenAnswer((_) => const Stream.empty());
   });
 
   Widget buildTestableWidget() {
@@ -46,6 +66,8 @@ void main() {
           BlocProvider<CheckoutViewModel>.value(value: checkoutCubit),
           BlocProvider<CartViewModel>.value(value: cartCubit),
           BlocProvider<LanguageCubit>.value(value: languageCubit),
+          BlocProvider<SelectedAddressCubit>.value(value: selectedAddressCubit),
+          BlocProvider<UserAddressViewModel>.value(value: userAddressViewModel),
         ],
         child: const Scaffold(body: CheckOutBody()),
       ),
@@ -184,5 +206,4 @@ void main() {
 
     expect(find.byKey(const ValueKey('giftFields')), findsOneWidget);
   });
-
 }

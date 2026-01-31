@@ -10,6 +10,7 @@ import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -64,8 +65,11 @@ void main() {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => Scaffold(
-            body: AddAddressScreenBody(addressToEdit: addressToEdit),
+          builder: (context, state) => BlocProvider<UserAddressViewModel>(
+            create: (_) => mockViewModel,
+            child: Scaffold(
+              body: AddAddressScreenBody(addressToEdit: addressToEdit),
+            ),
           ),
         ),
       ],

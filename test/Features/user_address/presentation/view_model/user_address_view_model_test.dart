@@ -22,7 +22,7 @@ import 'user_address_view_model_test.mocks.dart';
   GetAddressesUseCase,
   AddAddressUseCase,
   UserAddressUseCase,
-  SessionController
+  SessionController,
 ])
 void main() {
   late UserAddressViewModel viewModel;
@@ -58,9 +58,15 @@ void main() {
     mockSessionController = MockSessionController();
 
     logoutStreamController = StreamController<SessionEndReason>.broadcast();
+    final loginStreamController = StreamController<void>.broadcast();
 
-    when(mockSessionController.onLogout)
-        .thenAnswer((_) => logoutStreamController.stream);
+    when(
+      mockSessionController.onLogout,
+    ).thenAnswer((_) => logoutStreamController.stream);
+
+    when(
+      mockSessionController.onLogin,
+    ).thenAnswer((_) => loginStreamController.stream);
 
     viewModel = UserAddressViewModel(
       mockGetAddressesUseCase,
@@ -68,6 +74,11 @@ void main() {
       mockUserAddressUseCase,
       mockSessionController,
     );
+
+    // Ensure stream controllers are closed via addTearDown or in tearDown
+    addTearDown(() {
+      loginStreamController.close();
+    });
   });
 
   tearDown(() {
@@ -148,9 +159,9 @@ void main() {
         mockAddAddressUseCase.call(any),
       ).thenAnswer((_) async => SuccessResponse(data: tAddressResponseEntity));
 
-       when(mockGetAddressesUseCase.call()).thenAnswer(
-          (_) async => SuccessResponse(data: tAddressResponseEntity),
-        );
+      when(
+        mockGetAddressesUseCase.call(),
+      ).thenAnswer((_) async => SuccessResponse(data: tAddressResponseEntity));
 
       // Assert
       expectLater(
@@ -166,14 +177,14 @@ void main() {
                 s.addAddressState?.isLoading == false &&
                 s.addAddressState?.data == tAddressResponseEntity,
           ),
-           // Get Loading (triggered automatically)
+          // Get Loading (triggered automatically)
           predicate<UserAddressState>(
-              (s) => s.getAddressesState?.isLoading == true,
-            ),
+            (s) => s.getAddressesState?.isLoading == true,
+          ),
           // Get Success
-           predicate<UserAddressState>(
-              (s) => s.getAddressesState?.isLoading == false,
-            ),
+          predicate<UserAddressState>(
+            (s) => s.getAddressesState?.isLoading == false,
+          ),
         ]),
       );
 
@@ -238,7 +249,7 @@ void main() {
         );
 
         // Mock GetAddresses as it is called after Edit
-         when(mockGetAddressesUseCase.call()).thenAnswer(
+        when(mockGetAddressesUseCase.call()).thenAnswer(
           (_) async => SuccessResponse(data: tAddressResponseEntity),
         );
 
@@ -256,12 +267,12 @@ void main() {
                   s.editAddressState?.isLoading == false &&
                   s.editAddressState?.data == tAddressResponseEntity,
             ),
-             // Get Loading
-             predicate<UserAddressState>(
+            // Get Loading
+            predicate<UserAddressState>(
               (s) => s.getAddressesState?.isLoading == true,
             ),
             // Get Success
-             predicate<UserAddressState>(
+            predicate<UserAddressState>(
               (s) => s.getAddressesState?.isLoading == false,
             ),
           ]),
@@ -383,24 +394,27 @@ void main() {
   });
 
   group('UserAddressViewModel - Logout Handling', () {
-    test('Should emit empty UserAddressState when logout event occurs', () async {
-      // Act
-      logoutStreamController.add(SessionEndReason.logout);
+    test(
+      'Should emit empty UserAddressState when logout event occurs',
+      () async {
+        // Act
+        logoutStreamController.add(SessionEndReason.logout);
 
-      // Assert
-      expectLater(
-        viewModel.stream,
-        emits(
-          predicate<UserAddressState>(
-            (s) =>
-                s.getAddressesState == null &&
-                s.addAddressState == null &&
-                s.editAddressState == null &&
-                s.deleteAddressState == null,
+        // Assert
+        expectLater(
+          viewModel.stream,
+          emits(
+            predicate<UserAddressState>(
+              (s) =>
+                  s.getAddressesState == null &&
+                  s.addAddressState == null &&
+                  s.editAddressState == null &&
+                  s.deleteAddressState == null,
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   });
 
   group('UserAddressViewModel - ResetDeleteState', () {
