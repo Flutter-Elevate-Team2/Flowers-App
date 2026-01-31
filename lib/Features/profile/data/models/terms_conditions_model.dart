@@ -1,0 +1,119 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'terms_conditions_model.g.dart';
+
+@JsonSerializable()
+class TermsAndConditionsModel {
+  @JsonKey(name: "terms_and_conditions")
+  final List<TermsAndConditions>? termsAndConditions;
+
+  TermsAndConditionsModel ({
+    this.termsAndConditions,
+  });
+
+  factory TermsAndConditionsModel.fromJson(Map<String, dynamic> json) {
+    return _$TermsAndConditionsModelFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TermsAndConditionsModelToJson(this);
+  }
+}
+
+@JsonSerializable()
+class TermsAndConditions {
+  @JsonKey(name: "section")
+  final String? section;
+  @JsonKey(name: "content")
+  final Content? content;
+  @JsonKey(name: "style")
+  final Style? style;
+
+  TermsAndConditions ({
+    this.section,
+    this.content,
+    this.style,
+  });
+
+  factory TermsAndConditions.fromJson(Map<String, dynamic> json) {
+    return _$TermsAndConditionsFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TermsAndConditionsToJson(this);
+  }
+}
+
+@JsonSerializable()
+class Content {
+  @JsonKey(name: "en")
+  final String? en;
+  @JsonKey(name: "ar")
+  final String? ar;
+
+  Content ({
+    this.en,
+    this.ar,
+  });
+
+  factory Content.fromJson(Map<String, dynamic> json) {
+    return _$ContentFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$ContentToJson(this);
+  }
+}
+
+@JsonSerializable()
+class Style {
+  @JsonKey(name: "fontSize")
+  final int? fontSize;
+  @JsonKey(name: "fontWeight")
+  final String? fontWeight;
+  @JsonKey(name: "color")
+  final String? color;
+  @JsonKey(name: "textAlign")
+  final TextAlign? textAlign;
+  @JsonKey(name: "backgroundColor")
+  final String? backgroundColor;
+
+  Style ({
+    this.fontSize,
+    this.fontWeight,
+    this.color,
+    this.textAlign,
+    this.backgroundColor,
+  });
+
+  factory Style.fromJson(Map<String, dynamic> json) {
+    return _$StyleFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$StyleToJson(this);
+  }
+}
+
+@JsonSerializable()
+class TextAlign {
+  @JsonKey(name: "en")
+  final String? en;
+  @JsonKey(name: "ar")
+  final String? ar;
+
+  TextAlign ({
+    this.en,
+    this.ar,
+  });
+
+  factory TextAlign.fromJson(Map<String, dynamic> json) {
+    return _$TextAlignFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$TextAlignToJson(this);
+  }
+}
+
+

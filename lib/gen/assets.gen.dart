@@ -59,6 +59,24 @@ class $AssetsImagesGen {
   ];
 }
 
+class $AssetsJsonGen {
+  const $AssetsJsonGen();
+
+  /// File path: assets/json/Flowery About Section JSON with Expanded Content.json
+  String get floweryAboutSectionJSONWithExpandedContent =>
+      'assets/json/Flowery About Section JSON with Expanded Content.json';
+
+  /// File path: assets/json/Flowery Terms and Conditions JSON with Arabic and English.json
+  String get floweryTermsAndConditionsJSONWithArabicAndEnglish =>
+      'assets/json/Flowery Terms and Conditions JSON with Arabic and English.json';
+
+  /// List of all assets
+  List<String> get values => [
+    floweryAboutSectionJSONWithExpandedContent,
+    floweryTermsAndConditionsJSONWithArabicAndEnglish,
+  ];
+}
+
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
@@ -93,6 +111,7 @@ class Assets {
   static const String aEnv = '.env';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsJsonGen json = $AssetsJsonGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
 
   /// List of all assets
