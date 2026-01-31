@@ -643,4 +643,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paymentCancelled => 'Payment Cancelled';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get selectAddress => 'Select Address';
 }

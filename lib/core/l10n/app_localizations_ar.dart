@@ -638,4 +638,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get paymentCancelled => 'تم إلغاء الدفع';
+
+  @override
+  String get loading => 'جار التحميل...';
+
+  @override
+  String get selectAddress => 'اختار عنوان';
 }

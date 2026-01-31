@@ -1339,6 +1339,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Payment Cancelled'**
   String get paymentCancelled;
+
+  /// loading...
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// Title for address selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Select Address'**
+  String get selectAddress;
 }
 
 class _AppLocalizationsDelegate
