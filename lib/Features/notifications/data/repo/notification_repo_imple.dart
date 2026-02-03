@@ -5,7 +5,8 @@ import 'package:flowers_app/Features/notifications/domain/entities/notification_
 import 'package:flowers_app/Features/notifications/domain/repo/notification_repo_contract.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/helpers/api_execution_mixin.dart';
-
+import 'package:injectable/injectable.dart';
+@Injectable(as: NotificationRepoContract)
 class NotificationRepoImple with ApiExecutionMixin implements NotificationRepoContract {
   final NotificationRemoteDataSourceContract _remoteDataSource;
   NotificationRepoImple(this._remoteDataSource);
