@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - demo2 # Add base branch for PR analysis
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -41,39 +42,18 @@ jobs:
         continue-on-error: true
         run: flutter test --coverage
 
-      - name: SonarQube Scan (Pull Request)
-        if: github.event_name == 'pull_request'
+      - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
         with:
           args: >
-            -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.projectKey=MoHa270xX_Flowers-App
             -Dsonar.organization=moha270xx
             -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
-            -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
-            -Dsonar.pullrequest.branch=${{ github.head_ref }}
-            -Dsonar.pullrequest.base=${{ github.base_ref }}
-
-      - name: SonarQube Scan (Branch)
-        if: github.event_name == 'push'
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: >
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.projectKey=MoHa270xX_Flowers-App
-            -Dsonar.organization=moha270xx
-            -Dsonar.dart.lcov.reportPath=coverage/lcov.info
-            -Dsonar.sources=lib
-            -Dsonar.tests=test
-            -Dsonar.branch.name=${{ github.ref_name }}
 
       - name: SonarQube Quality Gate Check
         uses: sonarsource/sonarqube-quality-gate-action@master
