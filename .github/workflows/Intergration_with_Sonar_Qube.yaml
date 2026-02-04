@@ -38,12 +38,15 @@ jobs:
         run: flutter test --coverage
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
+        # تحديث النسخة لـ v6 كما طلب منك الـ Action
+        uses: SonarSource/sonarqube-scan-action@v6 
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
           args: >
+            -Dsonar.projectKey=MoHa270xX_Flowers-App
+            -Dsonar.organization=Mohamed Ibrahim
             -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
