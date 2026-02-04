@@ -6,12 +6,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-# --- الجزء الجديد والمهم لحل المشكلة ---
 permissions:
   pull-requests: write
   contents: read
-# -------------------------------------
-
+  statuses: write
 jobs:
   sonarqube:
     name: SonarQube
@@ -44,11 +42,10 @@ jobs:
         run: flutter test --coverage
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6 
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # تأكد من وجود هذا السطر
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         with:
           args: >
             -Dsonar.projectKey=MoHa270xX_Flowers-App
@@ -62,3 +59,4 @@ jobs:
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
