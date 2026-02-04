@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - demo2 # Add base branch for PR analysis
+      - demo2
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -11,6 +11,7 @@ permissions:
   pull-requests: write
   contents: read
   statuses: write
+
 jobs:
   sonarqube:
     name: SonarQube
@@ -18,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -39,27 +40,25 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Run Tests
-        continue-on-error: true
+        continue-on-error: true 
         run: flutter test --coverage
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
         with:
-          projectBaseDir: .
           args: >
             -Dsonar.projectKey=MoHa270xX_Flowers-App
             -Dsonar.organization=moha270xx
             -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
-            -Dsonar.scm.disabled=true
+            -Dsonar.exclusions=lib/**.g.dart,lib/**.freezed.dart,lib/generated_plugin_registrant.dart
 
       - name: SonarQube Quality Gate Check
         uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{secrets.TOKEN }}
