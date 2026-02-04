@@ -46,7 +46,7 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=MoHa270xX_Flowers-App
-            -Dsonar.organization=Mohamed Ibrahim
+            -Dsonar.organization=moha270xx
             -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
