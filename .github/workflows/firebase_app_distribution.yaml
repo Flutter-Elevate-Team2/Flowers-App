@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - development
-      - feature/TEAM2-64-Upload-version-to-Firebase-App
+      
   pull_request:
     branches:
       - main
