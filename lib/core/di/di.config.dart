@@ -61,6 +61,20 @@ import '../../Features/commerce/presentation/home/view_model/home_view_model.dar
     as _i945;
 import '../../Features/commerce/presentation/products/view_model/products_view_model.dart'
     as _i378;
+import '../../Features/notifications/api/api_client/notification_api_client.dart'
+    as _i786;
+import '../../Features/notifications/api/data_source_imple/notification_remote_data_source_imple.dart'
+    as _i985;
+import '../../Features/notifications/data/data_source_contract/notification_remote_data_source_contract.dart'
+    as _i518;
+import '../../Features/notifications/data/repo/notification_repo_imple.dart'
+    as _i302;
+import '../../Features/notifications/domain/repo/notification_repo_contract.dart'
+    as _i525;
+import '../../Features/notifications/domain/use_case/get_notification_use_case.dart'
+    as _i932;
+import '../../Features/notifications/presentation/view_model/notification_view_model.dart'
+    as _i713;
 import '../../Features/order/api/api_client/order_api.dart' as _i199;
 import '../../Features/order/api/data_source_imple/remot_data_source_imple/order_remote_data_source_imple.dart'
     as _i250;
@@ -176,6 +190,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i516.CommerceApi>(
       () => _i516.CommerceApi(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i786.NotificationApi>(
+      () => _i786.NotificationApi(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i199.OrderApi>(() => _i199.OrderApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i255.ProfileApi>(() => _i255.ProfileApi(gh<_i361.Dio>()));
     gh.lazySingleton<_i87.UserAddressApi>(
@@ -220,6 +237,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i978.AuthRemoteDataSourceContract>(
       () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
+    );
+    gh.factory<_i518.NotificationRemoteDataSourceContract>(
+      () =>
+          _i985.NotificationRemoteDataSourceImple(gh<_i786.NotificationApi>()),
+    );
+    gh.factory<_i525.NotificationRepoContract>(
+      () => _i302.NotificationRepoImple(
+        gh<_i518.NotificationRemoteDataSourceContract>(),
+      ),
     );
     gh.factory<_i832.UserAddressRemoteDataSourceContract>(
       () => _i520.UserAddressRemoteDataSourceImple(gh<_i87.UserAddressApi>()),
@@ -288,6 +314,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i761.UserAddressUseCase>(
       () => _i761.UserAddressUseCase(gh<_i646.UserAddressRepoContract>()),
     );
+    gh.factory<_i932.GetNotificationUseCase>(
+      () => _i932.GetNotificationUseCase(gh<_i525.NotificationRepoContract>()),
+    );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(
         gh<_i762.ForgetPasswordUsecase>(),
@@ -306,6 +335,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i179.SignupUseCase>(
       () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i713.NotificationViewModel>(
+      () => _i713.NotificationViewModel(gh<_i932.GetNotificationUseCase>()),
     );
     gh.factory<_i710.LoginViewModel>(
       () => _i710.LoginViewModel(

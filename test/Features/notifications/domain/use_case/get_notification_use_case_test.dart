@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/notifications/domain/entities/notification_data.dart';
 import 'package:flowers_app/Features/notifications/domain/entities/notification_entity.dart';
 import 'package:flowers_app/Features/notifications/domain/repo/notification_repo_contract.dart';
 import 'package:flowers_app/Features/notifications/domain/use_case/get_notification_use_case.dart';
@@ -10,8 +11,8 @@ import 'get_notification_use_case_test.mocks.dart';
 
 @GenerateMocks([NotificationRepoContract])
 void main() {
-  provideDummy<BaseResponse<List<NotificationEntity>>>(
-    SuccessResponse(data: []),
+  provideDummy<BaseResponse<NotificationData>>(
+    SuccessResponse(data: NotificationData(notifications: [], unreadCount: 0)),
   );
 
   late GetNotificationUseCase useCase;
@@ -35,8 +36,12 @@ void main() {
           body: 'This is another test notification',
         ),
       ];
-      final successResponse = SuccessResponse<List<NotificationEntity>>(
-        data: notifications,
+      final notificationData = NotificationData(
+        notifications: notifications,
+        unreadCount: 2,
+      );
+      final successResponse = SuccessResponse<NotificationData>(
+        data: notificationData,
       );
 
       when(
@@ -48,18 +53,19 @@ void main() {
 
       // Assert
       expect(result, successResponse);
-      expect(result, isA<SuccessResponse<List<NotificationEntity>>>());
-      final data = (result as SuccessResponse<List<NotificationEntity>>).data;
-      expect(data.length, 2);
-      expect(data[0].title, 'Test Notification 1');
-      expect(data[1].title, 'Test Notification 2');
+      expect(result, isA<SuccessResponse<NotificationData>>());
+      final data = (result as SuccessResponse<NotificationData>).data;
+      expect(data.notifications.length, 2);
+      expect(data.unreadCount, 2);
+      expect(data.notifications[0].title, 'Test Notification 1');
+      expect(data.notifications[1].title, 'Test Notification 2');
       verify(mockRepo.getNotifications()).called(1);
     });
 
     test('call should return ErrorResponse when repository fails', () async {
       // Arrange
       const errorMessage = 'Failed to fetch notifications';
-      final errorResponse = ErrorResponse<List<NotificationEntity>>(
+      final errorResponse = ErrorResponse<NotificationData>(
         errorMessage: errorMessage,
       );
 
@@ -70,15 +76,19 @@ void main() {
 
       // Assert
       expect(result, errorResponse);
-      expect(result, isA<ErrorResponse<List<NotificationEntity>>>());
+      expect(result, isA<ErrorResponse<NotificationData>>());
       expect((result as ErrorResponse).errorMessage, errorMessage);
       verify(mockRepo.getNotifications()).called(1);
     });
 
     test('call should return empty list when no notifications', () async {
       // Arrange
-      final successResponse = SuccessResponse<List<NotificationEntity>>(
-        data: [],
+      final notificationData = NotificationData(
+        notifications: [],
+        unreadCount: 0,
+      );
+      final successResponse = SuccessResponse<NotificationData>(
+        data: notificationData,
       );
 
       when(
@@ -89,8 +99,10 @@ void main() {
       final result = await useCase.call();
 
       // Assert
-      expect(result, isA<SuccessResponse<List<NotificationEntity>>>());
-      expect((result as SuccessResponse).data, isEmpty);
+      expect(result, isA<SuccessResponse<NotificationData>>());
+      final data = (result as SuccessResponse<NotificationData>).data;
+      expect(data.notifications, isEmpty);
+      expect(data.unreadCount, 0);
       verify(mockRepo.getNotifications()).called(1);
     });
   });
