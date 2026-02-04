@@ -22,19 +22,15 @@ jobs:
           java-version: '17'
 
       - name: Setup Flutter
-        # تم تغيير الإصدار من v4 إلى v2 لأن v4 غير موجود حالياً
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
-          # تأكد من أن هذا الإصدار متوافق مع مشروعك (أو احذف السطر لاستخدام أحدث نسخة مستقرة)
-          flutter-version: 3.27.0 
 
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Run Tests
-        # هذه الخطوة ضرورية جداً لحساب نسبة تغطية الكود (Coverage)
         run: flutter test --coverage
 
       - name: SonarQube Scan
@@ -48,7 +44,6 @@ jobs:
             -Dsonar.sources=lib
             -Dsonar.tests=test
 
-      # الخطوة الإضافية للـ Quality Gate (ستجعل الـ Action يفشل إذا رسب الكود في الاختبارات)
       - name: SonarQube Quality Gate Check
         uses: sonarsource/sonarqube-quality-gate-action@master
         timeout-minutes: 5
