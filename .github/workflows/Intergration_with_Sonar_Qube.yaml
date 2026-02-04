@@ -5,6 +5,7 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   sonarqube:
     name: SonarQube
@@ -14,7 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -22,21 +22,23 @@ jobs:
           java-version: '17'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v4
+        # تم تغيير الإصدار من v4 إلى v2 لأن v4 غير موجود حالياً
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           cache: true
-          flutter-version: 3.38.6
+          # تأكد من أن هذا الإصدار متوافق مع مشروعك (أو احذف السطر لاستخدام أحدث نسخة مستقرة)
+          flutter-version: 3.27.0 
 
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Run Tests
+        # هذه الخطوة ضرورية جداً لحساب نسبة تغطية الكود (Coverage)
         run: flutter test --coverage
-      
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6 
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -45,3 +47,10 @@ jobs:
             -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
+
+      # الخطوة الإضافية للـ Quality Gate (ستجعل الـ Action يفشل إذا رسب الكود في الاختبارات)
+      - name: SonarQube Quality Gate Check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
