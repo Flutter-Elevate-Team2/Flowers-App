@@ -67,6 +67,8 @@ dependencies:
   url_launcher: ^6.3.2
   app_links: ^7.0.0
   webview_flutter: ^4.13.1
+  firebase_crashlytics: ^5.0.7
+  firebase_analytics: ^12.1.1
 
 dev_dependencies:
   bloc_test: ^10.0.0
