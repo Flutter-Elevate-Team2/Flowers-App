@@ -48,12 +48,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
         with:
+          projectBaseDir: .
           args: >
             -Dsonar.projectKey=MoHa270xX_Flowers-App
             -Dsonar.organization=moha270xx
             -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
+            -Dsonar.scm.disabled=true
 
       - name: SonarQube Quality Gate Check
         uses: sonarsource/sonarqube-quality-gate-action@master
