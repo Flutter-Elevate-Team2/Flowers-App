@@ -6,6 +6,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+# --- الجزء الجديد والمهم لحل المشكلة ---
+permissions:
+  pull-requests: write
+  contents: read
+# -------------------------------------
+
 jobs:
   sonarqube:
     name: SonarQube
@@ -38,11 +44,11 @@ jobs:
         run: flutter test --coverage
 
       - name: SonarQube Scan
-        # تحديث النسخة لـ v6 كما طلب منك الـ Action
         uses: SonarSource/sonarqube-scan-action@v6 
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # تأكد من وجود هذا السطر
         with:
           args: >
             -Dsonar.projectKey=MoHa270xX_Flowers-App
