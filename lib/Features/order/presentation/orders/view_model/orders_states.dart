@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_entity.dart';
-import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_event.dart';
+import 'package:flowers_app/Features/order/domain/use_cases/get_user_orders.dart';
 
 class OrdersState extends Equatable {
   final bool isLoading;
   final bool isFiltering;
   final List<OrdersEntity> allOrders;
-  final List<OrdersEntity> filteredOrders;
+  final List<OrdersEntity> completedOrders;
+  final List<OrdersEntity> activeOrders;
   final OrderFilter selectedFilter;
   final String? errorMessage;
-
-
 
   const OrdersState({
     this.isLoading = false,
     this.isFiltering = false,
     this.allOrders = const [],
-    this.filteredOrders = const [],
+    this.completedOrders = const [],
+    this.activeOrders = const [],
     this.selectedFilter = OrderFilter.pending,
     this.errorMessage,
   });
@@ -25,15 +25,17 @@ class OrdersState extends Equatable {
     bool? isLoading,
     bool? isFiltering,
     List<OrdersEntity>? allOrders,
-    List<OrdersEntity>? filteredOrders,
     OrderFilter? selectedFilter,
+    List<OrdersEntity>? completedOrders,
+    List<OrdersEntity>? activeOrders,
     String? errorMessage,
   }) {
     return OrdersState(
       isLoading: isLoading ?? this.isLoading,
       isFiltering: isFiltering ?? this.isFiltering,
       allOrders: allOrders ?? this.allOrders,
-      filteredOrders: filteredOrders ?? this.filteredOrders,
+      completedOrders: completedOrders ?? this.completedOrders,
+      activeOrders: activeOrders ?? this.activeOrders,
       selectedFilter: selectedFilter ?? this.selectedFilter,
       errorMessage: errorMessage,
     );
@@ -44,7 +46,8 @@ class OrdersState extends Equatable {
     isLoading,
     isFiltering,
     allOrders,
-    filteredOrders,
+    completedOrders,
+    activeOrders,
     selectedFilter,
     errorMessage,
   ];
