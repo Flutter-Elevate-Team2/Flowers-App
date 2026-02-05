@@ -28,6 +28,9 @@ abstract class OrderApi {
   @DELETE("${ApiConstants.cart}/{id}")
   Future<CartResponseModel> deleteProductFromCart(@Path("id") String itemId);
 
+  @DELETE(ApiConstants.cart)
+  Future<CartResponseModel> clearUserCart();
+
   @PUT("${ApiConstants.cart}/{id}")
   Future<CartResponseModel> updateCartProduct(
     @Path("id") String itemId,

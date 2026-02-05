@@ -620,4 +620,19 @@
   "@selectAddress": { "description": "Title for address selection screen" },
   "pleaseLoginToAddAddress": "Please login to add address",
   "@pleaseLoginToAddAddress": { "description": "Please login to add address" }
+  "@paymentCancelled": { "description": "Message displayed when payment is cancelled" },
+  "active": "Active",
+  "@active": { "description": "Status label for active orders" },
+  "completed": "Completed",
+  "@completed": { "description": "Status label for completed orders" },
+  "reorder": "Reorder",
+  "@reorder": { "description": "Button text to reorder an order"},
+  "trackOrder": "Track order",
+  "@trackOrder": {"description": "Button text to track an order" },
+  "deliveredOn": "Delivered on",
+  "@deliveredOn": { "description": "Label for delivery status"},
+  "orderNumber": "Order Number",
+  "@orderNumber": { "description": "Label for order number" },
+  "noOrdersFound": "No orders found",
+  "@noOrderFound": { "description": "Message displayed when no orders are found"}
 }

@@ -9,6 +9,9 @@ import 'package:flowers_app/Features/profile/presentation/widgets/profile_header
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header_shimmer.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_menu_item.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
@@ -60,7 +63,9 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.myOrders,
                   leadingIcon: Icons.calendar_today_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(Routes.orderName);
+                  },
                 ),
                 ProfileMenuItem(
                   title: context.l10n.savedAddress,

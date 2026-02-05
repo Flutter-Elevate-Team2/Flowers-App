@@ -11,6 +11,7 @@ abstract class OrderRemoteDataSourceContract {
   Future<CartResponseModel>getCartData();
   Future<CartResponseModel>deleteItemFromCart(String id);
   Future<CartResponseModel>updateCartItem(String id,QuantityRequest quantityRequest);
+  Future<CartResponseModel>clearUserCart();
   Future<CashCheckoutResponseModel>cashOrderCheckout(OrderRequest orderRequest);
   Future<CreditCheckoutResponseModel>creditOrderCheckout(OrderRequest orderRequest);
   Future<UserOrdersResponseModel>getUserOrders();
