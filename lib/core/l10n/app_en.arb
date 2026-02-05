@@ -619,8 +619,7 @@
   "selectAddress": "Select Address",
   "@selectAddress": { "description": "Title for address selection screen" },
   "pleaseLoginToAddAddress": "Please login to add address",
-  "@pleaseLoginToAddAddress": { "description": "Please login to add address" }
-  "@paymentCancelled": { "description": "Message displayed when payment is cancelled" },
+  "@pleaseLoginToAddAddress": { "description": "Please login to add address" },
   "active": "Active",
   "@active": { "description": "Status label for active orders" },
   "completed": "Completed",

@@ -197,8 +197,7 @@
   "trackOrder": "تتبع الطلب",
   "deliveredOn": "تم التسليم في",
   "orderNumber": "رقم الطلب",
-  "noOrdersFound": "لا توجد طلبات"
-  "paymentCancelled": "تم إلغاء الدفع",
+  "noOrdersFound": "لا توجد طلبات",
   "loading": "جار التحميل...",
   "selectAddress": "اختار عنوان",
   "pleaseLoginToAddAddress": "يرجى تسجيل الدخول لإضافة عنوان",
