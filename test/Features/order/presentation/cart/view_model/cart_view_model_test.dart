@@ -203,6 +203,20 @@ void main() {
         ),
       ],
     );
+    blocTest<CartViewModel, CartStates>(
+      'ClearCartEvent clears the cart',
+      build: () => cartViewModel,
+      act: (bloc) => bloc.doIntent(ClearCartEvent()),
+      expect: () => [
+        CartStates(
+          cartData: CartResponseEntity(
+            cart: CartEntity(cartItems: []),
+            numOfCartItems: 0,
+          ),
+          isGuest: false,
+        ),
+      ],
+    );
 
 
   });

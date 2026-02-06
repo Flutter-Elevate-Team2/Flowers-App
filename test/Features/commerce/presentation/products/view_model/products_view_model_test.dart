@@ -120,7 +120,7 @@ void _setup() {
 }
 
 void _fetchSuccessTest() {
-  group('Fetch Success', () {
+  group('Fetch ProductsViewModel Success', () {
     test('emits [Loading, Success] when fetch products succeeds', () async {
       when(
         mockUseCase.getProducts(
