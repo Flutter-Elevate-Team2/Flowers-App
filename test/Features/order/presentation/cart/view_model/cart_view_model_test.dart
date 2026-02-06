@@ -203,17 +203,33 @@ void main() {
         ),
       ],
     );
+
     blocTest<CartViewModel, CartStates>(
-      'ClearCartEvent clears the cart',
-      build: () => cartViewModel,
-      act: (bloc) => bloc.doIntent(ClearCartEvent()),
+      'ClearCartEvent clears the cart and emits [loading, success]',
+      build: () {
+        when(mockHasValidTokenUseCase.call()).thenAnswer((_) async => true);
+
+        when(mockClearCartUseCase.call()).thenAnswer(
+              (_) async => SuccessResponse(
+            data: CartResponseEntity(
+              cart: CartEntity(cartItems: []),
+              numOfCartItems: 0,
+            ),
+          ),
+        );
+        return cartViewModel;
+      },
+      act: (viewModel) => viewModel.doIntent(ClearCartEvent()),
       expect: () => [
+        isA<CartStates>().having((s) => s.isLoading, 'isLoading', true),
+
         CartStates(
           cartData: CartResponseEntity(
             cart: CartEntity(cartItems: []),
             numOfCartItems: 0,
           ),
           isGuest: false,
+          isLoading: false,
         ),
       ],
     );

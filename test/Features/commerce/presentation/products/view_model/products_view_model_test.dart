@@ -1,3 +1,4 @@
+import 'package:flowers_app/Features/commerce/domain/entities/home_entities/home_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/meta_data_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/paginated_products_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
@@ -32,6 +33,13 @@ void main() {
       ),
     ),
   );
+
+  provideDummy<BaseResponse<HomeEntity>>(
+    SuccessResponse(
+      data: HomeEntity(categories: [], occasions: [], bestSellers: []),
+    ),
+  );
+
 
   _setup();
   _fetchSuccessTest();
@@ -155,6 +163,73 @@ void _fetchSuccessTest() {
 
       viewModel.doIntent(FetchProductsEvent());
     });
+
+    test('fetch products with categoryId uses category query', () async {
+      when(
+        mockUseCase.getProducts(
+          categoryId: 'cat1',
+          page: 1,
+          limit: anyNamed('limit'),
+          sort: anyNamed('sort'),
+          search: anyNamed('search'),
+        ),
+      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
+
+      viewModel.doIntent(
+        FetchProductsEvent(categoryId: 'cat1'),
+      );
+
+      await Future.delayed(const Duration(milliseconds: 20));
+
+      verify(mockUseCase.getProducts(
+        categoryId: 'cat1',
+        page: 1,
+        limit: anyNamed('limit'),
+        sort: anyNamed('sort'),
+        search: anyNamed('search'),
+      )).called(1);
+    });
+
+    test('fetch products with occasionId uses occasion query', () async {
+      when(
+        mockUseCase.getProducts(
+          occasionId: 'oc1',
+          page: 1,
+          limit: anyNamed('limit'),
+          sort: anyNamed('sort'),
+          search: anyNamed('search'),
+        ),
+      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
+
+      viewModel.doIntent(
+        FetchProductsEvent(occasionId: 'oc1'),
+      );
+
+      await Future.delayed(const Duration(milliseconds: 20));
+
+      verify(mockUseCase.getProducts(
+        occasionId: 'oc1',
+        page: 1,
+        limit: anyNamed('limit'),
+        sort: anyNamed('sort'),
+        search: anyNamed('search'),
+      )).called(1);
+    });
+
+    test('fetch categories success', () async {
+      when(mockGetHomeSectionsUseCase.call()).thenAnswer(
+            (_) async => SuccessResponse(
+          data: HomeEntity(categories: [], occasions: [], bestSellers: []),
+        ),
+      );
+
+      viewModel.doIntent(FetchCategoriesEvent());
+
+      await Future.delayed(const Duration(milliseconds: 20));
+
+      expect(viewModel.state.categoriesState?.isLoading, false);
+    });
+
   });
 }
 
@@ -264,6 +339,88 @@ void _paginationTest() {
       await Future.delayed(const Duration(milliseconds: 50));
       viewModel.doIntent(LoadMoreProductsEvent());
     });
+
+    test('LoadMoreProductsEvent does nothing when nextPage is null', () async {
+      // arrange
+      when(
+        mockUseCase.getProducts(
+          page: anyNamed('page'),
+          limit: anyNamed('limit'),
+          categoryId: anyNamed('categoryId'),
+          occasionId: anyNamed('occasionId'),
+          sort: anyNamed('sort'),
+          search: anyNamed('search'),
+        ),
+      ).thenAnswer((invocation) async {
+        final page = invocation.namedArguments[Symbol('page')];
+        if (page == 1) return SuccessResponse(data: tPage1);
+        if (page == 2) return SuccessResponse(data: tPage2);
+        return SuccessResponse(data: tPage1);
+      });
+
+
+      viewModel.doIntent(FetchProductsEvent());
+
+      await Future.delayed(const Duration(milliseconds: 20));
+
+      // act
+      viewModel.doIntent(LoadMoreProductsEvent());
+
+      // assert
+      verify(mockUseCase.getProducts(
+        page: anyNamed('page'),
+        limit: anyNamed('limit'),
+        categoryId: anyNamed('categoryId'),
+        occasionId: anyNamed('occasionId'),
+        sort: anyNamed('sort'),
+        search: anyNamed('search'),
+      )).called(2);
+    });
+
+    test('goToPage does nothing for invalid page numbers', () async {
+      viewModel.goToPage(0);
+      expect(viewModel.state.currentPage, 1);
+
+      viewModel.goToPage(-1);
+      expect(viewModel.state.currentPage, 1);
+
+      viewModel.goToPage(100);
+      expect(viewModel.state.currentPage, 1);
+    });
+
+
+    test('pagination error keeps old data', () async {
+      when(mockUseCase.getProducts(
+        page: 1,
+        limit: anyNamed('limit'),
+        categoryId: anyNamed('categoryId'),
+        occasionId: anyNamed('occasionId'),
+        sort: anyNamed('sort'),
+        search: anyNamed('search'),
+      )).thenAnswer((_) async => SuccessResponse(data: tPage1));
+
+      when(mockUseCase.getProducts(
+        page: 2,
+        limit: anyNamed('limit'),
+        categoryId: anyNamed('categoryId'),
+        occasionId: anyNamed('occasionId'),
+        sort: anyNamed('sort'),
+        search: anyNamed('search'),
+      )).thenAnswer(
+            (_) async => ErrorResponse(errorMessage: 'error'),
+      );
+
+      viewModel.doIntent(FetchProductsEvent());
+      await Future.delayed(const Duration(milliseconds: 20));
+
+      viewModel.doIntent(LoadMoreProductsEvent());
+
+      await Future.delayed(const Duration(milliseconds: 20));
+
+      expect(viewModel.state.productsState?.data?.length, 1);
+    });
+
+
   });
 }
 
