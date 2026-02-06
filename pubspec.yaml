@@ -80,6 +80,7 @@ dev_dependencies:
   mockito: ^5.4.4
   retrofit_generator: ^10.0.6
   flutter_launcher_icons: ^0.14.4
+  mocktail: ^1.0.4
 flutter_launcher_icons:
   android: true
   ios: true

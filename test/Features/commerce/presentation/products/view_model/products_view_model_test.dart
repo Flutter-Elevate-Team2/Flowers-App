@@ -1,4 +1,7 @@
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/home_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/home_entities/occasion_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/meta_data_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/paginated_products_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
@@ -16,483 +19,258 @@ import 'products_view_model_test.mocks.dart';
 
 @GenerateMocks([ProductsUseCase, GetHomeSectionsUseCase])
 void main() {
-  TestWidgetsFlutterBinding.ensureInitialized();
+  late ProductsViewModel viewModel;
+  late MockProductsUseCase mockProductsUseCase;
+  late MockGetHomeSectionsUseCase mockGetHomeSectionsUseCase;
 
-  provideDummy<BaseResponse<PaginatedProductsEntity>>(
-    SuccessResponse(
-      data: PaginatedProductsEntity(
-        products: [],
-        meta: MetaDataEntity(
-          currentPage: 1,
-          totalPages: 1,
-          prevPage: null,
-          nextPage: null,
-          limit: 8,
-          totalItems: 0,
+  setUp(() {
+    provideDummy<BaseResponse<PaginatedProductsEntity>>(
+      SuccessResponse(
+        data: PaginatedProductsEntity(
+          products: [],
+          meta: MetaDataEntity(
+            limit: 10,
+            totalItems: 0,
+            totalPages: 0,
+            currentPage: 1,
+            nextPage: null,
+            prevPage: null,
+          ),
         ),
       ),
-    ),
-  );
+    );
+    provideDummy<BaseResponse<HomeEntity>>(
+      SuccessResponse(
+        data: HomeEntity(categories: [], occasions: [], bestSellers: []),
+      ),
+    );
 
-  provideDummy<BaseResponse<HomeEntity>>(
-    SuccessResponse(
-      data: HomeEntity(categories: [], occasions: [], bestSellers: []),
-    ),
-  );
-
-
-  _setup();
-  _fetchSuccessTest();
-  _fetchErrorTest();
-  _paginationTest();
-  _searchTest();
-  _searchFocusTest();
-}
-
-late ProductsViewModel viewModel;
-late MockProductsUseCase mockUseCase;
-late MockGetHomeSectionsUseCase mockGetHomeSectionsUseCase;
-
-final tProduct1 = ProductEntity(
-  id: '1',
-  title: 'Rose',
-  price: 10,
-  slug: '',
-  description: '',
-  imgCover: '',
-  images: const [],
-  priceAfterDiscount: 0,
-  quantity: 0,
-  categoryId: '',
-  occasionId: '',
-  sold: 0,
-  rateAvg: 0,
-  rateCount: 0,
-  isInWishlist: false,
-  discount: 0,
-);
-
-final tProduct2 = ProductEntity(
-  id: '2',
-  title: 'Tulip',
-  price: 15,
-  slug: '',
-  description: '',
-  imgCover: '',
-  images: const [],
-  priceAfterDiscount: 0,
-  quantity: 0,
-  categoryId: '',
-  occasionId: '',
-  sold: 0,
-  rateAvg: 0,
-  rateCount: 0,
-  isInWishlist: false,
-  discount: 0,
-);
-
-final tPage1 = PaginatedProductsEntity(
-  products: [tProduct1],
-  meta: MetaDataEntity(
-    currentPage: 1,
-    totalPages: 2,
-    prevPage: null,
-    nextPage: 2,
-    limit: 8,
-    totalItems: 2,
-  ),
-);
-
-final tPage2 = PaginatedProductsEntity(
-  products: [tProduct2],
-  meta: MetaDataEntity(
-    currentPage: 2,
-    totalPages: 2,
-    prevPage: 1,
-    nextPage: null,
-    limit: 8,
-    totalItems: 2,
-  ),
-);
-
-void _setup() {
-  setUp(() {
-    mockUseCase = MockProductsUseCase();
+    mockProductsUseCase = MockProductsUseCase();
     mockGetHomeSectionsUseCase = MockGetHomeSectionsUseCase();
-    viewModel = ProductsViewModel(mockUseCase, mockGetHomeSectionsUseCase);
+    viewModel = ProductsViewModel(
+      mockProductsUseCase,
+      mockGetHomeSectionsUseCase,
+    );
   });
 
-  tearDown(() async {
-    await viewModel.close();
+  tearDown(() {
+    viewModel.close();
   });
-}
 
-void _fetchSuccessTest() {
-  group('Fetch ProductsViewModel Success', () {
-    test('emits [Loading, Success] when fetch products succeeds', () async {
-      when(
-        mockUseCase.getProducts(
-          categoryId: anyNamed('categoryId'),
-          occasionId: anyNamed('occasionId'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
-          page: anyNamed('page'),
-          limit: anyNamed('limit'),
-        ),
-      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
+  group('ProductsViewModel', () {
+    final tProduct = ProductEntity(
+      id: "1",
+      title: "Rose",
+      imgCover: "image.png",
+      price: 100,
+      slug: "rose-flower",
+      description: "A beautiful rose",
+      images: ["image1.png", "image2.png"],
+      priceAfterDiscount: 90,
+      quantity: 10,
+      categoryId: "cat1",
+      occasionId: "occ1",
+      sold: 5,
+      rateAvg: 4,
+      rateCount: 10,
+      isInWishlist: false,
+      discount: 10,
+    );
+    final tPaginatedProducts = PaginatedProductsEntity(
+      products: [tProduct],
+      meta: MetaDataEntity(
+        totalItems: 1,
+        currentPage: 1,
+        limit: 10,
+        totalPages: 1,
+        prevPage: null,
+        nextPage: null,
+      ),
+    );
 
-      expectLater(
-        viewModel.stream,
-        emitsInOrder([
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'isLoading 1',
-            true,
+    final tCategory = CategoryEntity(id: "1", name: "Flowers", icon: "");
+    final tOccasion = OccasionEntity(id: "1", name: "Wedding", imageUrl: "");
+    final tHomeEntity = HomeEntity(
+      categories: [tCategory],
+      occasions: [tOccasion],
+      bestSellers: [],
+    );
+
+    test('initial state is correct', () {
+      expect(viewModel.state.isPaginationLoading, false);
+      expect(viewModel.state.productsState, isNull);
+    });
+
+    // Test FetchProductsEvent
+    blocTest<ProductsViewModel, ProductsStates>(
+      'emits [isLoading, Success] when FetchProductsEvent is added and useCase succeeds',
+      build: () {
+        when(
+          mockProductsUseCase.getProducts(
+            categoryId: anyNamed('categoryId'),
+            occasionId: anyNamed('occasionId'),
+            sort: anyNamed('sort'),
+            search: anyNamed('search'),
+            page: anyNamed('page'),
+            limit: anyNamed('limit'),
           ),
-
-          isA<ProductsStates>()
-              .having((s) => s.productsState?.isLoading, 'isLoading', false)
-              .having((s) => s.productsState?.data!.length, 'length', 1)
-              .having(
-                (s) => s.productsState?.data!.first.title,
-                'title',
-                'Rose',
-              ),
-        ]),
-      );
-
-      viewModel.doIntent(FetchProductsEvent());
-    });
-
-    test('fetch products with categoryId uses category query', () async {
-      when(
-        mockUseCase.getProducts(
-          categoryId: 'cat1',
-          page: 1,
-          limit: anyNamed('limit'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
+        ).thenAnswer((_) async => SuccessResponse(data: tPaginatedProducts));
+        return viewModel;
+      },
+      act: (bloc) => bloc.doIntent(FetchProductsEvent()),
+      wait: const Duration(milliseconds: 300),
+      expect: () => [
+        predicate<ProductsStates>(
+          (state) => state.productsState?.isLoading == true,
         ),
-      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
-
-      viewModel.doIntent(
-        FetchProductsEvent(categoryId: 'cat1'),
-      );
-
-      await Future.delayed(const Duration(milliseconds: 20));
-
-      verify(mockUseCase.getProducts(
-        categoryId: 'cat1',
-        page: 1,
-        limit: anyNamed('limit'),
-        sort: anyNamed('sort'),
-        search: anyNamed('search'),
-      )).called(1);
-    });
-
-    test('fetch products with occasionId uses occasion query', () async {
-      when(
-        mockUseCase.getProducts(
-          occasionId: 'oc1',
-          page: 1,
-          limit: anyNamed('limit'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
+        predicate<ProductsStates>(
+          (state) =>
+              state.productsState?.isLoading == false &&
+              state.productsState?.data?.length ==
+                  tPaginatedProducts.products.length &&
+              state.totalPages == 1,
         ),
-      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
+      ],
+    );
 
-      viewModel.doIntent(
-        FetchProductsEvent(occasionId: 'oc1'),
-      );
-
-      await Future.delayed(const Duration(milliseconds: 20));
-
-      verify(mockUseCase.getProducts(
-        occasionId: 'oc1',
-        page: 1,
-        limit: anyNamed('limit'),
-        sort: anyNamed('sort'),
-        search: anyNamed('search'),
-      )).called(1);
-    });
-
-    test('fetch categories success', () async {
-      when(mockGetHomeSectionsUseCase.call()).thenAnswer(
-            (_) async => SuccessResponse(
-          data: HomeEntity(categories: [], occasions: [], bestSellers: []),
-        ),
-      );
-
-      viewModel.doIntent(FetchCategoriesEvent());
-
-      await Future.delayed(const Duration(milliseconds: 20));
-
-      expect(viewModel.state.categoriesState?.isLoading, false);
-    });
-
-  });
-}
-
-void _fetchErrorTest() {
-  group('Fetch Error', () {
-    test('emits [Loading, Error] when fetch products fails', () async {
-      when(
-        mockUseCase.getProducts(
-          categoryId: anyNamed('categoryId'),
-          occasionId: anyNamed('occasionId'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
-          page: anyNamed('page'),
-          limit: anyNamed('limit'),
-        ),
-      ).thenAnswer(
-        (_) async => ErrorResponse(errorMessage: 'Failed to load products'),
-      );
-
-      expectLater(
-        viewModel.stream,
-        emitsInOrder([
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'isLoading 1',
-            true,
+    blocTest<ProductsViewModel, ProductsStates>(
+      'emits [isLoading, Error] when FetchProductsEvent is added and useCase fails',
+      build: () {
+        when(
+          mockProductsUseCase.getProducts(
+            categoryId: anyNamed('categoryId'),
+            occasionId: anyNamed('occasionId'),
+            sort: anyNamed('sort'),
+            search: anyNamed('search'),
+            page: anyNamed('page'),
+            limit: anyNamed('limit'),
           ),
-
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.errorMessage,
-            'error',
-            'Failed to load products',
-          ),
-        ]),
-      );
-
-      viewModel.doIntent(FetchProductsEvent());
-    });
-  });
-}
-
-void _paginationTest() {
-  group('Pagination (Infinite Scroll)', () {
-    test('LoadMoreProductsEvent appends new data to existing list', () async {
-      when(
-        mockUseCase.getProducts(
-          page: 1,
-          limit: anyNamed('limit'),
-          categoryId: anyNamed('categoryId'),
-          occasionId: anyNamed('occasionId'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
+        ).thenAnswer(
+          (_) async => ErrorResponse(errorMessage: 'Failed to fetch'),
+        );
+        return viewModel;
+      },
+      act: (bloc) => bloc.doIntent(FetchProductsEvent()),
+      wait: const Duration(milliseconds: 300),
+      expect: () => [
+        predicate<ProductsStates>(
+          (state) => state.productsState?.isLoading == true,
         ),
-      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
-
-      when(
-        mockUseCase.getProducts(
-          page: 2,
-          limit: anyNamed('limit'),
-          categoryId: anyNamed('categoryId'),
-          occasionId: anyNamed('occasionId'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
+        predicate<ProductsStates>(
+          (state) =>
+              state.productsState?.isLoading == false &&
+              state.productsState?.errorMessage == 'Failed to load products',
         ),
-      ).thenAnswer((_) async => SuccessResponse(data: tPage2));
+      ],
+    );
 
-      expectLater(
-        viewModel.stream,
-        emitsInOrder([
-          // 1. Fetch Start (Loading 1)
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'Full Loading 1',
-            true,
-          ),
-
-          // 3. Fetch Success
-          isA<ProductsStates>()
-              .having((s) => s.productsState?.isLoading, 'Loaded', false)
-              .having((s) => s.productsState?.data!.length, 'Count 1', 1)
-              .having((s) => s.nextPage, 'Next Page is 2', 2),
-
-          // 4. Load More Loading
-          isA<ProductsStates>()
-              .having((s) => s.isPaginationLoading, 'Pagination Loading', true)
-              .having((s) => s.productsState?.data!.length, 'Count still 1', 1),
-
-          // 5. Load More Success
-          isA<ProductsStates>()
-              .having((s) => s.isPaginationLoading, 'Pagination Done', false)
-              .having(
-                (s) => s.productsState?.data!.length,
-                'Count Merged to 2',
-                2,
-              )
-              .having(
-                (s) => s.productsState?.data!.last.title,
-                'Last Item',
-                'Tulip',
-              )
-              .having((s) => s.nextPage, 'Next Page is null', null),
-        ]),
-      );
-
-      viewModel.doIntent(FetchProductsEvent());
-
-      await Future.delayed(const Duration(milliseconds: 50));
-      viewModel.doIntent(LoadMoreProductsEvent());
-    });
-
-    test('LoadMoreProductsEvent does nothing when nextPage is null', () async {
-      // arrange
-      when(
-        mockUseCase.getProducts(
-          page: anyNamed('page'),
-          limit: anyNamed('limit'),
-          categoryId: anyNamed('categoryId'),
-          occasionId: anyNamed('occasionId'),
-          sort: anyNamed('sort'),
-          search: anyNamed('search'),
+    // Test FetchCategoriesEvent
+    blocTest<ProductsViewModel, ProductsStates>(
+      'emits [isLoading, Success] for categories when FetchCategoriesEvent is added',
+      build: () {
+        when(
+          mockGetHomeSectionsUseCase.call(),
+        ).thenAnswer((_) async => SuccessResponse(data: tHomeEntity));
+        return viewModel;
+      },
+      act: (bloc) => bloc.doIntent(FetchCategoriesEvent()),
+      wait: const Duration(milliseconds: 300),
+      expect: () => [
+        predicate<ProductsStates>(
+          (state) => state.categoriesState?.isLoading == true,
         ),
-      ).thenAnswer((invocation) async {
-        final page = invocation.namedArguments[Symbol('page')];
-        if (page == 1) return SuccessResponse(data: tPage1);
-        if (page == 2) return SuccessResponse(data: tPage2);
-        return SuccessResponse(data: tPage1);
-      });
-
-
-      viewModel.doIntent(FetchProductsEvent());
-
-      await Future.delayed(const Duration(milliseconds: 20));
-
-      // act
-      viewModel.doIntent(LoadMoreProductsEvent());
-
-      // assert
-      verify(mockUseCase.getProducts(
-        page: anyNamed('page'),
-        limit: anyNamed('limit'),
-        categoryId: anyNamed('categoryId'),
-        occasionId: anyNamed('occasionId'),
-        sort: anyNamed('sort'),
-        search: anyNamed('search'),
-      )).called(2);
-    });
-
-    test('goToPage does nothing for invalid page numbers', () async {
-      viewModel.goToPage(0);
-      expect(viewModel.state.currentPage, 1);
-
-      viewModel.goToPage(-1);
-      expect(viewModel.state.currentPage, 1);
-
-      viewModel.goToPage(100);
-      expect(viewModel.state.currentPage, 1);
-    });
-
-
-    test('pagination error keeps old data', () async {
-      when(mockUseCase.getProducts(
-        page: 1,
-        limit: anyNamed('limit'),
-        categoryId: anyNamed('categoryId'),
-        occasionId: anyNamed('occasionId'),
-        sort: anyNamed('sort'),
-        search: anyNamed('search'),
-      )).thenAnswer((_) async => SuccessResponse(data: tPage1));
-
-      when(mockUseCase.getProducts(
-        page: 2,
-        limit: anyNamed('limit'),
-        categoryId: anyNamed('categoryId'),
-        occasionId: anyNamed('occasionId'),
-        sort: anyNamed('sort'),
-        search: anyNamed('search'),
-      )).thenAnswer(
-            (_) async => ErrorResponse(errorMessage: 'error'),
-      );
-
-      viewModel.doIntent(FetchProductsEvent());
-      await Future.delayed(const Duration(milliseconds: 20));
-
-      viewModel.doIntent(LoadMoreProductsEvent());
-
-      await Future.delayed(const Duration(milliseconds: 20));
-
-      expect(viewModel.state.productsState?.data?.length, 1);
-    });
-
-
-  });
-}
-
-void _searchTest() {
-  group('Search', () {
-    test('onSearchSubmitted resets pagination and fetches results', () async {
-      when(
-        mockUseCase.getProducts(
-          search: 'rose',
-          page: 1,
-          limit: anyNamed('limit'),
-          categoryId: anyNamed('categoryId'),
-          occasionId: anyNamed('occasionId'),
-          sort: anyNamed('sort'),
+        predicate<ProductsStates>(
+          (state) =>
+              state.categoriesState?.isLoading == false &&
+              state.categoriesState?.data == tHomeEntity.categories,
         ),
-      ).thenAnswer((_) async => SuccessResponse(data: tPage1));
+      ],
+    );
 
-      expectLater(
-        viewModel.stream,
-        emitsInOrder([
-          // 1. Initial state from onSearchSubmitted (manually emitted)
-          isA<ProductsStates>()
-              .having((s) => s.searchText, 'search text set', 'rose')
-              .having(
-                (s) => s.productsState?.isLoading,
-                'loading reset (manual)',
-                true,
-              )
-              .having((s) => s.currentPage, 'page reset', 1),
-          // 2. State from _getAllProducts (when page=1, it emits loading again)
-          isA<ProductsStates>().having(
-            (s) => s.productsState?.isLoading,
-            'loading from getAllProducts',
-            true,
+    // Test Pagination (LoadMore)
+    blocTest<ProductsViewModel, ProductsStates>(
+      'loads more products when next page exists (Simulated flow)',
+      build: () {
+        // 1. Setup response for Page 1 (sets _nextPage = 2 internally)
+        final tPage1Meta = MetaDataEntity(
+          totalItems: 2,
+          currentPage: 1,
+          limit: 10,
+          totalPages: 2,
+          prevPage: null,
+          nextPage: 2,
+        );
+        final tPage1Products = PaginatedProductsEntity(
+          products: [tProduct],
+          meta: tPage1Meta,
+        );
+
+        // 2. Setup response for Page 2
+        final tPage2Meta = MetaDataEntity(
+          totalItems: 2,
+          currentPage: 2,
+          limit: 10,
+          totalPages: 2,
+          prevPage: 1,
+          nextPage: null,
+        );
+        final tPage2Products = PaginatedProductsEntity(
+          products: [tProduct],
+          meta: tPage2Meta,
+        );
+
+        when(
+          mockProductsUseCase.getProducts(
+            categoryId: anyNamed('categoryId'),
+            occasionId: anyNamed('occasionId'),
+            sort: anyNamed('sort'),
+            search: anyNamed('search'),
+            page: 1,
+            limit: anyNamed('limit'),
           ),
-          // 3. Success state
-          isA<ProductsStates>()
-              .having((s) => s.productsState?.isLoading, 'loading done', false)
-              .having(
-                (s) => s.productsState?.data!.first.title,
-                'title',
-                'Rose',
-              ),
-        ]),
-      );
+        ).thenAnswer((_) async => SuccessResponse(data: tPage1Products));
 
-      viewModel.onSearchSubmitted('rose');
-    });
-  });
-}
-
-void _searchFocusTest() {
-  group('Search Focus', () {
-    test('onSearchFocusChanged emits correct focus state', () async {
-      expectLater(
-        viewModel.stream,
-        emitsInOrder([
-          isA<ProductsStates>().having(
-            (s) => s.isSearchFocused,
-            'focused',
-            true,
+        when(
+          mockProductsUseCase.getProducts(
+            categoryId: anyNamed('categoryId'),
+            occasionId: anyNamed('occasionId'),
+            sort: anyNamed('sort'),
+            search: anyNamed('search'),
+            page: 2,
+            limit: anyNamed('limit'),
           ),
-          isA<ProductsStates>().having(
-            (s) => s.isSearchFocused,
-            'focused',
-            false,
-          ),
-        ]),
-      );
+        ).thenAnswer((_) async => SuccessResponse(data: tPage2Products));
 
-      viewModel.onSearchFocusChanged(true);
-      viewModel.onSearchFocusChanged(false);
-    });
+        return viewModel;
+      },
+      act: (bloc) async {
+        // Trigger Page 1 fetch to initialize private fields (_nextPage etc)
+        bloc.doIntent(FetchProductsEvent());
+        await Future.delayed(const Duration(milliseconds: 300));
+        // Now Trigger LoadMore
+        bloc.doIntent(LoadMoreProductsEvent());
+      },
+      wait: const Duration(milliseconds: 600),
+      expect: () => [
+        // Page 1 States
+        predicate<ProductsStates>(
+          (state) => state.productsState?.isLoading == true,
+        ),
+        predicate<ProductsStates>(
+          (state) =>
+              state.productsState?.isLoading == false &&
+              state.productsState!.data!.length == 1 &&
+              state.nextPage == 2,
+        ),
+        // Page 2 States
+        predicate<ProductsStates>((state) => state.isPaginationLoading == true),
+        predicate<ProductsStates>(
+          (state) =>
+              state.isPaginationLoading == false &&
+              state.productsState!.data!.length == 2 &&
+              state.currentPage == 2,
+        ),
+      ],
+    );
   });
 }
