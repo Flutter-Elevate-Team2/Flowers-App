@@ -49,7 +49,10 @@ class _SortByState extends State<SortBy> {
             const SizedBox(height: 16),
 
             ...options.entries.map((entry) {
-              return SortByItem(label: entry.value, option: entry.key);
+              return SortByItem(
+                label: entry.value,
+                option: entry.key,
+              );
             }),
 
             const SizedBox(height: 16),

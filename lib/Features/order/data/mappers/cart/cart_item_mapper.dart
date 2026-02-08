@@ -5,7 +5,7 @@ import 'package:flowers_app/Features/order/domain/entities/cart/cart_item_entity
 extension CartItemMapper on CartItem{
   CartItemEntity toEntity(){
     return CartItemEntity(id:id,
-        product:product?.toEntity(),
+        product:product?.toEntity() ,
         price:price ,
         quantity: quantity);
   }
