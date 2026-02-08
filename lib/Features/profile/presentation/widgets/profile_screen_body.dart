@@ -63,7 +63,9 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.savedAddress,
                   leadingIcon: Icons.location_on_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(Routes.savedAddressName);
+                  },
                 ),
                 Divider(color: AppColors.gray, height: 32),
 

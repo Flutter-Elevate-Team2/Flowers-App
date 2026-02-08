@@ -2,13 +2,13 @@ import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_co
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
-import 'package:flowers_app/Features/commerce/domain/entities/product_entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/occasion_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/best_seller_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/home_screen_body.dart';
-import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
@@ -17,6 +17,9 @@ import 'package:flowers_app/Features/profile/presentation/views/about_us_screen.
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
+import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
+import 'package:flowers_app/Features/user_address/presentation/views/screens/saved_address_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/terms_conditions_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +67,10 @@ class Routes {
   static const String termsandConditionsPath = '/terms_conditions';
   static const String termsandConditionsName = 'terms_conditions';
 
+  static const String savedAddressPath = '/savedAddress';
+  static const String savedAddressName = 'savedAddress';
+  static const String addAddressPath = '/addaddress';
+  static const String addAddressName = 'addAddress';
 }
 
 class AppRouter {
@@ -165,8 +172,7 @@ class AppRouter {
               GoRoute(
                 path: Routes.cartPath,
                 name: Routes.cartName,
-                builder: (context, state) =>
-                    const CartScreen(),
+                builder: (context, state) => const CartScreen(),
               ),
             ],
           ),
@@ -231,6 +237,19 @@ class AppRouter {
         path: Routes.editProfilePath,
         name: Routes.editProfileName,
         builder: (context, state) => const EditProfileScreen(),
+      ),
+      GoRoute(
+        path: Routes.savedAddressPath,
+        name: Routes.savedAddressName,
+        builder: (context, state) => const SavedAddressScreen(),
+      ),
+      GoRoute(
+        path: Routes.addAddressPath,
+        name: Routes.addAddressName,
+        builder: (context, state) {
+          final addressToEdit = state.extra as AddressEntity?;
+          return AddAddressScreen(addressToEdit: addressToEdit);
+        },
       ),
     ],
   );

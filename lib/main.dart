@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flowers_app/core/di/di.dart';
@@ -15,10 +17,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Features/order/presentation/cart/view_model/cart_events.dart';
 import 'Features/order/presentation/cart/view_model/cart_view_model.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await configureDependencies();
+
   runApp(const MyApp());
 }
 
@@ -60,6 +64,7 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(create: (_) => LanguageCubit()),
         BlocProvider(create: (context) => getIt<ProfileViewModel>()),
+        BlocProvider(create: (context) => getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent())),
       ],
       child: BlocBuilder<LanguageCubit, Locale>(
         builder: (context, locale) {
@@ -72,7 +77,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             theme: AppTheme.lightTheme,
-        );
+          );
         },
       ),
     );
