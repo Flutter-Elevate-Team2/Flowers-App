@@ -1106,7 +1106,7 @@ abstract class AppLocalizations {
   /// **'October'**
   String get areaHint;
 
-  /// Button text to save address
+  /// Button text to save a new address
   ///
   /// In en, this message translates to:
   /// **'Save Address'**
@@ -1117,6 +1117,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add new address'**
   String get addNewAddress;
+
+  /// Success message when address is added
+  ///
+  /// In en, this message translates to:
+  /// **'Address added successfully'**
+  String get addressAddedSuccess;
+
+  /// Success message when address is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Address updated successfully'**
+  String get addressUpdatedSuccess;
+
+  /// Success message when address is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Address deleted successfully'**
+  String get addressDeletedSuccess;
+
+  /// Text to indicate user can tap to change location
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to change'**
+  String get tapToChange;
+
+  /// Validation message when address is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter address'**
+  String get addressRequired;
+
+  /// Validation message when phone is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter phone'**
+  String get phoneNumberRequired;
+
+  /// Validation message when recipient name is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter name'**
+  String get recipientNameRequired;
+
+  /// Hint text for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Cairo'**
+  String get cairoHint;
+
+  /// Hint text for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get octoberHint;
+
+  /// Button text to update an address
+  ///
+  /// In en, this message translates to:
+  /// **'Update Address'**
+  String get updateAddress;
+
+  /// Validation message when location is not selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please pick a location on map'**
+  String get pleasePickLocation;
+
+  /// Message displayed when there are no saved addresses
+  ///
+  /// In en, this message translates to:
+  /// **'No saved addresses'**
+  String get noSavedAddresses;
+
+  /// Title for location picker screen
+  ///
+  /// In en, this message translates to:
+  /// **'Pick Location'**
+  String get pickLocation;
+
+  /// Message when location services are disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are disabled. Please enable them.'**
+  String get locationServicesDisabled;
+
+  /// Message when location permissions are denied
+  ///
+  /// In en, this message translates to:
+  /// **'Location permissions are denied'**
+  String get locationPermissionsDenied;
+
+  /// Message when location permissions are permanently denied
+  ///
+  /// In en, this message translates to:
+  /// **'Location permissions are permanently denied'**
+  String get locationPermissionsPermanentlyDenied;
+
+  /// Message when current location is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Current location selected'**
+  String get currentLocationSelected;
+
+  /// Error message prefix when getting location fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error getting location: '**
+  String get errorGettingLocation;
 }
 
 class _AppLocalizationsDelegate

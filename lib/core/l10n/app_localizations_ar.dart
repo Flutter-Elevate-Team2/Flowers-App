@@ -491,38 +491,93 @@ class AppLocalizationsAr extends AppLocalizations {
   String get guest => 'زائر';
 
   @override
-  String get addressLabel => 'Address';
+  String get addressLabel => 'العنوان';
 
   @override
-  String get addressHint => 'Enter your address';
+  String get addressHint => 'أدخل عنوانك';
 
   @override
-  String get phoneNumberLabel => 'Phone Number';
+  String get phoneNumberLabel => 'رقم الهاتف';
 
   @override
-  String get phoneNumberHint => 'Enter your phone number';
+  String get phoneNumberHint => 'أدخل رقم الهاتف';
 
   @override
-  String get recipientNameLabel => 'Recipient name';
+  String get recipientNameLabel => 'اسم المستلم';
 
   @override
-  String get recipientNameHint => 'Enter recipient name';
+  String get recipientNameHint => 'أدخل اسم المستلم';
 
   @override
-  String get cityLabel => 'City';
+  String get cityLabel => 'المدينة';
 
   @override
   String get cityHint => 'Cairo';
 
   @override
-  String get areaLabel => 'Area';
+  String get areaLabel => 'المنطقة';
 
   @override
   String get areaHint => 'October';
 
   @override
-  String get saveAddress => 'Save Address';
+  String get saveAddress => 'حفظ العنوان';
 
   @override
   String get addNewAddress => 'إضافة عنوان جديد';
+
+  @override
+  String get addressAddedSuccess => 'تم إضافة العنوان بنجاح';
+
+  @override
+  String get addressUpdatedSuccess => 'تم تحديث العنوان بنجاح';
+
+  @override
+  String get addressDeletedSuccess => 'تم حذف العنوان بنجاح';
+
+  @override
+  String get tapToChange => 'اضغط للتغيير';
+
+  @override
+  String get addressRequired => 'يرجى إدخال العنوان';
+
+  @override
+  String get phoneNumberRequired => 'يرجى إدخال رقم الهاتف';
+
+  @override
+  String get recipientNameRequired => 'يرجى إدخال الاسم';
+
+  @override
+  String get cairoHint => 'القاهرة';
+
+  @override
+  String get octoberHint => 'أكتوبر';
+
+  @override
+  String get updateAddress => 'تحديث العنوان';
+
+  @override
+  String get pleasePickLocation => 'يرجى اختيار موقع على الخريطة';
+
+  @override
+  String get noSavedAddresses => 'لا توجد عناوين محفوظة';
+
+  @override
+  String get pickLocation => 'اختر الموقع';
+
+  @override
+  String get locationServicesDisabled => 'خدمات الموقع معطلة. يرجى تفعيلها.';
+
+  @override
+  String get locationPermissionsDenied => 'تم رفض أذونات الموقع';
+
+  @override
+  String get locationPermissionsPermanentlyDenied =>
+      'تم رفض أذونات الموقع بشكل دائم';
+
+  @override
+  String get currentLocationSelected => 'تم اختيار الموقع الحالي';
+
+  @override
+  String get errorGettingLocation => 'خطأ في الحصول على الموقع: ';
 }

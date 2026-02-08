@@ -16,6 +16,7 @@ import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.d
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/saved_address_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
@@ -80,7 +81,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.savedAddressPath,
+    initialLocation: Routes.signInPath,
     redirect: (context, state) async {
       final authRepo = getIt<AuthRepoContract>();
       final bool isLoggedIn = await authRepo.isLoggedIn();
@@ -229,7 +230,10 @@ class AppRouter {
       GoRoute(
         path: Routes.addAddressPath,
         name: Routes.addAddressName,
-        builder: (context, state) => const AddAddressScreen(),
+        builder: (context, state) {
+          final addressToEdit = state.extra as AddressEntity?;
+          return AddAddressScreen(addressToEdit: addressToEdit);
+        },
       ),
     ],
   );
