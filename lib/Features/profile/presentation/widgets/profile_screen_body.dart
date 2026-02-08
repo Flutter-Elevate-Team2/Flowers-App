@@ -115,12 +115,16 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.aboutUs,
                   leadingIcon: Icons.info_outline,
-                  onTap: () {},
+                  onTap: (){
+                    context.pushNamed(Routes.aboutpageName);
+                  },
                 ),
                 ProfileMenuItem(
                   title: context.l10n.termsAndConditions,
                   leadingIcon: Icons.description_outlined,
-                  onTap: () {},
+                  onTap: () {
+                   context.pushNamed(Routes.termsandConditionsName);
+                  },
                 ),
                 Divider(color: AppColors.gray, height: 32),
 
