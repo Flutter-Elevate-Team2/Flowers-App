@@ -16,6 +16,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../check_out/widgets/check_out_body_test.mocks.dart';
 import 'order_tab_view_test.mocks.dart';
 
 @GenerateMocks([OrdersViewModel, CartViewModel, LanguageCubit])

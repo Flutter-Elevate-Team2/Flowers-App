@@ -119,7 +119,7 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.aboutUs,
                   leadingIcon: Icons.info_outline,
-                  onTap: () {
+                  onTap: (){
                     context.pushNamed(Routes.aboutpageName);
                   },
                 ),
