@@ -63,6 +63,14 @@ class OrderRepoImple with ApiExecutionMixin implements OrderRepoContract {
   }
 
   @override
+  Future<BaseResponse<CartResponseEntity>> clearUserCart() {
+    return execute<CartResponseModel, CartResponseEntity>(
+      action: () => _orderRemoteDataSourceContract.clearUserCart(),
+      mapper: (response) => response.toEntity(),
+    );
+  }
+
+  @override
   Future<BaseResponse<CashCheckoutResponseEntity>> cashOrderCheckout(
     OrderRequest orderRequest,
   ) {

@@ -15,11 +15,14 @@ import 'package:flowers_app/Features/commerce/presentation/products/views/screen
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/check_out_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
+import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/orders/views/order_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class Routes {
@@ -240,6 +243,14 @@ class AppRouter {
         name: Routes.thankYouName,
         builder: (context, state) => const CheckoutSuccessPage(),
       ),
+
+      GoRoute(path: Routes.orderPath,
+        name: Routes.orderName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<OrdersViewModel>(),
+          child: const OrdersPage(),
+        ),
+      )
     ],
   );
 }
