@@ -4,7 +4,7 @@ class PriceFormatter {
   static String formatPrice(int price, {String? locale}) {
     final formatter = NumberFormat.currency(
       symbol: locale == 'ar' ? 'جنيه' : 'EGP',
-      customPattern: '#,## ¤',
+      customPattern: '#,### ¤',
       locale: locale,
     );
 

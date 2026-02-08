@@ -13,7 +13,8 @@ import 'package:flowers_app/Features/commerce/presentation/products/views/screen
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
-import 'package:flowers_app/Features/order/presentation/checkout/view_model/credit_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/views/check_out_screen.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
@@ -62,6 +63,12 @@ class Routes {
   static const String checkoutPath = '/checkout';
   static const String checkoutName = 'checkout';
 
+  static const String thankYouName = 'thankYou';
+  static const String thankYouPath = '/thankyou';
+
+  static const orderPath = '/order';
+  static const orderName = 'order';
+
 }
 
 class AppRouter {
@@ -78,7 +85,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: Routes.checkoutPath,
+    initialLocation: Routes.signInPath,
     redirect: (context, state) async {
       final authRepo = getIt<AuthRepoContract>();
       final bool isLoggedIn = await authRepo.isLoggedIn();
@@ -220,10 +227,18 @@ class AppRouter {
         name: Routes.editProfileName,
         builder: (context, state) => const EditProfileScreen(),
       ),
+
+      /// ====== Check out SCREEN ======
       GoRoute(
         path: Routes.checkoutPath,
         name: Routes.checkoutName,
-        builder: (context, state) => const CheckoutScreen() ,
+        builder: (context, state) => const CheckOutScreen(),
+      ),
+
+      GoRoute(
+        path: Routes.thankYouPath,
+        name: Routes.thankYouName,
+        builder: (context, state) => const CheckoutSuccessPage(),
       ),
     ],
   );

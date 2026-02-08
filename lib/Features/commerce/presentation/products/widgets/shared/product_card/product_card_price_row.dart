@@ -12,16 +12,25 @@ class ProductCardPriceRow extends StatelessWidget {
     return Row(
       children: [
         // Current Price
-        Text(
-          'EGP ${product.priceAfterDiscount}',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: AppColors.black,
+        if (product.discount == 0)
+          Text(
+            'EGP ${product.price}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.black,
+            ),
           ),
-        ),
-        const SizedBox(width: 8),
-
+        if (product.discount > 0)
+          Text(
+            'EGP ${product.priceAfterDiscount}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.black,
+            ),
+          ),
+        if (product.discount > 0) const SizedBox(width: 8),
         // Old Price
         if (product.discount > 0)
           Text(
@@ -33,7 +42,6 @@ class ProductCardPriceRow extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-
         const SizedBox(width: 8),
 
         // Discount Percentage
