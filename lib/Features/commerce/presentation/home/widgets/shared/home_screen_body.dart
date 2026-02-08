@@ -13,8 +13,13 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<HomeViewModel>()..doIntent(GetHomeDataEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              getIt<HomeViewModel>()..doIntent(GetHomeDataEvent()),
+        ),
+      ],
       child: BlocBuilder<HomeViewModel, HomeStates>(
         builder: (context, state) {
           final homeState = state.homeState;

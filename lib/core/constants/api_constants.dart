@@ -35,4 +35,7 @@ class ApiConstants {
   static const String allOrders = "allOrders";
   static const String pending = "pending";
   static const String completed = "completed";
+// ================= Address Endpoints =================
+static const String addresses="/addresses";
+
 }

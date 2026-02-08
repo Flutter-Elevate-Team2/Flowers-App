@@ -65,7 +65,9 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.savedAddress,
                   leadingIcon: Icons.location_on_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(Routes.savedAddressName);
+                  },
                 ),
                 Divider(color: AppColors.gray, height: 32),
 
@@ -115,12 +117,16 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.aboutUs,
                   leadingIcon: Icons.info_outline,
-                  onTap: () {},
+                  onTap: (){
+                    context.pushNamed(Routes.aboutpageName);
+                  },
                 ),
                 ProfileMenuItem(
                   title: context.l10n.termsAndConditions,
                   leadingIcon: Icons.description_outlined,
-                  onTap: () {},
+                  onTap: () {
+                   context.pushNamed(Routes.termsandConditionsName);
+                  },
                 ),
                 Divider(color: AppColors.gray, height: 32),
 

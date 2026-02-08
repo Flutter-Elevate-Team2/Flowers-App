@@ -2,13 +2,13 @@ import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_co
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_up/views/sign_up_screen.dart';
-import 'package:flowers_app/Features/commerce/domain/entities/product_entities/best_seller_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/category_entity.dart';
 import 'package:flowers_app/Features/commerce/domain/entities/home_entities/occasion_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/best_seller_entity.dart';
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/views/screens/home_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/views/screens/product_details_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/home_screen_body.dart';
-import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
@@ -17,9 +17,14 @@ import 'package:flowers_app/Features/order/presentation/check_out/views/check_ou
 import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/orders/views/order_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/about_us_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
+import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
+import 'package:flowers_app/Features/user_address/presentation/views/screens/saved_address_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/terms_conditions_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,6 +67,10 @@ class Routes {
   static const String resetPasswordName = 'resetPassword';
   static const String editProfilePath = '/editprofile';
   static const String editProfileName = 'editProfile';
+  static const String aboutpageName = 'AboutUs';
+  static const String aboutpagePath = '/AboutUs';
+  static const String termsandConditionsPath = '/terms_conditions';
+  static const String termsandConditionsName = 'terms_conditions';
 
   static const String checkoutPath = '/checkout';
   static const String checkoutName = 'checkout';
@@ -72,6 +81,10 @@ class Routes {
   static const orderPath = '/order';
   static const orderName = 'order';
 
+  static const String savedAddressPath = '/savedAddress';
+  static const String savedAddressName = 'savedAddress';
+  static const String addAddressPath = '/addaddress';
+  static const String addAddressName = 'addAddress';
 }
 
 class AppRouter {
@@ -114,6 +127,16 @@ class AppRouter {
         path: Routes.forgetPasswordPath,
         name: Routes.forgetPasswordName,
         builder: (context, state) => const ForgetPasswordScreenFlow(),
+      ),
+      GoRoute(
+        path: Routes.termsandConditionsPath,
+        name: Routes.termsandConditionsName,
+        builder: (context, state) => TermsConditionsScreen(),
+      ),
+      GoRoute(
+        path: Routes.aboutpagePath,
+        name: Routes.aboutpageName,
+        builder: (context, state) => AboutUsScreen(),
       ),
 
       /// ====== MAIN SHELL ROUTE (BOTTOM NAV BAR) ======
@@ -163,8 +186,7 @@ class AppRouter {
               GoRoute(
                 path: Routes.cartPath,
                 name: Routes.cartName,
-                builder: (context, state) =>
-                    const CartScreen(),
+                builder: (context, state) => const CartScreen(),
               ),
             ],
           ),
@@ -251,6 +273,19 @@ class AppRouter {
           child: const OrdersPage(),
         ),
       )
+      GoRoute(
+        path: Routes.savedAddressPath,
+        name: Routes.savedAddressName,
+        builder: (context, state) => const SavedAddressScreen(),
+      ),
+      GoRoute(
+        path: Routes.addAddressPath,
+        name: Routes.addAddressName,
+        builder: (context, state) {
+          final addressToEdit = state.extra as AddressEntity?;
+          return AddAddressScreen(addressToEdit: addressToEdit);
+        },
+      ),
     ],
   );
 }
