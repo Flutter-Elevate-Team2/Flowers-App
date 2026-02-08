@@ -8,6 +8,7 @@ import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/constants/constant_keys.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/form_validators.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -247,7 +248,8 @@ class _SignUpFormState extends State<SignUpForm> {
               child: BlocBuilder<SignUpViewModel, SignUpStates>(
                 builder: (context, state) {
                   final isLoading = state.signUpState?.isLoading ?? false;
-                  return ElevatedButton(
+                  return CustomButton(
+                    title: context.l10n.signUpTitle,
                     onPressed: isLoading
                         ? null
                         : () {
@@ -271,16 +273,16 @@ class _SignUpFormState extends State<SignUpForm> {
                               );
                             }
                           },
-                    child: isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text((context).l10n.signUpTitle),
+                    // child: isLoading
+                    //     ? const SizedBox(
+                    //         height: 20,
+                    //         width: 20,
+                    //         child: CircularProgressIndicator(
+                    //           color: Colors.white,
+                    //           strokeWidth: 2,
+                    //         ),
+                    //       )
+                    //     : Text((context).l10n.signUpTitle),
                   );
                 },
               ),

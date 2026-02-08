@@ -10,10 +10,10 @@ class ApiConstants {
   static const String resetPassword = "/auth/resetPassword";
   static const String verifyResetCode = "/auth/verifyResetCode";
   static const String home = "/home";
-  static const String getProfile = "/profile-data";
-  static const String editProfile = "/editProfile";
-  static const String uploadPhoto = "/upload-photo";
-  static const String changePassword = "/change-password";
+  static const String getProfile = "/auth/profile-data";
+  static const String editProfile = "/auth/editProfile";
+  static const String uploadPhoto = "auth/upload-photo";
+  static const String changePassword = "/auth/change-password";
   static const String logout = "/auth/logout";
 
   // ================= Products Endpoints =================
@@ -22,7 +22,22 @@ class ApiConstants {
   static const int defaultLimit = 40;
   static const int defaultTotalPages = 1;
   static const int defaultTotalItems = 0;
-// ================= Cart Endpoints =================
-static const String cart="/cart";
+  static const String tokenKey = "user_token";
 
+  // ================= Cart Endpoints =================
+  static const String cart = "/cart";
+
+  // ================= Address Endpoints =================
+  static const String addresses = "/addresses";
+
+  // ================= Checkout Endpoints =================
+  static const String orders = "/orders";
+  static const String success = "success";
+  static const String cancel = "cancel";
+  static const String fail = "fail";
+  static const String allOrders = "allOrders";
+  static const String pending = "pending";
+  static const String completed = "completed";
+  // ================= Notifications Endpoints =================
+  static const String notifications = "notifications/user";
 }

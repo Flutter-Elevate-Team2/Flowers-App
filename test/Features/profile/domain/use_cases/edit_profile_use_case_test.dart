@@ -40,7 +40,7 @@ void main() {
         firstName: 'John',
         lastName: 'Doe',
         phone: '1234567890',
-        gender: 'Male',
+       
       );
       final userEntity = UserEntity(
         id: '1',
@@ -71,7 +71,7 @@ void main() {
         firstName: 'John',
         lastName: 'Doe',
         phone: '1234567890',
-        gender: 'Male',
+       
       );
       const errorMessage = 'Failed to edit profile';
       final errorResponse = ErrorResponse<UserEntity>(

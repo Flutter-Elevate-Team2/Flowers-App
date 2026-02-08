@@ -422,4 +422,261 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pleaseLoginToContinue =>
       'Please Login to view your cart and add items.';
+
+  @override
+  String get editProfile => 'Edit profile';
+
+  @override
+  String get change => 'Change';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get currentPasswordLabel => 'Current password';
+
+  @override
+  String get currentPasswordHint => 'Current password';
+
+  @override
+  String get myOrders => 'My orders';
+
+  @override
+  String get savedAddress => 'Saved address';
+
+  @override
+  String get notifications => 'Notification';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get aboutUs => 'About us';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get changeLanguage => 'Change Language';
+
+  @override
+  String get logoutTitle => 'LOGOUT';
+
+  @override
+  String get confirmLogout => 'Confirm logout!!';
+
+  @override
+  String get profileUpdatedSuccess => 'Profile updated successfully';
+
+  @override
+  String get photoUploadedSuccessfully => 'Photo uploaded successfully';
+
+  @override
+  String get passwordChangedSuccess => 'Password changed successfully';
+
+  @override
+  String get appVersion => 'v 6.3.0 - (446)';
+
+  @override
+  String failedToPickImage(String error) {
+    return 'Failed to pick image: $error';
+  }
+
+  @override
+  String get required => 'Required';
+
+  @override
+  String get guest => 'guest';
+
+  @override
+  String get addressLabel => 'Address';
+
+  @override
+  String get addressHint => 'Enter your address';
+
+  @override
+  String get phoneNumberLabel => 'Phone Number';
+
+  @override
+  String get phoneNumberHint => 'Enter your phone number';
+
+  @override
+  String get recipientNameLabel => 'Recipient name';
+
+  @override
+  String get recipientNameHint => 'Enter recipient name';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get cityHint => 'Cairo';
+
+  @override
+  String get areaLabel => 'Area';
+
+  @override
+  String get areaHint => 'October';
+
+  @override
+  String get saveAddress => 'Save Address';
+
+  @override
+  String get addNewAddress => 'Add new address';
+
+  @override
+  String get addressAddedSuccess => 'Address added successfully';
+
+  @override
+  String get addressUpdatedSuccess => 'Address updated successfully';
+
+  @override
+  String get addressDeletedSuccess => 'Address deleted successfully';
+
+  @override
+  String get tapToChange => 'Tap to change';
+
+  @override
+  String get addressRequired => 'Please enter address';
+
+  @override
+  String get phoneNumberRequired => 'Please enter phone';
+
+  @override
+  String get recipientNameRequired => 'Please enter name';
+
+  @override
+  String get cairoHint => 'Cairo';
+
+  @override
+  String get octoberHint => 'October';
+
+  @override
+  String get updateAddress => 'Update Address';
+
+  @override
+  String get pleasePickLocation => 'Please pick a location on map';
+
+  @override
+  String get noSavedAddresses => 'No saved addresses';
+
+  @override
+  String get pickLocation => 'Pick Location';
+
+  @override
+  String get locationServicesDisabled =>
+      'Location services are disabled. Please enable them.';
+
+  @override
+  String get locationPermissionsDenied => 'Location permissions are denied';
+
+  @override
+  String get locationPermissionsPermanentlyDenied =>
+      'Location permissions are permanently denied';
+
+  @override
+  String get currentLocationSelected => 'Current location selected';
+
+  @override
+  String get errorGettingLocation => 'Error getting location: ';
+
+  @override
+  String get deliveryTime => 'Delivery time';
+
+  @override
+  String get schedule => 'Schedule';
+
+  @override
+  String get instant => 'Instant, ';
+
+  @override
+  String get arriveBy => 'Arrive by 03 Sep 2024, 11:00 AM';
+
+  @override
+  String get itIsAGift => 'It is a gift';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get enterName => 'Enter the name';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get enterPhoneNumber => 'Enter the phone number';
+
+  @override
+  String get paymentMethod => 'Payment method';
+
+  @override
+  String get cashOnDelivery => 'Cash on delivery';
+
+  @override
+  String get creditCard => 'Credit card';
+
+  @override
+  String get deliveryAddress => 'Delivery address';
+
+  @override
+  String get addNew => 'Add new';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get placeOrder => 'Place order';
+
+  @override
+  String get thankYou => 'Thank you!';
+
+  @override
+  String get goToHome => 'Go to home';
+
+  @override
+  String get placedSuccessfully =>
+      'Your order has been placed successfully. We’ll start preparing it right away 🌸';
+
+  @override
+  String get creditCheckout => 'Credit Checkout';
+
+  @override
+  String get paymentCancelled => 'Payment Cancelled';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get selectAddress => 'Select Address';
+
+  @override
+  String get pleaseLoginToAddAddress => 'Please login to add address';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get reorder => 'Reorder';
+
+  @override
+  String get trackOrder => 'Track order';
+
+  @override
+  String get deliveredOn => 'Delivered on';
+
+  @override
+  String get orderNumber => 'Order Number';
+
+  @override
+  String get noOrdersFound => 'No orders found';
 }

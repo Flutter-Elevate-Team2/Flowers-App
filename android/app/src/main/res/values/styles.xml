@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="mapbox_access_token" translatable="false">pk.eyJ1IjoibW9oYTI3MHgiLCJhIjoiY21rcmw1Ym1iMHplbjNicjJ4b295d3g0NiJ9.9SGyBfuahHPa824KCurCTw</string>
     <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <!-- Show a splash screen on the activity. Automatically removed when

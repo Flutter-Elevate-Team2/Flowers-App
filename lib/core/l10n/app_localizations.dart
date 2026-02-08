@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
 
 // ignore_for_file: type=lint
@@ -92,7 +93,10 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+  ];
 
   /// The main title of the application
   ///
@@ -903,6 +907,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Login to view your cart and add items.'**
   String get pleaseLoginToContinue;
+
+  /// Title for edit profile screen
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get editProfile;
+
+  /// Button text to change password
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get change;
+
+  /// Button text to update profile or password
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// Label for current password field
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPasswordLabel;
+
+  /// Hint for current password field
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPasswordHint;
+
+  /// Profile menu item for orders
+  ///
+  /// In en, this message translates to:
+  /// **'My orders'**
+  String get myOrders;
+
+  /// Profile menu item for saved addresses
+  ///
+  /// In en, this message translates to:
+  /// **'Saved address'**
+  String get savedAddress;
+
+  /// Profile menu item for notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Notification'**
+  String get notifications;
+
+  /// Profile menu item for language
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Language option English
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// Language option Arabic
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// Profile menu item for about us
+  ///
+  /// In en, this message translates to:
+  /// **'About us'**
+  String get aboutUs;
+
+  /// Profile menu item for logout
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// Title for language selection bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguage;
+
+  /// Title for logout confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'LOGOUT'**
+  String get logoutTitle;
+
+  /// Message asking user to confirm logout
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm logout!!'**
+  String get confirmLogout;
+
+  /// Success message after profile update
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdatedSuccess;
+
+  /// No description provided for @photoUploadedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo uploaded successfully'**
+  String get photoUploadedSuccessfully;
+
+  /// Success message after password change
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get passwordChangedSuccess;
+
+  /// App version display text
+  ///
+  /// In en, this message translates to:
+  /// **'v 6.3.0 - (446)'**
+  String get appVersion;
+
+  /// Error message when image selection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to pick image: {error}'**
+  String failedToPickImage(String error);
+
+  /// Validation message when a required field is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get required;
+
+  /// guest
+  ///
+  /// In en, this message translates to:
+  /// **'guest'**
+  String get guest;
+
+  /// Label for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
+
+  /// Hint for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your address'**
+  String get addressHint;
+
+  /// Label for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumberLabel;
+
+  /// Hint for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get phoneNumberHint;
+
+  /// Label for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient name'**
+  String get recipientNameLabel;
+
+  /// Hint for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter recipient name'**
+  String get recipientNameHint;
+
+  /// Label for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// Hint for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Cairo'**
+  String get cityHint;
+
+  /// Label for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaLabel;
+
+  /// Hint for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get areaHint;
+
+  /// Button text to save a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Save Address'**
+  String get saveAddress;
+
+  /// Button text to add a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Add new address'**
+  String get addNewAddress;
+
+  /// Success message when address is added
+  ///
+  /// In en, this message translates to:
+  /// **'Address added successfully'**
+  String get addressAddedSuccess;
+
+  /// Success message when address is updated
+  ///
+  /// In en, this message translates to:
+  /// **'Address updated successfully'**
+  String get addressUpdatedSuccess;
+
+  /// Success message when address is deleted
+  ///
+  /// In en, this message translates to:
+  /// **'Address deleted successfully'**
+  String get addressDeletedSuccess;
+
+  /// Text to indicate user can tap to change location
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to change'**
+  String get tapToChange;
+
+  /// Validation message when address is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter address'**
+  String get addressRequired;
+
+  /// Validation message when phone is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter phone'**
+  String get phoneNumberRequired;
+
+  /// Validation message when recipient name is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter name'**
+  String get recipientNameRequired;
+
+  /// Hint text for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Cairo'**
+  String get cairoHint;
+
+  /// Hint text for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get octoberHint;
+
+  /// Button text to update an address
+  ///
+  /// In en, this message translates to:
+  /// **'Update Address'**
+  String get updateAddress;
+
+  /// Validation message when location is not selected
+  ///
+  /// In en, this message translates to:
+  /// **'Please pick a location on map'**
+  String get pleasePickLocation;
+
+  /// Message displayed when there are no saved addresses
+  ///
+  /// In en, this message translates to:
+  /// **'No saved addresses'**
+  String get noSavedAddresses;
+
+  /// Title for location picker screen
+  ///
+  /// In en, this message translates to:
+  /// **'Pick Location'**
+  String get pickLocation;
+
+  /// Message when location services are disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are disabled. Please enable them.'**
+  String get locationServicesDisabled;
+
+  /// Message when location permissions are denied
+  ///
+  /// In en, this message translates to:
+  /// **'Location permissions are denied'**
+  String get locationPermissionsDenied;
+
+  /// Message when location permissions are permanently denied
+  ///
+  /// In en, this message translates to:
+  /// **'Location permissions are permanently denied'**
+  String get locationPermissionsPermanentlyDenied;
+
+  /// Message when current location is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Current location selected'**
+  String get currentLocationSelected;
+
+  /// Error message prefix when getting location fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error getting location: '**
+  String get errorGettingLocation;
+
+  /// Label for delivery time
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery time'**
+  String get deliveryTime;
+
+  /// Label for delivery schedule
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get schedule;
+
+  /// Option for instant delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Instant, '**
+  String get instant;
+
+  /// Label for delivery arrival time
+  ///
+  /// In en, this message translates to:
+  /// **'Arrive by 03 Sep 2024, 11:00 AM'**
+  String get arriveBy;
+
+  /// Label for gift option
+  ///
+  /// In en, this message translates to:
+  /// **'It is a gift'**
+  String get itIsAGift;
+
+  /// Label for recipient name
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// Hint for recipient name
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the name'**
+  String get enterName;
+
+  /// Label for recipient phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumber;
+
+  /// Hint for recipient phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the phone number'**
+  String get enterPhoneNumber;
+
+  /// Label for payment method
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get paymentMethod;
+
+  /// Option for cash on delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Cash on delivery'**
+  String get cashOnDelivery;
+
+  /// Option for credit card payment
+  ///
+  /// In en, this message translates to:
+  /// **'Credit card'**
+  String get creditCard;
+
+  /// Label for delivery address
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery address'**
+  String get deliveryAddress;
+
+  /// Button text to add a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Add new'**
+  String get addNew;
+
+  /// Button text to edit an address
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// Button text to place the order
+  ///
+  /// In en, this message translates to:
+  /// **'Place order'**
+  String get placeOrder;
+
+  /// Thank you message
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you!'**
+  String get thankYou;
+
+  /// Button text to go to home
+  ///
+  /// In en, this message translates to:
+  /// **'Go to home'**
+  String get goToHome;
+
+  /// Success message after order placement
+  ///
+  /// In en, this message translates to:
+  /// **'Your order has been placed successfully. We’ll start preparing it right away 🌸'**
+  String get placedSuccessfully;
+
+  /// Title for credit card checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Checkout'**
+  String get creditCheckout;
+
+  /// Message displayed when payment is cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Cancelled'**
+  String get paymentCancelled;
+
+  /// loading...
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// Title for address selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Select Address'**
+  String get selectAddress;
+
+  /// Please login to add address
+  ///
+  /// In en, this message translates to:
+  /// **'Please login to add address'**
+  String get pleaseLoginToAddAddress;
+
+  /// Status label for active orders
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// Status label for completed orders
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// Button text to reorder an order
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get reorder;
+
+  /// Button text to track an order
+  ///
+  /// In en, this message translates to:
+  /// **'Track order'**
+  String get trackOrder;
+
+  /// Label for delivery status
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered on'**
+  String get deliveredOn;
+
+  /// Label for order number
+  ///
+  /// In en, this message translates to:
+  /// **'Order Number'**
+  String get orderNumber;
+
+  /// No description provided for @noOrdersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders found'**
+  String get noOrdersFound;
 }
 
 class _AppLocalizationsDelegate
@@ -916,7 +1424,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -925,6 +1433,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
     case 'en':
       return AppLocalizationsEn();
   }

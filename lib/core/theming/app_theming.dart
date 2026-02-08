@@ -22,7 +22,8 @@ abstract class AppTheme {
       shadow: AppColors.black.withValues(alpha: 0.1),
     ),
     textTheme: TextTheme(
-      bodySmall: getTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+      titleMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.normal , color: AppColors.gray),
+      bodySmall: getTextStyle(fontSize: 14 , fontWeight: FontWeight.w400),
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
       headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -34,6 +35,8 @@ abstract class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
+
+
       floatingLabelBehavior: FloatingLabelBehavior.always,
       alignLabelWithHint: true,
 
@@ -95,6 +98,7 @@ abstract class AppTheme {
         fontWeight: FontWeight.w500,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+
     ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
