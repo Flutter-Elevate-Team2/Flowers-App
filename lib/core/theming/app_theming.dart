@@ -22,8 +22,7 @@ abstract class AppTheme {
       shadow: AppColors.black.withValues(alpha: 0.1),
     ),
     textTheme: TextTheme(
-      titleMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.normal , color: AppColors.gray),
-      bodySmall: getTextStyle(fontSize: 14 , fontWeight: FontWeight.w400),
+      bodySmall: getTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
       headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -35,10 +34,8 @@ abstract class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
-
-
       floatingLabelBehavior: FloatingLabelBehavior.always,
-alignLabelWithHint: true,
+      alignLabelWithHint: true,
 
       filled: true,
       fillColor: AppColors.white,
@@ -47,14 +44,12 @@ alignLabelWithHint: true,
         color: AppColors.white[70],
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
-
       ),
       labelStyle: getTextStyle(
         color: AppColors.gray,
         fontFamily: ConstKeys.robotoFont,
         fontWeight: FontWeight.w400,
-        fontSize: 18
-
+        fontSize: 18,
       ),
       floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
         if (states.contains(WidgetState.error)) {
@@ -62,7 +57,7 @@ alignLabelWithHint: true,
         }
         return getTextStyle(color: AppColors.gray, fontSize: 16);
       }),
-       errorStyle: getTextStyle(color: AppColors.red),
+      errorStyle: getTextStyle(color: AppColors.red),
       border: getOutlineInputBorder(color: AppColors.gray),
       focusedBorder: getOutlineInputBorder(color: AppColors.gray),
       enabledBorder: getOutlineInputBorder(color: AppColors.gray),
@@ -92,15 +87,14 @@ alignLabelWithHint: true,
     ),
 
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      extendedSizeConstraints: BoxConstraints(
-        minWidth: 80,
-        minHeight: 34,
-      ),
+      extendedSizeConstraints: BoxConstraints(minWidth: 80, minHeight: 34),
       backgroundColor: AppColors.mainColor,
       foregroundColor: AppColors.white,
-      extendedTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      extendedTextStyle: getTextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
-
     ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
@@ -129,4 +123,3 @@ alignLabelWithHint: true,
     );
   }
 }
-
