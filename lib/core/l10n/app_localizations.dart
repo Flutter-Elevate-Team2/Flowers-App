@@ -825,6 +825,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bloom with our exquisite best sellers'**
   String get occasionDescription;
+
+  /// Message displayed when a feature requires login
+  ///
+  /// In en, this message translates to:
+  /// **'Login Required'**
+  String get loginRequired;
+
+  /// Label for the cancel button in a dialog
+  ///
+  /// In en, this message translates to:
+  /// **'cancel'**
+  String get cancelDialog;
+
+  /// Message displayed when we want to add to cart without login
+  ///
+  /// In en, this message translates to:
+  /// **'Please login first to add items to cart'**
+  String get pleaseLoginToAdd;
+
+  /// Label for delivery address
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery to'**
+  String get deliveryTo;
+
+  /// Label for cart subtotal
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotal;
+
+  /// Label for delivery fee
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Fee'**
+  String get deliveryFee;
+
+  /// Label for cart total
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Button text to proceed to checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkout;
+
+  /// Label for number of items in cart
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// Message displayed when the cart is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get yourCartIsEmpty;
+
+  /// Encouragement message to add items to the cart
+  ///
+  /// In en, this message translates to:
+  /// **'Add some beautiful flowers to get started 🌸'**
+  String get addSomeFlowers;
+
+  /// Message displayed when the user is not logged in
+  ///
+  /// In en, this message translates to:
+  /// **'You are not logged in'**
+  String get youAreNotLoggedIn;
+
+  /// Prompt to login to access certain features
+  ///
+  /// In en, this message translates to:
+  /// **'Please Login to view your cart and add items.'**
+  String get pleaseLoginToContinue;
 }
 
 class _AppLocalizationsDelegate

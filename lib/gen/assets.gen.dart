@@ -19,11 +19,25 @@ class $AssetsIconsGen {
   List<String> get values => [flowerLogo];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/Login.json
+  String get login => 'assets/lottie/Login.json';
+
+  /// File path: assets/lottie/empty_cart.json
+  String get emptyCart => 'assets/lottie/empty_cart.json';
+
+  /// List of all assets
+  List<String> get values => [login, emptyCart];
+}
+
 class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
 
   /// List of all assets
   static List<String> get values => [aEnv];

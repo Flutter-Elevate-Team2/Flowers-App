@@ -1,19 +1,26 @@
+import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/cart_action_section.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/product_details_cart_style.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
-import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsBottomBar extends StatelessWidget {
-  final VoidCallback? onAddToCart;
+  final ProductEntity product;
 
-  const ProductDetailsBottomBar({super.key, this.onAddToCart});
+  const ProductDetailsBottomBar({
+    super.key,
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
-    final textTheme = Theme.of(context).textTheme;
-
     return Container(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 32),
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 16,
+        bottom: 32,
+      ),
       decoration: BoxDecoration(
         color: AppColors.white,
         boxShadow: [
@@ -24,27 +31,10 @@ class ProductDetailsBottomBar extends StatelessWidget {
           ),
         ],
       ),
-      child: SizedBox(
-        width: double.infinity,
-        height: 54,
-        child: ElevatedButton(
-          onPressed: onAddToCart,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.mainColor,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(27),
-            ),
-          ),
-          child: Text(
-            locale.addToCart,
-            style: textTheme.bodyMedium?.copyWith(
-              color: AppColors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
+
+      child: CartActionSection(
+        product: product,
+        style: ProductDetailsCartStyle(),
       ),
     );
   }

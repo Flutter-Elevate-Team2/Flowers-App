@@ -1,7 +1,8 @@
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
-import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_add_to_cart_button.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_image.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_price_row.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/cart_action_section.dart';
+import 'package:flowers_app/Features/order/presentation/widgets/shared/add_to_cart_button/product_card_cart_style.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +29,8 @@ class ProductCard extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: Colors.grey.withValues(alpha: 0.2),
-              width: 1,
+              color: Colors.grey,
+              width: .5,
             ),
             boxShadow: [
               BoxShadow(
@@ -77,7 +78,10 @@ class ProductCard extends StatelessWidget {
                         const Spacer(),
 
                         // Add to Cart Button
-                        ProductCardAddToCartButton(onAddToCart: onAddToCart),
+                        CartActionSection(
+                          product: product,
+                          style: ProductCardCartStyle(),
+                        ),
                       ],
                     ),
                   ),
