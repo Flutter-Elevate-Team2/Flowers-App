@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_event.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -23,11 +24,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Features/order/presentation/cart/view_model/cart_events.dart';
 import 'Features/order/presentation/cart/view_model/cart_view_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await dotenv.load(fileName: ".env");
   await configureDependencies();
   await PushNotificationService.init();
