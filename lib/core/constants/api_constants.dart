@@ -22,4 +22,7 @@ class ApiConstants {
   static const int defaultLimit = 40;
   static const int defaultTotalPages = 1;
   static const int defaultTotalItems = 0;
+// ================= Cart Endpoints =================
+static const String cart="/cart";
+
 }
