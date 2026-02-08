@@ -3,5 +3,4 @@ class AssetsManager {
   static const String emptyCart = "lottie/empty_cart.json";
   static const String paymentSuccess = "lottie/payment_success.json";
   static const String markerLocation = "assets/images/icons8-location-48.png";
-  static const String paymentSuccess = "lottie/payment_success.json";
 }

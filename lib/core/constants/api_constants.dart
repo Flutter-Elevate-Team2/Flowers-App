@@ -24,19 +24,11 @@ class ApiConstants {
   static const int defaultTotalItems = 0;
   static const String tokenKey = "user_token";
 
-// ================= Cart Endpoints =================
-  static const String cart="/cart";
+  // ================= Cart Endpoints =================
+  static const String cart = "/cart";
 
-// ================= Checkout Endpoints =================
-  static const String orders ="/orders";
-  static const String success = "success";
-  static const String cancel = "cancel";
-  static const String fail = "fail";
-  static const String allOrders = "allOrders";
-  static const String pending = "pending";
-  static const String completed = "completed";
-// ================= Address Endpoints =================
-static const String addresses="/addresses";
+  // ================= Address Endpoints =================
+  static const String addresses = "/addresses";
 
   // ================= Checkout Endpoints =================
   static const String orders = "/orders";

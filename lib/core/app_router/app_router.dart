@@ -1,3 +1,4 @@
+
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
@@ -18,13 +19,13 @@ import 'package:flowers_app/Features/order/presentation/check_out/views/check_ou
 import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/orders/views/order_screen.dart';
-import 'package:flowers_app/Features/profile/presentation/views/about_us_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/saved_address_screen.dart';
+import 'package:flowers_app/Features/profile/presentation/views/about_us_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/terms_conditions_screen.dart';
 import 'package:flowers_app/core/di/di.dart';
 import 'package:flutter/material.dart';
@@ -73,15 +74,6 @@ class Routes {
   static const String termsandConditionsPath = '/terms_conditions';
   static const String termsandConditionsName = 'terms_conditions';
 
-  static const String checkoutPath = '/checkout';
-  static const String checkoutName = 'checkout';
-
-  static const String thankYouName = 'thankYou';
-  static const String thankYouPath = '/thankyou';
-
-  static const orderPath = '/order';
-  static const orderName = 'order';
-
   static const String savedAddressPath = '/savedAddress';
   static const String savedAddressName = 'savedAddress';
   static const String addAddressPath = '/addaddress';
@@ -102,15 +94,15 @@ class Routes {
 
 class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _homeNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _categoriesNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _cartNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _profileNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -180,7 +172,7 @@ class AppRouter {
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>?;
                   final categories =
-                      extra?['categories'] as List<CategoryEntity>?;
+                  extra?['categories'] as List<CategoryEntity>?;
                   final initialIndex = extra?['initialIndex'] as int? ?? 0;
 
                   return CategoriesScreen(
@@ -265,27 +257,6 @@ class AppRouter {
         name: Routes.editProfileName,
         builder: (context, state) => const EditProfileScreen(),
       ),
-
-      /// ====== Check out SCREEN ======
-      GoRoute(
-        path: Routes.checkoutPath,
-        name: Routes.checkoutName,
-        builder: (context, state) => const CheckOutScreen(),
-      ),
-
-      GoRoute(
-        path: Routes.thankYouPath,
-        name: Routes.thankYouName,
-        builder: (context, state) => const CheckoutSuccessPage(),
-      ),
-
-      GoRoute(path: Routes.orderPath,
-        name: Routes.orderName,
-        builder: (context, state) => BlocProvider(
-          create: (_) => getIt<OrdersViewModel>(),
-          child: const OrdersPage(),
-        ),
-      )
       GoRoute(
         path: Routes.savedAddressPath,
         name: Routes.savedAddressName,
