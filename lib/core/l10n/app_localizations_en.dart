@@ -652,4 +652,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseLoginToAddAddress => 'Please login to add address';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get reorder => 'Reorder';
+
+  @override
+  String get trackOrder => 'Track order';
+
+  @override
+  String get deliveredOn => 'Delivered on';
+
+  @override
+  String get orderNumber => 'Order Number';
+
+  @override
+  String get noOrdersFound => 'No orders found';
 }

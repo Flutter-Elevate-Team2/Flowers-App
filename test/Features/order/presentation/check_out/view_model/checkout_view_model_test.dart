@@ -156,6 +156,21 @@ void main() {
       ],
     );
   });
+  blocTest<CheckoutViewModel, CheckoutStates>(
+    'CreditCardPaymentEvent emits errorMessage on failure',
+    build: () {
+      when(mockCreditCardCheckout.call(any)).thenAnswer(
+            (_) async => ErrorResponse(errorMessage: 'Credit failed'),
+      );
+      return checkoutViewModel;
+    },
+    act: (bloc) => bloc.doIntent(CreditCardPaymentEvent(fakeOrderRequest)),
+    expect: () => [
+      initialState().copyWith(isLoading: true, errorMessage: null),
+      initialState().copyWith(isLoading: false, errorMessage: 'Credit failed'),
+    ],
+  );
+
 }
 
 /// -------------------- STUBS --------------------

@@ -647,4 +647,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseLoginToAddAddress => 'يرجى تسجيل الدخول لإضافة عنوان';
+
+  @override
+  String get active => 'نشط';
+
+  @override
+  String get completed => 'مكتمل';
+
+  @override
+  String get reorder => 'إعادة الطلب';
+
+  @override
+  String get trackOrder => 'تتبع الطلب';
+
+  @override
+  String get deliveredOn => 'تم التسليم في';
+
+  @override
+  String get orderNumber => 'رقم الطلب';
+
+  @override
+  String get noOrdersFound => 'لا توجد طلبات';
 }

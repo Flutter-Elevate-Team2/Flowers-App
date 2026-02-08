@@ -4,6 +4,7 @@ import 'package:flowers_app/Features/notifications/presentation/view_model/notif
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_state.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
+import 'package:flowers_app/core/services/push_notification_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,7 +13,11 @@ class NotificationViewModel extends Cubit<NotificationState> {
   final GetNotificationUseCase _getNotificationUseCase;
 
   NotificationViewModel(this._getNotificationUseCase)
-    : super(NotificationState());
+    : super(NotificationState()) {
+    PushNotificationService.onNotificationReceived.listen((_) {
+      doIntent(GetNotificationsEvent());
+    });
+  }
 
   void doIntent(NotificationEvent event) {
     if (event is GetNotificationsEvent) {

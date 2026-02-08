@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flowers_app/Features/order/domain/use_cases/cart/clear_user_cart_use_case.dart';
 import 'package:flowers_app/core/utils/debouncer/immediate_debouncer.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -27,6 +28,7 @@ import 'cart_view_model_test.mocks.dart';
   AddToCartUseCase,
   UpdateCartItemUseCase,
   DeleteCartItemUseCase,
+  ClearCartUseCase,
   HasValidTokenUseCase,
   SessionController,
 ])
@@ -40,6 +42,7 @@ void main() {
   late MockAddToCartUseCase mockAddToCartUseCase;
   late MockUpdateCartItemUseCase mockUpdateCartItemUseCase;
   late MockDeleteCartItemUseCase mockDeleteCartItemUseCase;
+  late MockClearCartUseCase mockClearCartUseCase;
   late MockHasValidTokenUseCase mockHasValidTokenUseCase;
   late MockSessionController mockSessionController;
 
@@ -50,8 +53,10 @@ void main() {
     mockAddToCartUseCase = MockAddToCartUseCase();
     mockUpdateCartItemUseCase = MockUpdateCartItemUseCase();
     mockDeleteCartItemUseCase = MockDeleteCartItemUseCase();
+    mockClearCartUseCase = MockClearCartUseCase();
     mockHasValidTokenUseCase = MockHasValidTokenUseCase();
     mockSessionController = MockSessionController();
+
 
     when(mockSessionController.onLogin).thenAnswer((_) => const Stream.empty());
     when(
@@ -63,6 +68,7 @@ void main() {
       mockAddToCartUseCase,
       mockUpdateCartItemUseCase,
       mockDeleteCartItemUseCase,
+      mockClearCartUseCase,
       mockHasValidTokenUseCase,
       mockSessionController,
       ImmediateDebouncer(),
@@ -194,6 +200,36 @@ void main() {
           lastFailedItemId: '1',
           optimisticQuantities: {},
           updatingItemIds: {},
+        ),
+      ],
+    );
+
+    blocTest<CartViewModel, CartStates>(
+      'ClearCartEvent clears the cart and emits [loading, success]',
+      build: () {
+        when(mockHasValidTokenUseCase.call()).thenAnswer((_) async => true);
+
+        when(mockClearCartUseCase.call()).thenAnswer(
+              (_) async => SuccessResponse(
+            data: CartResponseEntity(
+              cart: CartEntity(cartItems: []),
+              numOfCartItems: 0,
+            ),
+          ),
+        );
+        return cartViewModel;
+      },
+      act: (viewModel) => viewModel.doIntent(ClearCartEvent()),
+      expect: () => [
+        isA<CartStates>().having((s) => s.isLoading, 'isLoading', true),
+
+        CartStates(
+          cartData: CartResponseEntity(
+            cart: CartEntity(cartItems: []),
+            numOfCartItems: 0,
+          ),
+          isGuest: false,
+          isLoading: false,
         ),
       ],
     );

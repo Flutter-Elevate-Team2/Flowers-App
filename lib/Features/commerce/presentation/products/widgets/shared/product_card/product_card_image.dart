@@ -7,12 +7,14 @@ class ProductCardImage extends StatelessWidget {
   final String imgCover;
   final double height;
   final double radius;
+  final double bottomRadius;
 
   const ProductCardImage({
     super.key,
     required this.imgCover,
     required this.height,
     this.radius = 12,
+    this.bottomRadius = 0,
   });
 
   @override
@@ -22,10 +24,16 @@ class ProductCardImage extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.lightPink,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(radius),
+          bottom: Radius.circular(bottomRadius),
+        ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(radius)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(radius),
+          bottom: Radius.circular(bottomRadius),
+        ),
         child: CachedNetworkImage(
           imageUrl: imgCover,
           fit: BoxFit.cover,

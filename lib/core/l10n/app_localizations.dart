@@ -1357,6 +1357,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please login to add address'**
   String get pleaseLoginToAddAddress;
+
+  /// Status label for active orders
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// Status label for completed orders
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// Button text to reorder an order
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get reorder;
+
+  /// Button text to track an order
+  ///
+  /// In en, this message translates to:
+  /// **'Track order'**
+  String get trackOrder;
+
+  /// Label for delivery status
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered on'**
+  String get deliveredOn;
+
+  /// Label for order number
+  ///
+  /// In en, this message translates to:
+  /// **'Order Number'**
+  String get orderNumber;
+
+  /// No description provided for @noOrdersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders found'**
+  String get noOrdersFound;
 }
 
 class _AppLocalizationsDelegate

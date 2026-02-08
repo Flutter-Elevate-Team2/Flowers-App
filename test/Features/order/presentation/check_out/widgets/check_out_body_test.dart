@@ -98,7 +98,7 @@ void main() {
       checkoutCubit.state,
     ).thenReturn(CheckoutStates(errorMessage: 'Error happened'));
     when(checkoutCubit.stream).thenAnswer(
-      (_) => Stream.value(CheckoutStates(errorMessage: 'Error happened')),
+          (_) => Stream.value(CheckoutStates(errorMessage: 'Error happened')),
     );
     when(cartCubit.state).thenReturn(CartStates());
     when(cartCubit.stream).thenAnswer((_) => const Stream.empty());
@@ -129,8 +129,8 @@ void main() {
 
   // 4. Test Address Selection Requirement
   testWidgets('checkout button is disabled when no address selected', (
-    tester,
-  ) async {
+      tester,
+      ) async {
     when(checkoutCubit.state).thenReturn(const CheckoutStates());
     when(
       checkoutCubit.stream,
@@ -149,8 +149,8 @@ void main() {
 
   // 5. Test Payment Method Selection
   testWidgets('changing payment method calls onChanged with creditCard', (
-    tester,
-  ) async {
+      tester,
+      ) async {
     PaymentMethod? selected;
 
     await tester.pumpWidget(
