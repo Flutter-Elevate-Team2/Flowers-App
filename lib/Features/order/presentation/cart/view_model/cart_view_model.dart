@@ -5,6 +5,7 @@ import 'package:flowers_app/Features/order/data/models/cart/cart_request_dto.dar
 import 'package:flowers_app/Features/order/data/models/cart/quantity_request.dart';
 import 'package:flowers_app/Features/order/domain/entities/cart/cart_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/cart/add_to_cart_use_case.dart';
+import 'package:flowers_app/Features/order/domain/use_cases/cart/clear_user_cart_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/cart/delete_cart_item_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/cart/get_cart_use_case.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/cart/update_cart_item_use_case.dart';
@@ -22,6 +23,7 @@ class CartViewModel extends Cubit<CartStates> {
   final AddToCartUseCase _addToCartUseCase;
   final UpdateCartItemUseCase _updateCartItemUseCase;
   final DeleteCartItemUseCase _deleteCartItemUseCase;
+  final ClearCartUseCase _clearCartUseCase;
   final HasValidTokenUseCase _hasTokenUseCase;
   final SessionController _sessionController;
   final Debouncer _debouncer;
@@ -35,6 +37,7 @@ class CartViewModel extends Cubit<CartStates> {
     this._addToCartUseCase,
     this._updateCartItemUseCase,
     this._deleteCartItemUseCase,
+    this._clearCartUseCase,
     this._hasTokenUseCase,
     this._sessionController,
     this._debouncer,
@@ -42,7 +45,7 @@ class CartViewModel extends Cubit<CartStates> {
     _listenToSession();
   }
 
-  void doIntent(CartEvent event) {
+  Future<void> doIntent(CartEvent event) async{
     if (event is GetCartDataEvent) {
       _getCart();
     } else if (event is AddToCartEvent) {
@@ -53,6 +56,8 @@ class CartViewModel extends Cubit<CartStates> {
       _optimisticUpdate(event.itemId, 0);
     } else if (event is CartLoginHandledEvent) {
       _resetLoginRequired();
+    } else if (event is ClearCartEvent) {
+      await _clearCart();
     }
   }
 
@@ -65,20 +70,28 @@ class CartViewModel extends Cubit<CartStates> {
     _logoutSubscription = _sessionController.onLogout.listen((reason) {
       if (reason == SessionEndReason.guest ||
           reason == SessionEndReason.logout) {
-        emit(const CartStates());
+        emit(const CartStates(isGuest: true));
       }
     });
   }
 
   Future<void> _getCart() async {
-    if (!await _hasTokenUseCase()) return;
+    if (!await _hasTokenUseCase()) {
+      emit(const CartStates(isGuest: true));
+      return;
+    }
 
     emit(state.copyWith(isLoading: true, errorMessage: null));
 
     final response = await _getCartUseCase();
 
     if (response is SuccessResponse<CartResponseEntity>) {
-      emit(CartStates.fromCart(response.data).copyWith(isLoading: false));
+      emit(
+        CartStates.fromCart(response.data).copyWith(
+          isLoading: false,
+          isGuest: false,
+        ),
+      );
     } else if (response is ErrorResponse<CartResponseEntity>) {
       emit(
         state.copyWith(isLoading: false, errorMessage: response.errorMessage),
@@ -195,6 +208,33 @@ class CartViewModel extends Cubit<CartStates> {
         updatingItemIds: updating,
       ),
     );
+  }
+
+  Future<void> _clearCart() async {
+    if (!await _hasTokenUseCase()) {
+      emit(state.copyWith(requiresLogin: true));
+      return;
+    }
+
+    emit(state.copyWith(isLoading: true, errorMessage: null));
+
+    final response = await _clearCartUseCase();
+
+    if (response is SuccessResponse<CartResponseEntity>) {
+      emit(
+        CartStates.fromCart(response.data).copyWith(
+          isGuest: false,
+          isLoading: false,
+        ),
+      );
+    } else if (response is ErrorResponse<CartResponseEntity>) {
+      emit(
+        state.copyWith(
+          isLoading: false,
+          errorMessage: response.errorMessage,
+        ),
+      );
+    }
   }
 
   void _resetLoginRequired() {

@@ -58,7 +58,9 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.myOrders,
                   leadingIcon: Icons.calendar_today_outlined,
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(Routes.orderName);
+                  },
                 ),
                 ProfileMenuItem(
                   title: context.l10n.savedAddress,
