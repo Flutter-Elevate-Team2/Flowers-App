@@ -1,64 +1,60 @@
-name: Sonar-Qube
+name: Build and Analyze
+
 on:
   push:
     branches:
       - main
-      - demo2
   pull_request:
     types: [opened, synchronize, reopened]
-
-permissions:
-  pull-requests: write
-  contents: read
-  statuses: write
 
 jobs:
   sonarqube:
     name: SonarQube
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout Code
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  
 
-      - name: Setup Java
+      # 2. Setup Java 
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: "temurin"
-          java-version: "17"
+          java-version: 17
+          distribution: 'temurin'
 
+      # 3. Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: "stable"
-          cache: true
-
+          channel: 'stable'
+          cache: true 
+      # 4. Install Dependencies
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Generate Code (build_runner)
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+      # 5. Run Code Generator 
+      
+      - name: Run Build Runner
+        run: dart run build_runner build --delete-conflicting-outputs
 
+      # 6. Run Tests & Generate Coverage
+     
       - name: Run Tests
-        continue-on-error: true 
         run: flutter test --coverage
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+      # 7. SonarQube Scan
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN }}
+        
         with:
           args: >
             -Dsonar.projectKey=MoHa270xX_Flowers-App
             -Dsonar.organization=moha270xx
-            -Dsonar.dart.lcov.reportPath=coverage/lcov.info
             -Dsonar.sources=lib
             -Dsonar.tests=test
-            -Dsonar.exclusions=lib/**.g.dart,lib/**.freezed.dart,lib/generated_plugin_registrant.dart
-
-      - name: SonarQube Quality Gate Check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{secrets.SONAR_TOKEN }}
+            -Dsonar.dart.lcov.reportPath=coverage/lcov.info
+            -Dsonar.sourceEncoding=UTF-8
