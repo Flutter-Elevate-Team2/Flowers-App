@@ -2,7 +2,6 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/utils/json_helpers/json_keys.dart';
 import '../../../../core/utils/json_helpers/json_loader.dart';
 import '../../data/models/generic_section_model.dart';
@@ -12,7 +11,6 @@ class TermsConditionsScreen extends StatelessWidget {
   const TermsConditionsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-   final t = AppLocalizations.of(context)!;
     return FutureBuilder<Map<String, dynamic>>(
       future: loadJson(
         "assets/json/Flowery Terms and Conditions JSON with Arabic and English.json",
