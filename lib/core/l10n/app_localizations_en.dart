@@ -382,4 +382,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get occasionDescription => 'Bloom with our exquisite best sellers';
+
+  @override
+  String get loginRequired => 'Login Required';
+
+  @override
+  String get cancelDialog => 'cancel';
+
+  @override
+  String get pleaseLoginToAdd => 'Please login first to add items to cart';
+
+  @override
+  String get deliveryTo => 'Delivery to';
+
+  @override
+  String get subtotal => 'Subtotal';
+
+  @override
+  String get deliveryFee => 'Delivery Fee';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get yourCartIsEmpty => 'Your cart is empty';
+
+  @override
+  String get addSomeFlowers => 'Add some beautiful flowers to get started 🌸';
+
+  @override
+  String get youAreNotLoggedIn => 'You are not logged in';
+
+  @override
+  String get pleaseLoginToContinue =>
+      'Please Login to view your cart and add items.';
 }

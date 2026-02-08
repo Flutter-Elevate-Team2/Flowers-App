@@ -15,9 +15,32 @@ class SessionController {
     }
   }
 
+  final StreamController<void> _loginController =
+  StreamController<void>.broadcast();
+
+  final StreamController<void> _logoutController =
+  StreamController<void>.broadcast();
+
+  Stream<void> get onLogin => _loginController.stream;
+  Stream<void> get onLogout => _logoutController.stream;
+
+  void notifyLogin() {
+    if (!_loginController.isClosed) {
+      _loginController.add(null);
+    }
+  }
+
+  void notifyLogout() {
+    if (!_logoutController.isClosed) {
+      _logoutController.add(null);
+    }
+  }
+
   // Fix: Added dispose method
   @disposeMethod
   void dispose() {
     _sessionExpiredController.close();
+    _loginController.close();
+    _logoutController.close();
   }
 }
