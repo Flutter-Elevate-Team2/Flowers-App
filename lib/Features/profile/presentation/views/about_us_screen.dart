@@ -8,8 +8,7 @@ import '../../data/models/generic_section_model.dart';
 import '../widgets/generic_widget.dart';
 
 class AboutUsScreen extends StatelessWidget {
-  final String locale;
-  const AboutUsScreen({super.key, this.locale = JsonKeys.en});
+  const AboutUsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +18,6 @@ class AboutUsScreen extends StatelessWidget {
         "assets/json/Flowery About Section JSON with Expanded Content.json",
       ),
       builder: (context, snapshot) {
-        debugPrint("data file:${snapshot.data}/${snapshot.hasData}");
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: AppColors.white,
@@ -29,11 +26,11 @@ class AboutUsScreen extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data == null) {
-          return Scaffold(body: Center(child: Text(context.l10n.notFoundError)),);
+          return Center(child: Text(context.l10n.notFoundError));
         }
 
         if (snapshot.hasError) {
-          return Scaffold(body: Center(child: Text(context.l10n.unknownError)),);
+          return Center(child: Text(context.l10n.unknownError));
         }
 
         final data = snapshot.data!;
@@ -41,7 +38,7 @@ class AboutUsScreen extends StatelessWidget {
         final sectionsJson = sectionsJsonRaw is List ? sectionsJsonRaw : null;
 
         if (sectionsJson == null) {
-          return Scaffold(body: Center(child: Text(context.l10n.notFoundError)),);
+          return Center(child: Text(context.l10n.notFoundError));
         }
 
         final sections = sectionsJson
@@ -55,7 +52,12 @@ class AboutUsScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: sections
-                    .map((section) => buildGenericSection(section, locale))
+                    .map(
+                      (section) => buildGenericSection(
+                        section,
+                        Localizations.localeOf(context).languageCode,
+                      ),
+                    )
                     .toList(),
               ),
             ),

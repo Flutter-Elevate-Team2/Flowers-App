@@ -5,6 +5,7 @@ import 'package:flowers_app/Features/user_address/presentation/views/screens/add
 import 'package:flowers_app/Features/user_address/presentation/views/widgets/add_address_screen_body.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -43,7 +44,10 @@ void main() {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en'), Locale('ar')],
-      home: AddAddressScreen(addressToEdit: addressToEdit),
+      home: BlocProvider<UserAddressViewModel>(
+        create: (_) => mockViewModel,
+        child: AddAddressScreen(addressToEdit: addressToEdit),
+      ),
     );
   }
 

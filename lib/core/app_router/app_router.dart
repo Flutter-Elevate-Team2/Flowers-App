@@ -12,6 +12,7 @@ import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/h
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
+import 'package:flowers_app/Features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/check_out_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
@@ -85,6 +86,18 @@ class Routes {
   static const String savedAddressName = 'savedAddress';
   static const String addAddressPath = '/addaddress';
   static const String addAddressName = 'addAddress';
+  static const String checkoutPath = '/checkout';
+  static const String checkoutName = 'checkout';
+
+  static const String thankYouName = 'thankYou';
+  static const String thankYouPath = '/thankyou';
+
+  static const orderPath = '/order';
+  static const orderName = 'order';
+
+  static const notificationsPath = '/notifications';
+  static const notificationsName = 'notifications';
+
 }
 
 class AppRouter {
@@ -286,6 +299,32 @@ class AppRouter {
           return AddAddressScreen(addressToEdit: addressToEdit);
         },
       ),
+
+      /// ====== Check out SCREEN ======
+      GoRoute(
+        path: Routes.checkoutPath,
+        name: Routes.checkoutName,
+        builder: (context, state) => const CheckOutScreen(),
+      ),
+
+      GoRoute(
+        path: Routes.thankYouPath,
+        name: Routes.thankYouName,
+        builder: (context, state) => const CheckoutSuccessPage(),
+      ),
+      GoRoute(
+        path: Routes.notificationsPath,
+        name: Routes.notificationsName,
+        builder: (context, state) => const NotificationsScreen(),
+      ),
+
+      GoRoute(path: Routes.orderPath,
+        name: Routes.orderName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => getIt<OrdersViewModel>(),
+          child: const OrdersPage(),
+        ),
+      )
     ],
   );
 }

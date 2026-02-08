@@ -1,51 +1,25 @@
-import 'package:flowers_app/Features/order/domain/entities/checkout/address_entity.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/address_tile.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_section_wrapper.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
-class AddressSection extends StatefulWidget {
+class AddressSection extends StatelessWidget {
+  final List<AddressEntity> addresses;
+  final AddressEntity? selectedAddress;
   final ValueChanged<AddressEntity> onAddressSelected;
+  final VoidCallback onAdd;
+  final ValueChanged<AddressEntity> onEdit;
 
-  const AddressSection({super.key, required this.onAddressSelected});
-
-  @override
-  State<AddressSection> createState() => _AddressSectionState();
-}
-
-class _AddressSectionState extends State<AddressSection> {
-  late List<AddressEntity> addresses;
-  late AddressEntity selectedAddress;
-
-  @override
-  void initState() {
-    super.initState();
-    addresses = [
-      AddressEntity(
-        id: "1",
-        title: "Home",
-        street: "2XVX+XC - Sheikh Zayed",
-        city: "Sheikh Zayed",
-        phone: "0123456789",
-        lat: 30.0,
-        long: 31.0,
-      ),
-      AddressEntity(
-        id: "2",
-        title: "Office",
-        street: "3XVX+XC - Cairo",
-        city: "Cairo",
-        phone: "01010800921",
-        lat: 30.1,
-        long: 31.2,
-      ),
-    ];
-    selectedAddress = addresses.first;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.onAddressSelected(selectedAddress);
-    });
-  }
+  const AddressSection({
+    super.key,
+    required this.onAddressSelected,
+    required this.onAdd,
+    required this.onEdit,
+    this.addresses = const [],
+    this.selectedAddress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,23 +41,20 @@ class _AddressSectionState extends State<AddressSection> {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: AddressTile(
-                title: address.title,
+                city: address.city,
+                title: address.username,
                 address: address.street,
-                isSelected: selectedAddress.id == address.id,
-                onTap: () {
-                  setState(() {
-                    selectedAddress = address;
-                  });
-                  widget.onAddressSelected(selectedAddress);
-                },
-                onEdit: () {},
+                isSelected: selectedAddress?.id == address.id,
+                onTap: () => onAddressSelected(address),
+                onEdit: () => onEdit(address),
               ),
             );
           }),
+
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: onAdd,
               icon: Icon(Icons.add, color: theme.colorScheme.primary),
               label: Text(
                 context.l10n.addNew,

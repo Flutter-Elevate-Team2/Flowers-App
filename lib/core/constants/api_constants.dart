@@ -38,4 +38,14 @@ class ApiConstants {
 // ================= Address Endpoints =================
 static const String addresses="/addresses";
 
+  // ================= Checkout Endpoints =================
+  static const String orders = "/orders";
+  static const String success = "success";
+  static const String cancel = "cancel";
+  static const String fail = "fail";
+  static const String allOrders = "allOrders";
+  static const String pending = "pending";
+  static const String completed = "completed";
+  // ================= Notifications Endpoints =================
+  static const String notifications = "notifications/user";
 }

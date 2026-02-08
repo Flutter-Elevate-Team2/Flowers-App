@@ -14,7 +14,7 @@ class ProductCardPriceRow extends StatelessWidget {
         // Current Price
         if (product.discount == 0)
           Text(
-            'EGP ${product.price}',
+            'EGP ${product.priceAfterDiscount}',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

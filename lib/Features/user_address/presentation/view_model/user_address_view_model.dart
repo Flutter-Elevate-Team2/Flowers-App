@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_response_entity.dart';
@@ -19,20 +20,33 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
   final GetAddressesUseCase _getAddressesUseCase;
   final AddAddressUseCase _addAddressUseCase;
   final UserAddressUseCase _userAddressUseCase;
+  final HasValidTokenUseCase _hasValidTokenUseCase;
   final SessionController _sessionController;
+  StreamSubscription? _loginSubscription;
   StreamSubscription? _logoutSubscription;
   UserAddressViewModel(
     this._getAddressesUseCase,
     this._addAddressUseCase,
     this._userAddressUseCase,
+    this._hasValidTokenUseCase,
     this._sessionController,
   ) : super(UserAddressState()) {
     _listenToLogout();
+    _listenToLogin();
   }
   void _listenToLogout() {
     _logoutSubscription = _sessionController.onLogout.listen((_) {
       if (!isClosed) {
-        emit(UserAddressState());
+        emit(UserAddressState(isGuest: true));
+      }
+    });
+  }
+
+  void _listenToLogin() {
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      if (!isClosed) {
+        emit(state.copyWith(isGuest: false));
+        doIntent(GetAddressesEvent());
       }
     });
   }
@@ -40,6 +54,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
   @override
   Future<void> close() {
     _logoutSubscription?.cancel();
+    _loginSubscription?.cancel();
     return super.close();
   }
 
@@ -62,9 +77,14 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
 
   Future<void> _getAddresses() async {
     if (isClosed) return;
+    if (!await _hasValidTokenUseCase()) {
+      emit(state.copyWith(isGuest: true));
+      return;
+    }
     emit(
       state.copyWith(
         getAddressesState: BaseState<AddressResponseEntity>(isLoading: true),
+        isGuest: false,
       ),
     );
 
@@ -76,6 +96,7 @@ class UserAddressViewModel extends Cubit<UserAddressState> {
         emit(
           state.copyWith(
             getAddressesState: BaseState(isLoading: false, data: response.data),
+            isGuest: false,
           ),
         );
         break;

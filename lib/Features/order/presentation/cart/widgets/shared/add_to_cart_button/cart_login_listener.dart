@@ -1,3 +1,4 @@
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_events.dart';
@@ -20,7 +21,7 @@ class CartLoginListener extends StatelessWidget {
           final cartViewModel = context.read<CartViewModel>();
           showDialog(
             context: context,
-            builder: (_) => const LoginRequiredDialog(),
+            builder: (_) => LoginRequiredDialog(content: context.l10n.pleaseLoginToAdd),
           ).then((_) {
             cartViewModel.doIntent(CartLoginHandledEvent());
           });

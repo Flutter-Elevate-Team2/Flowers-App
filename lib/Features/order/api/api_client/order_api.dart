@@ -7,9 +7,8 @@ import 'package:flowers_app/Features/order/data/models/checkout/credit/credit_ch
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
-import 'package:retrofit/error_logger.dart';
-import 'package:retrofit/http.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/user_orders_response_model.dart';
+import 'package:retrofit/retrofit.dart';
 
 part 'order_api.g.dart';
 

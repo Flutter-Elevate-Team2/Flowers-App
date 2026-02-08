@@ -585,4 +585,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorGettingLocation => 'Error getting location: ';
+
+  @override
+  String get deliveryTime => 'Delivery time';
+
+  @override
+  String get schedule => 'Schedule';
+
+  @override
+  String get instant => 'Instant, ';
+
+  @override
+  String get arriveBy => 'Arrive by 03 Sep 2024, 11:00 AM';
+
+  @override
+  String get itIsAGift => 'It is a gift';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get enterName => 'Enter the name';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get enterPhoneNumber => 'Enter the phone number';
+
+  @override
+  String get paymentMethod => 'Payment method';
+
+  @override
+  String get cashOnDelivery => 'Cash on delivery';
+
+  @override
+  String get creditCard => 'Credit card';
+
+  @override
+  String get deliveryAddress => 'Delivery address';
+
+  @override
+  String get addNew => 'Add new';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get placeOrder => 'Place order';
+
+  @override
+  String get thankYou => 'Thank you!';
+
+  @override
+  String get goToHome => 'Go to home';
+
+  @override
+  String get placedSuccessfully =>
+      'Your order has been placed successfully. We’ll start preparing it right away 🌸';
+
+  @override
+  String get creditCheckout => 'Credit Checkout';
+
+  @override
+  String get paymentCancelled => 'Payment Cancelled';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get selectAddress => 'Select Address';
+
+  @override
+  String get pleaseLoginToAddAddress => 'Please login to add address';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get reorder => 'Reorder';
+
+  @override
+  String get trackOrder => 'Track order';
+
+  @override
+  String get deliveredOn => 'Delivered on';
+
+  @override
+  String get orderNumber => 'Order Number';
+
+  @override
+  String get noOrdersFound => 'No orders found';
 }

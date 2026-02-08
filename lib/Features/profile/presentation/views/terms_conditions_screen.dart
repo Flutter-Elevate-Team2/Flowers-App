@@ -9,20 +9,19 @@ import '../../data/models/generic_section_model.dart';
 import '../widgets/generic_widget.dart';
 
 class TermsConditionsScreen extends StatelessWidget {
-  final String locale;
-  const TermsConditionsScreen({super.key, this.locale = JsonKeys.en});
+  const TermsConditionsScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
+   final t = AppLocalizations.of(context)!;
     return FutureBuilder<Map<String, dynamic>>(
-      future: loadJson("assets/json/Flowery Terms and Conditions JSON with Arabic and English.json"),
+      future: loadJson(
+        "assets/json/Flowery Terms and Conditions JSON with Arabic and English.json",
+      ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
             backgroundColor: AppColors.white,
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         }
 
@@ -42,8 +41,9 @@ class TermsConditionsScreen extends StatelessWidget {
           return Center(child: Text(context.l10n.notFoundError));
         }
 
-        final sections =
-        sectionsJson.map((e) => GenericSectionModel.fromJson(e)).toList();
+        final sections = sectionsJson
+            .map((e) => GenericSectionModel.fromJson(e))
+            .toList();
 
         return Scaffold(
           extendBodyBehindAppBar: true,
@@ -52,7 +52,12 @@ class TermsConditionsScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: sections
-                    .map((section) => buildGenericSection(section, locale))
+                    .map(
+                      (section) => buildGenericSection(
+                        section,
+                        Localizations.localeOf(context).languageCode,
+                      ),
+                    )
                     .toList(),
               ),
             ),
@@ -61,5 +66,4 @@ class TermsConditionsScreen extends StatelessWidget {
       },
     );
   }
-
 }

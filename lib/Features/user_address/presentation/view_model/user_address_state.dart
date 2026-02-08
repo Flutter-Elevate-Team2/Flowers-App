@@ -6,12 +6,14 @@ class UserAddressState {
   final BaseState<AddressResponseEntity>? addAddressState;
   final BaseState<AddressResponseEntity>? editAddressState;
   final BaseState<AddressResponseEntity>? deleteAddressState;
+  final bool isGuest;
 
   UserAddressState({
     this.getAddressesState,
     this.addAddressState,
     this.editAddressState,
     this.deleteAddressState,
+    this.isGuest = false,
   });
 
   UserAddressState copyWith({
@@ -19,12 +21,14 @@ class UserAddressState {
     BaseState<AddressResponseEntity>? addAddressState,
     BaseState<AddressResponseEntity>? editAddressState,
     BaseState<AddressResponseEntity>? deleteAddressState,
+    bool? isGuest,
   }) {
     return UserAddressState(
       getAddressesState: getAddressesState ?? this.getAddressesState,
       addAddressState: addAddressState ?? this.addAddressState,
       editAddressState: editAddressState ?? this.editAddressState,
       deleteAddressState: deleteAddressState ?? this.deleteAddressState,
+      isGuest: isGuest ?? this.isGuest,
     );
   }
 }
