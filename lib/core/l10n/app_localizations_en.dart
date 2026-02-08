@@ -649,4 +649,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectAddress => 'Select Address';
+
+  @override
+  String get pleaseLoginToAddAddress => 'Please login to add address';
 }

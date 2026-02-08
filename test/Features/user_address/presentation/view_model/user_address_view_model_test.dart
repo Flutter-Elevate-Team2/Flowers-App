@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flowers_app/Features/auth/domain/use_cases/valid_token_usecase.dart';
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
@@ -23,6 +24,7 @@ import 'user_address_view_model_test.mocks.dart';
   AddAddressUseCase,
   UserAddressUseCase,
   SessionController,
+  HasValidTokenUseCase,
 ])
 void main() {
   late UserAddressViewModel viewModel;
@@ -30,6 +32,7 @@ void main() {
   late MockAddAddressUseCase mockAddAddressUseCase;
   late MockUserAddressUseCase mockUserAddressUseCase;
   late MockSessionController mockSessionController;
+  late MockHasValidTokenUseCase mockHasValidTokenUseCase;
   late StreamController<SessionEndReason> logoutStreamController;
 
   final tAddressEntity = AddressEntity(
@@ -56,6 +59,7 @@ void main() {
     mockAddAddressUseCase = MockAddAddressUseCase();
     mockUserAddressUseCase = MockUserAddressUseCase();
     mockSessionController = MockSessionController();
+    mockHasValidTokenUseCase = MockHasValidTokenUseCase();
 
     logoutStreamController = StreamController<SessionEndReason>.broadcast();
     final loginStreamController = StreamController<void>.broadcast();
@@ -68,10 +72,13 @@ void main() {
       mockSessionController.onLogin,
     ).thenAnswer((_) => loginStreamController.stream);
 
+    when(mockHasValidTokenUseCase.call()).thenAnswer((_) async => true);
+
     viewModel = UserAddressViewModel(
       mockGetAddressesUseCase,
       mockAddAddressUseCase,
       mockUserAddressUseCase,
+      mockHasValidTokenUseCase,
       mockSessionController,
     );
 

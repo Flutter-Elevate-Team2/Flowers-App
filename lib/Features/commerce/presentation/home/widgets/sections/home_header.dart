@@ -1,4 +1,5 @@
 import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/custom_search_bar.dart';
+import 'package:flowers_app/Features/order/presentation/cart/widgets/shared/add_to_cart_button/login_required_dialog.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
@@ -19,14 +20,10 @@ class HomeHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // === Top Row: Logo + Search Bar ===
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              Assets.icons.flowerLogo,
-              height: 20, width: 20,
-            ),
+            SvgPicture.asset(Assets.icons.flowerLogo, height: 20, width: 20),
             const SizedBox(width: 4),
             Text(
               context.l10n.flowery,
@@ -46,18 +43,51 @@ class HomeHeader extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        // === Bottom Row: Address Selector Widget ===
+
         BlocListener<UserAddressViewModel, UserAddressState>(
           listenWhen: (prev, curr) =>
-          prev.getAddressesState?.data != curr.getAddressesState?.data,
+              prev.getAddressesState?.data != curr.getAddressesState?.data,
           listener: (context, state) {
             final addresses = state.getAddressesState?.data?.addresses ?? [];
-            if (addresses.isNotEmpty &&
-                context.read<SelectedAddressCubit>().state == null) {
-              context.read<SelectedAddressCubit>().select(addresses.first);
+            final selectedCubit = context.read<SelectedAddressCubit>();
+            final currentSelected = selectedCubit.state;
+
+            if (addresses.isNotEmpty) {
+              if (currentSelected == null) {
+                selectedCubit.select(addresses.first);
+              } else {
+                final updatedAddress = addresses.firstWhere(
+                  (a) => a.id == currentSelected.id,
+                  orElse: () => addresses.first,
+                );
+                selectedCubit.select(updatedAddress);
+              }
             }
           },
-          child: const AddressSelector(),
+          child: BlocBuilder<UserAddressViewModel, UserAddressState>(
+            buildWhen: (previous, current) =>
+                previous.isGuest != current.isGuest,
+            builder: (context, state) {
+              final isGuest = state.isGuest;
+
+              return GestureDetector(
+                onTap: () {
+                  if (isGuest) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LoginRequiredDialog(
+                        content: context.l10n.pleaseLoginToAdd,
+                      ),
+                    );
+                  }
+                },
+                child: AbsorbPointer(
+                  absorbing: isGuest,
+                  child: const AddressSelector(),
+                ),
+              );
+            },
+          ),
         ),
         const SizedBox(height: 12),
       ],
