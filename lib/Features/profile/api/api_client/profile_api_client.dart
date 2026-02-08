@@ -11,7 +11,6 @@ import 'package:flowers_app/Features/profile/data/models/upload_photo_response.d
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-
 part 'profile_api_client.g.dart';
 
 @lazySingleton
@@ -21,7 +20,7 @@ abstract class ProfileApi {
   factory ProfileApi(Dio dio) = _ProfileApi;
 
   @GET(ApiConstants.getProfile)
-  @Extra({'cache_policy': CachePolicy.refreshForceCache})
+  @Extra({'cache_policy': CachePolicy.noCache})
   Future<ProfileDto> getProfile();
   @PUT(ApiConstants.editProfile)
   Future<ProfileDto> editProfile(@Body() EditProfileRequest request);

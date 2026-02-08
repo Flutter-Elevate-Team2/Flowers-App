@@ -8,15 +8,8 @@ class EditProfileRequest {
   final String? lastName;
   final String? email;
   final String? phone;
-  final String? gender;
 
-  EditProfileRequest({
-    this.firstName,
-    this.lastName,
-    this.email,
-    this.phone,
-    this.gender,
-  });
+  EditProfileRequest({this.firstName, this.lastName, this.email, this.phone});
 
   Map<String, dynamic> toJson() => _$EditProfileRequestToJson(this);
 }

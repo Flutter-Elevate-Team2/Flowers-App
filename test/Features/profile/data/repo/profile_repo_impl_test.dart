@@ -88,7 +88,7 @@ void main() {
             firstName: 'John',
             lastName: 'Doe',
             phone: '1234567890',
-            gender: 'Male',
+           
           );
           final userModel = UserModel(
             id: '1',

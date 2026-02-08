@@ -1,4 +1,5 @@
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
+import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,7 +8,7 @@ class AuthLocalDataSourceImple implements AuthLocalDataSourceContract {
   final SharedPreferences _prefs;
 
   // Keys for SharedPrefs
-  static const String _tokenKey = "user_token";
+  static const String _tokenKey = ApiConstants.tokenKey;
   static const String _rememberMeKey = "is_remember_me";
 
   AuthLocalDataSourceImple(this._prefs);
