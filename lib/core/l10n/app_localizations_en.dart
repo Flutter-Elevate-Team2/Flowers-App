@@ -495,6 +495,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guest => 'guest';
 
   @override
+  String get addressLabel => 'Address';
+
+  @override
+  String get addressHint => 'Enter your address';
+
+  @override
+  String get phoneNumberLabel => 'Phone Number';
+
+  @override
+  String get phoneNumberHint => 'Enter your phone number';
+
+  @override
+  String get recipientNameLabel => 'Recipient name';
+
+  @override
+  String get recipientNameHint => 'Enter recipient name';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get cityHint => 'Cairo';
+
+  @override
+  String get areaLabel => 'Area';
+
+  @override
+  String get areaHint => 'October';
+
+  @override
+  String get saveAddress => 'Save Address';
+
+  @override
   String get addNewAddress => 'Add new address';
 
   @override
@@ -510,49 +543,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tapToChange => 'Tap to change';
 
   @override
-  String get addressLabel => 'Address';
-
-  @override
-  String get addressHint => 'Enter your address';
-
-  @override
   String get addressRequired => 'Please enter address';
-
-  @override
-  String get phoneNumberLabel => 'Phone Number';
-
-  @override
-  String get phoneNumberHint => 'Enter your phone number';
 
   @override
   String get phoneNumberRequired => 'Please enter phone';
 
   @override
-  String get recipientNameLabel => 'Recipient name';
-
-  @override
-  String get recipientNameHint => 'Enter recipient name';
-
-  @override
   String get recipientNameRequired => 'Please enter name';
 
   @override
-  String get cityLabel => 'City';
-
-  @override
   String get cairoHint => 'Cairo';
-
-  @override
-  String get areaLabel => 'Area';
 
   @override
   String get octoberHint => 'October';
 
   @override
   String get updateAddress => 'Update Address';
-
-  @override
-  String get saveAddress => 'Save Address';
 
   @override
   String get pleasePickLocation => 'Please pick a location on map';
@@ -652,4 +658,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseLoginToAddAddress => 'Please login to add address';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get reorder => 'Reorder';
+
+  @override
+  String get trackOrder => 'Track order';
+
+  @override
+  String get deliveredOn => 'Delivered on';
+
+  @override
+  String get orderNumber => 'Order Number';
+
+  @override
+  String get noOrdersFound => 'No orders found';
 }

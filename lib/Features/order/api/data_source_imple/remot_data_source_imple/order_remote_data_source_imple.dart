@@ -36,6 +36,10 @@ class OrderRemoteDataSourceImple implements OrderRemoteDataSourceContract {
     return _orderApi.updateCartProduct(id, quantityRequest);
   }
   @override
+  Future<CartResponseModel> clearUserCart() {
+    return _orderApi.clearUserCart();
+  }
+  @override
   Future<CashCheckoutResponseModel>cashOrderCheckout(OrderRequest orderRequest) {
     return _orderApi.cashOrderCheckout(orderRequest);
   }

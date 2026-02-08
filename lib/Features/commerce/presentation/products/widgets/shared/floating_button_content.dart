@@ -6,12 +6,16 @@ class FloatingButtonContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        const Icon(Icons.filter_list_rounded),
-        Text(context.l10n.filter),
-      ],
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.filter_list_rounded),
+          const SizedBox(width: 4),
+          Text(context.l10n.filter),
+        ],
+      ),
     );
   }
 }

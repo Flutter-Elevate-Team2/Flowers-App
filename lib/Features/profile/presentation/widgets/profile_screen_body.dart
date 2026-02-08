@@ -1,11 +1,13 @@
+import 'package:flowers_app/Features/notifications/presentation/view_model/notification_state.dart';
+import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
+import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/guest_profile_view.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/language_bottom_sheet.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/logout_dialog.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_header_shimmer.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_menu_item.dart';
-import 'package:flowers_app/Features/profile/presentation/view_model/profile_state.dart';
-import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
@@ -37,8 +39,8 @@ class ProfileScreenBody extends StatelessWidget {
             child: Text(
               profileState!.errorMessage!,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           );
         }
@@ -59,6 +61,7 @@ class ProfileScreenBody extends StatelessWidget {
                   title: context.l10n.myOrders,
                   leadingIcon: Icons.calendar_today_outlined,
                   onTap: () {
+                    context.pushNamed(Routes.orderName);
                   },
                 ),
                 ProfileMenuItem(
@@ -73,8 +76,9 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.notifications,
                   leadingIcon: Icons.notifications_none_outlined,
-                  titleColor:
-                      Theme.of(context).colorScheme.surfaceContainerHighest,
+                  titleColor: Theme.of(
+                    context,
+                  ).colorScheme.surfaceContainerHighest,
                   trailing: Switch(
                     value: true,
                     onChanged: (val) {},
@@ -97,9 +101,9 @@ class ProfileScreenBody extends StatelessWidget {
                             ? context.l10n.arabic
                             : context.l10n.english,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     ],
                   ),
@@ -107,16 +111,15 @@ class ProfileScreenBody extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.transparent,
-                      builder: (context) => LanguageBottomSheet(
-                        viewModel: languageViewModel,
-                      ),
+                      builder: (context) =>
+                          LanguageBottomSheet(viewModel: languageViewModel),
                     );
                   },
                 ),
                 ProfileMenuItem(
                   title: context.l10n.aboutUs,
                   leadingIcon: Icons.info_outline,
-                  onTap: () {
+                  onTap: (){
                     context.pushNamed(Routes.aboutpageName);
                   },
                 ),
@@ -148,9 +151,10 @@ class ProfileScreenBody extends StatelessWidget {
                   child: Text(
                     context.l10n.appVersion,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.surfaceContainerHighest,
-                        ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -168,57 +172,66 @@ class ProfileAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        children: [
-          SvgPicture.asset(Assets.icons.flowerLogo, height: 25),
-          const SizedBox(width: 8),
-          Text(
-            context.l10n.flowery,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+    return BlocBuilder<NotificationViewModel, NotificationState>(
+      builder: (context, notificationState) {
+        final unreadCount = notificationState.unreadCount;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              SvgPicture.asset(Assets.icons.flowerLogo, height: 25),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.flowery,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w500,
                 ),
-          ),
-          const Spacer(),
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Icon(
-                Icons.notifications_none_outlined,
-                size: 28,
-                color: Theme.of(context).iconTheme.color,
               ),
-
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.error,
-                    shape: BoxShape.circle,
+              const Spacer(),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.notifications_none_outlined),
+                    iconSize: 28,
+                    color: Theme.of(context).iconTheme.color,
+                    onPressed: () {
+                      context.pushNamed(Routes.notificationsName);
+                    },
                   ),
-                  constraints: const BoxConstraints(
-                    minWidth: 16,
-                    minHeight: 16,
-                  ),
-                  child: Text(
-                    '3',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onError,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
+                  if (unreadCount > 0)
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.error,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          unreadCount > 99 ? '99+' : '$unreadCount',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

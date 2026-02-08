@@ -15,6 +15,7 @@ abstract class OrderRepoContract {
     String id,
     QuantityRequest quantityRequest,
   );
+  Future<BaseResponse<CartResponseEntity>> clearUserCart();
   Future<BaseResponse<CashCheckoutResponseEntity>> cashOrderCheckout(
     OrderRequest orderRequest,
   );
