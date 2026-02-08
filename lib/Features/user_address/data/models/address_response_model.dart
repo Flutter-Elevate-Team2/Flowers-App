@@ -6,14 +6,15 @@ part 'address_response_model.g.dart';
 @JsonSerializable()
 class AddressResponseModel {
   final String? message;
-
-  @JsonKey(name: 'addresses')
+  @JsonKey(name: 'addresses', readValue: _readAddresses)
   final List<AddressDto>? addresses;
 
   AddressResponseModel({this.message, this.addresses});
 
   factory AddressResponseModel.fromJson(Map<String, dynamic> json) =>
       _$AddressResponseModelFromJson(json);
+}
 
-  Map<String, dynamic> toJson() => _$AddressResponseModelToJson(this);
+Object? _readAddresses(Map map, String key) {
+  return map['addresses'] ?? map['address'];
 }

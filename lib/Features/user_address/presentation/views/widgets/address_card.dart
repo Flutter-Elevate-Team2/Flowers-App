@@ -58,9 +58,6 @@ class AddressCard extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            // Using a row for actions for better alignment if needed, or simple column?
-            // Design shows them next to each other or stacked?
-            // Design: Trash icon, then Edit icon next to it (horizontally).
             future: null,
             builder: (context, snapshot) {
               return Row(
@@ -73,7 +70,7 @@ class AddressCard extends StatelessWidget {
                       padding: EdgeInsets.all(8.0),
                       child: Icon(
                         Icons.delete_outline,
-                        color: AppColors.red, // Using Red for delete
+                        color: AppColors.red, 
                         size: 24,
                       ),
                     ),

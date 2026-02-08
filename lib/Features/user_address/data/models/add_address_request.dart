@@ -20,8 +20,5 @@ class AddAddressRequest {
     this.username,
   });
 
-  factory AddAddressRequest.fromJson(Map<String, dynamic> json) =>
-      _$AddAddressRequestFromJson(json);
-
   Map<String, dynamic> toJson() => _$AddAddressRequestToJson(this);
 }

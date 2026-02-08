@@ -2,20 +2,34 @@ import 'package:flowers_app/Features/user_address/api/api_client/user_address_ap
 import 'package:flowers_app/Features/user_address/data/data_sources/user_address_remote_data_source_contract.dart';
 import 'package:flowers_app/Features/user_address/data/models/add_address_request.dart';
 import 'package:flowers_app/Features/user_address/data/models/address_response_model.dart';
+import 'package:flowers_app/Features/user_address/data/models/edit_address_request/edit_address_request.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: UserAddressRemoteDataSourceContract)
-class UserAddressRemoteDataSourceImple implements UserAddressRemoteDataSourceContract {
-  final UserAddressApi _api;
+class UserAddressRemoteDataSourceImple
+    implements UserAddressRemoteDataSourceContract {
+  final UserAddressApi _userAddressApi;
+  UserAddressRemoteDataSourceImple(this._userAddressApi);
+  @override
+  Future<AddressResponseModel> deleteAddress(String id) async {
+    return await _userAddressApi.deleteAddress(id);
+  }
 
-  UserAddressRemoteDataSourceImple(this._api);
+  @override
+  Future<AddressResponseModel> editAddress(
+    EditAddressRequest editAddressRequest,
+    String id,
+  ) async {
+    return await _userAddressApi.editAddress(id, editAddressRequest);
+  }
 
   @override
   Future<AddressResponseModel> addAddress(AddAddressRequest request) {
-    return _api.addAddress(request);
+    return _userAddressApi.addAddress(request);
   }
+
   @override
   Future<AddressResponseModel> getAddresses() {
-    return _api.getAddresses();
+    return _userAddressApi.getAddresses();
   }
 }

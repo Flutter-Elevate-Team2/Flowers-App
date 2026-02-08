@@ -109,6 +109,10 @@ import '../../Features/user_address/domain/use_case/add_address_use_case.dart'
     as _i193;
 import '../../Features/user_address/domain/use_case/get_addresses_use_case.dart'
     as _i373;
+import '../../Features/user_address/domain/use_case/user_address_use_case.dart'
+    as _i761;
+import '../../Features/user_address/presentation/view_model/user_address_view_model.dart'
+    as _i764;
 import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
@@ -135,24 +139,24 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i528.PrettyDioLogger>(() => dioModule.prettyDioLogger);
     gh.singleton<_i695.MemCacheStore>(() => dioModule.memCacheStore);
-    gh.lazySingleton<_i442.Debouncer>(() => _i427.TimerDebouncer());
+    gh.factory<_i164.AuthLocalDataSourceContract>(
+      () => _i1051.AuthLocalDataSourceImple(gh<_i460.SharedPreferences>()),
+    );
     gh.factory<_i453.AuthInterceptor>(
       () => _i453.AuthInterceptor(
         gh<_i460.SharedPreferences>(),
         gh<_i306.SessionController>(),
       ),
     );
-    gh.factory<_i164.AuthLocalDataSourceContract>(
-      () => _i1051.AuthLocalDataSourceImple(gh<_i460.SharedPreferences>()),
-    );
+    gh.lazySingleton<_i442.Debouncer>(() => _i427.TimerDebouncer());
     gh.factory<_i655.GuestLoginUseCase>(
       () => _i655.GuestLoginUseCase(gh<_i164.AuthLocalDataSourceContract>()),
     );
-    gh.singleton<_i695.CacheOptions>(
-      () => dioModule.cacheOptions(gh<_i695.MemCacheStore>()),
-    );
     gh.factory<_i187.HasValidTokenUseCase>(
       () => _i187.HasValidTokenUseCase(gh<_i164.AuthLocalDataSourceContract>()),
+    );
+    gh.singleton<_i695.CacheOptions>(
+      () => dioModule.cacheOptions(gh<_i695.MemCacheStore>()),
     );
     gh.singleton<_i361.Dio>(
       () => dioModule.dio(
@@ -170,85 +174,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i87.UserAddressApi>(
       () => _i87.UserAddressApi(gh<_i361.Dio>()),
     );
-    gh.factory<_i832.UserAddressRemoteDataSourceContract>(
-      () => _i520.UserAddressRemoteDataSourceImple(gh<_i87.UserAddressApi>()),
+    gh.lazySingleton<_i1055.OrderRemoteDataSourceContract>(
+      () => _i250.OrderRemoteDataSourceImple(gh<_i199.OrderApi>()),
     );
     gh.factory<_i897.ProfileRemoteDataSourceContract>(
       () => _i652.ProfileRemoteDataSourceImpl(gh<_i255.ProfileApi>()),
     );
-    gh.factory<_i978.AuthRemoteDataSourceContract>(
-      () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
-    );
-    gh.lazySingleton<_i1055.OrderRemoteDataSourceContract>(
-      () => _i250.OrderRemoteDataSourceImple(gh<_i199.OrderApi>()),
-    );
-    gh.factory<_i10.CommerceRemoteDataSourceContract>(
-      () => _i532.CommerceRemoteDataSourceImpl(gh<_i516.CommerceApi>()),
-    );
-    gh.lazySingleton<_i646.UserAddressRepoContract>(
-      () => _i780.UserAddressRepoImple(
-        gh<_i832.UserAddressRemoteDataSourceContract>(),
-      ),
-    );
-    gh.factory<_i596.CommerceRepoContract>(
-      () => _i48.CommerceRepoImpl(gh<_i10.CommerceRemoteDataSourceContract>()),
+    gh.lazySingleton<_i21.OrderRepoContract>(
+      () => _i205.OrderRepoImple(gh<_i1055.OrderRemoteDataSourceContract>()),
     );
     gh.factory<_i671.ProfileRepoContract>(
       () => _i327.ProfileRepoImpl(
         gh<_i897.ProfileRemoteDataSourceContract>(),
         gh<_i164.AuthLocalDataSourceContract>(),
         gh<_i306.SessionController>(),
-      ),
-    );
-    gh.factory<_i30.AuthRepoContract>(
-      () => _i573.AuthRepoImple(
-        gh<_i978.AuthRemoteDataSourceContract>(),
-        gh<_i164.AuthLocalDataSourceContract>(),
-      ),
-    );
-    gh.factory<_i417.UploadPhotoUseCase>(
-      () => _i417.UploadPhotoUseCase(gh<_i671.ProfileRepoContract>()),
-    );
-    gh.factory<_i193.AddAddressUseCase>(
-      () => _i193.AddAddressUseCase(gh<_i646.UserAddressRepoContract>()),
-    );
-    gh.factory<_i373.GetAddressesUseCase>(
-      () => _i373.GetAddressesUseCase(gh<_i646.UserAddressRepoContract>()),
-    );
-    gh.factory<_i409.CheckAuthUseCase>(
-      () => _i409.CheckAuthUseCase(gh<_i30.AuthRepoContract>()),
-    );
-    gh.factory<_i512.LoginUseCase>(
-      () => _i512.LoginUseCase(gh<_i30.AuthRepoContract>()),
-    );
-    gh.factory<_i179.SignupUseCase>(
-      () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
-    );
-    gh.factory<_i318.SignUpViewModel>(
-      () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
-    );
-    gh.factory<_i762.ForgetPasswordUsecase>(
-      () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
-    );
-    gh.factory<_i785.ResetPasswordUsecase>(
-      () => _i785.ResetPasswordUsecase(gh<_i30.AuthRepoContract>()),
-    );
-    gh.factory<_i13.VerifyPasswordUsecase>(
-      () => _i13.VerifyPasswordUsecase(gh<_i30.AuthRepoContract>()),
-    );
-    gh.lazySingleton<_i21.OrderRepoContract>(
-      () => _i205.OrderRepoImple(gh<_i1055.OrderRemoteDataSourceContract>()),
-    );
-    gh.factory<_i783.GetHomeSectionsUseCase>(
-      () => _i783.GetHomeSectionsUseCase(gh<_i596.CommerceRepoContract>()),
-    );
-    gh.factory<_i183.ProductsUseCase>(
-      () => _i183.ProductsUseCase(gh<_i596.CommerceRepoContract>()),
-    );
-    gh.factory<_i378.ProductsViewModel>(
-      () => _i378.ProductsViewModel(
-        gh<_i183.ProductsUseCase>(),
-        gh<_i783.GetHomeSectionsUseCase>(),
       ),
     );
     gh.factory<_i915.AddToCartUseCase>(
@@ -263,12 +202,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i96.UpdateCartItemUseCase>(
       () => _i96.UpdateCartItemUseCase(gh<_i21.OrderRepoContract>()),
     );
-    gh.factory<_i710.LoginViewModel>(
-      () => _i710.LoginViewModel(
-        gh<_i512.LoginUseCase>(),
-        gh<_i655.GuestLoginUseCase>(),
-        gh<_i306.SessionController>(),
+    gh.factory<_i978.AuthRemoteDataSourceContract>(
+      () => _i813.AuthRemoteDataSourceImple(gh<_i888.AuthApi>()),
+    );
+    gh.factory<_i832.UserAddressRemoteDataSourceContract>(
+      () => _i520.UserAddressRemoteDataSourceImple(gh<_i87.UserAddressApi>()),
+    );
+    gh.factory<_i646.UserAddressRepoContract>(
+      () => _i780.UserAddressRepoImple(
+        gh<_i832.UserAddressRemoteDataSourceContract>(),
       ),
+    );
+    gh.factory<_i10.CommerceRemoteDataSourceContract>(
+      () => _i532.CommerceRemoteDataSourceImpl(gh<_i516.CommerceApi>()),
     );
     gh.factory<_i994.ChangePasswordUseCase>(
       () => _i994.ChangePasswordUseCase(gh<_i671.ProfileRepoContract>()),
@@ -293,14 +239,65 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i442.Debouncer>(),
       ),
     );
-    gh.factory<_i945.HomeViewModel>(
-      () => _i945.HomeViewModel(gh<_i783.GetHomeSectionsUseCase>()),
+    gh.factory<_i417.UploadPhotoUseCase>(
+      () => _i417.UploadPhotoUseCase(gh<_i671.ProfileRepoContract>()),
+    );
+    gh.factory<_i30.AuthRepoContract>(
+      () => _i573.AuthRepoImple(
+        gh<_i978.AuthRemoteDataSourceContract>(),
+        gh<_i164.AuthLocalDataSourceContract>(),
+      ),
+    );
+    gh.factory<_i762.ForgetPasswordUsecase>(
+      () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i785.ResetPasswordUsecase>(
+      () => _i785.ResetPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i13.VerifyPasswordUsecase>(
+      () => _i13.VerifyPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i193.AddAddressUseCase>(
+      () => _i193.AddAddressUseCase(gh<_i646.UserAddressRepoContract>()),
+    );
+    gh.factory<_i373.GetAddressesUseCase>(
+      () => _i373.GetAddressesUseCase(gh<_i646.UserAddressRepoContract>()),
+    );
+    gh.factory<_i761.UserAddressUseCase>(
+      () => _i761.UserAddressUseCase(gh<_i646.UserAddressRepoContract>()),
     );
     gh.factory<_i427.ForgetPasswordCubit>(
       () => _i427.ForgetPasswordCubit(
         gh<_i762.ForgetPasswordUsecase>(),
         gh<_i13.VerifyPasswordUsecase>(),
         gh<_i785.ResetPasswordUsecase>(),
+      ),
+    );
+    gh.factory<_i596.CommerceRepoContract>(
+      () => _i48.CommerceRepoImpl(gh<_i10.CommerceRemoteDataSourceContract>()),
+    );
+    gh.factory<_i409.CheckAuthUseCase>(
+      () => _i409.CheckAuthUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i512.LoginUseCase>(
+      () => _i512.LoginUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i179.SignupUseCase>(
+      () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i710.LoginViewModel>(
+      () => _i710.LoginViewModel(
+        gh<_i512.LoginUseCase>(),
+        gh<_i655.GuestLoginUseCase>(),
+        gh<_i306.SessionController>(),
+      ),
+    );
+    gh.factory<_i764.UserAddressViewModel>(
+      () => _i764.UserAddressViewModel(
+        gh<_i373.GetAddressesUseCase>(),
+        gh<_i193.AddAddressUseCase>(),
+        gh<_i761.UserAddressUseCase>(),
+        gh<_i306.SessionController>(),
       ),
     );
     gh.lazySingleton<_i149.ProfileViewModel>(
@@ -312,6 +309,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i40.LogoutUseCase>(),
         gh<_i187.HasValidTokenUseCase>(),
         gh<_i306.SessionController>(),
+      ),
+    );
+    gh.factory<_i783.GetHomeSectionsUseCase>(
+      () => _i783.GetHomeSectionsUseCase(gh<_i596.CommerceRepoContract>()),
+    );
+    gh.factory<_i183.ProductsUseCase>(
+      () => _i183.ProductsUseCase(gh<_i596.CommerceRepoContract>()),
+    );
+    gh.factory<_i945.HomeViewModel>(
+      () => _i945.HomeViewModel(gh<_i783.GetHomeSectionsUseCase>()),
+    );
+    gh.factory<_i318.SignUpViewModel>(
+      () => _i318.SignUpViewModel(gh<_i179.SignupUseCase>()),
+    );
+    gh.factory<_i378.ProductsViewModel>(
+      () => _i378.ProductsViewModel(
+        gh<_i183.ProductsUseCase>(),
+        gh<_i783.GetHomeSectionsUseCase>(),
       ),
     );
     return this;

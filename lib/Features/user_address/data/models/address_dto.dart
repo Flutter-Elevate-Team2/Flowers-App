@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 part 'address_dto.g.dart';
 
 @JsonSerializable()
@@ -13,18 +12,8 @@ class AddressDto {
   final String? long;
   final String? username;
 
-  AddressDto({
-    this.id,
-    this.street,
-    this.phone,
-    this.city,
-    this.lat,
-    this.long,
-    this.username,
-  });
+  AddressDto({this.id, this.street, this.phone, this.city, this.lat, this.long, this.username});
 
-  factory AddressDto.fromJson(Map<String, dynamic> json) =>
-      _$AddressDtoFromJson(json);
-
+  factory AddressDto.fromJson(Map<String, dynamic> json) => _$AddressDtoFromJson(json);
   Map<String, dynamic> toJson() => _$AddressDtoToJson(this);
 }
