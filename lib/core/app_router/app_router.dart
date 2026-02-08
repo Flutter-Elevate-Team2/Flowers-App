@@ -12,6 +12,7 @@ import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/h
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
+import 'package:flowers_app/Features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/check_out_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
@@ -81,6 +82,9 @@ class Routes {
 
   static const orderPath = '/order';
   static const orderName = 'order';
+
+  static const notificationsPath = '/notifications';
+  static const notificationsName = 'notifications';
 
 }
 
@@ -274,6 +278,11 @@ class AppRouter {
         path: Routes.thankYouPath,
         name: Routes.thankYouName,
         builder: (context, state) => const CheckoutSuccessPage(),
+      ),
+      GoRoute(
+        path: Routes.notificationsPath,
+        name: Routes.notificationsName,
+        builder: (context, state) => const NotificationsScreen(),
       ),
     ],
   );
