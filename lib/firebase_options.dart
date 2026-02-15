@@ -41,46 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAbOPgHaVrUfcvtZZex_ZPW3zGstDjnOcI',
-    appId: '1:286117840504:web:75ea50506ef3f235718f8d',
-    messagingSenderId: '286117840504',
-    projectId: 'flowers-app-630b3',
-    authDomain: 'flowers-app-630b3.firebaseapp.com',
-    storageBucket: 'flowers-app-630b3.firebasestorage.app',
+    apiKey: 'AIzaSyDG1pkP_KEJr7KEFx8zLrRiW6k7HWrlQyE',
+    appId: '1:183581153519:web:a595ba99d710ff4d9be31a',
+    messagingSenderId: '183581153519',
+    projectId: 'tracking-app-a9e77',
+    authDomain: 'tracking-app-a9e77.firebaseapp.com',
+    storageBucket: 'tracking-app-a9e77.firebasestorage.app',
+    measurementId: 'G-EXGRTBLSCR',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCDZE5xjnQvlBtiqQ4d0GntQ219NRc7HFk',
-    appId: '1:286117840504:android:cdbbfc3a027bfdc2718f8d',
-    messagingSenderId: '286117840504',
-    projectId: 'flowers-app-630b3',
-    storageBucket: 'flowers-app-630b3.firebasestorage.app',
+    apiKey: 'AIzaSyAUfAE__1dHLsY6Wr_mGx-BBNE0KJpbO6c',
+    appId: '1:183581153519:android:edafed20ea95a0659be31a',
+    messagingSenderId: '183581153519',
+    projectId: 'tracking-app-a9e77',
+    storageBucket: 'tracking-app-a9e77.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDumiwBbsxuSrFRTYAu_ZR5StkzxK8VtB4',
-    appId: '1:286117840504:ios:734249da0fc4bc5a718f8d',
-    messagingSenderId: '286117840504',
-    projectId: 'flowers-app-630b3',
-    storageBucket: 'flowers-app-630b3.firebasestorage.app',
+    apiKey: 'AIzaSyD9Tfn0oFoyBPH_0DgEq9cFeRYi_QhqmbA',
+    appId: '1:183581153519:ios:b2e6b9803b495a239be31a',
+    messagingSenderId: '183581153519',
+    projectId: 'tracking-app-a9e77',
+    storageBucket: 'tracking-app-a9e77.firebasestorage.app',
     iosBundleId: 'com.example.flowersApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDumiwBbsxuSrFRTYAu_ZR5StkzxK8VtB4',
-    appId: '1:286117840504:ios:734249da0fc4bc5a718f8d',
-    messagingSenderId: '286117840504',
-    projectId: 'flowers-app-630b3',
-    storageBucket: 'flowers-app-630b3.firebasestorage.app',
+    apiKey: 'AIzaSyD9Tfn0oFoyBPH_0DgEq9cFeRYi_QhqmbA',
+    appId: '1:183581153519:ios:b2e6b9803b495a239be31a',
+    messagingSenderId: '183581153519',
+    projectId: 'tracking-app-a9e77',
+    storageBucket: 'tracking-app-a9e77.firebasestorage.app',
     iosBundleId: 'com.example.flowersApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAbOPgHaVrUfcvtZZex_ZPW3zGstDjnOcI',
-    appId: '1:286117840504:web:fe293db00480c0f5718f8d',
-    messagingSenderId: '286117840504',
-    projectId: 'flowers-app-630b3',
-    authDomain: 'flowers-app-630b3.firebaseapp.com',
-    storageBucket: 'flowers-app-630b3.firebasestorage.app',
+    apiKey: 'AIzaSyDG1pkP_KEJr7KEFx8zLrRiW6k7HWrlQyE',
+    appId: '1:183581153519:web:4500ff4df1d89c0c9be31a',
+    messagingSenderId: '183581153519',
+    projectId: 'tracking-app-a9e77',
+    authDomain: 'tracking-app-a9e77.firebaseapp.com',
+    storageBucket: 'tracking-app-a9e77.firebasestorage.app',
+    measurementId: 'G-06HV1P90T7',
   );
+
 }

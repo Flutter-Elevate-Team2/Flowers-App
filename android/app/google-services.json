@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "286117840504",
-    "project_id": "flowers-app-630b3",
-    "storage_bucket": "flowers-app-630b3.firebasestorage.app"
+    "project_number": "183581153519",
+    "project_id": "tracking-app-a9e77",
+    "storage_bucket": "tracking-app-a9e77.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:286117840504:android:cdbbfc3a027bfdc2718f8d",
+        "mobilesdk_app_id": "1:183581153519:android:edafed20ea95a0659be31a",
         "android_client_info": {
           "package_name": "com.example.flowers_app"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCDZE5xjnQvlBtiqQ4d0GntQ219NRc7HFk"
+          "current_key": "AIzaSyAUfAE__1dHLsY6Wr_mGx-BBNE0KJpbO6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183581153519:android:3606936c48ee4bf69be31a",
+        "android_client_info": {
+          "package_name": "com.example.tracking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUfAE__1dHLsY6Wr_mGx-BBNE0KJpbO6c"
         }
       ],
       "services": {
