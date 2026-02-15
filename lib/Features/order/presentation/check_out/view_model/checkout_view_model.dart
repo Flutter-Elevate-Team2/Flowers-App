@@ -1,4 +1,7 @@
 import 'dart:async';
+
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/credit_checkout_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/checkout/cash_order_checkout.dart';
@@ -6,19 +9,22 @@ import 'package:flowers_app/Features/order/domain/use_cases/checkout/credit_card
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_events.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_states.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/core/services/firebase_data_uploader_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable()
 class CheckoutViewModel extends Cubit<CheckoutStates> {
   final CashOrderCheckout cashOrderCheckout;
   final CreditCardCheckout creditCardCheckout;
+  final AuthLocalDataSourceContract _authLocalDataSource;
 
   CheckoutViewModel({
     required this.cashOrderCheckout,
     required this.creditCardCheckout,
-  }) : super(const CheckoutStates());
+    required AuthLocalDataSourceContract authLocalDataSource,
+  }) : _authLocalDataSource = authLocalDataSource,
+       super(const CheckoutStates());
 
   void doIntent(CheckoutEvent event) {
     if (event is CashPaymentEvent) {
@@ -35,6 +41,13 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
     try {
       final response = await cashOrderCheckout.call(request);
       if (response is SuccessResponse<CashCheckoutResponseEntity>) {
+        final order = response.data.order;
+        if (order != null && order.id != null) {
+          final userId = order.user ?? await _authLocalDataSource.getUserId();
+          if (userId != null) {
+            FirebaseDataUploaderService.uploadOrderData(userId, order.id!);
+          }
+        }
         emit(state.copyWith(isLoading: false, cashResponse: response.data));
       } else if (response is ErrorResponse<CashCheckoutResponseEntity>) {
         emit(
@@ -51,6 +64,14 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
     try {
       final response = await creditCardCheckout.call(request);
       if (response is SuccessResponse<CreditCheckoutResponseEntity>) {
+        final session = response.data.session;
+        if (session != null && session.id != null) {
+          final userId = await _authLocalDataSource.getUserId();
+          if (userId != null) {
+            final orderId = session.clientReferenceId ?? session.id!;
+            FirebaseDataUploaderService.uploadOrderData(userId, orderId);
+          }
+        }
         final url = response.data.session?.url;
         if (url != null && url.isNotEmpty) {
           emit(state.copyWith(isLoading: false, redirectUrl: url));

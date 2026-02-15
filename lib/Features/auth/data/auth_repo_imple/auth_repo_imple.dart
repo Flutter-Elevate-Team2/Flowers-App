@@ -55,9 +55,13 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
 
     if (result is SuccessResponse<LoginEntity>) {
       final token = result.data.token;
+      final userId = result.data.user?.id;
       if (token != null && token.isNotEmpty) {
         await _localDataSource.saveToken(token);
         await _localDataSource.saveRememberMe(isRememberMe);
+      }
+      if (userId != null && userId.isNotEmpty) {
+        await _localDataSource.saveUserId(userId);
       }
     }
     return result;

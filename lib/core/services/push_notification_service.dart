@@ -26,6 +26,9 @@ class PushNotificationService {
   static Stream<void> get onNotificationReceived =>
       _notificationStreamController.stream;
 
+  static String? _deviceToken;
+  static String? get deviceToken => _deviceToken;
+
   static Future<void> init() async {
     await _requestPermission();
     await _initLocalNotifications();
@@ -81,6 +84,8 @@ class PushNotificationService {
     } else {
       token = await _firebaseMessaging.getToken();
     }
+
+    _deviceToken = token;
 
     if (kDebugMode) {
       print('Device Token: $token');

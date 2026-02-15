@@ -180,6 +180,23 @@ class MockAuthLocalDataSourceContract extends _i1.Mock
           as _i8.Future<String?>);
 
   @override
+  _i8.Future<void> saveUserId(String? userId) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveUserId, [userId]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
+
+  @override
+  _i8.Future<String?> getUserId() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserId, []),
+            returnValue: _i8.Future<String?>.value(),
+          )
+          as _i8.Future<String?>);
+
+  @override
   _i8.Future<void> saveRememberMe(bool? value) =>
       (super.noSuchMethod(
             Invocation.method(#saveRememberMe, [value]),

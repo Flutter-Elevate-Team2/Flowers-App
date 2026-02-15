@@ -9,6 +9,7 @@ class AuthLocalDataSourceImple implements AuthLocalDataSourceContract {
 
   // Keys for SharedPrefs
   static const String _tokenKey = ApiConstants.tokenKey;
+  static const String _userIdKey = "user_id";
   static const String _rememberMeKey = "is_remember_me";
 
   AuthLocalDataSourceImple(this._prefs);
@@ -24,6 +25,16 @@ class AuthLocalDataSourceImple implements AuthLocalDataSourceContract {
   }
 
   @override
+  Future<void> saveUserId(String userId) async {
+    await _prefs.setString(_userIdKey, userId);
+  }
+
+  @override
+  Future<String?> getUserId() async {
+    return _prefs.getString(_userIdKey);
+  }
+
+  @override
   Future<void> saveRememberMe(bool value) async {
     await _prefs.setBool(_rememberMeKey, value);
   }
@@ -36,6 +47,7 @@ class AuthLocalDataSourceImple implements AuthLocalDataSourceContract {
   @override
   Future<void> clearUserData() async {
     await _prefs.remove(_tokenKey);
+    await _prefs.remove(_userIdKey);
     await _prefs.remove(_rememberMeKey);
   }
 }

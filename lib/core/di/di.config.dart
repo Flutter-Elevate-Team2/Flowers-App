@@ -292,6 +292,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i951.GetProfileUseCase>(
       () => _i951.GetProfileUseCase(gh<_i671.ProfileRepoContract>()),
     );
+    gh.factory<_i1071.CheckoutViewModel>(
+      () => _i1071.CheckoutViewModel(
+        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
+        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
+        authLocalDataSource: gh<_i164.AuthLocalDataSourceContract>(),
+      ),
+    );
     gh.factory<_i417.UploadPhotoUseCase>(
       () => _i417.UploadPhotoUseCase(gh<_i671.ProfileRepoContract>()),
     );
@@ -299,12 +306,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i573.AuthRepoImple(
         gh<_i978.AuthRemoteDataSourceContract>(),
         gh<_i164.AuthLocalDataSourceContract>(),
-      ),
-    );
-    gh.factory<_i1071.CheckoutViewModel>(
-      () => _i1071.CheckoutViewModel(
-        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
-        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
       ),
     );
     gh.factory<_i762.ForgetPasswordUsecase>(

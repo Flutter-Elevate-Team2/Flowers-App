@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_event.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
@@ -13,6 +14,7 @@ import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/helpers/session_expired_handler.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
+import 'package:flowers_app/core/services/firebase_data_uploader_service.dart';
 import 'package:flowers_app/core/services/push_notification_service.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
 import 'package:flowers_app/core/widget/selected_address_cubit.dart';
@@ -50,9 +52,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _sessionController = getIt<SessionController>();
   late StreamSubscription? _subscription;
+  late StreamSubscription? _loginSubscription;
+
   @override
   void initState() {
     super.initState();
+    _uploadUserData();
     _subscription = _sessionController.onSessionExpired.listen((_) {
       // Fix: Check mounted and pass correct context
       final context = AppRouter.rootNavigatorKey.currentContext;
@@ -60,12 +65,25 @@ class _MyAppState extends State<MyApp> {
         SessionExpiredHandler.handle(context);
       }
     });
+
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      _uploadUserData();
+    });
+  }
+
+  Future<void> _uploadUserData() async {
+    final authLocalDataSource = getIt<AuthLocalDataSourceContract>();
+    final userId = await authLocalDataSource.getUserId();
+    if (userId != null && userId.isNotEmpty) {
+      FirebaseDataUploaderService.uploadUserDataOnOpen(userId);
+    }
   }
 
   @override
   void dispose() {
     // Fix: Safe cancel
     _subscription?.cancel();
+    _loginSubscription?.cancel();
     super.dispose();
   }
 

@@ -1,52 +1,56 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
-import 'package:flowers_app/Features/order/domain/entities/checkout/session_entity.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-
-import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
+import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/credit_checkout_response_entity.dart';
+import 'package:flowers_app/Features/order/domain/entities/checkout/order_entity.dart';
+import 'package:flowers_app/Features/order/domain/entities/checkout/session_entity.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/checkout/cash_order_checkout.dart';
 import 'package:flowers_app/Features/order/domain/use_cases/checkout/credit_card_checkout.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_events.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_states.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_view_model.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import 'checkout_view_model_test.mocks.dart';
 
 @GenerateMocks([
   CashOrderCheckout,
   CreditCardCheckout,
+  AuthLocalDataSourceContract,
 ])
 void main() {
   provideDummy<BaseResponse<CashCheckoutResponseEntity>>(
-    SuccessResponse<CashCheckoutResponseEntity>(
-      data: fakeCashResponse,
-    ),
+    SuccessResponse<CashCheckoutResponseEntity>(data: fakeCashResponse),
   );
 
   provideDummy<BaseResponse<CreditCheckoutResponseEntity>>(
-    SuccessResponse<CreditCheckoutResponseEntity>(
-      data: fakeCreditResponse,
-    ),
+    SuccessResponse<CreditCheckoutResponseEntity>(data: fakeCreditResponse),
   );
 
   late CheckoutViewModel checkoutViewModel;
   late MockCashOrderCheckout mockCashOrderCheckout;
   late MockCreditCardCheckout mockCreditCardCheckout;
+  late MockAuthLocalDataSourceContract mockAuthLocalDataSource;
 
   CheckoutStates initialState() => const CheckoutStates();
 
   setUp(() {
     mockCashOrderCheckout = MockCashOrderCheckout();
     mockCreditCardCheckout = MockCreditCardCheckout();
+    mockAuthLocalDataSource = MockAuthLocalDataSourceContract();
+    when(
+      mockAuthLocalDataSource.getUserId(),
+    ).thenAnswer((_) async => 'fake_user_id');
 
     checkoutViewModel = CheckoutViewModel(
       cashOrderCheckout: mockCashOrderCheckout,
       creditCardCheckout: mockCreditCardCheckout,
+      authLocalDataSource: mockAuthLocalDataSource,
     );
   });
 
@@ -81,24 +85,18 @@ void main() {
       ],
     );
 
-
     blocTest<CheckoutViewModel, CheckoutStates>(
       'CashPaymentEvent emits loading then errorMessage on failure',
       build: () {
-        when(mockCashOrderCheckout.call(any)).thenAnswer(
-              (_) async => ErrorResponse(errorMessage: 'Cash failed'),
-        );
+        when(
+          mockCashOrderCheckout.call(any),
+        ).thenAnswer((_) async => ErrorResponse(errorMessage: 'Cash failed'));
         return checkoutViewModel;
       },
-      act: (bloc) => bloc.doIntent(
-        CashPaymentEvent(fakeOrderRequest),
-      ),
+      act: (bloc) => bloc.doIntent(CashPaymentEvent(fakeOrderRequest)),
       expect: () => [
         initialState().copyWith(isLoading: true, errorMessage: null),
-        initialState().copyWith(
-          isLoading: false,
-          errorMessage: 'Cash failed',
-        ),
+        initialState().copyWith(isLoading: false, errorMessage: 'Cash failed'),
       ],
     );
 
@@ -106,17 +104,13 @@ void main() {
       'CreditCardPaymentEvent emits error when session url is invalid',
       build: () {
         when(mockCreditCardCheckout.call(any)).thenAnswer(
-              (_) async => SuccessResponse(
-            data: CreditCheckoutResponseEntity(
-              session: SessionEntity(url: ''),
-            ),
+          (_) async => SuccessResponse(
+            data: CreditCheckoutResponseEntity(session: SessionEntity(url: '')),
           ),
         );
         return checkoutViewModel;
       },
-      act: (bloc) => bloc.doIntent(
-        CreditCardPaymentEvent(fakeOrderRequest),
-      ),
+      act: (bloc) => bloc.doIntent(CreditCardPaymentEvent(fakeOrderRequest)),
       expect: () => [
         initialState().copyWith(isLoading: true, errorMessage: null),
         initialState().copyWith(
@@ -130,9 +124,7 @@ void main() {
       'OnPaymentCancelEvent emits payment cancelled',
       build: () => checkoutViewModel,
       act: (bloc) => bloc.doIntent(OnPaymentCancelEvent()),
-      expect: () => [
-        initialState().copyWith(isPaymentCancelled: true),
-      ],
+      expect: () => [initialState().copyWith(isPaymentCancelled: true)],
     );
 
     blocTest<CheckoutViewModel, CheckoutStates>(
@@ -141,6 +133,7 @@ void main() {
         return CheckoutViewModel(
           cashOrderCheckout: mockCashOrderCheckout,
           creditCardCheckout: mockCreditCardCheckout,
+          authLocalDataSource: mockAuthLocalDataSource,
         );
       },
       seed: () => initialState().copyWith(
@@ -149,19 +142,16 @@ void main() {
       ),
       act: (bloc) => bloc.resetPaymentState(),
       expect: () => [
-        initialState().copyWith(
-          redirectUrl: null,
-          cashResponse: null,
-        ),
+        initialState().copyWith(redirectUrl: null, cashResponse: null),
       ],
     );
   });
   blocTest<CheckoutViewModel, CheckoutStates>(
     'CreditCardPaymentEvent emits errorMessage on failure',
     build: () {
-      when(mockCreditCardCheckout.call(any)).thenAnswer(
-            (_) async => ErrorResponse(errorMessage: 'Credit failed'),
-      );
+      when(
+        mockCreditCardCheckout.call(any),
+      ).thenAnswer((_) async => ErrorResponse(errorMessage: 'Credit failed'));
       return checkoutViewModel;
     },
     act: (bloc) => bloc.doIntent(CreditCardPaymentEvent(fakeOrderRequest)),
@@ -170,24 +160,21 @@ void main() {
       initialState().copyWith(isLoading: false, errorMessage: 'Credit failed'),
     ],
   );
-
 }
 
 /// -------------------- STUBS --------------------
 
 void _stubCashCheckoutSuccess(MockCashOrderCheckout mock) {
   when(mock.call(any)).thenAnswer(
-        (_) async => SuccessResponse<CashCheckoutResponseEntity>(
-      data: fakeCashResponse,
-    ),
+    (_) async =>
+        SuccessResponse<CashCheckoutResponseEntity>(data: fakeCashResponse),
   );
 }
 
 void _stubCreditCheckoutSuccess(MockCreditCardCheckout mock) {
   when(mock.call(any)).thenAnswer(
-        (_) async => SuccessResponse<CreditCheckoutResponseEntity>(
-      data: fakeCreditResponse,
-    ),
+    (_) async =>
+        SuccessResponse<CreditCheckoutResponseEntity>(data: fakeCreditResponse),
   );
 }
 
@@ -200,15 +187,16 @@ final fakeShippingAddress = ShippingAddressRequest(
   long: '31.2357',
 );
 
-final fakeOrderRequest = OrderRequest(
-  shippingAddress: fakeShippingAddress,
+final fakeOrderRequest = OrderRequest(shippingAddress: fakeShippingAddress);
+
+final fakeCashResponse = CashCheckoutResponseEntity(
+  order: OrderEntity(id: 'order_456', user: 'fake_user_id'),
 );
-
-
-final fakeCashResponse = CashCheckoutResponseEntity();
 
 final fakeCreditResponse = CreditCheckoutResponseEntity(
   session: SessionEntity(
+    id: 'session_id',
+    clientReferenceId: 'order_123',
     url: 'http://localhost/pay',
   ),
 );
