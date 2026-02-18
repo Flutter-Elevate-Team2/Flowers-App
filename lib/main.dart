@@ -59,9 +59,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _uploadUserData();
     _subscription = _sessionController.onSessionExpired.listen((_) {
-      // Fix: Check mounted and pass correct context
       final context = AppRouter.rootNavigatorKey.currentContext;
-      if (context != null && mounted) {
+      if (context != null && context.mounted) {
         SessionExpiredHandler.handle(context);
       }
     });

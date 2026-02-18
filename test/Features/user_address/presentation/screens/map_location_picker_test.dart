@@ -9,30 +9,36 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() {
-    const MethodChannel(
-      'flutter.baseflow.com/google_api_availability/methods',
-    ).setMockMethodCallHandler((MethodCall methodCall) async {
-      if (methodCall.method == 'checkGooglePlayServicesAvailability') {
-        return 0; // success: GooglePlayServicesAvailability.success.value
-      }
-      return null;
-    });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel(
+            'flutter.baseflow.com/google_api_availability/methods',
+          ),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'checkGooglePlayServicesAvailability') {
+              return 0; // success: GooglePlayServicesAvailability.success.value
+            }
+            return null;
+          },
+        );
 
-    const MethodChannel(
-      'flutter.baseflow.com/permissions/methods',
-    ).setMockMethodCallHandler((MethodCall methodCall) async {
-      if (methodCall.method == 'requestPermissions') {
-        final List<dynamic> args = methodCall.arguments;
-        final Map<int, int> result = {};
-        for (var p in args) {
-          if (p is int) {
-            result[p] = 1; // PermissionStatus.granted
-          }
-        }
-        return result;
-      }
-      return null;
-    });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('flutter.baseflow.com/permissions/methods'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'requestPermissions') {
+              final List<dynamic> args = methodCall.arguments;
+              final Map<int, int> result = {};
+              for (var p in args) {
+                if (p is int) {
+                  result[p] = 1; // PermissionStatus.granted
+                }
+              }
+              return result;
+            }
+            return null;
+          },
+        );
   });
 
   Widget buildTestableWidget({

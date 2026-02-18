@@ -14,6 +14,7 @@ class GenderRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).colorScheme.primary;
     return GestureDetector(
       onTap: onTap,
       child: Row(
@@ -21,13 +22,7 @@ class GenderRadioButton extends StatelessWidget {
           SizedBox(
             width: 24,
             height: 24,
-            child: Radio<bool>(
-              value: true,
-              groupValue: isSelected,
-              activeColor: Theme.of(context).colorScheme.primary,
-              onChanged: onTap != null ? (_) => onTap!() : null,
-              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-            ),
+            child: _RadioIndicator(isSelected: isSelected, color: primaryColor),
           ),
           const SizedBox(width: 8),
           Text(
@@ -40,6 +35,34 @@ class GenderRadioButton extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RadioIndicator extends StatelessWidget {
+  final bool isSelected;
+  final Color color;
+
+  const _RadioIndicator({required this.isSelected, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: isSelected ? color : Colors.grey, width: 2),
+      ),
+      child: isSelected
+          ? Center(
+              child: Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+              ),
+            )
+          : null,
     );
   }
 }
