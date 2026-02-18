@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/extension/context_extension.dart';
-import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/utils/json_helpers/json_keys.dart';
 import '../../../../core/utils/json_helpers/json_loader.dart';
 import '../../data/models/generic_section_model.dart';
@@ -12,7 +11,6 @@ class AboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
     return FutureBuilder<Map<String, dynamic>>(
       future: loadJson(
         "assets/json/Flowery About Section JSON with Expanded Content.json",

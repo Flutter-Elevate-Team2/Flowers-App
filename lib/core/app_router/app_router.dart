@@ -1,3 +1,4 @@
+
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
@@ -93,15 +94,15 @@ class Routes {
 
 class AppRouter {
   static final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _homeNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _categoriesNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _cartNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _profileNavigatorKey =
-      GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState>();
 
   static final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -171,7 +172,7 @@ class AppRouter {
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>?;
                   final categories =
-                      extra?['categories'] as List<CategoryEntity>?;
+                  extra?['categories'] as List<CategoryEntity>?;
                   final initialIndex = extra?['initialIndex'] as int? ?? 0;
 
                   return CategoriesScreen(

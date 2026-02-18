@@ -11,11 +11,11 @@ class CartItemEntity extends Equatable {
 
   const CartItemEntity({this.product, this.price, this.quantity, this.id});
   CartItemEntity copyWith(
-    ProductEntity? product,
-    int price,
-    int quantity,
-    String id,
-  ) {
+      ProductEntity? product,
+      int price,
+      int quantity,
+      String id,
+      ) {
     return CartItemEntity(
       id: id,
       quantity: quantity,

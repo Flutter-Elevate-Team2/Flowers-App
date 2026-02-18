@@ -35,6 +35,8 @@ abstract class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
+
+
       floatingLabelBehavior: FloatingLabelBehavior.always,
       alignLabelWithHint: true,
 
@@ -96,6 +98,7 @@ abstract class AppTheme {
         fontWeight: FontWeight.w500,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+
     ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),

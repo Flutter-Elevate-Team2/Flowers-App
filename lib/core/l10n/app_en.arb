@@ -461,11 +461,11 @@
   "yourCartIsEmpty": "Your cart is empty",
   "@yourCartIsEmpty": { "description": "Message displayed when the cart is empty" },
   "addSomeFlowers": "Add some beautiful flowers to get started \uD83C\uDF38",
-    "@addSomeFlowers": { "description": "Encouragement message to add items to the cart" },
+  "@addSomeFlowers": { "description": "Encouragement message to add items to the cart" },
   "youAreNotLoggedIn": "You are not logged in",
-    "@youAreNotLoggedIn": { "description": "Message displayed when the user is not logged in" },
+  "@youAreNotLoggedIn": { "description": "Message displayed when the user is not logged in" },
   "pleaseLoginToContinue": "Please Login to view your cart and add items.",
-    "@pleaseLoginToContinue": { "description": "Prompt to login to access certain features" },
+  "@pleaseLoginToContinue": { "description": "Prompt to login to access certain features" },
   "editProfile": "Edit profile",
   "@editProfile": { "description": "Title for edit profile screen" },
   "change": "Change",
@@ -511,7 +511,7 @@
     "placeholders": { "error": { "type": "String" } }
   },
   "required": "Required",
-    "@required": { "description": "Validation message when a required field is empty" },
+  "@required": { "description": "Validation message when a required field is empty" },
 
   "guest" : "guest",
   "@guest" : { "description": "guest" },
