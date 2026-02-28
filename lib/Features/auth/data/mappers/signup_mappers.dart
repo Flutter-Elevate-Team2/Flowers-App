@@ -12,6 +12,7 @@ extension SignupResponseMapper on SignupResponse {
 extension UserDtoMapper on UserDto {
   SignupUserEntity toEntity() {
     return SignupUserEntity(
+      id: id,
       firstName: firstName ?? '',
       lastName: lastName ?? '',
       email: email ?? '',
@@ -20,5 +21,3 @@ extension UserDtoMapper on UserDto {
     );
   }
 }
-
-

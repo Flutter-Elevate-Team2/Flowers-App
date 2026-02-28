@@ -44,8 +44,11 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
         final order = response.data.order;
         if (order != null && order.id != null) {
           final userId = order.user ?? await _authLocalDataSource.getUserId();
-          if (userId != null) {
-            FirebaseDataUploaderService.uploadOrderData(userId, order.id!);
+          if (userId != null && userId.isNotEmpty) {
+            await FirebaseDataUploaderService.uploadOrderData(
+              userId,
+              order.id!,
+            );
           }
         }
         emit(state.copyWith(isLoading: false, cashResponse: response.data));
@@ -67,9 +70,9 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
         final session = response.data.session;
         if (session != null && session.id != null) {
           final userId = await _authLocalDataSource.getUserId();
-          if (userId != null) {
+          if (userId != null && userId.isNotEmpty) {
             final orderId = session.clientReferenceId ?? session.id!;
-            FirebaseDataUploaderService.uploadOrderData(userId, orderId);
+            await FirebaseDataUploaderService.uploadOrderData(userId, orderId);
           }
         }
         final url = response.data.session?.url;
