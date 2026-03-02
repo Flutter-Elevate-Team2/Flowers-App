@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
+import 'package:flowers_app/Features/auth/domain/use_cases/get_user_id_usecase.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/credit_checkout_response_entity.dart';
@@ -17,13 +17,13 @@ import 'package:injectable/injectable.dart';
 class CheckoutViewModel extends Cubit<CheckoutStates> {
   final CashOrderCheckout cashOrderCheckout;
   final CreditCardCheckout creditCardCheckout;
-  final AuthLocalDataSourceContract _authLocalDataSource;
+  final GetUserIdUseCase _getUserIdUseCase;
 
   CheckoutViewModel({
     required this.cashOrderCheckout,
     required this.creditCardCheckout,
-    required AuthLocalDataSourceContract authLocalDataSource,
-  }) : _authLocalDataSource = authLocalDataSource,
+    required GetUserIdUseCase getUserIdUseCase,
+  }) : _getUserIdUseCase = getUserIdUseCase,
        super(const CheckoutStates());
 
   void doIntent(CheckoutEvent event) {
@@ -43,7 +43,7 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
       if (response is SuccessResponse<CashCheckoutResponseEntity>) {
         final order = response.data.order;
         if (order != null && order.id != null) {
-          final userId = order.user ?? await _authLocalDataSource.getUserId();
+          final userId = order.user ?? await _getUserIdUseCase.call();
           if (userId != null && userId.isNotEmpty) {
             await FirebaseDataUploaderService.uploadOrderData(
               userId,
@@ -69,7 +69,7 @@ class CheckoutViewModel extends Cubit<CheckoutStates> {
       if (response is SuccessResponse<CreditCheckoutResponseEntity>) {
         final session = response.data.session;
         if (session != null && session.id != null) {
-          final userId = await _authLocalDataSource.getUserId();
+          final userId = await _getUserIdUseCase.call();
           if (userId != null && userId.isNotEmpty) {
             final orderId = session.clientReferenceId ?? session.id!;
             await FirebaseDataUploaderService.uploadOrderData(userId, orderId);

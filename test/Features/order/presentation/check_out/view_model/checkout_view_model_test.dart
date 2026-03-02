@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
+import 'package:flowers_app/Features/auth/domain/use_cases/get_user_id_usecase.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/cash_checkout_response_entity.dart';
@@ -18,11 +18,7 @@ import 'package:mockito/mockito.dart';
 
 import 'checkout_view_model_test.mocks.dart';
 
-@GenerateMocks([
-  CashOrderCheckout,
-  CreditCardCheckout,
-  AuthLocalDataSourceContract,
-])
+@GenerateMocks([CashOrderCheckout, CreditCardCheckout, GetUserIdUseCase])
 void main() {
   provideDummy<BaseResponse<CashCheckoutResponseEntity>>(
     SuccessResponse<CashCheckoutResponseEntity>(data: fakeCashResponse),
@@ -35,22 +31,20 @@ void main() {
   late CheckoutViewModel checkoutViewModel;
   late MockCashOrderCheckout mockCashOrderCheckout;
   late MockCreditCardCheckout mockCreditCardCheckout;
-  late MockAuthLocalDataSourceContract mockAuthLocalDataSource;
+  late MockGetUserIdUseCase mockGetUserIdUseCase;
 
   CheckoutStates initialState() => const CheckoutStates();
 
   setUp(() {
     mockCashOrderCheckout = MockCashOrderCheckout();
     mockCreditCardCheckout = MockCreditCardCheckout();
-    mockAuthLocalDataSource = MockAuthLocalDataSourceContract();
-    when(
-      mockAuthLocalDataSource.getUserId(),
-    ).thenAnswer((_) async => 'fake_user_id');
+    mockGetUserIdUseCase = MockGetUserIdUseCase();
+    when(mockGetUserIdUseCase.call()).thenAnswer((_) async => 'fake_user_id');
 
     checkoutViewModel = CheckoutViewModel(
       cashOrderCheckout: mockCashOrderCheckout,
       creditCardCheckout: mockCreditCardCheckout,
-      authLocalDataSource: mockAuthLocalDataSource,
+      getUserIdUseCase: mockGetUserIdUseCase,
     );
   });
 
@@ -133,7 +127,7 @@ void main() {
         return CheckoutViewModel(
           cashOrderCheckout: mockCashOrderCheckout,
           creditCardCheckout: mockCreditCardCheckout,
-          authLocalDataSource: mockAuthLocalDataSource,
+          getUserIdUseCase: mockGetUserIdUseCase,
         );
       },
       seed: () => initialState().copyWith(

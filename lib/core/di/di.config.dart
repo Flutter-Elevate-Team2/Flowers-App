@@ -31,6 +31,7 @@ import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
 import '../../Features/auth/domain/use_cases/check_auth_usecase.dart' as _i409;
 import '../../Features/auth/domain/use_cases/forget_password_usecase.dart'
     as _i762;
+import '../../Features/auth/domain/use_cases/get_user_id_usecase.dart' as _i666;
 import '../../Features/auth/domain/use_cases/guest_login_usecase.dart' as _i655;
 import '../../Features/auth/domain/use_cases/login_usecase.dart' as _i512;
 import '../../Features/auth/domain/use_cases/reset_password_usecase.dart'
@@ -292,13 +293,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i951.GetProfileUseCase>(
       () => _i951.GetProfileUseCase(gh<_i671.ProfileRepoContract>()),
     );
-    gh.factory<_i1071.CheckoutViewModel>(
-      () => _i1071.CheckoutViewModel(
-        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
-        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
-        authLocalDataSource: gh<_i164.AuthLocalDataSourceContract>(),
-      ),
-    );
     gh.factory<_i417.UploadPhotoUseCase>(
       () => _i417.UploadPhotoUseCase(gh<_i671.ProfileRepoContract>()),
     );
@@ -310,6 +304,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i762.ForgetPasswordUsecase>(
       () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i666.GetUserIdUseCase>(
+      () => _i666.GetUserIdUseCase(gh<_i30.AuthRepoContract>()),
     );
     gh.factory<_i785.ResetPasswordUsecase>(
       () => _i785.ResetPasswordUsecase(gh<_i30.AuthRepoContract>()),
@@ -347,6 +344,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i179.SignupUseCase>(
       () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i1071.CheckoutViewModel>(
+      () => _i1071.CheckoutViewModel(
+        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
+        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
+        getUserIdUseCase: gh<_i666.GetUserIdUseCase>(),
+      ),
     );
     gh.factory<_i713.NotificationViewModel>(
       () => _i713.NotificationViewModel(gh<_i932.GetNotificationUseCase>()),

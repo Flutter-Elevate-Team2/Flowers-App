@@ -18,6 +18,7 @@ abstract class AuthRepoContract {
     bool isRememberMe,
   );
   Future<bool> isLoggedIn();
+  Future<String?> getUserId();
   Future<BaseResponse<ForgetPasswordEntity>> forgetPassword(
     ForgetPasswordRequest request,
   );

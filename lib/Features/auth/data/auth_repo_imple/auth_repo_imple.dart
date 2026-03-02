@@ -88,6 +88,11 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
   }
 
   @override
+  Future<String?> getUserId() async {
+    return await _localDataSource.getUserId();
+  }
+
+  @override
   Future<BaseResponse<ForgetPasswordEntity>> forgetPassword(
     ForgetPasswordRequest request,
   ) async {
