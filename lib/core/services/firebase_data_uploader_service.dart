@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flowers_app/Features/track_order/data/models/order_tracking_firebase_model.dart';
 import 'package:flowers_app/core/services/push_notification_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class FirebaseDataUploaderService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -67,4 +70,13 @@ class FirebaseDataUploaderService {
       }
     }
   }
+
+  Future<OrderTrackingFirebaseModel?> getTrackingOrderById(
+      String orderId,
+      ) async {
+    final doc = await _firestore.collection('active_orders').doc(orderId).get();
+    if (!doc.exists) return null;
+    return OrderTrackingFirebaseModel.fromJson(doc.data()!);
+  }
+
 }

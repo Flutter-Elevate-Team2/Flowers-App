@@ -633,5 +633,11 @@
   "orderNumber": "Order Number",
   "@orderNumber": { "description": "Label for order number" },
   "noOrdersFound": "No orders found",
-  "@noOrderFound": { "description": "Message displayed when no orders are found"}
+  "@noOrderFound": { "description": "Message displayed when no orders are found"},
+  "accepted": "Order Accepted",
+  "picked": "Being Prepared",
+  "outForDelivery": "Out for Delivery",
+  "delivered": "Delivered",
+  "receivedYourOrder": "Received Your Order",
+  "preparingYourOrder": "Preparing Your Order"
 }
