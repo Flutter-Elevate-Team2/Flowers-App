@@ -639,5 +639,10 @@
   "outForDelivery": "Out for Delivery",
   "delivered": "Delivered",
   "receivedYourOrder": "Received Your Order",
-  "preparingYourOrder": "Preparing Your Order"
+  "preparingYourOrder": "Preparing Your Order",
+  "estimatedArrival": "Estimated arrival",
+  "isYourDelivery": "is your delivery hero for today",
+  "showMap": "Show map",
+  "orderDelivered": "Order Delivered",
+  "arrived": "Arrived"
 }

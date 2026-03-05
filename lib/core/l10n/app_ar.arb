@@ -207,5 +207,10 @@
   "outForDelivery": "جاري التوصيل",
   "delivered": "تم التسليم",
   "receivedYourOrder": "تم استلام طلبك",
-  "preparingYourOrder": "جار تجهيز طلبك"
+  "preparingYourOrder": "جار تجهيز طلبك",
+  "estimatedArrival": "موعد الوصول المتوقع",
+  "isYourDelivery": "هو مندوب التوصيل الخاص بك اليوم",
+  "showMap": "عرض الخريطة",
+  "orderDelivered": "تم تسليم الطلب",
+  "arrived": "وصل المندوب"
 }
