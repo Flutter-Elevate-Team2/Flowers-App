@@ -4,6 +4,7 @@ class DriverEntity {
   final String phone;
   final String token;
   final String vehicleNumber;
+  final String vehicleImage;
 
   DriverEntity({
     required this.id,
@@ -11,6 +12,7 @@ class DriverEntity {
     required this.phone,
     required this.token,
     required this.vehicleNumber,
+    required this.vehicleImage
   });
 
   factory DriverEntity.fromMap(Map<String, dynamic> map) {
@@ -20,6 +22,7 @@ class DriverEntity {
       phone: map['driverPhone'] ?? '',
       token: map['driverToken'] ?? '',
       vehicleNumber: map['vehicleNumber'] ?? '',
+      vehicleImage: map['vehicleImage'] ?? '',
     );
   }
 
@@ -30,6 +33,7 @@ class DriverEntity {
       'driverPhone': phone,
       'driverToken': token,
       'vehicleNumber': vehicleNumber,
+      'vehicleImage': vehicleImage,
     };
   }
 }

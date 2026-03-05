@@ -36,6 +36,7 @@ extension OrderTrackingMapper on OrderTrackingFirebaseModel {
         phone: driverData['driverPhone'] ?? '',
         token: driverData['driverToken'] ?? '',
         vehicleNumber: driverData['vehicleNumber'] ?? '',
+        vehicleImage: driverData['vehicleImage'] ?? '',
       ),
     );
   }
