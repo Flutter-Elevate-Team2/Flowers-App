@@ -5,6 +5,7 @@ import 'package:flowers_app/Features/track_order/presentation/widgets/estimated_
 import 'package:flowers_app/Features/track_order/presentation/widgets/order_time_line.dart';
 import 'package:flowers_app/Features/track_order/presentation/widgets/track_order_button.dart';
 import 'package:flowers_app/Features/track_order/presentation/widgets/track_order_shimmer.dart';
+import 'package:flowers_app/Features/track_order/presentation/widgets/vehicle_image.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class TrackOrderBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderStatusViewModel, TrackOrderStatusState>(
       buildWhen: (prev, next) =>
-          prev.orderState?.data?.status != next.orderState?.data?.status ||
+      prev.orderState?.data?.status != next.orderState?.data?.status ||
           prev.statusHistory != next.statusHistory,
       builder: (context, state) {
         final history = Map.fromEntries(
@@ -46,34 +47,35 @@ class TrackOrderBody extends StatelessWidget {
             ? history.values.first.add(const Duration(hours: 1))
             : DateTime.now().add(const Duration(hours: 1));
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Estimated arrival
-              EstimatedArrival(date: estimatedArrival),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Estimated arrival
+                EstimatedArrival(date: estimatedArrival),
 
-              Padding(
-                padding: EdgeInsetsGeometry.symmetric(vertical: 16),
-                child: Divider(color: AppColors.gray.withValues(alpha: 0.4)),
-              ),
+                Padding(
+                  padding: EdgeInsetsGeometry.symmetric(vertical: 16),
+                  child: Divider(color: AppColors.gray.withValues(alpha: 0.4)),
+                ),
 
-              DriverInfo(name: order.driver!.name),
+                DriverInfo(name: order.driver!.name),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              /// Timeline dynamic
-              Expanded(
-                child: OrderTimeline(
+                VehicleImage(order.driver!.vehicleImage),
+
+                /// Timeline dynamic
+                OrderTimeline(
                   currentStatus: order.status,
                   history: history,
                 ),
-              ),
-
-              /// Button
-              TrackOrderButton(isDelivered: order.status == 'delivered'),
-            ],
+                /// Button
+                TrackOrderButton(isDelivered: order.status == 'delivered'),
+              ],
+            ),
           ),
         );
       },

@@ -19,7 +19,7 @@ class StateTimeLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 70,
+      height: 60,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
