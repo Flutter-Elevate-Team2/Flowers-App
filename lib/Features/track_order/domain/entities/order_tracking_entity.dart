@@ -13,6 +13,7 @@ class OrderTrackingEntity {
   final TrackingLocationEntity trackingLocation;
   final UserLocationEntity userLocationEntity;
   final DriverEntity ? driver;
+  final Map<String, DateTime>? statusHistory;
 
   OrderTrackingEntity({
     required this.id,
@@ -25,5 +26,6 @@ class OrderTrackingEntity {
     required this.trackingLocation,
     required this.userLocationEntity,
     required this.driver,
+    this.statusHistory,
   });
 }

@@ -10,6 +10,8 @@ class TrackOrderStatusState extends Equatable {
   final Position? currentDriverPosition;
   final List<mapbox.Position>? routePoints;
   final bool showPickup;
+  final Map<String, DateTime> statusHistory;
+
 
   const TrackOrderStatusState({
     this.orderState = const BaseState(),
@@ -17,6 +19,7 @@ class TrackOrderStatusState extends Equatable {
     this.currentDriverPosition,
     this.routePoints,
     this.showPickup = true,
+    this.statusHistory = const {},
   });
 
   TrackOrderStatusState copyWith({
@@ -25,6 +28,7 @@ class TrackOrderStatusState extends Equatable {
     Position? currentDriverPosition,
     List<mapbox.Position>? routePoints,
     bool? showPickup,
+    Map<String, DateTime>? statusHistory,
   }) {
     return TrackOrderStatusState(
       orderState: orderState ?? this.orderState,
@@ -33,6 +37,7 @@ class TrackOrderStatusState extends Equatable {
       currentDriverPosition ?? this.currentDriverPosition,
       routePoints: routePoints ?? this.routePoints,
       showPickup: showPickup ?? this.showPickup,
+      statusHistory: statusHistory ?? this.statusHistory,
     );
   }
 
@@ -43,5 +48,6 @@ class TrackOrderStatusState extends Equatable {
     currentDriverPosition,
     routePoints,
     showPickup,
+    statusHistory,
   ];
 }

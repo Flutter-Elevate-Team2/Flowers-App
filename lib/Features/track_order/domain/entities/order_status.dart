@@ -2,9 +2,10 @@ import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 enum OrderStatus {
-  receivedYourOrder('received_your_order'),
-  preparingYourOrder('preparing_your_order'),
-  outForDelivery('out_for_delivery'),
+  accepted('accepted'),
+  receivedYourOrder('arrived_pickup'),
+  preparingYourOrder('start_deliver'),
+  outForDelivery('arrived_user'),
   delivered('delivered');
 
   final String firebaseValue;
@@ -12,6 +13,8 @@ enum OrderStatus {
 
   String getDisplayName(BuildContext context) {
     switch (this) {
+      case OrderStatus.accepted:
+        return context.l10n.accepted;
       case OrderStatus.receivedYourOrder:
         return context.l10n.receivedYourOrder;
       case OrderStatus.preparingYourOrder:
@@ -25,6 +28,8 @@ enum OrderStatus {
 
   String getNotificationBody(BuildContext context) {
     switch (this) {
+      case OrderStatus.accepted:
+        return context.l10n.accepted;
       case OrderStatus.receivedYourOrder:
         return context.l10n.receivedYourOrder;
       case OrderStatus.preparingYourOrder:
@@ -38,6 +43,8 @@ enum OrderStatus {
 
   String getButtonText(BuildContext context) {
     switch (this) {
+      case OrderStatus.accepted:
+        return context.l10n.accepted;
       case OrderStatus.receivedYourOrder:
         return context.l10n.receivedYourOrder;
       case OrderStatus.preparingYourOrder:
@@ -57,4 +64,13 @@ enum OrderStatus {
     return null;
   }
 
+}
+
+extension OrderStatusX on OrderStatus {
+  static OrderStatus fromFirebase(String value) {
+    return OrderStatus.values.firstWhere(
+          (status) => status.firebaseValue == value,
+      orElse: () => OrderStatus.receivedYourOrder,
+    );
+  }
 }
