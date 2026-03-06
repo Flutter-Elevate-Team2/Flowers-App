@@ -1,3 +1,5 @@
+import 'package:flowers_app/Features/notifications/presentation/view_model/notification_event.dart';
+import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_event.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/widgets/profile_screen_body.dart';
@@ -18,6 +20,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<ProfileViewModel>().doIntent(GetProfileEvent());
+        // Re-dispatch here to ensure getUserId() resolves after login.
+        // The ViewModel is a singleton — this cancels any stale stream
+        // and reattaches with the correct, authenticated userId.
+        context.read<NotificationViewModel>().doIntent(GetNotificationsEvent());
       }
     });
   }

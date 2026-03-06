@@ -119,7 +119,7 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.aboutUs,
                   leadingIcon: Icons.info_outline,
-                  onTap: (){
+                  onTap: () {
                     context.pushNamed(Routes.aboutpageName);
                   },
                 ),
@@ -173,9 +173,10 @@ class ProfileAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotificationViewModel, NotificationState>(
+      buildWhen: (previous, current) =>
+          previous.unreadCount != current.unreadCount,
       builder: (context, notificationState) {
         final unreadCount = notificationState.unreadCount;
-
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(

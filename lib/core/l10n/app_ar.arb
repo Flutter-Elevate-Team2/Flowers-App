@@ -201,6 +201,10 @@
   "loading": "جار التحميل...",
   "selectAddress": "اختار عنوان",
   "pleaseLoginToAddAddress": "يرجى تسجيل الدخول لإضافة عنوان",
-  "occasionDescription": "تألّق مع أفضل زهورنا مبيعاً والأكثر روعة"
+  "occasionDescription": "تألّق مع أفضل زهورنا مبيعاً والأكثر روعة",
+  "appVersion": "v 6.3.0 - (446)",
 
+  "noNotifications": "لا توجد إشعارات حتى الآن",
+  "notificationsErrorTitle": "حدث خطأ ما",
+  "firebaseNotFound": "الإشعار غير موجود. ربما تم حذفه بالفعل."
 }

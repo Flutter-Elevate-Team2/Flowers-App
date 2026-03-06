@@ -22,8 +22,12 @@ abstract class AppTheme {
       shadow: AppColors.black.withValues(alpha: 0.1),
     ),
     textTheme: TextTheme(
-      titleMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.normal , color: AppColors.gray),
-      bodySmall: getTextStyle(fontSize: 14 , fontWeight: FontWeight.w400),
+      titleMedium: getTextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: AppColors.gray,
+      ),
+      bodySmall: getTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
       bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
       headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -35,8 +39,6 @@ abstract class AppTheme {
     ),
 
     inputDecorationTheme: InputDecorationTheme(
-
-
       floatingLabelBehavior: FloatingLabelBehavior.always,
       alignLabelWithHint: true,
 
@@ -98,7 +100,6 @@ abstract class AppTheme {
         fontWeight: FontWeight.w500,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
-
     ),
     dialogTheme: DialogThemeData(
       titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
@@ -126,4 +127,20 @@ abstract class AppTheme {
       fontWeight: fontWeight ?? FontWeight.w400,
     );
   }
+
+  // ── Notification-specific text styles ──────────────────────────────────────
+
+  /// Title: Inter Medium 500 · 16px · #0C1015
+  static TextStyle notificationTitleStyle = getTextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.black, // #0C1015
+  );
+
+  /// Body: Inter Regular 400 · 12px · #535353
+  static TextStyle notificationBodyStyle = getTextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.gray, // #535353
+  );
 }

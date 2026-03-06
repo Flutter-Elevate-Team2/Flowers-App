@@ -1,4 +1,3 @@
-import 'package:flowers_app/Features/notifications/domain/entities/notification_data.dart';
 import 'package:flowers_app/Features/notifications/domain/entities/notification_entity.dart';
 import 'package:flowers_app/Features/notifications/domain/repo/notification_repo_contract.dart';
 import 'package:flowers_app/Features/notifications/domain/use_case/get_notification_use_case.dart';
@@ -11,10 +10,6 @@ import 'get_notification_use_case_test.mocks.dart';
 
 @GenerateMocks([NotificationRepoContract])
 void main() {
-  provideDummy<BaseResponse<NotificationData>>(
-    SuccessResponse(data: NotificationData(notifications: [], unreadCount: 0)),
-  );
-
   late GetNotificationUseCase useCase;
   late MockNotificationRepoContract mockRepo;
 
@@ -23,87 +18,114 @@ void main() {
     useCase = GetNotificationUseCase(mockRepo);
   });
 
-  group('GetNotificationUseCase Tests', () {
-    test('call should return SuccessResponse from repository', () async {
+  group('GetNotificationUseCase', () {
+    final now = DateTime(2026, 3, 1);
+
+    test('delegates to repo.getNotifications with the given userId', () {
       // Arrange
-      final notifications = [
+      when(
+        mockRepo.getNotifications('user_1'),
+      ).thenAnswer((_) => const Stream.empty());
+
+      // Act
+      useCase.call('user_1');
+
+      // Assert
+      verify(mockRepo.getNotifications('user_1')).called(1);
+    });
+
+    test('emits SuccessResponse with notification list on success', () {
+      // Arrange
+      final entities = [
         NotificationEntity(
-          title: 'Test Notification 1',
-          body: 'This is a test notification',
+          id: '1',
+          title: 'Order Shipped',
+          body: 'Your order has been shipped',
+          isRead: false,
+          sentAt: now,
         ),
         NotificationEntity(
-          title: 'Test Notification 2',
-          body: 'This is another test notification',
+          id: '2',
+          title: 'Welcome',
+          body: 'Welcome to the app!',
+          isRead: true,
+          sentAt: now,
         ),
       ];
-      final notificationData = NotificationData(
-        notifications: notifications,
-        unreadCount: 2,
-      );
-      final successResponse = SuccessResponse<NotificationData>(
-        data: notificationData,
+      final successResponse = SuccessResponse<List<NotificationEntity>>(
+        data: entities,
       );
 
       when(
-        mockRepo.getNotifications(),
-      ).thenAnswer((_) async => successResponse);
+        mockRepo.getNotifications('user_1'),
+      ).thenAnswer((_) => Stream.value(successResponse));
 
       // Act
-      final result = await useCase.call();
+      final stream = useCase.call('user_1');
 
       // Assert
-      expect(result, successResponse);
-      expect(result, isA<SuccessResponse<NotificationData>>());
-      final data = (result as SuccessResponse<NotificationData>).data;
-      expect(data.notifications.length, 2);
-      expect(data.unreadCount, 2);
-      expect(data.notifications[0].title, 'Test Notification 1');
-      expect(data.notifications[1].title, 'Test Notification 2');
-      verify(mockRepo.getNotifications()).called(1);
+      expect(
+        stream,
+        emitsInOrder([
+          isA<SuccessResponse<List<NotificationEntity>>>().having(
+            (r) => r.data.length,
+            'notification count',
+            2,
+          ),
+        ]),
+      );
     });
 
-    test('call should return ErrorResponse when repository fails', () async {
+    test('emits ErrorResponse when repo stream errors', () {
       // Arrange
-      const errorMessage = 'Failed to fetch notifications';
-      final errorResponse = ErrorResponse<NotificationData>(
-        errorMessage: errorMessage,
-      );
-
-      when(mockRepo.getNotifications()).thenAnswer((_) async => errorResponse);
-
-      // Act
-      final result = await useCase.call();
-
-      // Assert
-      expect(result, errorResponse);
-      expect(result, isA<ErrorResponse<NotificationData>>());
-      expect((result as ErrorResponse).errorMessage, errorMessage);
-      verify(mockRepo.getNotifications()).called(1);
-    });
-
-    test('call should return empty list when no notifications', () async {
-      // Arrange
-      final notificationData = NotificationData(
-        notifications: [],
-        unreadCount: 0,
-      );
-      final successResponse = SuccessResponse<NotificationData>(
-        data: notificationData,
+      final errorResponse = ErrorResponse<List<NotificationEntity>>(
+        errorMessage: 'Failed to fetch',
       );
 
       when(
-        mockRepo.getNotifications(),
-      ).thenAnswer((_) async => successResponse);
+        mockRepo.getNotifications('user_1'),
+      ).thenAnswer((_) => Stream.value(errorResponse));
 
       // Act
-      final result = await useCase.call();
+      final stream = useCase.call('user_1');
 
       // Assert
-      expect(result, isA<SuccessResponse<NotificationData>>());
-      final data = (result as SuccessResponse<NotificationData>).data;
-      expect(data.notifications, isEmpty);
-      expect(data.unreadCount, 0);
-      verify(mockRepo.getNotifications()).called(1);
+      expect(
+        stream,
+        emitsInOrder([
+          isA<ErrorResponse<List<NotificationEntity>>>().having(
+            (r) => r.errorMessage,
+            'error message',
+            'Failed to fetch',
+          ),
+        ]),
+      );
+    });
+
+    test('emits SuccessResponse with empty list when no notifications', () {
+      // Arrange
+      final successResponse = SuccessResponse<List<NotificationEntity>>(
+        data: [],
+      );
+
+      when(
+        mockRepo.getNotifications('user_1'),
+      ).thenAnswer((_) => Stream.value(successResponse));
+
+      // Act
+      final stream = useCase.call('user_1');
+
+      // Assert
+      expect(
+        stream,
+        emitsInOrder([
+          isA<SuccessResponse<List<NotificationEntity>>>().having(
+            (r) => r.data.isEmpty,
+            'empty list',
+            true,
+          ),
+        ]),
+      );
     });
   });
 }

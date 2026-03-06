@@ -297,6 +297,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get firebaseUnavailable => 'Firebase service unavailable.';
 
   @override
+  String get firebaseNotFound => 'الإشعار غير موجود. ربما تم حذفه بالفعل.';
+
+  @override
   String get hiveError => 'Database error (Hive).';
 
   @override
@@ -668,4 +671,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noOrdersFound => 'لا توجد طلبات';
+
+  @override
+  String get noNotifications => 'لا توجد إشعارات حتى الآن';
+
+  @override
+  String get notificationsErrorTitle => 'حدث خطأ ما';
 }

@@ -157,6 +157,8 @@ class ErrorHandler {
         return ErrorStrings.firebasePermissionDenied;
       case 'unavailable':
         return ErrorStrings.firebaseUnavailable;
+      case 'not-found':
+        return ErrorStrings.firebaseNotFound;
       case 'network-request-failed':
         return ErrorStrings.noInternet;
       default:

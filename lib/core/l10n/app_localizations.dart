@@ -662,6 +662,12 @@ abstract class AppLocalizations {
   /// **'Firebase service unavailable.'**
   String get firebaseUnavailable;
 
+  /// Firebase Firestore error when a document does not exist
+  ///
+  /// In en, this message translates to:
+  /// **'Notification not found. It may have already been removed.'**
+  String get firebaseNotFound;
+
   /// Error message for Hive database issues
   ///
   /// In en, this message translates to:
@@ -1399,6 +1405,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No orders found'**
   String get noOrdersFound;
+
+  /// Empty state message for the notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotifications;
+
+  /// Generic error title on the notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get notificationsErrorTitle;
 }
 
 class _AppLocalizationsDelegate

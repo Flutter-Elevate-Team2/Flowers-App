@@ -83,6 +83,8 @@ class ErrorMapper {
         return l10n.firebasePermissionDenied;
       case ErrorStrings.firebaseUnavailable:
         return l10n.firebaseUnavailable;
+      case ErrorStrings.firebaseNotFound:
+        return l10n.firebaseNotFound;
 
       // Others
       case ErrorStrings.hiveError:

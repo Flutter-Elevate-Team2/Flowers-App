@@ -300,6 +300,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get firebaseUnavailable => 'Firebase service unavailable.';
 
   @override
+  String get firebaseNotFound =>
+      'Notification not found. It may have already been removed.';
+
+  @override
   String get hiveError => 'Database error (Hive).';
 
   @override
@@ -673,4 +677,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noOrdersFound => 'No orders found';
+
+  @override
+  String get noNotifications => 'No notifications yet';
+
+  @override
+  String get notificationsErrorTitle => 'Something went wrong';
 }
