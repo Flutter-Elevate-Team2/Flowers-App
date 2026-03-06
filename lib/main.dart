@@ -31,7 +31,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
-  await configureDependencies();
+  configureDependencies();
   await PushNotificationService.init();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;

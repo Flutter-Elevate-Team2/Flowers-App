@@ -212,5 +212,13 @@
   "isYourDelivery": "هو مندوب التوصيل الخاص بك اليوم",
   "showMap": "عرض الخريطة",
   "orderDelivered": "تم تسليم الطلب",
-  "arrived": "وصل المندوب"
+  "arrived": "وصل المندوب",
+
+  "fcmInvalidCredentials": "فشل في مصادقة خدمة الإشعارات. يرجى التواصل مع الدعم.",
+  "fcmInvalidToken": "تعذر الوصول إلى السائق. قد يكون رمز الجهاز منتهي الصلاحية.",
+  "fcmSendFailed": "فشل في إرسال الإشعار. يرجى المحاولة مرة أخرى.",
+
+  "confirmDeliverySuccess": "تم تأكيد الاستلام بنجاح، جاري إنهاء الطلب..",
+  "confirmingDelivery": "جاري التأكيد...",
+  "driverDataIncomplete": "بيانات السائق غير مكتملة"
 }

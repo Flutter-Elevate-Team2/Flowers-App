@@ -22,6 +22,7 @@ import 'package:flowers_app/Features/order/presentation/orders/views/order_scree
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/track_order/presentation/views/track_order_screen.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/saved_address_screen.dart';
@@ -86,6 +87,8 @@ class Routes {
 
   static const orderPath = '/order';
   static const orderName = 'order';
+  static const trackOrderPath = '/track-order';
+  static const trackOrderName = 'track-order';
 
   static const notificationsPath = '/notifications';
   static const notificationsName = 'notifications';
@@ -287,6 +290,11 @@ class AppRouter {
         path: Routes.notificationsPath,
         name: Routes.notificationsName,
         builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: Routes.trackOrderPath,
+        name: Routes.trackOrderName,
+        builder: (context, state) =>   TrackOrderScreen(orderId: "69aad3c9e364ef61405f4fb6",),
       ),
 
       GoRoute(path: Routes.orderPath,

@@ -50,7 +50,7 @@ class OrdersTabView extends StatelessWidget {
     }
 
     if (orders.isEmpty) {
-      return  Center(
+      return Center(
         key: ValueKey('empty'),
         child: Text(context.l10n.noOrdersFound),
       );
@@ -94,7 +94,7 @@ class OrdersTabView extends StatelessWidget {
         context.goNamed(Routes.cartName);
       }
     } else {
-      /// Track Order
+      context.goNamed(Routes.trackOrderName);
     }
   }
 }
