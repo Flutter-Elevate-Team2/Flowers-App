@@ -78,16 +78,6 @@ class OrderCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      isCompleted
-                          ? '${context.l10n.deliveredOn} ${formatDate(order.updatedAt ?? "", locale: locale)}'
-                          : '${context.l10n.orderNumber} ${order.orderNumber}',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        fontSize: 12,
-                        color: AppColors.gray,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
                     SizedBox(
                       width: double.infinity,
                       height: 38,
