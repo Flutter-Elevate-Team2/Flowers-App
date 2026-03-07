@@ -18,7 +18,7 @@ class TrackOrderBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderStatusViewModel, TrackOrderStatusState>(
       buildWhen: (prev, next) =>
-      prev.orderState?.data?.status != next.orderState?.data?.status ||
+          prev.orderState?.data?.status != next.orderState?.data?.status ||
           prev.statusHistory != next.statusHistory,
       builder: (context, state) {
         final history = Map.fromEntries(
@@ -68,12 +68,13 @@ class TrackOrderBody extends StatelessWidget {
                 VehicleImage(order.driver!.vehicleImage),
 
                 /// Timeline dynamic
-                OrderTimeline(
-                  currentStatus: order.status,
-                  history: history,
-                ),
+                OrderTimeline(currentStatus: order.status, history: history),
+
                 /// Button
-                TrackOrderButton(isDelivered: order.status == 'delivered'),
+                TrackOrderButton(
+                  isDelivered: order.status == 'delivered',
+                  order: order,
+                ),
               ],
             ),
           ),

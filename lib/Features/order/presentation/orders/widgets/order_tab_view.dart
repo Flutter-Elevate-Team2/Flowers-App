@@ -73,17 +73,13 @@ class OrdersTabView extends StatelessWidget {
         final locale = context.read<LanguageCubit>().state.languageCode;
         final isCancelled = orders[index].state == "canceled";
 
-
-            return OrderCard(
-              order: orders[index],
-              isCompleted: tab == OrdersTab.completed,
-              onButtonPressed: () => _handleOrderAction(
-                context,
-                orders[index],
-                 isCancelled,
-              ),
-              locale: locale,
-            );
+        return OrderCard(
+          order: orders[index],
+          isCompleted: tab == OrdersTab.completed,
+          onButtonPressed: () =>
+              _handleOrderAction(context, orders[index], isCancelled),
+          locale: locale,
+        );
       },
     );
   }
@@ -91,42 +87,18 @@ class OrdersTabView extends StatelessWidget {
   Future<void> _handleOrderAction(
     BuildContext context,
     dynamic order,
-     bool isCancelled,
+    bool isCancelled,
   ) async {
     final trackViewModel = context.read<OrderStatusViewModel>();
-     trackViewModel.doIntent(
-      context,
-      FetchOrderDetailsEvent(order.id ?? ''),
-    );
+    trackViewModel.doIntent(context, FetchOrderDetailsEvent(order.id ?? ''));
     await Future.delayed(const Duration(milliseconds: 300));
 
-    final orderState =
-        trackViewModel.state.orderState?.data?.status ?? '';
-
-    bool isAccepted = orderState == OrderStatus.accepted.name;
-    bool isReceived = orderState == OrderStatus.receivedYourOrder.name;
-    bool isPreparing = orderState == OrderStatus.preparingYourOrder.name;
-    bool isArrived = orderState == OrderStatus.outForDelivery.name;
-    bool isDelivered = orderState == OrderStatus.delivered.name;
-
-  Future<void> _handleOrderAction(
-    BuildContext context,
-    dynamic order,
-     bool isCancelled,
-  ) async {
-    final trackViewModel = context.read<OrderStatusViewModel>();
-     trackViewModel.doIntent(
-      context,
-      FetchOrderDetailsEvent(order.id ?? ''),
-    );
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    final orderState =
-        trackViewModel.state.orderState?.data?.status ?? '';
+    final orderState = trackViewModel.state.orderState?.data?.status ?? '';
 
     bool isAccepted = orderState == OrderStatus.accepted.firebaseValue;
     bool isReceived = orderState == OrderStatus.receivedYourOrder.firebaseValue;
-    bool isPreparing = orderState == OrderStatus.preparingYourOrder.firebaseValue;
+    bool isPreparing =
+        orderState == OrderStatus.preparingYourOrder.firebaseValue;
     bool isArrived = orderState == OrderStatus.outForDelivery.firebaseValue;
     bool isDelivered = orderState == OrderStatus.delivered.firebaseValue;
 

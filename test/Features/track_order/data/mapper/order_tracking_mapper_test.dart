@@ -3,8 +3,10 @@ import 'package:flowers_app/Features/track_order/data/mapper/order_tracking_mapp
 import 'package:flowers_app/Features/track_order/data/models/order_tracking_firebase_model.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/driver_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/store_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/tracking_location_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/user_location_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/use_cases/get_directions_use_case.dart';
 import 'package:flowers_app/Features/track_order/domain/use_cases/get_order_details_use_case.dart';
 import 'package:flowers_app/Features/track_order/domain/use_cases/send_silent_notification_use_case.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
@@ -18,18 +20,19 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/mockito.dart' as mockito;
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
 
 import 'order_tracking_mapper_test.mocks.dart';
 
 @GenerateMocks([
   GetOrderDetailsUseCase,
   SendSilentNotificationUseCase,
+  GetDirectionsUseCase,
   BuildContext,
 ])
 void main() {
   late OrderStatusViewModel viewModel;
   late MockGetOrderDetailsUseCase mockGetOrderDetailsUseCase;
+  late MockGetDirectionsUseCase mockGetDirectionsUseCase;
   late MockSendSilentNotificationUseCase mockSendSilentNotificationUseCase;
   late MockBuildContext mockContext;
   const tOrderId = "order_123";
@@ -42,10 +45,12 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     mockGetOrderDetailsUseCase = MockGetOrderDetailsUseCase();
     mockSendSilentNotificationUseCase = MockSendSilentNotificationUseCase();
+    mockGetDirectionsUseCase = MockGetDirectionsUseCase();
     mockContext = MockBuildContext();
     viewModel = OrderStatusViewModel(
       mockGetOrderDetailsUseCase,
       mockSendSilentNotificationUseCase,
+      mockGetDirectionsUseCase,
     );
   });
 
@@ -72,6 +77,10 @@ void main() {
       vehicleNumber: "V-123",
       vehicleImage: "img.png",
     ),
+      store: StoreEntity(
+        storeLat: 7.0,
+        storeLong: 12.5,
+      )
   );
 
   group('OrderStatusViewModel Coverage Tests', () {

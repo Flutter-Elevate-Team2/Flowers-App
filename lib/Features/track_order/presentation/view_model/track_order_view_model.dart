@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flowers_app/Features/track_order/data/mapper/order_tracking_mapper.dart';
 import 'package:flowers_app/Features/track_order/data/models/order_tracking_firebase_model.dart';
+import 'package:flowers_app/Features/track_order/domain/use_cases/get_directions_use_case.dart';
 import 'package:flowers_app/Features/track_order/domain/use_cases/get_order_details_use_case.dart';
 import 'package:flowers_app/Features/track_order/domain/use_cases/send_silent_notification_use_case.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
@@ -13,21 +14,24 @@ import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
 import 'package:shared_preferences/shared_preferences.dart';
 
 @injectable
 class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
   final GetOrderDetailsUseCase _getOrderDetailsUseCase;
   final SendSilentNotificationUseCase _sendSilentNotificationUseCase;
+  final GetDirectionsUseCase _getDirectionsUseCase;
 
   OrderStatusViewModel(
     this._getOrderDetailsUseCase,
     this._sendSilentNotificationUseCase,
+    this._getDirectionsUseCase,
   ) : super(const TrackOrderStatusState());
 
   String? _currentOrderId;
-
   Map<String, DateTime> _statusHistory = {};
+  StreamSubscription<OrderTrackingFirebaseModel>? _orderSub;
 
   Future<void> doIntent(
     BuildContext context,
@@ -45,6 +49,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
 
   Future<void> _fetchOrderDetails(String orderId) async {
     _currentOrderId = orderId;
+
     if (state.orderState?.data == null) {
       emit(state.copyWith(orderState: const BaseState(isLoading: true)));
     } else {
@@ -52,6 +57,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
         state.copyWith(orderState: state.orderState?.copyWith(isLoading: true)),
       );
     }
+
     try {
       final response = await _getOrderDetailsUseCase(orderId);
 
@@ -65,11 +71,12 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
             statusHistory: history,
           ),
         );
+
         watchOrderChanges(orderId);
       } else {
         emit(
           state.copyWith(
-            orderState: BaseState(
+            orderState: const BaseState(
               isLoading: false,
               errorMessage: "Order Not Found",
             ),
@@ -97,7 +104,6 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
 
     if (!map.containsKey(status)) {
       map[status] = updatedAt.toIso8601String();
-      //   map[status] = DateTime.now().toIso8601String();
       await prefs.setString(key, jsonEncode(map));
     }
 
@@ -113,9 +119,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
 
     if (existing != null) {
       final decoded = jsonDecode(existing) as Map<String, dynamic>;
-      decoded.forEach((k, v) {
-        history[k] = DateTime.parse(v);
-      });
+      decoded.forEach((k, v) => history[k] = DateTime.parse(v));
     }
 
     _statusHistory = history;
@@ -131,37 +135,55 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
         .map((doc) => OrderTrackingFirebaseModel.fromJson(doc.data()!));
   }
 
-  StreamSubscription<OrderTrackingFirebaseModel>? _orderSub;
-
   void watchOrderChanges(String orderId) {
     _currentOrderId = orderId;
-
     _orderSub?.cancel();
 
     _orderSub = watchOrder(orderId).listen((order) async {
-      if (order.status.isEmpty) {
+      await _saveStatus(
+        order.status.isEmpty ? "unknown" : order.status,
+        order.updatedAt ?? DateTime.now(),
+      );
+
+      final orderEntity = order.toEntity();
+      final driverPos = mapbox.Position(
+        orderEntity.trackingLocation.long,
+        orderEntity.trackingLocation.lat,
+      );
+
+      final waypoints = [
+        driverPos,
+        mapbox.Position(
+          orderEntity.store.storeLong,
+          orderEntity.store.storeLat,
+        ),
+        mapbox.Position(
+          orderEntity.userLocationEntity.long,
+          orderEntity.userLocationEntity.lat,
+        ),
+      ];
+
+      try {
+        final routePoints = await _getDirectionsUseCase.call(waypoints);
+
         emit(
           state.copyWith(
-            orderState: BaseState(isLoading: false, data: order.toEntity()),
+            orderState: BaseState(isLoading: false, data: orderEntity),
+            routePoints: routePoints,
+            currentDriverPosition: driverPos,
             statusHistory: _statusHistory,
           ),
         );
-        return;
+      } catch (e) {
+        emit(
+          state.copyWith(
+            orderState: BaseState(isLoading: false, data: orderEntity),
+            statusHistory: _statusHistory,
+          ),
+        );
+        debugPrint("Directions Error: $e");
       }
-      await _saveStatus(order.status, order.updatedAt ?? DateTime.now());
-      emit(
-        state.copyWith(
-          orderState: BaseState(isLoading: false, data: order.toEntity()),
-          statusHistory: _statusHistory,
-        ),
-      );
     });
-  }
-
-  @override
-  Future<void> close() {
-    _orderSub?.cancel();
-    return super.close();
   }
 
   Future<void> _sendSilentNotification(
@@ -179,27 +201,30 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
       driverToken: driverToken,
     );
 
-    switch (response) {
-      case SuccessResponse<bool>():
-        emit(
-          state.copyWith(
-            sendSilentNotificationState: const BaseState(
-              isLoading: false,
-              data: true,
-            ),
+    if (response is SuccessResponse<bool>) {
+      emit(
+        state.copyWith(
+          sendSilentNotificationState: const BaseState(
+            isLoading: false,
+            data: true,
           ),
-        );
-        break;
-      case ErrorResponse<bool>():
-        emit(
-          state.copyWith(
-            sendSilentNotificationState: BaseState(
-              isLoading: false,
-              errorMessage: response.errorMessage,
-            ),
+        ),
+      );
+    } else if (response is ErrorResponse<bool>) {
+      emit(
+        state.copyWith(
+          sendSilentNotificationState: BaseState(
+            isLoading: false,
+            errorMessage: response.errorMessage,
           ),
-        );
-        break;
+        ),
+      );
     }
+  }
+
+  @override
+  Future<void> close() {
+    _orderSub?.cancel();
+    return super.close();
   }
 }
