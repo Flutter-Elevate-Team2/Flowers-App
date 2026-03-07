@@ -15,6 +15,7 @@
 migrate_working_dir/
 *.mocks.dart
 assets/json/tracking-app-service.json
+firebase.json
 
 
 # IntelliJ related
