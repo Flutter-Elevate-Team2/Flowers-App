@@ -93,7 +93,7 @@ class PushNotificationService {
 
   static Future<void> _initLocalNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/flower_notify');
 
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
