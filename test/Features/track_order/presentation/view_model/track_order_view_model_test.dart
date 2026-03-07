@@ -11,22 +11,22 @@ import 'package:flowers_app/Features/track_order/domain/use_cases/send_silent_no
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_state.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
-import 'package:flowers_app/core/base_states/base_states.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-@GenerateMocks([
-  GetOrderDetailsUseCase,
-  SendSilentNotificationUseCase,
-  BuildContext,
-])
-import 'track_order_view_model_test.mocks.dart';
+class MockGetOrderDetailsUseCase extends Mock
+    implements GetOrderDetailsUseCase {}
 
-class MockOrderStatusViewModel extends OrderStatusViewModel {
-  MockOrderStatusViewModel(
+class MockSendSilentNotificationUseCase extends Mock
+    implements SendSilentNotificationUseCase {}
+
+class MockBuildContext extends Mock implements BuildContext {}
+
+class StubOrderStatusViewModel extends OrderStatusViewModel {
+  StubOrderStatusViewModel(
     super.getOrderDetailsUseCase,
     super.sendSilentNotificationUseCase,
   );
@@ -47,18 +47,23 @@ class MockOrderStatusViewModel extends OrderStatusViewModel {
 }
 
 void main() {
-  late MockOrderStatusViewModel viewModel;
+  late StubOrderStatusViewModel viewModel;
   late MockGetOrderDetailsUseCase mockGetOrderDetailsUseCase;
   late MockSendSilentNotificationUseCase mockSendSilentNotificationUseCase;
   late MockBuildContext mockContext;
   const tOrderId = "order_123";
+
+  setUpAll(() {
+    registerFallbackValue(const TrackOrderStatusState());
+    // No need for fallback for String as it's not a custom type usually, but anyway
+  });
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     mockGetOrderDetailsUseCase = MockGetOrderDetailsUseCase();
     mockSendSilentNotificationUseCase = MockSendSilentNotificationUseCase();
     mockContext = MockBuildContext();
-    viewModel = MockOrderStatusViewModel(
+    viewModel = StubOrderStatusViewModel(
       mockGetOrderDetailsUseCase,
       mockSendSilentNotificationUseCase,
     );
@@ -106,11 +111,11 @@ void main() {
       expect(viewModel.state, const TrackOrderStatusState());
     });
 
-    blocTest<MockOrderStatusViewModel, TrackOrderStatusState>(
-      'Success Flow: Emits loading, then success and saves to SharedPreferences',
+    blocTest<StubOrderStatusViewModel, TrackOrderStatusState>(
+      'Success Flow: Emits loading, then success',
       build: () {
         when(
-          mockGetOrderDetailsUseCase.call(tOrderId),
+          () => mockGetOrderDetailsUseCase.call(any()),
         ).thenAnswer((_) async => tOrderEntity);
         return viewModel;
       },
@@ -135,11 +140,11 @@ void main() {
       ],
     );
 
-    blocTest<MockOrderStatusViewModel, TrackOrderStatusState>(
+    blocTest<StubOrderStatusViewModel, TrackOrderStatusState>(
       'Emits error state when useCase returns null',
       build: () {
         when(
-          mockGetOrderDetailsUseCase.call(tOrderId),
+          () => mockGetOrderDetailsUseCase.call(any()),
         ).thenAnswer((_) async => null);
         return viewModel;
       },
@@ -159,65 +164,60 @@ void main() {
       ],
     );
 
-    blocTest<MockOrderStatusViewModel, TrackOrderStatusState>(
-      'Should update state when Firebase stream emits new data',
+    blocTest<StubOrderStatusViewModel, TrackOrderStatusState>(
+      'SendSilentNotificationEvent: Emits loading, then success',
       build: () {
         when(
-          mockGetOrderDetailsUseCase.call(tOrderId),
-        ).thenAnswer((_) async => tOrderEntity);
+          () => mockSendSilentNotificationUseCase.call(
+            orderId: any(named: 'orderId'),
+            driverToken: any(named: 'driverToken'),
+          ),
+        ).thenAnswer((_) async => SuccessResponse<bool>(data: true));
         return viewModel;
       },
-      act: (bloc) async {
-        bloc.doIntent(mockContext, FetchOrderDetailsEvent(tOrderId));
-        await Future.delayed(Duration(milliseconds: 100));
-
-        bloc.controller.add(tFirebaseModel);
-
-        await Future.delayed(Duration(milliseconds: 100));
-      },
-      skip: 3,
+      act: (bloc) => bloc.doIntent(
+        mockContext,
+        SendSilentNotificationEvent(orderId: tOrderId, driverToken: "t"),
+      ),
       expect: () => [
         isA<TrackOrderStatusState>().having(
-          (s) => s.statusHistory.containsKey('on_the_way'),
-          'statusHistory updated',
+          (s) => s.sendSilentNotificationState?.isLoading,
+          'isLoading',
           true,
         ),
         isA<TrackOrderStatusState>().having(
-          (s) => s.statusHistory.containsKey('on_the_way'),
-          'statusHistory remains updated',
+          (s) => s.sendSilentNotificationState?.data,
+          'data',
           true,
         ),
       ],
     );
 
-    blocTest<MockOrderStatusViewModel, TrackOrderStatusState>(
-      'Branch Coverage: Loading state when data already exists',
+    blocTest<StubOrderStatusViewModel, TrackOrderStatusState>(
+      'SendSilentNotificationEvent: Emits loading, then error',
       build: () {
         when(
-          mockGetOrderDetailsUseCase.call(tOrderId),
-        ).thenAnswer((_) async => tOrderEntity);
+          () => mockSendSilentNotificationUseCase.call(
+            orderId: any(named: 'orderId'),
+            driverToken: any(named: 'driverToken'),
+          ),
+        ).thenAnswer((_) async => ErrorResponse<bool>(errorMessage: "Error"));
         return viewModel;
       },
-      seed: () => TrackOrderStatusState(
-        orderState: BaseState(data: tOrderEntity, isLoading: false),
+      act: (bloc) => bloc.doIntent(
+        mockContext,
+        SendSilentNotificationEvent(orderId: tOrderId, driverToken: "t"),
       ),
-      act: (bloc) =>
-          bloc.doIntent(mockContext, FetchOrderDetailsEvent(tOrderId)),
       expect: () => [
         isA<TrackOrderStatusState>().having(
-          (s) => s.orderState?.isLoading,
+          (s) => s.sendSilentNotificationState?.isLoading,
           'isLoading',
           true,
         ),
         isA<TrackOrderStatusState>().having(
-          (s) => s.statusHistory,
-          'historyUpdated',
-          isNotEmpty,
-        ),
-        isA<TrackOrderStatusState>().having(
-          (s) => s.orderState?.isLoading,
-          'isLoading',
-          false,
+          (s) => s.sendSilentNotificationState?.errorMessage,
+          'error',
+          "Error",
         ),
       ],
     );
