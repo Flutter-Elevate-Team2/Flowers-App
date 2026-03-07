@@ -300,6 +300,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get firebaseUnavailable => 'Firebase service unavailable.';
 
   @override
+  String get firebaseNotFound =>
+      'Notification not found. It may have already been removed.';
+
+  @override
   String get hiveError => 'Database error (Hive).';
 
   @override
@@ -675,63 +679,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noOrdersFound => 'No orders found';
 
   @override
-  String get accepted => 'Order Accepted';
+  String get noNotifications => 'No notifications yet';
 
   @override
-  String get picked => 'Being Prepared';
-
-  @override
-  String get outForDelivery => 'Out for Delivery';
-
-  @override
-  String get delivered => 'Delivered';
-
-  @override
-  String get receivedYourOrder => 'Received Your Order';
-
-  @override
-  String get preparingYourOrder => 'Preparing Your Order';
-
-  @override
-  String get estimatedArrival => 'Estimated arrival';
-
-  @override
-  String get isYourDelivery => 'is your delivery hero for today';
-
-  @override
-  String get showMap => 'Show map';
-
-  @override
-  String get orderDelivered => 'Order Delivered';
-
-  @override
-  String get arrived => 'Arrived';
-
-  @override
-  String get fcmInvalidCredentials =>
-      'Notification service authentication failed. Please contact support.';
-
-  @override
-  String get fcmInvalidToken =>
-      'Could not reach the driver. The device token may be expired.';
-
-  @override
-  String get fcmSendFailed => 'Failed to send notification. Please try again.';
-
-  @override
-  String get confirmDeliverySuccess =>
-      'Delivery confirmed successfully, finalizing order..';
-
-  @override
-  String get confirmingDelivery => 'Confirming...';
-
-  @override
-  String get driverDataIncomplete => 'Driver data is incomplete';
-
-  @override
-  String get orderCancelled => 'Order Cancelled';
-
-  @override
-  String get orderHasBeenCancelled =>
-      'Your Order has been cancelled please try again';
+  String get notificationsErrorTitle => 'Something went wrong';
 }

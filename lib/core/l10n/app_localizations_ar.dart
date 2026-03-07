@@ -297,6 +297,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get firebaseUnavailable => 'Firebase service unavailable.';
 
   @override
+  String get firebaseNotFound => 'الإشعار غير موجود. ربما تم حذفه بالفعل.';
+
+  @override
   String get hiveError => 'Database error (Hive).';
 
   @override
@@ -670,62 +673,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noOrdersFound => 'لا توجد طلبات';
 
   @override
-  String get accepted => 'تم قبول الطلب';
+  String get noNotifications => 'لا توجد إشعارات حتى الآن';
 
   @override
-  String get picked => 'جاري تجهيز الطلب';
-
-  @override
-  String get outForDelivery => 'جاري التوصيل';
-
-  @override
-  String get delivered => 'تم التسليم';
-
-  @override
-  String get receivedYourOrder => 'تم استلام طلبك';
-
-  @override
-  String get preparingYourOrder => 'جار تجهيز طلبك';
-
-  @override
-  String get estimatedArrival => 'موعد الوصول المتوقع';
-
-  @override
-  String get isYourDelivery => 'هو مندوب التوصيل الخاص بك اليوم';
-
-  @override
-  String get showMap => 'عرض الخريطة';
-
-  @override
-  String get orderDelivered => 'تم تسليم الطلب';
-
-  @override
-  String get arrived => 'وصل المندوب';
-
-  @override
-  String get fcmInvalidCredentials =>
-      'فشل في مصادقة خدمة الإشعارات. يرجى التواصل مع الدعم.';
-
-  @override
-  String get fcmInvalidToken =>
-      'تعذر الوصول إلى السائق. قد يكون رمز الجهاز منتهي الصلاحية.';
-
-  @override
-  String get fcmSendFailed => 'فشل في إرسال الإشعار. يرجى المحاولة مرة أخرى.';
-
-  @override
-  String get confirmDeliverySuccess =>
-      'تم تأكيد الاستلام بنجاح، جاري إنهاء الطلب..';
-
-  @override
-  String get confirmingDelivery => 'جاري التأكيد...';
-
-  @override
-  String get driverDataIncomplete => 'بيانات السائق غير مكتملة';
-
-  @override
-  String get orderCancelled => 'تم إلغاء الطلب';
-
-  @override
-  String get orderHasBeenCancelled => 'تم إلغاء طلبك، يرجى المحاولة مرة أخرى';
+  String get notificationsErrorTitle => 'حدث خطأ ما';
 }

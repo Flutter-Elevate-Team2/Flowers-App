@@ -338,6 +338,10 @@
   "@firebaseUnavailable": {
     "description": "Firebase error: Service unavailable"
   },
+  "firebaseNotFound": "Notification not found. It may have already been removed.",
+  "@firebaseNotFound": {
+    "description": "Firebase Firestore error when a document does not exist"
+  },
   "hiveError": "Database error (Hive).",
   "@hiveError": {
     "description": "Error message for Hive database issues"
@@ -661,4 +665,15 @@
   "@driverDataIncomplete": { "description": "Snackbar message when driver token or order ID is missing" },
   "orderCancelled": "Order Cancelled",
   "orderHasBeenCancelled": "Your Order has been cancelled please try again"
+  "@noOrderFound": {
+    "description": "Message displayed when no orders are found"
+  },
+  "noNotifications": "No notifications yet",
+  "@noNotifications": {
+    "description": "Empty state message for the notifications screen"
+  },
+  "notificationsErrorTitle": "Something went wrong",
+  "@notificationsErrorTitle": {
+    "description": "Generic error title on the notifications screen"
+  }
 }

@@ -37,6 +37,7 @@ class ErrorStrings {
   // --- Firebase General ---
   static const String firebasePermissionDenied = "FIREBASE_PERMISSION_DENIED";
   static const String firebaseUnavailable = "FIREBASE_UNAVAILABLE";
+  static const String firebaseNotFound = "FIREBASE_NOT_FOUND";
 
   // --- Firebase Cloud Messaging (FCM) ---
   static const String fcmInvalidCredentials = "FCM_INVALID_CREDENTIALS";

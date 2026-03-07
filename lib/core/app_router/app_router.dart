@@ -1,3 +1,4 @@
+
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
@@ -12,7 +13,9 @@ import 'package:flowers_app/Features/commerce/presentation/home/widgets/shared/h
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/best_seller_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/categories_screen.dart';
 import 'package:flowers_app/Features/commerce/presentation/products/views/screens/occasions_screen.dart';
-import 'package:flowers_app/Features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:flowers_app/Features/notifications/presentation/views/notification_screen.dart';
+import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
+
 import 'package:flowers_app/Features/order/presentation/cart/views/cart_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/check_out_screen.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/views/checkout_success_page.dart';
@@ -189,7 +192,7 @@ class AppRouter {
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>?;
                   final categories =
-                  extra?['categories'] as List<CategoryEntity>?;
+                      extra?['categories'] as List<CategoryEntity>?;
                   final initialIndex = extra?['initialIndex'] as int? ?? 0;
 
                   return CategoriesScreen(
@@ -303,7 +306,10 @@ class AppRouter {
       GoRoute(
         path: Routes.notificationsPath,
         name: Routes.notificationsName,
-        builder: (context, state) => const NotificationsScreen(),
+        builder: (context, state) => BlocProvider.value(
+          value: context.read<NotificationViewModel>(),
+          child: const NotificationScreen(),
+        ),
       ),
 
       GoRoute(
