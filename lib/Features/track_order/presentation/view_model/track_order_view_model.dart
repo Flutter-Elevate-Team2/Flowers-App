@@ -24,7 +24,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
 
     Map<String, DateTime> _statusHistory = {};
 
-  void doIntent(BuildContext context, TrackOrderStatusEvent event) {
+   Future<void> doIntent(BuildContext context, TrackOrderStatusEvent event) async{
     switch (event) {
       case FetchOrderDetailsEvent():
         _fetchOrderDetails(event.orderId);
@@ -113,6 +113,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
          .collection('active_orders')
          .doc(orderId)
          .snapshots()
+         .where((doc) => doc.exists && doc.data() != null)
          .map((doc) => OrderTrackingFirebaseModel.fromJson(doc.data()!));
    }
 
@@ -124,13 +125,20 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
       _orderSub?.cancel();
 
      _orderSub = watchOrder(orderId).listen((order) async {
-        await _saveStatus(order.status, order.updatedAt ?? DateTime.now());
+       if (order.status.isEmpty) {
 
         emit(state.copyWith(
          orderState: BaseState(isLoading: false, data: order.toEntity()),
          statusHistory: _statusHistory,
        ));
-     });
+        return;
+     }
+       await _saveStatus(order.status, order.updatedAt ?? DateTime.now());
+       emit(state.copyWith(
+         orderState: BaseState(isLoading: false, data: order.toEntity()),
+         statusHistory: _statusHistory,
+       ));
+   });
    }
 
    @override

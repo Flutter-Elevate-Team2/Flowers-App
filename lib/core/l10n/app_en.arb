@@ -644,5 +644,7 @@
   "isYourDelivery": "is your delivery hero for today",
   "showMap": "Show map",
   "orderDelivered": "Order Delivered",
-  "arrived": "Arrived"
+  "arrived": "Arrived",
+  "orderCancelled": "Order Cancelled",
+  "orderHasBeenCancelled": "Your Order has been cancelled please try again"
 }

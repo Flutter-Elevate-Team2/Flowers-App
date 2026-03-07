@@ -212,5 +212,7 @@
   "isYourDelivery": "هو مندوب التوصيل الخاص بك اليوم",
   "showMap": "عرض الخريطة",
   "orderDelivered": "تم تسليم الطلب",
-  "arrived": "وصل المندوب"
+  "arrived": "وصل المندوب",
+  "orderCancelled": "تم إلغاء الطلب",
+  "orderHasBeenCancelled": "تم إلغاء طلبك، يرجى المحاولة مرة أخرى"
 }
