@@ -664,7 +664,7 @@
   "driverDataIncomplete": "Driver data is incomplete",
   "@driverDataIncomplete": { "description": "Snackbar message when driver token or order ID is missing" },
   "orderCancelled": "Order Cancelled",
-  "orderHasBeenCancelled": "Your Order has been cancelled please try again"
+  "orderHasBeenCancelled": "Your Order has been cancelled please try again",
   "@noOrderFound": {
     "description": "Message displayed when no orders are found"
   },

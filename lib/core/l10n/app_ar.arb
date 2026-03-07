@@ -217,12 +217,11 @@
   "fcmInvalidCredentials": "فشل في مصادقة خدمة الإشعارات. يرجى التواصل مع الدعم.",
   "fcmInvalidToken": "تعذر الوصول إلى السائق. قد يكون رمز الجهاز منتهي الصلاحية.",
   "fcmSendFailed": "فشل في إرسال الإشعار. يرجى المحاولة مرة أخرى.",
-  "occasionDescription": "تألّق مع أفضل زهورنا مبيعاً والأكثر روعة",
   "appVersion": "v 6.3.0 - (446)",
 
   "noNotifications": "لا توجد إشعارات حتى الآن",
   "notificationsErrorTitle": "حدث خطأ ما",
-  "firebaseNotFound": "الإشعار غير موجود. ربما تم حذفه بالفعل."
+  "firebaseNotFound": "الإشعار غير موجود. ربما تم حذفه بالفعل.",
   "confirmDeliverySuccess": "تم تأكيد الاستلام بنجاح، جاري إنهاء الطلب..",
   "confirmingDelivery": "جاري التأكيد...",
   "driverDataIncomplete": "بيانات السائق غير مكتملة",
