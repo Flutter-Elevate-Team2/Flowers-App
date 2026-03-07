@@ -36,9 +36,9 @@ void main() {
   group('FirebaseDataUploaderService - uploadUserDataOnOpen', () {
     test(
       'should NOT throw error even if token is null (graceful failure)',
-      () async {
+          () async {
         expect(
-          () => FirebaseDataUploaderService.uploadUserDataOnOpen(tUserId),
+              () => FirebaseDataUploaderService.uploadUserDataOnOpen(tUserId),
           returnsNormally,
         );
       },
@@ -46,7 +46,7 @@ void main() {
     group('FirebaseDataUploaderService - getTrackingOrderById', () {
       test(
         'should return OrderTrackingFirebaseModel when document exists',
-        () async {
+            () async {
           // Arrange
           final tData = {
             'status': 'on_way',
@@ -102,7 +102,7 @@ void main() {
         ).thenThrow(FirebaseException(plugin: 'firestore'));
 
         expect(
-          () => FirebaseDataUploaderService.uploadOrderData(tUserId, tOrderId),
+              () => FirebaseDataUploaderService.uploadOrderData(tUserId, tOrderId),
           returnsNormally,
         );
       });

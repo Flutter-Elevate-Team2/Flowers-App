@@ -1,104 +1,100 @@
-import 'dart:async';
-import 'dart:io';
+ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flowers_app/core/constants/error_strings.dart';
-import 'package:flowers_app/core/handle_error/handle_error.dart';
+ import 'package:flowers_app/core/handle_error/handle_error.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 
 void main() {
-  group('ErrorHandler Test Cases', () {
-    // --- 1. Network Errors Tests ---
-    test('should return noInternet string when SocketException occurs', () {
-      final error = const SocketException('No Internet');
-      final result = ErrorHandler.handleError(error);
-      expect(result, ErrorStrings.noInternet);
-    });
+  group('ErrorHandler Unit Tests', () {
 
-    test('should return connectionTimeout string when TimeoutException occurs', () {
-      final error = TimeoutException('Time out');
-      final result = ErrorHandler.handleError(error);
-      expect(result, ErrorStrings.connectionTimeout);
-    });
-
-    // --- 2. Dio Errors Tests ---
-    test('should return connectionTimeout when DioExceptionType is connectionTimeout', () {
+    // --- اختبارات Dio (الشبكة) ---
+    test('يجب أن يعيد connectionTimeout عند حدوث DioException من نوع connectionTimeout', () {
       final error = DioException(
-        requestOptions: RequestOptions(path: ''),
+        requestOptions: RequestOptions(),
         type: DioExceptionType.connectionTimeout,
       );
+
       final result = ErrorHandler.handleError(error);
+
       expect(result, ErrorStrings.connectionTimeout);
     });
 
-    test('should return correct message from backend when DioException is badResponse (400)', () {
+    test('يجب أن يستخرج رسالة الخطأ من استجابة السيرفر (400 Bad Request)', () {
       final error = DioException(
-        requestOptions: RequestOptions(path: ''),
+        requestOptions: RequestOptions(),
         type: DioExceptionType.badResponse,
         response: Response(
-          requestOptions: RequestOptions(path: ''),
+          requestOptions: RequestOptions(),
           statusCode: 400,
-          data: {'message': 'Invalid Data sent'}, // Backend message
+          data: {'message': 'Custom Server Error'},
         ),
       );
+
       final result = ErrorHandler.handleError(error);
-      expect(result, 'Invalid Data sent');
+
+      expect(result, 'Custom Server Error');
     });
 
-    test('should return internalServerError when DioException is badResponse (500)', () {
-      final error = DioException(
-        requestOptions: RequestOptions(path: ''),
-        type: DioExceptionType.badResponse,
-        response: Response(
-          requestOptions: RequestOptions(path: ''),
-          statusCode: 500,
-          data: {},
-        ),
-      );
-      final result = ErrorHandler.handleError(error);
-      expect(result, ErrorStrings.internalServerError);
-    });
-
-    // --- 3. Firebase Auth Errors Tests ---
-    test('should return firebaseUserNotFound when code is user-not-found', () {
+    // --- اختبارات Firebase ---
+    test('يجب أن يعيد firebaseUserNotFound عند حدوث FirebaseAuthException بكود user-not-found', () {
       final error = FirebaseAuthException(code: 'user-not-found');
+
       final result = ErrorHandler.handleError(error);
+
       expect(result, ErrorStrings.firebaseUserNotFound);
     });
 
-    test('should return firebaseWeakPassword when code is weak-password', () {
-      final error = FirebaseAuthException(code: 'weak-password');
+    // --- اختبارات الاستثناءات العامة (Core Exceptions) ---
+    test('يجب أن يعيد noInternet عند حدوث SocketException', () {
+      const error = SocketException('No Network');
+
       final result = ErrorHandler.handleError(error);
-      expect(result, ErrorStrings.firebaseWeakPassword);
+
+      expect(result, ErrorStrings.noInternet);
     });
 
-    // --- 4. Other Errors Tests ---
-    test('should return hiveError when HiveError occurs', () {
-      final error = HiveError('Box closed');
+    test('يجب أن يعيد parsingError عند حدوث TypeError', () {
+      final error = TypeError();
+
       final result = ErrorHandler.handleError(error);
+
+      expect(result, ErrorStrings.parsingError);
+    });
+
+    // --- اختبارات Hive و Platform ---
+    test('يجب أن يعيد hiveError عند حدوث HiveError', () {
+      final error = HiveError('Database Corrupted');
+
+      final result = ErrorHandler.handleError(error);
+
       expect(result, ErrorStrings.hiveError);
     });
 
-    test('should return parsingError when TypeError occurs', () {
-      // TypeError is hard to instantiate directly, so we mock the behavior by passing a generic Error that implies logic failure if needed,
-      // but strictly speaking, TypeError is thrown by Dart runtime.
-      // We can create a real TypeError by casting wrong types inside a try-catch block if we want to be 100% real,
-      // but for ErrorHandler input, passing a simulated TypeError works if possible, or we just trust the logic branch.
-      // Here we will test the branch logic by passing a type that triggers the condition if possible,
-      // or simply rely on the fact that if we pass a TypeError instance (which is hard to create manually), it works.
+    test('يجب أن يعيد platformError عند حدوث PlatformException عشوائي', () {
+      final error = PlatformException(code: 'UNKNOWN_CODE');
 
-      // Since TypeError is hard to instantiate, let's test FormatException instead which is similar in logic group.
-      final error = const FormatException();
       final result = ErrorHandler.handleError(error);
-      expect(result, ErrorStrings.formatException);
+
+      expect(result, ErrorStrings.platformError);
     });
 
-    test('should return unknownError for generic Exception', () {
-      final error = Exception('Some unknown error');
+    // --- اختبارات Fallback ---
+    test('يجب أن يعيد unknownError لأي خطأ غير معرف', () {
+      final error = Exception('Some generic error');
+
       final result = ErrorHandler.handleError(error);
+
       expect(result, ErrorStrings.unknownError);
+    });
+
+    // --- اختبار دالة HttpStatusCode (لـ package:http) ---
+    test('يجب أن تعيد internalServerError للكود 500', () {
+      final result = ErrorHandler.handleHttpStatusCode(500);
+      expect(result, ErrorStrings.internalServerError);
     });
   });
 }
