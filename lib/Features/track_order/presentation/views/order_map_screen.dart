@@ -75,7 +75,7 @@ class OrderMapScreen extends StatelessWidget {
                               const SizedBox(height: 16),
                               Divider(color: AppColors.gray.withValues(alpha: 0.4)),
                               const SizedBox(height: 16),
-                              DriverInfo(name: order.driver?.name ?? ""),
+                              DriverInfo(name: order.driver?.name ?? "" , phone: order.driver?.phone ?? "",),
                               const SizedBox(height: 24),
                               SizedBox(
                                 width: double.infinity,
