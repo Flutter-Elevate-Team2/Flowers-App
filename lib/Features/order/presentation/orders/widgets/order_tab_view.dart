@@ -103,11 +103,11 @@ class OrdersTabView extends StatelessWidget {
     final orderState =
         trackViewModel.state.orderState?.data?.status ?? '';
 
-    bool isAccepted = orderState == OrderStatus.accepted.name;
-    bool isReceived = orderState == OrderStatus.receivedYourOrder.name;
-    bool isPreparing = orderState == OrderStatus.preparingYourOrder.name;
-    bool isArrived = orderState == OrderStatus.outForDelivery.name;
-    bool isDelivered = orderState == OrderStatus.delivered.name;
+    bool isAccepted = orderState == OrderStatus.accepted.firebaseValue;
+    bool isReceived = orderState == OrderStatus.receivedYourOrder.firebaseValue;
+    bool isPreparing = orderState == OrderStatus.preparingYourOrder.firebaseValue;
+    bool isArrived = orderState == OrderStatus.outForDelivery.firebaseValue;
+    bool isDelivered = orderState == OrderStatus.delivered.firebaseValue;
 
     if (tab == OrdersTab.completed) {
       final cartViewModel = context.read<CartViewModel>();
