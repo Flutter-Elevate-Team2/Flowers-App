@@ -633,7 +633,7 @@
   "orderNumber": "Order Number",
   "@orderNumber": { "description": "Label for order number" },
   "noOrdersFound": "No orders found",
-  "@noOrderFound": { "description": "Message displayed when no orders are found"},
+  "@noOrdersFound": { "description": "Message displayed when no orders are found"},
   "accepted": "Order Accepted",
   "picked": "Being Prepared",
   "outForDelivery": "Out for Delivery",
@@ -658,5 +658,7 @@
   "confirmingDelivery": "Confirming...",
   "@confirmingDelivery": { "description": "Button text while sending silent notification" },
   "driverDataIncomplete": "Driver data is incomplete",
-  "@driverDataIncomplete": { "description": "Snackbar message when driver token or order ID is missing" }
+  "@driverDataIncomplete": { "description": "Snackbar message when driver token or order ID is missing" },
+  "orderCancelled": "Order Cancelled",
+  "orderHasBeenCancelled": "Your Order has been cancelled please try again"
 }

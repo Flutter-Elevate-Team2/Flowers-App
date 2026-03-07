@@ -3,32 +3,33 @@ import 'dart:convert';
 import 'package:flowers_app/Features/track_order/data/mapper/order_tracking_mapper.dart';
 import 'package:flowers_app/Features/track_order/data/models/order_tracking_firebase_model.dart';
 import 'package:flowers_app/Features/track_order/domain/use_cases/send_silent_notification_use_case.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
+ import 'package:injectable/injectable.dart';
 import 'package:flowers_app/Features/track_order/domain/use_cases/get_order_details_use_case.dart';
-import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
+ import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_state.dart';
-import 'package:flowers_app/core/base_states/base_states.dart';
-import 'package:flowers_app/core/base_response/base_response.dart';
+ import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 @injectable
 class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
-  final GetOrderDetailsUseCase _getOrderDetailsUseCase;
-  final SendSilentNotificationUseCase _sendSilentNotificationUseCase;
+   final GetOrderDetailsUseCase _getOrderDetailsUseCase;
+     final SendSilentNotificationUseCase _sendSilentNotificationUseCase;
+
 
   OrderStatusViewModel(
-    this._getOrderDetailsUseCase,
-    this._sendSilentNotificationUseCase,
-  ) : super(const TrackOrderStatusState());
+     this._getOrderDetailsUseCase,
+     this._sendSilentNotificationUseCase,
+    ) : super(const TrackOrderStatusState());
 
-  String? _currentOrderId;
+   String? _currentOrderId;
 
-  Map<String, DateTime> _statusHistory = {};
+    Map<String, DateTime> _statusHistory = {};
 
-  void doIntent(BuildContext context, TrackOrderStatusEvent event) {
+   Future<void> doIntent(BuildContext context, TrackOrderStatusEvent event) async{
     switch (event) {
       case FetchOrderDetailsEvent():
         _fetchOrderDetails(event.orderId);
@@ -36,7 +37,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
       case SendSilentNotificationEvent():
         _sendSilentNotification(event.orderId, event.driverToken);
         break;
-    }
+     }
   }
 
   Future<void> _fetchOrderDetails(String orderId) async {
@@ -53,19 +54,20 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
 
       if (response != null) {
         await _saveStatus(response.status, response.updatedAt);
-        final history = await getStatusHistory(orderId);
+         final history = await getStatusHistory(orderId);
 
         emit(
           state.copyWith(
-            orderState: BaseState(isLoading: false, data: response),
+            orderState: BaseState(isLoading: false, data: response ),
             statusHistory: history,
           ),
         );
         watchOrderChanges(orderId);
+
       } else {
         emit(
           state.copyWith(
-            orderState: BaseState(
+            orderState:   BaseState(
               isLoading: false,
               errorMessage: "Order Not Found",
             ),
@@ -80,70 +82,78 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
       );
     }
   }
+   Future<void> _saveStatus(String status, DateTime updatedAt) async {
+     if (_currentOrderId == null) return;
 
-  Future<void> _saveStatus(String status, DateTime updatedAt) async {
-    if (_currentOrderId == null) return;
+     final prefs = await SharedPreferences.getInstance();
+     final key = "order_status_$_currentOrderId";
+     final existing = prefs.getString(key);
+     final Map<String, dynamic> map = existing != null ? jsonDecode(existing) : {};
 
-    final prefs = await SharedPreferences.getInstance();
-    final key = "order_status_$_currentOrderId";
-    final existing = prefs.getString(key);
-    final Map<String, dynamic> map = existing != null
-        ? jsonDecode(existing)
-        : {};
+      if (!map.containsKey(status)) {
+        map[status] = updatedAt.toIso8601String();
+        //   map[status] = DateTime.now().toIso8601String();
+       await prefs.setString(key, jsonEncode(map));
+     }
 
-    if (!map.containsKey(status)) {
-      map[status] = updatedAt.toIso8601String();
-      //   map[status] = DateTime.now().toIso8601String();
-      await prefs.setString(key, jsonEncode(map));
-    }
+      _statusHistory = map.map((k, v) => MapEntry(k, DateTime.parse(v)));
+     emit(state.copyWith(statusHistory: _statusHistory));
+   }
+   Future<Map<String, DateTime>> getStatusHistory(String orderId) async {
+     final prefs = await SharedPreferences.getInstance();
+     final key = "order_status_$orderId";
+     final existing = prefs.getString(key);
+     Map<String, DateTime> history = {};
 
-    _statusHistory = map.map((k, v) => MapEntry(k, DateTime.parse(v)));
-    emit(state.copyWith(statusHistory: _statusHistory));
-  }
+     if (existing != null) {
+       final decoded = jsonDecode(existing) as Map<String, dynamic>;
+       decoded.forEach((k, v) {
+         history[k] = DateTime.parse(v);
+       });
+     }
 
-  Future<Map<String, DateTime>> getStatusHistory(String orderId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = "order_status_$orderId";
-    final existing = prefs.getString(key);
-    Map<String, DateTime> history = {};
+     _statusHistory = history;
+     return history;
+   }
 
-    if (existing != null) {
-      final decoded = jsonDecode(existing) as Map<String, dynamic>;
-      decoded.forEach((k, v) {
-        history[k] = DateTime.parse(v);
-      });
-    }
+   Stream<OrderTrackingFirebaseModel> watchOrder(String orderId) {
+     return FirebaseFirestore.instance
+         .collection('active_orders')
+         .doc(orderId)
+         .snapshots()
+         .where((doc) => doc.exists && doc.data() != null)
+         .map((doc) => OrderTrackingFirebaseModel.fromJson(doc.data()!));
+   }
 
-    _statusHistory = history;
-    return history;
-  }
+   StreamSubscription<OrderTrackingFirebaseModel>? _orderSub;
 
-  Stream<OrderTrackingFirebaseModel> watchOrder(String orderId) {
-    return FirebaseFirestore.instance
-        .collection('active_orders')
-        .doc(orderId)
-        .snapshots()
-        .map((doc) => OrderTrackingFirebaseModel.fromJson(doc.data()!));
-  }
+   void watchOrderChanges(String orderId) {
+     _currentOrderId = orderId;
 
-  StreamSubscription<OrderTrackingFirebaseModel>? _orderSub;
+      _orderSub?.cancel();
 
-  void watchOrderChanges(String orderId) {
-    _currentOrderId = orderId;
+     _orderSub = watchOrder(orderId).listen((order) async {
+       if (order.status.isEmpty) {
 
-    _orderSub?.cancel();
+        emit(state.copyWith(
+         orderState: BaseState(isLoading: false, data: order.toEntity()),
+         statusHistory: _statusHistory,
+       ));
+        return;
+     }
+       await _saveStatus(order.status, order.updatedAt ?? DateTime.now());
+       emit(state.copyWith(
+         orderState: BaseState(isLoading: false, data: order.toEntity()),
+         statusHistory: _statusHistory,
+       ));
+   });
+   }
 
-    _orderSub = watchOrder(orderId).listen((order) async {
-      await _saveStatus(order.status, order.updatedAt ?? DateTime.now());
-
-      emit(
-        state.copyWith(
-          orderState: BaseState(isLoading: false, data: order.toEntity()),
-          statusHistory: _statusHistory,
-        ),
-      );
-    });
-  }
+   @override
+   Future<void> close() {
+     _orderSub?.cancel();
+     return super.close();
+   }
 
   Future<void> _sendSilentNotification(
     String orderId,
@@ -184,9 +194,5 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    _orderSub?.cancel();
-    return super.close();
-  }
+
 }

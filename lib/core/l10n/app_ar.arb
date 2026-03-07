@@ -220,5 +220,7 @@
 
   "confirmDeliverySuccess": "تم تأكيد الاستلام بنجاح، جاري إنهاء الطلب..",
   "confirmingDelivery": "جاري التأكيد...",
-  "driverDataIncomplete": "بيانات السائق غير مكتملة"
+  "driverDataIncomplete": "بيانات السائق غير مكتملة",
+  "orderCancelled": "تم إلغاء الطلب",
+  "orderHasBeenCancelled": "تم إلغاء طلبك، يرجى المحاولة مرة أخرى"
 }

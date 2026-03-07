@@ -1,4 +1,3 @@
-
 import 'package:flowers_app/Features/auth/domain/auth_repo_contract/auth_repo_contract.dart';
 import 'package:flowers_app/Features/auth/presentation/forget_password/views/forget_password_screen_flow.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/views/login_screen.dart';
@@ -22,7 +21,11 @@ import 'package:flowers_app/Features/order/presentation/orders/views/order_scree
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
-import 'package:flowers_app/Features/track_order/presentation/views/track_order_screen.dart';
+import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
+import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
+import 'package:flowers_app/Features/track_order/presentation/views/accepted_order_screen.dart';
+import 'package:flowers_app/Features/track_order/presentation/views/cancelled_order_screen.dart';
+ import 'package:flowers_app/Features/track_order/presentation/views/track_order_screen.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/saved_address_screen.dart';
@@ -87,12 +90,18 @@ class Routes {
 
   static const orderPath = '/order';
   static const orderName = 'order';
-  static const trackOrderPath = '/track-order';
-  static const trackOrderName = 'track-order';
+
+  static const trackOrderPath = '/trackorder/:orderId';
+  static const trackOrderName = 'trackorder';
+
+  static const placedSuccessfullyPath = '/placedsuccessfully/:orderId';
+  static const placedSuccessfullyName = 'placedsuccessfully';
+
+  static const cancelledOrderPath = '/cancelledorder/:orderId';
+  static const cancelledOrderName = 'cancelledorder';
 
   static const notificationsPath = '/notifications';
   static const notificationsName = 'notifications';
-
 }
 
 class AppRouter {
@@ -291,19 +300,49 @@ class AppRouter {
         name: Routes.notificationsName,
         builder: (context, state) => const NotificationsScreen(),
       ),
-      GoRoute(
-        path: Routes.trackOrderPath,
-        name: Routes.trackOrderName,
-        builder: (context, state) =>   TrackOrderScreen(orderId: "69aad3c9e364ef61405f4fb6",),
-      ),
 
-      GoRoute(path: Routes.orderPath,
+      GoRoute(
+        path: Routes.orderPath,
         name: Routes.orderName,
         builder: (context, state) => BlocProvider(
           create: (_) => getIt<OrdersViewModel>(),
           child: const OrdersPage(),
         ),
-      )
+      ),
+      GoRoute(
+        path: Routes.placedSuccessfullyPath,
+        name: Routes.placedSuccessfullyName,
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId'] ?? '';
+
+          context.read<OrderStatusViewModel>()
+            ..doIntent(context, FetchOrderDetailsEvent(orderId))
+            ..watchOrderChanges(orderId);
+
+          return AcceptedOrderScreen(orderId: orderId);
+        },
+      ),
+      GoRoute(
+        path: Routes.trackOrderPath,
+        name: Routes.trackOrderName,
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId'] ?? '';
+
+          context.read<OrderStatusViewModel>()
+            ..doIntent(context, FetchOrderDetailsEvent(orderId))
+            ..watchOrderChanges(orderId);
+
+          return TrackOrderScreen(orderId: orderId);
+        },
+      ),
+      GoRoute(
+        path: Routes.cancelledOrderPath,
+        name: Routes.cancelledOrderName,
+
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId'] ?? '';
+          return CancelledOrderScreen(orderId: orderId);},
+      ),
     ],
   );
 }

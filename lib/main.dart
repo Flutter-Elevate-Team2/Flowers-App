@@ -6,6 +6,7 @@ import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_lo
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_event.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
@@ -31,7 +32,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
-  configureDependencies();
+  await configureDependencies();
   await PushNotificationService.init();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -97,12 +98,15 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => getIt<ProfileViewModel>()),
         BlocProvider(
           create: (context) =>
-              getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
+          getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
         ),
         BlocProvider(create: (_) => SelectedAddressCubit()),
         BlocProvider(
           create: (context) =>
-              getIt<NotificationViewModel>()..doIntent(GetNotificationsEvent()),
+          getIt<NotificationViewModel>()..doIntent(GetNotificationsEvent()),
+        ),
+        BlocProvider(
+          create: (_) => getIt<OrderStatusViewModel>(),
         ),
       ],
       child: BlocBuilder<LanguageCubit, Locale>(
@@ -112,7 +116,7 @@ class _MyAppState extends State<MyApp> {
             routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,
             onGenerateTitle: (context) =>
-                AppLocalizations.of(context)!.appTitle,
+            AppLocalizations.of(context)!.appTitle,
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             theme: AppTheme.lightTheme,
