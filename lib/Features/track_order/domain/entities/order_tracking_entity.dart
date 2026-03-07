@@ -1,4 +1,5 @@
 import 'package:flowers_app/Features/track_order/domain/entities/driver_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/store_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/user_location_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/tracking_location_entity.dart';
 
@@ -14,6 +15,7 @@ class OrderTrackingEntity {
   final UserLocationEntity userLocationEntity;
   final DriverEntity ? driver;
   final Map<String, DateTime>? statusHistory;
+  final StoreEntity store;
 
   OrderTrackingEntity({
     required this.id,
@@ -27,5 +29,6 @@ class OrderTrackingEntity {
     required this.userLocationEntity,
     required this.driver,
     this.statusHistory,
+    required this.store,
   });
 }

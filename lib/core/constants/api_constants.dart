@@ -38,6 +38,8 @@ class ApiConstants {
   static const String allOrders = "allOrders";
   static const String pending = "pending";
   static const String completed = "completed";
+  static const String inProgress = "inProgress";
+
   // ================= Notifications Endpoints =================
   static const String notifications = "notifications/user";
 }
