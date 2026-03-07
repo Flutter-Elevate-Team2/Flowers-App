@@ -10,9 +10,11 @@ class TrackOrderStatusState extends Equatable {
   final List<mapbox.Position>? routePoints;
   final bool showPickup;
   final Map<String, DateTime> statusHistory;
+  final BaseState<bool>? sendSilentNotificationState;
 
 
   const TrackOrderStatusState({
+    this.sendSilentNotificationState = const BaseState(),
     this.orderState = const BaseState(),
     this.updateStatusState = const BaseState(),
     this.currentDriverPosition,
@@ -28,6 +30,7 @@ class TrackOrderStatusState extends Equatable {
     List<mapbox.Position>? routePoints,
     bool? showPickup,
     Map<String, DateTime>? statusHistory,
+    BaseState<bool>? sendSilentNotificationState,
   }) {
     return TrackOrderStatusState(
       orderState: orderState ?? this.orderState,
@@ -37,6 +40,7 @@ class TrackOrderStatusState extends Equatable {
       routePoints: routePoints ?? this.routePoints,
       showPickup: showPickup ?? this.showPickup,
       statusHistory: statusHistory ?? this.statusHistory,
+      sendSilentNotificationState: sendSilentNotificationState ?? this.sendSilentNotificationState,
     );
   }
 
@@ -48,5 +52,6 @@ class TrackOrderStatusState extends Equatable {
     routePoints,
     showPickup,
     statusHistory,
+    sendSilentNotificationState,
   ];
 }

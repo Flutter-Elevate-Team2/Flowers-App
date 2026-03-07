@@ -633,7 +633,7 @@
   "orderNumber": "Order Number",
   "@orderNumber": { "description": "Label for order number" },
   "noOrdersFound": "No orders found",
-  "@noOrderFound": { "description": "Message displayed when no orders are found"},
+  "@noOrdersFound": { "description": "Message displayed when no orders are found"},
   "accepted": "Order Accepted",
   "picked": "Being Prepared",
   "outForDelivery": "Out for Delivery",
@@ -645,6 +645,20 @@
   "showMap": "Show map",
   "orderDelivered": "Order Delivered",
   "arrived": "Arrived",
+
+  "fcmInvalidCredentials": "Notification service authentication failed. Please contact support.",
+  "@fcmInvalidCredentials": { "description": "FCM error: Invalid service account credentials (401)" },
+  "fcmInvalidToken": "Could not reach the driver. The device token may be expired.",
+  "@fcmInvalidToken": { "description": "FCM error: Invalid or expired device token (404)" },
+  "fcmSendFailed": "Failed to send notification. Please try again.",
+  "@fcmSendFailed": { "description": "FCM error: Generic send failure" },
+
+  "confirmDeliverySuccess": "Delivery confirmed successfully, finalizing order..",
+  "@confirmDeliverySuccess": { "description": "Snackbar message when silent notification sent successfully" },
+  "confirmingDelivery": "Confirming...",
+  "@confirmingDelivery": { "description": "Button text while sending silent notification" },
+  "driverDataIncomplete": "Driver data is incomplete",
+  "@driverDataIncomplete": { "description": "Snackbar message when driver token or order ID is missing" },
   "orderCancelled": "Order Cancelled",
   "orderHasBeenCancelled": "Your Order has been cancelled please try again"
 }

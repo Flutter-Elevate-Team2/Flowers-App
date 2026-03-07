@@ -10,6 +10,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
+/// Exception for non-Dio HTTP calls (e.g., `package:http`).
+/// Wraps an [ErrorStrings] key so [ErrorHandler] can process it.
+class HttpRequestException implements Exception {
+  final String errorKey;
+  HttpRequestException(this.errorKey);
+  @override
+  String toString() => 'HttpRequestException: $errorKey';
+}
+
 class ErrorHandler {
   // === Helper Getter to access Localization Globally ===
   /// Main entry point.
@@ -34,7 +43,9 @@ class ErrorHandler {
     // -------------------------------------------------------------------------
     // SECTION 2: DATA & LOGIC ERRORS
     // -------------------------------------------------------------------------
-    else if (error is TypeError) {
+    else if (error is HttpRequestException) {
+      return error.errorKey;
+    } else if (error is TypeError) {
       return ErrorStrings.parsingError;
     } else if (error is FormatException) {
       return ErrorStrings.formatException;
@@ -169,5 +180,20 @@ class ErrorHandler {
       return ErrorStrings.noInternet;
     }
     return ErrorStrings.platformError;
+  }
+
+  /// Maps raw HTTP status codes to [ErrorStrings] keys.
+  /// Used by data sources that use `package:http` instead of Dio.
+  static String handleHttpStatusCode(int statusCode) {
+    return switch (statusCode) {
+      400 => ErrorStrings.badRequest,
+      401 => ErrorStrings.fcmInvalidCredentials,
+      403 => ErrorStrings.forbidden,
+      404 => ErrorStrings.fcmInvalidToken,
+      409 => ErrorStrings.conflict,
+      500 => ErrorStrings.internalServerError,
+      503 => ErrorStrings.serviceUnavailable,
+      _ => ErrorStrings.fcmSendFailed,
+    };
   }
 }

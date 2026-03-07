@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flowers_app/Features/track_order/data/mapper/order_tracking_mapper.dart';
 import 'package:flowers_app/Features/track_order/data/models/order_tracking_firebase_model.dart';
+import 'package:flowers_app/Features/track_order/domain/use_cases/send_silent_notification_use_case.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,9 +17,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 @injectable
 class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
    final GetOrderDetailsUseCase _getOrderDetailsUseCase;
+     final SendSilentNotificationUseCase _sendSilentNotificationUseCase;
+
 
   OrderStatusViewModel(
      this._getOrderDetailsUseCase,
+     this._sendSilentNotificationUseCase,
     ) : super(const TrackOrderStatusState());
 
    String? _currentOrderId;
@@ -29,7 +34,10 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
       case FetchOrderDetailsEvent():
         _fetchOrderDetails(event.orderId);
         break;
-    }
+      case SendSilentNotificationEvent():
+        _sendSilentNotification(event.orderId, event.driverToken);
+        break;
+     }
   }
 
   Future<void> _fetchOrderDetails(String orderId) async {
@@ -146,5 +154,45 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
      _orderSub?.cancel();
      return super.close();
    }
+
+  Future<void> _sendSilentNotification(
+    String orderId,
+    String driverToken,
+  ) async {
+    emit(
+      state.copyWith(
+        sendSilentNotificationState: const BaseState(isLoading: true),
+      ),
+    );
+
+    final response = await _sendSilentNotificationUseCase(
+      orderId: orderId,
+      driverToken: driverToken,
+    );
+
+    switch (response) {
+      case SuccessResponse<bool>():
+        emit(
+          state.copyWith(
+            sendSilentNotificationState: const BaseState(
+              isLoading: false,
+              data: true,
+            ),
+          ),
+        );
+        break;
+      case ErrorResponse<bool>():
+        emit(
+          state.copyWith(
+            sendSilentNotificationState: BaseState(
+              isLoading: false,
+              errorMessage: response.errorMessage,
+            ),
+          ),
+        );
+        break;
+    }
+  }
+
 
 }
