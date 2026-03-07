@@ -12,7 +12,7 @@ void main() {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const Scaffold(
-        body: DriverInfo(name: driverName),
+        body: DriverInfo(name: driverName , phone: "",),
       ),
     );
   }

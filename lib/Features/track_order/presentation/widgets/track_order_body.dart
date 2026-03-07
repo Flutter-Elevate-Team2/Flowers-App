@@ -61,7 +61,7 @@ class TrackOrderBody extends StatelessWidget {
                   child: Divider(color: AppColors.gray.withValues(alpha: 0.4)),
                 ),
 
-                DriverInfo(name: order.driver!.name),
+                DriverInfo(name: order.driver!.name , phone: order.driver!.phone,),
 
                 const SizedBox(height: 20),
 
