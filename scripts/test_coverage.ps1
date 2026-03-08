@@ -28,6 +28,8 @@ if (Test-Path $lcovFile) {
                 $path -match "lib[\\/]gen[\\/]" -or
                 $path -match "lib[\\/]core[\\/]l10n[\\/]" -or
                 $path -match "lib[\\/]l10n[\\/]" -or
+                $path -match "lib[\\/]core[\\/]modules[\\/]" -or
+                $path -match "lib[\\/]core[\\/]di[\\/]" -or  
                 $path -match "app_localizations.*\.dart") {
                 $skip = $true
             } else {
