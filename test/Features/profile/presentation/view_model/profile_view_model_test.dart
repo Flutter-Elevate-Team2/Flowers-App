@@ -197,4 +197,116 @@ void main() {
       },
     );
   });
+  group('ProfileViewModel - ChangePassword', () {
+    test(
+      'ChangePassword emits [Loading, Success] when usecase succeeds',
+          () async {
+        when(mockChangePasswordUseCase.call(any, any)).thenAnswer(
+              (_) async => SuccessResponse(data: tChangePasswordEntity),
+        );
+
+        final expectedStates = [
+          predicate<ProfileState>((s) => s.changePasswordState?.isLoading == true),
+          predicate<ProfileState>(
+                (s) =>
+            s.changePasswordState?.isLoading == false &&
+                s.changePasswordState?.data == tChangePasswordEntity,
+          ),
+        ];
+
+        expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+        viewModel.doIntent(
+          ChangePasswordEvent(oldPassword: '123', newPassword: '456'),
+        );
+      },
+    );
+
+    test(
+      'ChangePassword emits [Loading, Error] when usecase fails',
+          () async {
+        when(mockChangePasswordUseCase.call(any, any)).thenAnswer(
+              (_) async => ErrorResponse(errorMessage: 'Invalid old password'),
+        );
+
+        final expectedStates = [
+          predicate<ProfileState>((s) => s.changePasswordState?.isLoading == true),
+          predicate<ProfileState>(
+                (s) =>
+            s.changePasswordState?.isLoading == false &&
+                s.changePasswordState?.errorMessage == 'Invalid old password',
+          ),
+        ];
+
+        expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+        viewModel.doIntent(
+          ChangePasswordEvent(oldPassword: 'wrong', newPassword: '456'),
+        );
+      },
+    );
+    group('ProfileViewModel - Logout', () {
+      test(
+        'Logout emits [Loading, Success] when usecase succeeds',
+            () async {
+          when(mockLogoutUseCase.call())
+              .thenAnswer((_) async => SuccessResponse(data: 'Logged out'));
+
+          final expectedStates = [
+            predicate<ProfileState>((s) => s.logoutState?.isLoading == true),
+            predicate<ProfileState>((s) => s.logoutState?.isLoading == false),
+          ];
+
+          expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+          viewModel.doIntent(LogoutEvent());
+        },
+      );
+    });
+
+    group('ProfileViewModel - Selection Logic', () {
+      test(
+        'SelectProfileImage updates selectedProfileImage in state',
+            () async {
+          final testFile = File('image.jpg');
+
+          expectLater(
+            viewModel.stream,
+            emits(
+              predicate<ProfileState>(
+                    (s) => s.selectedProfileImage?.path == testFile.path,
+              ),
+            ),
+          );
+
+          viewModel.doIntent(SelectProfileImageEvent(testFile));
+        },
+      );
+    });
+
+    group('ProfileViewModel - Error Responses', () {
+      test(
+        'GetProfile emits [Loading, Error] when usecase fails',
+            () async {
+          when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
+          when(mockGetProfileUseCase.call()).thenAnswer(
+                (_) async => ErrorResponse(errorMessage: 'Server Error'),
+          );
+
+          final expectedStates = [
+            predicate<ProfileState>((s) => s.profileState?.isLoading == true),
+            predicate<ProfileState>(
+                  (s) =>
+              s.profileState?.isLoading == false &&
+                  s.profileState?.errorMessage == 'Server Error',
+            ),
+          ];
+
+          expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+          viewModel.doIntent(GetProfileEvent());
+        },
+      );
+    });
+  });
 }
