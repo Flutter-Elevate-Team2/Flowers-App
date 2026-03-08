@@ -41,7 +41,7 @@ void main() {
   }
 
   group('AddressSelector Interaction Tests', () {
- 
+
     testWidgets('should NOT open BottomSheet and should navigate if addresses are empty', (tester) async {
       // Arrange: Empty addresses
       final emptyState = UserAddressState(
