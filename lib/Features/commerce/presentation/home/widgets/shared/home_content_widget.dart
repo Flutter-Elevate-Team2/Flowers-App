@@ -28,6 +28,7 @@ class HomeContentWidget extends StatelessWidget {
               context.read<HomeViewModel>().doIntent(GetHomeDataEvent());
             },
             child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: screenHeight),
                 child: IntrinsicHeight(

@@ -92,6 +92,7 @@ dev_dependencies:
   json_serializable: ^6.8.0
   mockito: ^5.4.4
   retrofit_generator: ^10.0.6
+  mocktail_image_network: ^1.1.0
 flutter_launcher_icons:
   android: true
   ios: true
