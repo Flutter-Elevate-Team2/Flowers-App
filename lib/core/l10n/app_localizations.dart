@@ -1400,11 +1400,125 @@ abstract class AppLocalizations {
   /// **'Order Number'**
   String get orderNumber;
 
-  /// No description provided for @noOrdersFound.
+  /// Message displayed when no orders are found
   ///
   /// In en, this message translates to:
   /// **'No orders found'**
   String get noOrdersFound;
+
+  /// No description provided for @accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Accepted'**
+  String get accepted;
+
+  /// No description provided for @picked.
+  ///
+  /// In en, this message translates to:
+  /// **'Being Prepared'**
+  String get picked;
+
+  /// No description provided for @outForDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Out for Delivery'**
+  String get outForDelivery;
+
+  /// No description provided for @delivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get delivered;
+
+  /// No description provided for @receivedYourOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Received Your Order'**
+  String get receivedYourOrder;
+
+  /// No description provided for @preparingYourOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing Your Order'**
+  String get preparingYourOrder;
+
+  /// No description provided for @estimatedArrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated arrival'**
+  String get estimatedArrival;
+
+  /// No description provided for @isYourDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'is your delivery hero for today'**
+  String get isYourDelivery;
+
+  /// No description provided for @showMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Show map'**
+  String get showMap;
+
+  /// No description provided for @orderDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Delivered'**
+  String get orderDelivered;
+
+  /// No description provided for @arrived.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived'**
+  String get arrived;
+
+  /// FCM error: Invalid service account credentials (401)
+  ///
+  /// In en, this message translates to:
+  /// **'Notification service authentication failed. Please contact support.'**
+  String get fcmInvalidCredentials;
+
+  /// FCM error: Invalid or expired device token (404)
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the driver. The device token may be expired.'**
+  String get fcmInvalidToken;
+
+  /// FCM error: Generic send failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send notification. Please try again.'**
+  String get fcmSendFailed;
+
+  /// Snackbar message when silent notification sent successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery confirmed successfully, finalizing order..'**
+  String get confirmDeliverySuccess;
+
+  /// Button text while sending silent notification
+  ///
+  /// In en, this message translates to:
+  /// **'Confirming...'**
+  String get confirmingDelivery;
+
+  /// Snackbar message when driver token or order ID is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Driver data is incomplete'**
+  String get driverDataIncomplete;
+
+  /// No description provided for @orderCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Cancelled'**
+  String get orderCancelled;
+
+  /// No description provided for @orderHasBeenCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Order has been cancelled please try again'**
+  String get orderHasBeenCancelled;
 
   /// Empty state message for the notifications screen
   ///

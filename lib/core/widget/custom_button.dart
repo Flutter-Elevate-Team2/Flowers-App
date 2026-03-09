@@ -37,9 +37,8 @@ class CustomButton extends StatelessWidget {
             foregroundColor: foregroundColor,
 
             disabledBackgroundColor:
-            disabledBackgroundColor ?? Colors.grey.shade300,
-            disabledForegroundColor:
-            disabledForegroundColor ?? Colors.grey.shade600,
+                disabledBackgroundColor ?? AppColors.disabledButton,
+            disabledForegroundColor: disabledForegroundColor ?? Colors.white,
 
             side: (!isDisabled && backgroundColor == AppColors.white)
                 ? BorderSide(color: AppColors.gray)

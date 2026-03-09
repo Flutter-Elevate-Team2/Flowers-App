@@ -37,9 +37,17 @@ class $AssetsImagesGen {
   AssetGenImage get rectangle =>
       const AssetGenImage('assets/images/Rectangle.png');
 
+  /// File path: assets/images/apartment_location.png
+  AssetGenImage get apartmentLocation =>
+      const AssetGenImage('assets/images/apartment_location.png');
+
   /// File path: assets/images/app_logo.png
   AssetGenImage get appLogo =>
       const AssetGenImage('assets/images/app_logo.png');
+
+  /// File path: assets/images/driver_location.png
+  AssetGenImage get driverLocation =>
+      const AssetGenImage('assets/images/driver_location.png');
 
   /// File path: assets/images/flower.png
   AssetGenImage get flower => const AssetGenImage('assets/images/flower.png');
@@ -52,13 +60,35 @@ class $AssetsImagesGen {
   AssetGenImage get locationMarker =>
       const AssetGenImage('assets/images/location marker.png');
 
+  /// File path: assets/images/location_point.png
+  AssetGenImage get locationPoint =>
+      const AssetGenImage('assets/images/location_point.png');
+
+  /// File path: assets/images/motorcycle_delivery.png
+  AssetGenImage get motorcycleDelivery =>
+      const AssetGenImage('assets/images/motorcycle_delivery.png');
+
+  /// File path: assets/images/store_location.png
+  AssetGenImage get storeLocation =>
+      const AssetGenImage('assets/images/store_location.png');
+
+  /// File path: assets/images/user_location.png
+  AssetGenImage get userLocation =>
+      const AssetGenImage('assets/images/user_location.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     rectangle,
+    apartmentLocation,
     appLogo,
+    driverLocation,
     flower,
     icons8Location48,
     locationMarker,
+    locationPoint,
+    motorcycleDelivery,
+    storeLocation,
+    userLocation,
   ];
 }
 
@@ -87,6 +117,9 @@ class $AssetsJsonGen {
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
+  /// File path: assets/lottie/Delivery.json
+  String get delivery => 'assets/lottie/Delivery.json';
+
   /// File path: assets/lottie/Error animation.json
   String get errorAnimation => 'assets/lottie/Error animation.json';
 
@@ -99,6 +132,9 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/empty_cart.json
   String get emptyCart => 'assets/lottie/empty_cart.json';
 
+  /// File path: assets/lottie/order fail.json
+  String get orderFail => 'assets/lottie/order fail.json';
+
   /// File path: assets/lottie/payment_success.json
   String get paymentSuccess => 'assets/lottie/payment_success.json';
 
@@ -107,10 +143,12 @@ class $AssetsLottieGen {
 
   /// List of all assets
   List<String> get values => [
+    delivery,
     errorAnimation,
     login,
     cities,
     emptyCart,
+    orderFail,
     paymentSuccess,
     states1,
   ];

@@ -1,4 +1,3 @@
-
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_event.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_state.dart';
 import 'package:flowers_app/Features/auth/presentation/sign_in/view_model/login_view_model.dart';
@@ -28,9 +27,28 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   bool _isPasswordVisible = false;
   AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    _updateButtonState();
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isButtonEnabled =
+          _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
 
   @override
   void dispose() {
+    _emailController.removeListener(_updateButtonState);
+    _passwordController.removeListener(_updateButtonState);
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -83,6 +101,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                             controller: _emailController,
                             onChanged: (value) {
                               viewModel.doIntent(UserTypingEvent());
+                              _updateButtonState();
                             },
                             style: Theme.of(context).textTheme.bodySmall,
                             decoration: InputDecoration(
@@ -96,11 +115,15 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         TextFormField(
                           textInputAction: TextInputAction.done,
                           validator: (value) =>
-                              FormValidators.validateLoginPassword(context, value),
+                              FormValidators.validateLoginPassword(
+                                context,
+                                value,
+                              ),
                           obscureText: !_isPasswordVisible,
                           controller: _passwordController,
                           onChanged: (value) {
                             viewModel.doIntent(UserTypingEvent());
+                            _updateButtonState();
                           },
                           style: Theme.of(context).textTheme.bodySmall,
                           decoration: InputDecoration(
@@ -140,20 +163,26 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         else
                           CustomButton(
                             title: context.l10n.loginButton,
-                            onPressed: () {
-                              setState(() {
-                                _autoValidateMode = AutovalidateMode.always;
-                              });
+                            onPressed:
+                                (state.loginState?.isLoading == true ||
+                                    !_isButtonEnabled)
+                                ? null
+                                : () {
+                                    setState(() {
+                                      _autoValidateMode =
+                                          AutovalidateMode.always;
+                                    });
 
-                              if (_formKey.currentState?.validate() ?? false) {
-                                viewModel.doIntent(
-                                  LoginButtonClickedEvent(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                  ),
-                                );
-                              }
-                            },
+                                    if (_formKey.currentState?.validate() ??
+                                        false) {
+                                      viewModel.doIntent(
+                                        LoginButtonClickedEvent(
+                                          email: _emailController.text,
+                                          password: _passwordController.text,
+                                        ),
+                                      );
+                                    }
+                                  },
                           ),
                         GuestButton(
                           onPressed: () {
