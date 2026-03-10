@@ -36,11 +36,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_GOOGLE_MAPS_API_KEY"/>
+            android:value="AIzaSyBx10ci4eMaIGUs9BEe4wPzs2dZuclIeD0"/>
 
         <meta-data
             android:name="com.mapbox.token"
-            android:value="YOUR_MAPBOX_TOKEN" />
+            android:value="pk.eyJ1IjoibW9oYTI3MHgiLCJhIjoiY21rcmw1Ym1iMHplbjNicjJ4b295d3g0NiJ9.9SGyBfuahHPa824KCurCTw" />
 
         <meta-data
             android:name="flutterEmbedding"

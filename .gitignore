@@ -38,6 +38,7 @@ firebase.json
 .pub/
 /build/
 /coverage/
+*.env
 
 # Symbolication related
 app.*.symbols
@@ -52,3 +53,18 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+# Environment variables
+.env
+.env.*
+
+# Android keystore and signing properties
+key.properties
+*.jks
+*.keystore
+
+# Firebase configuration files
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Android local properties
+android/local.properties
