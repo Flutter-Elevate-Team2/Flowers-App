@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>GMSApiKey</key>
-	<string>AIzaSyBx10ci4eMaIGUs9BEe4wPzs2dZuclIeD0</string>
+	<string>YOUR_GOOGLE_MAPS_API_KEY</string>
 	<key>MBXAccessToken</key>
-	<string>pk.eyJ1IjoibW9oYTI3MHgiLCJhIjoiY21rcmw1Ym1iMHplbjNicjJ4b295d3g0NiJ9.9SGyBfuahHPa824KCurCTw</string>
+	<string>YOUR_MAPBOX_TOKEN</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is required to select your address.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Flowers</string>
+	<string>Flowery</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>flowers_app</string>
+	<string>flowery_app</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

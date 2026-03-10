@@ -421,13 +421,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i306.SessionController>(),
       ),
     );
-    gh.factory<_i734.OrderStatusViewModel>(
-      () => _i734.OrderStatusViewModel(
-        gh<_i757.GetOrderDetailsUseCase>(),
-        gh<_i632.SendSilentNotificationUseCase>(),
-        gh<_i988.GetDirectionsUseCase>(),
-      ),
-    );
     gh.lazySingleton<_i149.ProfileViewModel>(
       () => _i149.ProfileViewModel(
         gh<_i951.GetProfileUseCase>(),
@@ -437,6 +430,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i40.LogoutUseCase>(),
         gh<_i187.HasValidTokenUseCase>(),
         gh<_i306.SessionController>(),
+        gh<_i460.SharedPreferences>(),
+      ),
+    );
+    gh.factory<_i734.OrderStatusViewModel>(
+      () => _i734.OrderStatusViewModel(
+        gh<_i757.GetOrderDetailsUseCase>(),
+        gh<_i632.SendSilentNotificationUseCase>(),
+        gh<_i988.GetDirectionsUseCase>(),
       ),
     );
     gh.factory<_i783.GetHomeSectionsUseCase>(

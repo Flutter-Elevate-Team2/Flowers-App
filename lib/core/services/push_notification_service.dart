@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -70,7 +71,10 @@ class PushNotificationService {
     }
     final orderId = data['orderId'];
     if (orderId != null && orderId.toString().isNotEmpty) {
-      AppRouter.router.push('${Routes.trackOrderPath}/$orderId');
+      AppRouter.router.pushNamed(
+        Routes.trackOrderName,
+        pathParameters: {'orderId': orderId.toString()},
+      );
     }
   }
 
@@ -107,7 +111,7 @@ class PushNotificationService {
 
   static Future<void> _initLocalNotifications() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/flower_notify');
+        AndroidInitializationSettings('@drawable/ic_notification');
 
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
@@ -160,7 +164,7 @@ class PushNotificationService {
         id: notification.hashCode,
         title: notification.title,
         body: notification.body,
-        notificationDetails: const NotificationDetails(
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',
             'High Importance Notifications',
@@ -168,7 +172,8 @@ class PushNotificationService {
                 'This channel is used for important notifications.',
             importance: Importance.max,
             priority: Priority.high,
-            icon: '@mipmap/ic_launcher',
+            icon: '@drawable/ic_notification',
+            color: AppColors.mainColor,
           ),
           iOS: DarwinNotificationDetails(
             presentAlert: true,

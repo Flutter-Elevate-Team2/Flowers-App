@@ -52,6 +52,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/flower.png
   AssetGenImage get flower => const AssetGenImage('assets/images/flower.png');
 
+  /// File path: assets/images/flowery-removebg-preview.png
+  AssetGenImage get floweryRemovebgPreview =>
+      const AssetGenImage('assets/images/flowery-removebg-preview.png');
+
   /// File path: assets/images/icons8-location-48.png
   AssetGenImage get icons8Location48 =>
       const AssetGenImage('assets/images/icons8-location-48.png');
@@ -83,6 +87,7 @@ class $AssetsImagesGen {
     appLogo,
     driverLocation,
     flower,
+    floweryRemovebgPreview,
     icons8Location48,
     locationMarker,
     locationPoint,

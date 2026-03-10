@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
-        android:label="flowers"
+        android:label="Flowery"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
@@ -36,11 +36,11 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBx10ci4eMaIGUs9BEe4wPzs2dZuclIeD0"/>
+            android:value="YOUR_GOOGLE_MAPS_API_KEY"/>
 
         <meta-data
             android:name="com.mapbox.token"
-            android:value="pk.eyJ1IjoibW9oYTI3MHgiLCJhIjoiY21rcmw1Ym1iMHplbjNicjJ4b295d3g0NiJ9.9SGyBfuahHPa824KCurCTw" />
+            android:value="YOUR_MAPBOX_TOKEN" />
 
         <meta-data
             android:name="flutterEmbedding"
@@ -49,6 +49,12 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="high_importance_channel" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/main_color" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
 
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
