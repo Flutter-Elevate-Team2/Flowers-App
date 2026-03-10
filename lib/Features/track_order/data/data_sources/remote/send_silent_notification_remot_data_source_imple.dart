@@ -1,10 +1,11 @@
 import 'dart:convert';
+
 import 'package:flowers_app/Features/track_order/data/data_sources/remote/send_silent_notification_remot_data_source_contract.dart';
 import 'package:flowers_app/core/handle_error/handle_error.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
+import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: SendSilentNotificationDataSourceContract)
@@ -45,7 +46,12 @@ class SendSilentNotificationDataSourceImple
       body: jsonEncode({
         'message': {
           'token': driverToken,
-          'data': {'action': 'customer_confirmed', 'orderId': orderId},
+          'data': {
+            'action': 'customer_confirmed',
+            'orderId': orderId,
+            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+            'status': 'silent', // Will be overridden if needed
+          },
           'android': {'priority': 'high'},
           'apns': {
             'payload': {

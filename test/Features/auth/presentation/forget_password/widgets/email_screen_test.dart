@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flowers_app/Features/auth/domain/entities/forget_password_entity.dart';
 import 'package:flowers_app/Features/auth/presentation/forget_password/view_model/forget_password_cubit.dart';
 import 'package:flowers_app/Features/auth/presentation/forget_password/view_model/forget_password_states.dart';
@@ -7,6 +8,7 @@ import 'package:flowers_app/Features/auth/presentation/forget_password/widgets/e
 import 'package:flowers_app/Features/auth/presentation/forget_password/widgets/email_screen_body.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -51,8 +53,8 @@ void main() {
 
   group('ForgetPasswordEmailScreenBody Tests', () {
     testWidgets('1. Should render all static components correctly', (
-        tester,
-        ) async {
+      tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest(onNextPage: () {}));
       await tester.pumpAndSettle();
 
@@ -64,8 +66,8 @@ void main() {
     });
 
     testWidgets('2. Should pass callbacks correctly to EmailFormSection', (
-        tester,
-        ) async {
+      tester,
+    ) async {
       String? submittedEmail;
       bool nextCalled = false;
 
@@ -80,8 +82,9 @@ void main() {
 
       // enter email
       await tester.enterText(find.byType(TextFormField), 'test@example.com');
+      await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(ElevatedButton));
+      await tester.tap(find.byType(CustomButton));
       await tester.pump();
 
       // verify email callback
@@ -103,8 +106,8 @@ void main() {
     });
 
     testWidgets('3. Should verify layout constraints (Padding)', (
-        tester,
-        ) async {
+      tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest(onNextPage: () {}));
 
       final paddingFinder = find.byType(Padding).first;

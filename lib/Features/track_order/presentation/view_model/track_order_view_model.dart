@@ -33,6 +33,10 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
   Map<String, DateTime> _statusHistory = {};
   StreamSubscription<OrderTrackingFirebaseModel>? _orderSub;
 
+  // ✅ متغيرات حفظ الحالة لمنع الريكويستات العشوائية
+  mapbox.Position? _lastCalculatedDriverPos;
+  String? _lastCalculatedTargetType; // 'store' أو 'user'
+
   Future<void> doIntent(
     BuildContext context,
     TrackOrderStatusEvent event,
@@ -151,37 +155,79 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
         orderEntity.trackingLocation.lat,
       );
 
-      final waypoints = [
-        driverPos,
-        mapbox.Position(
-          orderEntity.store.storeLong,
-          orderEntity.store.storeLat,
-        ),
-        mapbox.Position(
-          orderEntity.userLocationEntity.long,
-          orderEntity.userLocationEntity.lat,
-        ),
-      ];
+      final storePos = mapbox.Position(
+        orderEntity.store.storeLong,
+        orderEntity.store.storeLat,
+      );
 
-      try {
-        final routePoints = await _getDirectionsUseCase.call(waypoints);
+      final userPos = mapbox.Position(
+        orderEntity.userLocationEntity.long,
+        orderEntity.userLocationEntity.lat,
+      );
 
+      // ✅ 1. تحديد الهدف (Target) والمسار (Waypoints) بناءً على الحالة الحالية
+      List<mapbox.Position> waypoints = [];
+      String currentTargetType = '';
+
+      if (order.status == 'accepted' || order.status == 'arrived_pickup') {
+        // السواق رايح للمتجر
+        waypoints = [driverPos, storePos];
+        currentTargetType = 'store';
+      } else {
+        // السواق استلم ورايح للعميل (start_deliver أو arrived_user)
+        waypoints = [driverPos, userPos];
+        currentTargetType = 'user';
+      }
+
+      // ✅ 2. فلترة الريكويستات (الذكاء هنا)
+      bool shouldFetchRoute = false;
+
+      // أ) لو السواق اتحرك من مكانه
+      if (_lastCalculatedDriverPos == null ||
+          _lastCalculatedDriverPos!.lat != driverPos.lat ||
+          _lastCalculatedDriverPos!.lng != driverPos.lng) {
+        shouldFetchRoute = true;
+      }
+
+      // ب) لو الهدف اتغير (يعني السواق استلم الأوردر والـ Status قلبت) حتى لو متحركش
+      if (_lastCalculatedTargetType != currentTargetType) {
+        shouldFetchRoute = true;
+      }
+
+      if (shouldFetchRoute) {
+        try {
+          final routePoints = await _getDirectionsUseCase.call(waypoints);
+
+          // حفظ البيانات الجديدة عشان نقارن بيها المرة الجاية
+          _lastCalculatedDriverPos = driverPos;
+          _lastCalculatedTargetType = currentTargetType;
+
+          emit(
+            state.copyWith(
+              orderState: BaseState(isLoading: false, data: orderEntity),
+              routePoints: routePoints,
+              currentDriverPosition: driverPos,
+              statusHistory: _statusHistory,
+            ),
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              orderState: BaseState(isLoading: false, data: orderEntity),
+              statusHistory: _statusHistory,
+            ),
+          );
+          debugPrint("Directions Error: $e");
+        }
+      } else {
+        // ✅ تحديث الحالة والـ UI بس، من غير ما نكلم Mapbox API
         emit(
           state.copyWith(
             orderState: BaseState(isLoading: false, data: orderEntity),
-            routePoints: routePoints,
             currentDriverPosition: driverPos,
             statusHistory: _statusHistory,
           ),
         );
-      } catch (e) {
-        emit(
-          state.copyWith(
-            orderState: BaseState(isLoading: false, data: orderEntity),
-            statusHistory: _statusHistory,
-          ),
-        );
-        debugPrint("Directions Error: $e");
       }
     });
   }

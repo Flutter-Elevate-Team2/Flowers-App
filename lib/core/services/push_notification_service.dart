@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -56,8 +60,18 @@ class PushNotificationService {
         print('A new onMessageOpenedApp event was published!');
       }
       _notificationStreamController.add(null); // Notify listeners
-      // TODO: Handle navigation here
+      _handleNotificationRouting(message.data);
     });
+  }
+
+  static void _handleNotificationRouting(Map<String, dynamic> data) {
+    if (kDebugMode) {
+      print('Handling notification routing: $data');
+    }
+    final orderId = data['orderId'];
+    if (orderId != null && orderId.toString().isNotEmpty) {
+      AppRouter.router.push('${Routes.trackOrderPath}/$orderId');
+    }
   }
 
   static Future<void> _requestPermission() async {
@@ -112,12 +126,32 @@ class PushNotificationService {
       settings: initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) {
-            // Handle notification tap
+            if (notificationResponse.payload != null) {
+              try {
+                final data =
+                    jsonDecode(notificationResponse.payload!)
+                        as Map<String, dynamic>;
+                _handleNotificationRouting(data);
+              } catch (e) {
+                if (kDebugMode) print('Error decoding payload: $e');
+              }
+            }
           },
     );
   }
 
   static Future<void> _showLocalNotification(RemoteMessage message) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isNotificationsEnabled =
+        prefs.getBool('is_notifications_enabled') ?? true;
+
+    if (!isNotificationsEnabled) {
+      if (kDebugMode) {
+        print('Local notifications are disabled in user preferences.');
+      }
+      return;
+    }
+
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
 
@@ -142,9 +176,8 @@ class PushNotificationService {
             presentSound: true,
           ),
         ),
-        payload: message.data.toString(),
+        payload: jsonEncode(message.data),
       );
     }
   }
-
 }

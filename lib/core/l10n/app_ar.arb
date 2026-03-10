@@ -224,5 +224,15 @@
   "orderDetails": "تفاصيل الطلب",
   "failedToLoadProducts": "فشل في تحميل المنتجات",
   "invalidPaymentSession": "جلسة الدفع غير صالحة",
-  "orderNotFound": "الطلب غير موجود"
+  "orderNotFound": "الطلب غير موجود",
+  "notifAcceptedTitle": "تم قبول الطلب 🌸",
+  "notifAcceptedBody": "سائقنا في طريقه الآن لاستلام زهورك.",
+  "notifArrivedPickupTitle": "في المتجر 🏬",
+  "notifArrivedPickupBody": "نحن الآن نقوم باستلام باقتك الطازجة وتجهيزها.",
+  "notifStartDeliverTitle": "في الطريق إليك 🚗",
+  "notifStartDeliverBody": "زهورك في الطريق! تتبع موقع السائق الآن.",
+  "notifArrivedUserTitle": "لقد وصلنا 📍",
+  "notifArrivedUserBody": "السائق بالخارج الآن ومعه زهورك، يرجى الاستلام.",
+  "notifDeliveredTitle": "تم التوصيل 🎉",
+  "notifDeliveredBody": "نتمنى أن تكون زهورنا قد رسمت ابتسامة على وجهك!"
 }

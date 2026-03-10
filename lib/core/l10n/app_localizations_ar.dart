@@ -752,4 +752,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get orderNotFound => 'الطلب غير موجود';
+
+  @override
+  String get notifAcceptedTitle => 'تم قبول الطلب 🌸';
+
+  @override
+  String get notifAcceptedBody => 'سائقنا في طريقه الآن لاستلام زهورك.';
+
+  @override
+  String get notifArrivedPickupTitle => 'في المتجر 🏬';
+
+  @override
+  String get notifArrivedPickupBody =>
+      'نحن الآن نقوم باستلام باقتك الطازجة وتجهيزها.';
+
+  @override
+  String get notifStartDeliverTitle => 'في الطريق إليك 🚗';
+
+  @override
+  String get notifStartDeliverBody => 'زهورك في الطريق! تتبع موقع السائق الآن.';
+
+  @override
+  String get notifArrivedUserTitle => 'لقد وصلنا 📍';
+
+  @override
+  String get notifArrivedUserBody =>
+      'السائق بالخارج الآن ومعه زهورك، يرجى الاستلام.';
+
+  @override
+  String get notifDeliveredTitle => 'تم التوصيل 🎉';
+
+  @override
+  String get notifDeliveredBody =>
+      'نتمنى أن تكون زهورنا قد رسمت ابتسامة على وجهك!';
 }

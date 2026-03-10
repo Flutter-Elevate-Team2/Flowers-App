@@ -5,8 +5,10 @@ import 'package:flowers_app/Features/notifications/presentation/widgets/notifica
 import 'package:flowers_app/Features/notifications/presentation/widgets/notification_error_screen.dart';
 import 'package:flowers_app/Features/notifications/presentation/widgets/notification_item.dart';
 import 'package:flowers_app/Features/notifications/presentation/widgets/notifications_shimmer.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class NotificationScreenBody extends StatefulWidget {
   const NotificationScreenBody({super.key});
@@ -64,7 +66,13 @@ class _NotificationScreenBodyState extends State<NotificationScreenBody> {
                     MarkNotificationReadEvent(notificationId: notification.id),
                   );
                 }
-                // TODO: Navigate to order details screen when orderId is available.
+                if (notification.orderId != null &&
+                    notification.orderId!.isNotEmpty) {
+                  context.pushNamed(
+                    Routes.trackOrderName,
+                    pathParameters: {'orderId': notification.orderId!},
+                  );
+                }
               },
               child: NotificationItem(notification: notification),
             );
@@ -74,7 +82,3 @@ class _NotificationScreenBodyState extends State<NotificationScreenBody> {
     );
   }
 }
-
-
-
-

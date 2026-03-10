@@ -17,6 +17,7 @@ import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'profile_view_model_test.mocks.dart';
 
@@ -27,7 +28,8 @@ import 'profile_view_model_test.mocks.dart';
   UploadPhotoUseCase,
   LogoutUseCase,
   HasValidTokenUseCase,
-  SessionController
+  SessionController,
+  SharedPreferences,
 ])
 void main() {
   late ProfileViewModel viewModel;
@@ -38,6 +40,7 @@ void main() {
   late MockLogoutUseCase mockLogoutUseCase;
   late MockHasValidTokenUseCase mockHasTokenUseCase;
   late MockSessionController mockSessionController;
+  late MockSharedPreferences mockSharedPreferences;
 
   final tUserEntity = UserEntity(
     id: '1',
@@ -69,11 +72,12 @@ void main() {
     mockLogoutUseCase = MockLogoutUseCase();
     mockHasTokenUseCase = MockHasValidTokenUseCase();
     mockSessionController = MockSessionController();
+    mockSharedPreferences = MockSharedPreferences();
 
-    when(mockSessionController.onLogin)
-        .thenAnswer((_) => const Stream.empty());
-    when(mockSessionController.onLogout)
-        .thenAnswer((_) => const Stream.empty());
+    when(mockSessionController.onLogin).thenAnswer((_) => const Stream.empty());
+    when(
+      mockSessionController.onLogout,
+    ).thenAnswer((_) => const Stream.empty());
 
     viewModel = ProfileViewModel(
       mockGetProfileUseCase,
@@ -83,34 +87,28 @@ void main() {
       mockLogoutUseCase,
       mockHasTokenUseCase,
       mockSessionController,
+      mockSharedPreferences,
     );
   });
 
   tearDown(() => viewModel.close());
 
   group('ProfileViewModel - GetProfile (New Guest Mode Logic)', () {
-    test(
-      'GetProfile emits empty ProfileState when user is Guest',
-          () async {
-        // Arrange
-        when(mockHasTokenUseCase.call()).thenAnswer((_) async => false);
+    test('GetProfile emits empty ProfileState when user is Guest', () async {
+      // Arrange
+      when(mockHasTokenUseCase.call()).thenAnswer((_) async => false);
 
-        // Assert
-        expectLater(
-          viewModel.stream,
-          emits(
-            predicate<ProfileState>(
-                  (s) => s.profileState == null,
-            ),
-          ),
-        );
+      // Assert
+      expectLater(
+        viewModel.stream,
+        emits(predicate<ProfileState>((s) => s.profileState == null)),
+      );
 
-        // Act
-        viewModel.doIntent(GetProfileEvent());
+      // Act
+      viewModel.doIntent(GetProfileEvent());
 
-        verifyNever(mockGetProfileUseCase.call());
-      },
-    );
+      verifyNever(mockGetProfileUseCase.call());
+    });
 
     test(
       'GetProfile emits [Loading, Success] when user is LoggedIn and usecase succeeds',
@@ -200,16 +198,18 @@ void main() {
   group('ProfileViewModel - ChangePassword', () {
     test(
       'ChangePassword emits [Loading, Success] when usecase succeeds',
-          () async {
-        when(mockChangePasswordUseCase.call(any, any)).thenAnswer(
-              (_) async => SuccessResponse(data: tChangePasswordEntity),
-        );
+      () async {
+        when(
+          mockChangePasswordUseCase.call(any, any),
+        ).thenAnswer((_) async => SuccessResponse(data: tChangePasswordEntity));
 
         final expectedStates = [
-          predicate<ProfileState>((s) => s.changePasswordState?.isLoading == true),
           predicate<ProfileState>(
-                (s) =>
-            s.changePasswordState?.isLoading == false &&
+            (s) => s.changePasswordState?.isLoading == true,
+          ),
+          predicate<ProfileState>(
+            (s) =>
+                s.changePasswordState?.isLoading == false &&
                 s.changePasswordState?.data == tChangePasswordEntity,
           ),
         ];
@@ -222,59 +222,56 @@ void main() {
       },
     );
 
-    test(
-      'ChangePassword emits [Loading, Error] when usecase fails',
-          () async {
-        when(mockChangePasswordUseCase.call(any, any)).thenAnswer(
-              (_) async => ErrorResponse(errorMessage: 'Invalid old password'),
-        );
+    test('ChangePassword emits [Loading, Error] when usecase fails', () async {
+      when(mockChangePasswordUseCase.call(any, any)).thenAnswer(
+        (_) async => ErrorResponse(errorMessage: 'Invalid old password'),
+      );
+
+      final expectedStates = [
+        predicate<ProfileState>(
+          (s) => s.changePasswordState?.isLoading == true,
+        ),
+        predicate<ProfileState>(
+          (s) =>
+              s.changePasswordState?.isLoading == false &&
+              s.changePasswordState?.errorMessage == 'Invalid old password',
+        ),
+      ];
+
+      expectLater(viewModel.stream, emitsInOrder(expectedStates));
+
+      viewModel.doIntent(
+        ChangePasswordEvent(oldPassword: 'wrong', newPassword: '456'),
+      );
+    });
+    group('ProfileViewModel - Logout', () {
+      test('Logout emits [Loading, Success] when usecase succeeds', () async {
+        when(
+          mockLogoutUseCase.call(),
+        ).thenAnswer((_) async => SuccessResponse(data: 'Logged out'));
 
         final expectedStates = [
-          predicate<ProfileState>((s) => s.changePasswordState?.isLoading == true),
-          predicate<ProfileState>(
-                (s) =>
-            s.changePasswordState?.isLoading == false &&
-                s.changePasswordState?.errorMessage == 'Invalid old password',
-          ),
+          predicate<ProfileState>((s) => s.logoutState?.isLoading == true),
+          predicate<ProfileState>((s) => s.logoutState?.isLoading == false),
         ];
 
         expectLater(viewModel.stream, emitsInOrder(expectedStates));
 
-        viewModel.doIntent(
-          ChangePasswordEvent(oldPassword: 'wrong', newPassword: '456'),
-        );
-      },
-    );
-    group('ProfileViewModel - Logout', () {
-      test(
-        'Logout emits [Loading, Success] when usecase succeeds',
-            () async {
-          when(mockLogoutUseCase.call())
-              .thenAnswer((_) async => SuccessResponse(data: 'Logged out'));
-
-          final expectedStates = [
-            predicate<ProfileState>((s) => s.logoutState?.isLoading == true),
-            predicate<ProfileState>((s) => s.logoutState?.isLoading == false),
-          ];
-
-          expectLater(viewModel.stream, emitsInOrder(expectedStates));
-
-          viewModel.doIntent(LogoutEvent());
-        },
-      );
+        viewModel.doIntent(LogoutEvent());
+      });
     });
 
     group('ProfileViewModel - Selection Logic', () {
       test(
         'SelectProfileImage updates selectedProfileImage in state',
-            () async {
+        () async {
           final testFile = File('image.jpg');
 
           expectLater(
             viewModel.stream,
             emits(
               predicate<ProfileState>(
-                    (s) => s.selectedProfileImage?.path == testFile.path,
+                (s) => s.selectedProfileImage?.path == testFile.path,
               ),
             ),
           );
@@ -285,28 +282,25 @@ void main() {
     });
 
     group('ProfileViewModel - Error Responses', () {
-      test(
-        'GetProfile emits [Loading, Error] when usecase fails',
-            () async {
-          when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
-          when(mockGetProfileUseCase.call()).thenAnswer(
-                (_) async => ErrorResponse(errorMessage: 'Server Error'),
-          );
+      test('GetProfile emits [Loading, Error] when usecase fails', () async {
+        when(mockHasTokenUseCase.call()).thenAnswer((_) async => true);
+        when(
+          mockGetProfileUseCase.call(),
+        ).thenAnswer((_) async => ErrorResponse(errorMessage: 'Server Error'));
 
-          final expectedStates = [
-            predicate<ProfileState>((s) => s.profileState?.isLoading == true),
-            predicate<ProfileState>(
-                  (s) =>
-              s.profileState?.isLoading == false &&
-                  s.profileState?.errorMessage == 'Server Error',
-            ),
-          ];
+        final expectedStates = [
+          predicate<ProfileState>((s) => s.profileState?.isLoading == true),
+          predicate<ProfileState>(
+            (s) =>
+                s.profileState?.isLoading == false &&
+                s.profileState?.errorMessage == 'Server Error',
+          ),
+        ];
 
-          expectLater(viewModel.stream, emitsInOrder(expectedStates));
+        expectLater(viewModel.stream, emitsInOrder(expectedStates));
 
-          viewModel.doIntent(GetProfileEvent());
-        },
-      );
+        viewModel.doIntent(GetProfileEvent());
+      });
     });
   });
 }

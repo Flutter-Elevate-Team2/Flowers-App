@@ -97,24 +97,13 @@ class OrdersTabView extends StatelessWidget {
     dynamic order,
     bool isCancelled,
   ) async {
-    final trackViewModel = context.read<OrderStatusViewModel>();
-    trackViewModel.doIntent(context, FetchOrderDetailsEvent(order.id ?? ''));
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    final orderState = trackViewModel.state.orderState?.data?.status ?? '';
-
-    bool isAccepted = orderState == OrderStatus.accepted.firebaseValue;
-    bool isReceived = orderState == OrderStatus.receivedYourOrder.firebaseValue;
-    bool isPreparing =
-        orderState == OrderStatus.preparingYourOrder.firebaseValue;
-    bool isArrived = orderState == OrderStatus.outForDelivery.firebaseValue;
-    bool isDelivered = orderState == OrderStatus.delivered.firebaseValue;
-
     if (tab == OrdersTab.completed) {
       final cartViewModel = context.read<CartViewModel>();
 
-      await cartViewModel.doIntent(ClearCartEvent());
+      // 1. تفريغ السلة (بدون تأخير)
+      cartViewModel.doIntent(ClearCartEvent());
 
+      // 2. إضافة المنتجات الجديدة
       for (var item in order.orderItems ?? []) {
         cartViewModel.doIntent(
           AddToCartEvent(
@@ -126,11 +115,26 @@ class OrdersTabView extends StatelessWidget {
         );
       }
 
-      await Future.delayed(const Duration(milliseconds: 300));
+      // 3. النقل الفوري لشاشة السلة ليعمل الـ Shimmer
       if (context.mounted) {
         context.goNamed(Routes.cartName);
       }
     } else {
+      // المنطق الخاص بالطلبات النشطة (Active)
+      final trackViewModel = context.read<OrderStatusViewModel>();
+      trackViewModel.doIntent(context, FetchOrderDetailsEvent(order.id ?? ''));
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      final orderState = trackViewModel.state.orderState?.data?.status ?? '';
+
+      // تم التحديث ليتوافق مع Enum الجديد
+      bool isAccepted = orderState == OrderStatus.accepted.firebaseValue;
+      bool isArrivedPickup = orderState == OrderStatus.arrivedPickup.firebaseValue;
+      bool isOutForDelivery = orderState == OrderStatus.outForDelivery.firebaseValue;
+      bool isArrivedUser = orderState == OrderStatus.arrivedUser.firebaseValue;
+      bool isDelivered = orderState == OrderStatus.delivered.firebaseValue;
+      bool isCompleted = orderState == OrderStatus.completed.firebaseValue;
+
       /// Track Order
       if (isCancelled) {
         await context.pushNamed(
@@ -138,10 +142,11 @@ class OrdersTabView extends StatelessWidget {
           pathParameters: {'orderId': order.id ?? ''},
         );
       } else if (isAccepted ||
-          isReceived ||
-          isPreparing ||
-          isArrived ||
-          isDelivered) {
+          isArrivedPickup ||
+          isOutForDelivery ||
+          isArrivedUser ||
+          isDelivered ||
+          isCompleted) {
         await context.pushNamed(
           Routes.trackOrderName,
           pathParameters: {'orderId': order.id ?? ''},
