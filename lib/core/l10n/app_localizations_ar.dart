@@ -737,4 +737,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notificationsErrorTitle => 'حدث خطأ ما';
+
+  @override
+  String get bouquetInclude => 'يتضمن البوكيه';
+
+  @override
+  String get orderDetails => 'تفاصيل الطلب';
+
+  @override
+  String get failedToLoadProducts => 'فشل في تحميل المنتجات';
+
+  @override
+  String get invalidPaymentSession => 'جلسة الدفع غير صالحة';
+
+  @override
+  String get orderNotFound => 'الطلب غير موجود';
 }

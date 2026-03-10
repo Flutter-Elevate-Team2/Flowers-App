@@ -1531,6 +1531,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong'**
   String get notificationsErrorTitle;
+
+  /// Bouquet include
+  ///
+  /// In en, this message translates to:
+  /// **'Bouquet include'**
+  String get bouquetInclude;
+
+  /// Order details
+  ///
+  /// In en, this message translates to:
+  /// **'Order details'**
+  String get orderDetails;
+
+  /// Error failed to load products
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load products'**
+  String get failedToLoadProducts;
+
+  /// Error invalid payment session
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid payment session'**
+  String get invalidPaymentSession;
+
+  /// Error order not found
+  ///
+  /// In en, this message translates to:
+  /// **'Order Not Found'**
+  String get orderNotFound;
 }
 
 class _AppLocalizationsDelegate

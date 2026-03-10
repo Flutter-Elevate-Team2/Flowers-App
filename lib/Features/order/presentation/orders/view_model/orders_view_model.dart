@@ -2,10 +2,10 @@ import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_
 import 'package:flowers_app/Features/order/domain/use_cases/get_user_orders.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_event.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_states.dart';
+import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:flowers_app/core/base_response/base_response.dart';
 
 @Injectable()
 class OrdersViewModel extends Cubit<OrdersState> {
@@ -32,9 +32,8 @@ class OrdersViewModel extends Cubit<OrdersState> {
       final active = allOrders
           .where(
             (o) =>
-                o.state == ApiConstants.pending ||
-                o.state == ApiConstants.inProgress ||
-                o.isPaid == false,
+                o.state != ApiConstants.completed &&
+                o.state != ApiConstants.cancelled,
           )
           .toList();
 

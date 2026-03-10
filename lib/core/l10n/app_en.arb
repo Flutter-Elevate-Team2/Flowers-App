@@ -665,9 +665,6 @@
   "@driverDataIncomplete": { "description": "Snackbar message when driver token or order ID is missing" },
   "orderCancelled": "Order Cancelled",
   "orderHasBeenCancelled": "Your Order has been cancelled please try again",
-  "@noOrderFound": {
-    "description": "Message displayed when no orders are found"
-  },
   "noNotifications": "No notifications yet",
   "@noNotifications": {
     "description": "Empty state message for the notifications screen"
@@ -675,5 +672,15 @@
   "notificationsErrorTitle": "Something went wrong",
   "@notificationsErrorTitle": {
     "description": "Generic error title on the notifications screen"
-  }
+  },
+  "bouquetInclude": "Bouquet include",
+  "@bouquetInclude": { "description": "Bouquet include" },
+  "orderDetails": "Order details",
+  "@orderDetails": { "description": "Order details" },
+  "failedToLoadProducts": "Failed to load products",
+  "@failedToLoadProducts": { "description": "Error failed to load products" },
+  "invalidPaymentSession": "Invalid payment session",
+  "@invalidPaymentSession": { "description": "Error invalid payment session" },
+  "orderNotFound": "Order Not Found",
+  "@orderNotFound": { "description": "Error order not found" }
 }

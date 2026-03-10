@@ -744,4 +744,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationsErrorTitle => 'Something went wrong';
+
+  @override
+  String get bouquetInclude => 'Bouquet include';
+
+  @override
+  String get orderDetails => 'Order details';
+
+  @override
+  String get failedToLoadProducts => 'Failed to load products';
+
+  @override
+  String get invalidPaymentSession => 'Invalid payment session';
+
+  @override
+  String get orderNotFound => 'Order Not Found';
 }

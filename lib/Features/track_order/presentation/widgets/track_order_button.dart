@@ -1,8 +1,10 @@
+import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_event.dart';
+import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_view_model.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
-import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_state.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
+import 'package:flowers_app/core/app_router/app_router.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +56,9 @@ class TrackOrderButton extends StatelessWidget {
                       content: Text(context.l10n.confirmDeliverySuccess),
                       backgroundColor: Colors.green,
                     ),
+                  );
+                  context.read<OrdersViewModel>().doIntent(
+                    GetUserOrdersEvent(),
                   );
                 } else if (silentState?.errorMessage != null) {
                   ScaffoldMessenger.of(context).showSnackBar(

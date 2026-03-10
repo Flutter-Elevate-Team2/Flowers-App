@@ -6,7 +6,8 @@ enum OrderStatus {
   receivedYourOrder('arrived_pickup'),
   preparingYourOrder('start_deliver'),
   outForDelivery('arrived_user'),
-  delivered('delivered');
+  delivered('delivered'),
+  completed('completed');
 
   final String firebaseValue;
   const OrderStatus(this.firebaseValue);
@@ -18,10 +19,11 @@ enum OrderStatus {
       case OrderStatus.receivedYourOrder:
         return context.l10n.receivedYourOrder;
       case OrderStatus.preparingYourOrder:
-        return context.l10n.picked;
+        return context.l10n.preparingYourOrder;
       case OrderStatus.outForDelivery:
         return context.l10n.outForDelivery;
       case OrderStatus.delivered:
+      case OrderStatus.completed: // ✅
         return context.l10n.delivered;
     }
   }
@@ -37,6 +39,7 @@ enum OrderStatus {
       case OrderStatus.outForDelivery:
         return context.l10n.outForDelivery;
       case OrderStatus.delivered:
+      case OrderStatus.completed:
         return context.l10n.delivered;
     }
   }
@@ -52,25 +55,26 @@ enum OrderStatus {
       case OrderStatus.outForDelivery:
         return context.l10n.outForDelivery;
       case OrderStatus.delivered:
+      case OrderStatus.completed:
         return context.l10n.delivered;
     }
   }
 
   OrderStatus? get next {
     final currentIndex = OrderStatus.values.indexOf(this);
+    if (this == OrderStatus.delivered || this == OrderStatus.completed) return null;
     if (currentIndex < OrderStatus.values.length - 1) {
       return OrderStatus.values[currentIndex + 1];
     }
     return null;
   }
-
 }
 
 extension OrderStatusX on OrderStatus {
   static OrderStatus fromFirebase(String value) {
     return OrderStatus.values.firstWhere(
           (status) => status.firebaseValue == value,
-      orElse: () => OrderStatus.receivedYourOrder,
+      orElse: () => OrderStatus.accepted,
     );
   }
 }
