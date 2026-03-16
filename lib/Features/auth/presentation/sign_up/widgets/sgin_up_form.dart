@@ -155,7 +155,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
             TextFormField(
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.emailAddress,
@@ -170,7 +170,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 helperText: "",
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
 
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -243,7 +243,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
             TextFormField(
               textInputAction: TextInputAction.done,
 
@@ -253,12 +253,13 @@ class _SignUpFormState extends State<SignUpForm> {
               style: Theme.of(context).textTheme.bodySmall,
               decoration: InputDecoration(
                 labelText: (context).l10n.phoneLabel,
-                hintText: (context).l10n.phoneHint,
+                hintText: "   ${(context).l10n.phoneHint}",
+                prefixText: '+2',
+                prefixStyle: Theme.of(context).textTheme.bodySmall,
                 helperText: "",
               ),
               keyboardType: TextInputType.phone,
             ),
-            const SizedBox(height: 24),
             GenderRadioListTile(
               selectedGender: _selectedGender,
               onChanged: (value) {
@@ -268,7 +269,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 });
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             const TermsAndConditionsText(),
 
             SizedBox(height: 48),
@@ -291,7 +292,7 @@ class _SignUpFormState extends State<SignUpForm> {
                                   firstName: _firstNameController.text,
                                   lastName: _lastNameController.text,
                                   email: _emailController.text,
-                                  phone: _phoneController.text,
+                                  phone: "+2${_phoneController.text}",
                                   password: _passwordController.text,
                                   confirmPassword:
                                       _confirmPasswordController.text,

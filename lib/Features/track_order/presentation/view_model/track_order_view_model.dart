@@ -35,7 +35,6 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
 
   // ✅ متغيرات حفظ الحالة لمنع الريكويستات العشوائية
   mapbox.Position? _lastCalculatedDriverPos;
-  String? _lastCalculatedTargetType; // 'store' أو 'user'
 
   Future<void> doIntent(
     BuildContext context,
@@ -155,52 +154,34 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
         orderEntity.trackingLocation.lat,
       );
 
-      final storePos = mapbox.Position(
-        orderEntity.store.storeLong,
-        orderEntity.store.storeLat,
-      );
+      // ✅ تحديد المسار الكامل دائماً (سائق -> متجر -> عميل)
+      final waypoints = [
+        driverPos,
+        mapbox.Position(
+          orderEntity.store.storeLong,
+          orderEntity.store.storeLat,
+        ),
+        mapbox.Position(
+          orderEntity.userLocationEntity.long,
+          orderEntity.userLocationEntity.lat,
+        ),
+      ];
 
-      final userPos = mapbox.Position(
-        orderEntity.userLocationEntity.long,
-        orderEntity.userLocationEntity.lat,
-      );
-
-      // ✅ 1. تحديد الهدف (Target) والمسار (Waypoints) بناءً على الحالة الحالية
-      List<mapbox.Position> waypoints = [];
-      String currentTargetType = '';
-
-      if (order.status == 'accepted' || order.status == 'arrived_pickup') {
-        // السواق رايح للمتجر
-        waypoints = [driverPos, storePos];
-        currentTargetType = 'store';
-      } else {
-        // السواق استلم ورايح للعميل (start_deliver أو arrived_user)
-        waypoints = [driverPos, userPos];
-        currentTargetType = 'user';
-      }
-
-      // ✅ 2. فلترة الريكويستات (الذكاء هنا)
+      // ✅ فلترة الريكويستات: هل السائق تحرك فعلياً؟
       bool shouldFetchRoute = false;
 
-      // أ) لو السواق اتحرك من مكانه
       if (_lastCalculatedDriverPos == null ||
           _lastCalculatedDriverPos!.lat != driverPos.lat ||
           _lastCalculatedDriverPos!.lng != driverPos.lng) {
         shouldFetchRoute = true;
       }
 
-      // ب) لو الهدف اتغير (يعني السواق استلم الأوردر والـ Status قلبت) حتى لو متحركش
-      if (_lastCalculatedTargetType != currentTargetType) {
-        shouldFetchRoute = true;
-      }
-
       if (shouldFetchRoute) {
         try {
+          // نطلب المسار الجديد فقط لو السائق غير مكانه
           final routePoints = await _getDirectionsUseCase.call(waypoints);
 
-          // حفظ البيانات الجديدة عشان نقارن بيها المرة الجاية
-          _lastCalculatedDriverPos = driverPos;
-          _lastCalculatedTargetType = currentTargetType;
+          _lastCalculatedDriverPos = driverPos; // تحديث آخر مكان تم الحساب عنده
 
           emit(
             state.copyWith(
@@ -220,7 +201,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
           debugPrint("Directions Error: $e");
         }
       } else {
-        // ✅ تحديث الحالة والـ UI بس، من غير ما نكلم Mapbox API
+        // ✅ السائق لم يتحرك؟ نحدث الـ UI فقط ببيانات الـ Firebase بدون Mapbox API
         emit(
           state.copyWith(
             orderState: BaseState(isLoading: false, data: orderEntity),

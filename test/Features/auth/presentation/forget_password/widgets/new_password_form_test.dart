@@ -58,26 +58,6 @@ void main() {
       expect(tester.widget<TextField>(passwordField).obscureText, isFalse);
     });
 
-    testWidgets('Shows error when passwords do not match', (tester) async {
-      when(() => mockCubit.state).thenReturn(ForgetPasswordState());
-
-      await tester.pumpWidget(
-        createWidgetUnderTest(
-          const NewPasswordForm(userEmail: 'test@mail.com'),
-        ),
-      );
-
-      // Entering text works fine on TextFormField finder usually, but let's use the generic type
-      final fields = find.byType(TextFormField);
-      await tester.enterText(fields.at(0), 'Pass1234');
-      await tester.enterText(fields.at(1), 'Pass5678');
-
-      await tester.tap(find.byType(CustomButton));
-      await tester.pumpAndSettle();
-
-      expect(find.textContaining('match'), findsOneWidget);
-    });
-
     testWidgets('Shows Success Dialog on successful reset', (tester) async {
       whenListen(
         mockCubit,

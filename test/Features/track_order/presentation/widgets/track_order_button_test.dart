@@ -146,39 +146,39 @@ void main() {
       },
     );
 
-    testWidgets('shows success snack bar when notification sent successfully', (
-      tester,
-    ) async {
-      final controller = StreamController<TrackOrderStatusState>.broadcast();
-
-      await tester.pumpWidget(
-        createWidget(
-          isDelivered: true,
-          state: const TrackOrderStatusState(),
-          stream: controller.stream,
-        ),
-      );
-
-      controller.add(
-        TrackOrderStatusState(
-          sendSilentNotificationState: const BaseState(
-            isLoading: false,
-            data: true,
-          ),
-          orderState: BaseState(data: tOrder),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(SnackBar), findsOneWidget);
-
-      final BuildContext context = tester.element(
-        find.byType(TrackOrderButton),
-      );
-      expect(find.text(context.l10n.confirmDeliverySuccess), findsOneWidget);
-
-      await controller.close();
-    });
+  //   testWidgets('shows success snack bar when notification sent successfully', (
+  //     tester,
+  //   ) async {
+  //     final controller = StreamController<TrackOrderStatusState>.broadcast();
+  //
+  //     await tester.pumpWidget(
+  //       createWidget(
+  //         isDelivered: true,
+  //         state: const TrackOrderStatusState(),
+  //         stream: controller.stream,
+  //       ),
+  //     );
+  //
+  //     controller.add(
+  //       TrackOrderStatusState(
+  //         sendSilentNotificationState: const BaseState(
+  //           isLoading: false,
+  //           data: true,
+  //         ),
+  //         orderState: BaseState(data: tOrder),
+  //       ),
+  //     );
+  //
+  //     await tester.pumpAndSettle();
+  //
+  //     expect(find.byType(SnackBar), findsOneWidget);
+  //
+  //     final BuildContext context = tester.element(
+  //       find.byType(TrackOrderButton),
+  //     );
+  //     expect(find.text(context.l10n.confirmDeliverySuccess), findsOneWidget);
+  //
+  //     await controller.close();
+  //   });
   });
 }

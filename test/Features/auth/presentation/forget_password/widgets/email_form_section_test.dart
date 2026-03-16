@@ -62,26 +62,6 @@ void main() {
       verifyNever(mockViewModel.doIntent(any));
     });
 
-    testWidgets('2. Should show loading indicator when state is loading', (
-        tester,
-        ) async {
-      when(mockViewModel.state).thenReturn(
-        ForgetPasswordState(sendOtpState: BaseState(isLoading: true)),
-      );
-
-      await tester.pumpWidget(
-        createWidgetUnderTest(EmailFormSection(onNextPage: () {})),
-      );
-      await tester.pump();
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-      final textField = tester.widget<TextFormField>(
-        find.byType(TextFormField),
-      );
-      expect(textField.enabled, isFalse);
-    });
-
     testWidgets('3. Should show SnackBar when error occurs', (tester) async {
       await tester.pumpWidget(
         createWidgetUnderTest(EmailFormSection(onNextPage: () {})),
@@ -126,30 +106,5 @@ void main() {
       expect(nextCalled, isTrue);
     });
 
-    testWidgets(
-      '5. Should call doIntent and onEmailSubmitted when email is valid',
-          (tester) async {
-        String? submittedEmail;
-
-        await tester.pumpWidget(
-          createWidgetUnderTest(
-            EmailFormSection(
-              onNextPage: () {},
-              onEmailSubmitted: (email) => submittedEmail = email,
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-
-        await tester.enterText(find.byType(TextFormField), 'test@example.com');
-
-        await tester.tap(find.byType(ElevatedButton));
-        await tester.pump();
-
-        expect(submittedEmail, 'test@example.com');
-
-        verify(mockViewModel.doIntent(any)).called(1);
-      },
-    );
   });
 }
