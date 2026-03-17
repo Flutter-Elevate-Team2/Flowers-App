@@ -1,3 +1,19 @@
+import java.util.Properties
+
+// ── Load secrets from local.properties ──────────────────────────────────────
+val localPropertiesFile = rootProject.file("local.properties")
+val localProperties = Properties().apply {
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { load(it) }
+    }
+}
+
+val mapsApiKey: String = localProperties.getProperty("MAPS_API_KEY")
+    ?: error("MAPS_API_KEY not found in android/local.properties")
+val mapboxToken: String = localProperties.getProperty("MAPBOX_TOKEN")
+    ?: error("MAPBOX_TOKEN not found in android/local.properties")
+// ────────────────────────────────────────────────────────────────────────────
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -44,6 +60,10 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         multiDexEnabled = true
+
+        // Inject secrets from local.properties into the AndroidManifest placeholders
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+        manifestPlaceholders["MAPBOX_TOKEN"] = mapboxToken
     }
 
     buildTypes {

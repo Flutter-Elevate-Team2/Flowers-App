@@ -3,8 +3,6 @@
 *.log
 *.pyc
 *.swp
-*.g.dart
-.env
 .DS_Store
 .atom/
 .build/
@@ -13,16 +11,24 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+*.g.dart
 *.mocks.dart
-assets/json/tracking-app-service.json
-firebase.json
+*.lock
+*.config.dart
+*.env
+
+# ── Secret / sensitive files – NEVER commit these ───────────────────────────
+.env
+android/local.properties
+ios/Flutter/Secrets.xcconfig
+# ────────────────────────────────────────────────────────────────────────────
 
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
-.idea/
+tracking_app/.idea/
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -38,13 +44,14 @@ firebase.json
 .pub/
 /build/
 /coverage/
-*.env
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+assets/json/tracking-app-service.json
+firebase.json
 
 # Symbolication related
 app.*.symbols
-
-# Firebase config
-/lib/firebase_options.dart
 
 # Obfuscation related
 app.*.map.json
@@ -53,18 +60,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-# Environment variables
-.env
-.env.*
-
-# Android keystore and signing properties
-key.properties
-*.jks
-*.keystore
-
-# Firebase configuration files
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
-
-# Android local properties
-android/local.properties

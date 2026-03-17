@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>GMSApiKey</key>
-	<string>YOUR_GOOGLE_MAPS_API_KEY</string>
+	<string>$(MAPS_API_KEY)</string>
 	<key>MBXAccessToken</key>
-	<string>YOUR_MAPBOX_TOKEN</string>
+	<string>$(MAPBOX_TOKEN)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is required to select your address.</string>
 	<key>CFBundleDevelopmentRegion</key>
