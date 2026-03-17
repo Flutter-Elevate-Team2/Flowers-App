@@ -2,7 +2,7 @@
   <img src="assets/images/app_logo.png" alt="Flowery Logo" width="150" height="150" style="border-radius: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" />
 </p>
 
-<h1 align="center">🌸 Flowery - Premium Flower E-Commerce App</h1>
+<h1 align="center">🌸 Flowery : Premium Flower E-Commerce App</h1>
 
 <p align="center">
   <em>Browse exquisite floral arrangements, checkout securely, and track your delivery in real-time on a live map.</em>
@@ -16,6 +16,16 @@
   <img src="https://img.shields.io/badge/Payment-Stripe%20%7C%20Paymob-635BFF?style=for-the-badge&logo=stripe&logoColor=white" alt="Payment Gateway" />
   <img src="https://img.shields.io/badge/Architecture-Clean%20Architecture-8BC34A?style=for-the-badge" alt="Clean Architecture" />
   <img src="https://img.shields.io/badge/State_Management-BLoC-2196F3?style=for-the-badge&logo=flutter&logoColor=white" alt="BLoC" />
+</p>
+
+<p align="center">
+  <a href="link_to_your_apk_file_here">
+    <img src="https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android" alt="Download APK" />
+  </a>
+</p>
+
+<p align="center">
+  <img src="link_to_your_gif_showing_realtime_tracking.gif" width="250" alt="Live Tracking Demo" />
 </p>
 
 <hr>
@@ -208,3 +218,18 @@ Follow these steps to get the project up and running on your local machine.
    ```bash
    git clone [https://github.com/your-username/flowery-customer-app.git](https://github.com/your-username/flowery-customer-app.git)
    cd flowery-customer-app
+   
+🤝 The Team 
+This project was built collaboratively by a dedicated team of engineers.
+
+Mohamed Ibrahim
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](www.linkedin.com/in/mohamed-ibrahim39) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MoHa270xX)
+
+Ahmed Hussien
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)]([www.linkedin.com/in/mohamed-ibrahim39](https://www.linkedin.com/in/ahmed-hussien-02b499186/)) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/AhmedHussien249)
+
+Malak Hussien
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/malak-hussein-b69418249/) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MALAK0244)
+
+Nagham Arafa
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)]([www.linkedin.com/in/mohamed-ibrahim39](https://www.linkedin.com/in/nagham-arafa-5558942bb/)) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/NaghamArafa)
