@@ -48,3 +48,36 @@
     </tr>
   </table>
 </p>
+## 🌟 Overview & Core Features
+
+**Flowery** is designed to provide a frictionless and delightful shopping experience. From intuitive product discovery to real-time delivery tracking, every feature is engineered with the user in mind.
+
+Here is a breakdown of the core modules that power the customer journey:
+
+* 🔐 **Secure Authentication (Auth):**
+  * Complete user onboarding flow including Login, Registration, and secure Password Recovery.
+  * Token-based session management for a persistent and secure logged-in experience.
+
+* 🛍️ **Seamless Product Discovery (Commerce):**
+  * Dynamic Home Screen featuring curated categories and "Best Seller" collections.
+  * Smooth and intuitive flow from browsing products to adding items to the Cart.
+
+* 📍 **Map-Integrated Address Management (User Addresses):**
+  * Interactive map interface allowing users to precisely pinpoint their delivery location.
+  * Full CRUD (Create, Read, Update, Delete) capabilities for managing multiple saved addresses.
+
+* 💳 **Frictionless Checkout & Order Management (Orders):**
+  * Streamlined checkout process directly from the Cart.
+  * Comprehensive "My Orders" hub, intelligently categorizing order history into **Active** and **Completed** states.
+
+* 🗺️ **Live Delivery Tracking (Track Order):**
+  * *The crown jewel of the app.* Customers can watch their delivery driver approach in real-time on a live Mapbox interface.
+  * Dynamic visual timeline showing exact order states (e.g., *Preparing, On the Way, Arrived*).
+
+* 🔔 **Event-Driven Push Notifications:**
+  * Fully integrated with FCM (Firebase Cloud Messaging).
+  * Customers receive instant, automated alerts the exact moment the driver updates the delivery status.
+
+* 👤 **Personalized Profile & Localization:**
+  * Profile management including avatar uploads and password updates.
+  * **Dynamic Localization:** Instant switching between English and Arabic to cater to a diverse user base.
