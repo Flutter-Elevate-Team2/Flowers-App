@@ -219,17 +219,18 @@ Follow these steps to get the project up and running on your local machine.
    git clone [https://github.com/your-username/flowery-customer-app.git](https://github.com/your-username/flowery-customer-app.git)
    cd flowery-customer-app
    
+   
 🤝 The Team 
-This project was built collaboratively by a dedicated team of engineers.
+   This project was built collaboratively by a dedicated team of engineers.
 
 Mohamed Ibrahim
-[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](www.linkedin.com/in/mohamed-ibrahim39) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MoHa270xX)
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](www.linkedin.com/in/mohamed-ibrahim39/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MoHa270xX)
 
 Ahmed Hussien
-[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)]([www.linkedin.com/in/mohamed-ibrahim39](https://www.linkedin.com/in/ahmed-hussien-02b499186/)) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/AhmedHussien249)
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)]((https://www.linkedin.com/in/ahmed-hussien-02b499186/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/AhmedHussien249)
 
 Malak Hussien
-[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/malak-hussein-b69418249/) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MALAK0244)
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/malak-hussein-b69418249/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/MALAK0244)
 
 Nagham Arafa
-[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)]([www.linkedin.com/in/mohamed-ibrahim39](https://www.linkedin.com/in/nagham-arafa-5558942bb/)) |[![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/NaghamArafa)
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/nagham-arafa-5558942bb/) | [![GitHub](https://img.shields.io/badge/-Github-000?style=flat&logo=Github&logoColor=white)](https://github.com/NaghamArafa)
