@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <a href="link_to_your_apk_file_here">
+  <a href="https://github.com/MoHa270xX/Flowers-App/releases/download/v1.0.0/app-arm64-v8a-release.apk">
     <img src="https://img.shields.io/badge/Download-APK-2ea44f?style=for-the-badge&logo=android" alt="Download APK" />
   </a>
 </p>
