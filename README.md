@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images/flowery_logo.png" alt="Flowery Logo" width="150" height="150" style="border-radius: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" />
+  <img src="assets/images/app_logo.png" alt="Flowery Logo" width="150" height="150" style="border-radius: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" />
 </p>
 
 <h1 align="center">🌸 Flowery — Premium Flower E-Commerce App</h1>
@@ -81,3 +81,75 @@ Here is a breakdown of the core modules that power the customer journey:
 * 👤 **Personalized Profile & Localization:**
   * Profile management including avatar uploads and password updates.
   * **Dynamic Localization:** Instant switching between English and Arabic to cater to a diverse user base.
+    
+## 🧠 Key Engineering Highlights
+
+This application is built to scale, handling complex real-time operations without compromising on UI fluidity or device resources.
+
+### 1. Global & Reactive Cart State
+Instead of relying on brittle local storage mechanisms, the Cart's state is strictly managed via the backend API acting as the **Single Source of Truth**. 
+* The `CartCubit` is injected at the root level (`main.dart`).
+* This ensures that modifying the cart from *any* deeply nested screen instantly synchronizes the state globally across the entire application without requiring manual UI refreshes.
+
+### 2. High-Performance Real-Time Tracking (60 FPS)
+The live tracking module is heavily optimized to provide a seamless visual experience while minimizing API costs:
+* **Reactive Streams:** The app listens directly to a Firebase `snapshots()` stream to track the driver's live coordinates.
+* **Mapbox Throttling:** To prevent Mapbox API exhaustion, the `GetDirectionsUseCase` logic only triggers a new route fetch if the driver's GPS coordinates have shifted by a meaningful threshold (`_lastCalculatedDriverPos`).
+* **Butter-Smooth Markers:** Instead of causing heavy Mapbox layer rebuilds, driver movement is decoupled from the map state. By calculating screen pixels (`pixelForCoordinate`) and binding them to a `ValueNotifier<Offset?>` with `AnimatedPositioned`, the driver marker moves seamlessly across the screen at 60 FPS.
+
+### 3. UX & Performance Optimization
+Every list and image in the app is optimized to respect the user's bandwidth and device memory:
+* **Progressive Loading:** Implemented aggressive **Pagination** on product feeds to ensure a jank-free scrolling experience regardless of catalog size.
+* **Asset Caching:** Utilized `CachedNetworkImage` extensively to cache floral images on disk, preventing redundant network requests and saving user data.
+* **Perceived Performance:** Integrated custom **Shimmer** animations (e.g., `TrackOrderShimmer`) as placeholders to prevent layout shifts and maintain UI stability while APIs resolve.
+
+### 4. Enterprise-Grade Clean Architecture
+This codebase is strictly structured to guarantee maximum scalability and testability:
+* **Strict Layering:** Complete isolation between Domain, Data, and Presentation layers, ensuring that business logic remains independent of UI or external frameworks.
+* **Automated Dependency Injection:** Managed via `get_it` and `injectable` to provide a clean, decoupled, and easily mockable DI graph.
+* **Type-Safe Networking:** Complex APIs (including Mapbox Directions and custom Backend endpoints) are handled through `Retrofit` and `Dio` with robust error handling.
+* **Service-Account Integration:** Utilizes OAuth2 Google Service Accounts to handle secure, high-priority Firebase Cloud Messaging (FCM) requests directly from the app's infrastructure.
+---
+
+## ⚙️ Tech Stack & Dependencies
+
+The app leverages a modern and robust stack of libraries and tools to ensure performance and reliability:
+
+### Core Framework & State Management
+* **Flutter & Dart:** For cross-platform excellence.
+* **BLoC / Cubit:** Predictable state management following the `doIntent` pattern.
+* **Get_it & Injectable:** For automated and clean Dependency Injection.
+
+### Backend & Cloud Services
+* **Cloud Firestore:** Real-time database for order tracking and live updates.
+* **Firebase Cloud Messaging (FCM):** Push notifications with background handling.
+* **Google Cloud Service Accounts:** For secure server-side FCM v1 integration.
+
+### Maps & Navigation
+* **Mapbox Maps Flutter:** High-performance vector maps.
+* **Mapbox Directions API:** For dynamic route calculation and polyline rendering.
+* **Google Maps SDK:** Integrated for location picking and geocoding.
+
+### Networking & Utilities
+* **Dio & Retrofit:** Type-safe HTTP client with interceptors for JWT and error handling.
+* **CachedNetworkImage:** Advanced disk/memory caching for images.
+* **Lottie:** Smooth vector-based animations for a premium feel.
+* **Flutter Dotenv:** Securely loading environment variables.
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to get the project up and running on your local machine.
+
+### Prerequisites
+* **Flutter SDK:** `^3.10.x` or higher.
+* **Mapbox Token:** Obtain an access token from [Mapbox](https://mapbox.com).
+* **Firebase Project:** Set up a Firebase project and add your `google-services.json` (Android) and `GoogleService-Info.plist` (iOS).
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/flowery-customer-app.git](https://github.com/your-username/flowery-customer-app.git)
+   cd flowery-customer-app
