@@ -2,7 +2,7 @@
   <img src="assets/images/app_logo.png" alt="Flowery Logo" width="150" height="150" style="border-radius: 30px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);" />
 </p>
 
-<h1 align="center">🌸 Flowery — Premium Flower E-Commerce App</h1>
+<h1 align="center">🌸 Flowery - Premium Flower E-Commerce App</h1>
 
 <p align="center">
   <em>Browse exquisite floral arrangements, checkout securely, and track your delivery in real-time on a live map.</em>
@@ -18,36 +18,90 @@
   <img src="https://img.shields.io/badge/State_Management-BLoC-2196F3?style=for-the-badge&logo=flutter&logoColor=white" alt="BLoC" />
 </p>
 
----
+<hr>
 
 ## 📸 App Showcase
 
 *A seamless, elegant, and user-friendly shopping experience.*
 
+### Discovery & Shopping
 <p align="center">
   <table>
     <tr>
-      <td align="center"><strong>1. Home</strong></td>
-      <td align="center"><strong>2. Categories</strong></td>
-      <td align="center"><strong>3. Best Seller</strong></td>
+      <td align="center"><strong>Home</strong></td>
+      <td align="center"><strong>Categories</strong></td>
+      <td align="center"><strong>Sort Categories</strong></td>
     </tr>
     <tr>
       <td><img src="https://github.com/user-attachments/assets/b1d4ed21-d554-4b78-bb16-c0a07f53fa7c" width="250" alt="Home"/></td>
       <td><img src="https://github.com/user-attachments/assets/a993785f-6902-4fb0-81b5-c5f0698e7d69" width="250" alt="Categories"/></td>
+      <td><img src="https://github.com/user-attachments/assets/0340fe27-a94d-4ea3-ba4a-7bd95c488efb" width="250" alt="Sort Categories"/></td>
+    </tr>
+    <tr>
+      <td align="center"><strong>Best Seller</strong></td>
+      <td align="center"><strong>Cart</strong></td>
+      <td align="center"><strong>Empty Cart</strong></td>
+    </tr>
+    <tr>
       <td><img src="https://github.com/user-attachments/assets/abcf5a92-70a3-414f-960d-373265c8eece" width="250" alt="Bestseller"/></td>
-    </tr>
-    <tr>
-      <td align="center"><strong>4. Cart</strong></td>
-      <td align="center"><strong>5. Checkout</strong></td>
-      <td align="center"><strong>6. Empty Cart</strong></td>
-    </tr>
-    <tr>
       <td><img src="https://github.com/user-attachments/assets/df63af1a-d17a-420f-be73-c7d681a656c4" width="250" alt="Cart"/></td>
-      <td><img src="https://github.com/user-attachments/assets/98cd3811-3e41-4865-930c-5cb4a9a98c42" width="250" alt="Checkout"/></td>
       <td><img src="https://github.com/user-attachments/assets/cea05c9c-148c-407e-879e-5cbb6ce7afc5" width="250" alt="Empty Cart"/></td>
     </tr>
   </table>
 </p>
+
+### Checkout & Order Tracking
+<p align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>Checkout</strong></td>
+      <td align="center"><strong>Payment</strong></td>
+      <td align="center"><strong>Success Screen</strong></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/98cd3811-3e41-4865-930c-5cb4a9a98c42" width="250" alt="Checkout"/></td>
+      <td><img src="https://github.com/user-attachments/assets/38980720-bc4c-48e9-8c13-b9b02dc5e9e1" width="250" alt="Payment"/></td>
+      <td><img src="https://github.com/user-attachments/assets/b87d6504-b7b4-43d3-bf9f-6270af6d092c" width="250" alt="Success Screen"/></td>
+    </tr>
+    <tr>
+      <td align="center"><strong>My Orders</strong></td>
+      <td align="center"><strong>Completed Orders</strong></td>
+      <td align="center"><strong>Track Order</strong></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/fa7fc310-cc92-427b-b324-546adad7f783" width="250" alt="My Order"/></td>
+      <td><img src="https://github.com/user-attachments/assets/f9d1056e-a158-4266-ace8-3fb091c26fad" width="250" alt="Completed Order"/></td>
+      <td><img src="https://github.com/user-attachments/assets/d91c83c0-3a1b-4f5d-915d-58d6c8bf2d8c" width="250" alt="Track Order"/></td>
+    </tr>
+  </table>
+</p>
+
+### Profile & Account Management
+<p align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>Notifications</strong></td>
+      <td align="center"><strong>Main Profile</strong></td>
+      <td align="center"><strong>Edit Profile</strong></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/b78e31f2-c0f6-4311-bf06-2a2e173fea6b" width="250" alt="Notification"/></td>
+      <td><img src="https://github.com/user-attachments/assets/c29a0367-4d40-42f5-b7f1-d4737cdd19cc" width="250" alt="Main Profile"/></td>
+      <td><img src="https://github.com/user-attachments/assets/0320407a-cae0-4fa2-8954-a4fcfde46856" width="250" alt="Edit Profile"/></td>
+    </tr>
+    <tr>
+      <td align="center"><strong>Change Password</strong></td>
+      <td align="center"><strong>Saved Addresses</strong></td>
+      <td align="center"><strong>Add New Address</strong></td>
+    </tr>
+    <tr>
+      <td><img src="https://github.com/user-attachments/assets/d029c907-3c22-4bee-bc93-f80718135064" width="250" alt="Change Password"/></td>
+      <td><img src="https://github.com/user-attachments/assets/9583bdf5-3121-4cbc-8102-6042242b56fb" width="250" alt="Saved Address"/></td>
+      <td><img src="https://github.com/user-attachments/assets/c09cf915-dee6-446e-b26e-b19d633ac788" width="250" alt="Add New Address"/></td>
+    </tr>
+  </table>
+</p>
+
 ## 🌟 Overview & Core Features
 
 **Flowery** is designed to provide a frictionless and delightful shopping experience. From intuitive product discovery to real-time delivery tracking, every feature is engineered with the user in mind.
@@ -109,7 +163,8 @@ This codebase is strictly structured to guarantee maximum scalability and testab
 * **Automated Dependency Injection:** Managed via `get_it` and `injectable` to provide a clean, decoupled, and easily mockable DI graph.
 * **Type-Safe Networking:** Complex APIs (including Mapbox Directions and custom Backend endpoints) are handled through `Retrofit` and `Dio` with robust error handling.
 * **Service-Account Integration:** Utilizes OAuth2 Google Service Accounts to handle secure, high-priority Firebase Cloud Messaging (FCM) requests directly from the app's infrastructure.
----
+
+<hr>
 
 ## ⚙️ Tech Stack & Dependencies
 
@@ -136,7 +191,7 @@ The app leverages a modern and robust stack of libraries and tools to ensure per
 * **Lottie:** Smooth vector-based animations for a premium feel.
 * **Flutter Dotenv:** Securely loading environment variables.
 
----
+<hr>
 
 ## 🚀 Getting Started
 
