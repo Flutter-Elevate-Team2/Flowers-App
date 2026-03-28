@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flowers_app/Features/track_order/domain/entities/driver_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/store_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/tracking_location_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/user_location_entity.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
@@ -139,6 +140,10 @@ void main() {
         shippingAddress: 'Cairo',
         trackingLocation: TrackingLocationEntity(lat: 5.0, long: 10.5),
         userLocationEntity: UserLocationEntity(lat: 6.5, long: 11.0),
+          store: StoreEntity(
+            storeLat: 5.0,
+            storeLong: 10.5,),
+
       );
 
       final successState = TrackOrderStatusState(

@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
-import 'package:geolocator/geolocator.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 
 class TrackOrderStatusState extends Equatable {
   final BaseState<OrderTrackingEntity>? orderState;
   final BaseState<void>? updateStatusState;
-  final Position? currentDriverPosition;
+  final mapbox.Position? currentDriverPosition;
   final List<mapbox.Position>? routePoints;
   final bool showPickup;
   final Map<String, DateTime> statusHistory;
@@ -27,7 +26,7 @@ class TrackOrderStatusState extends Equatable {
   TrackOrderStatusState copyWith({
     BaseState<OrderTrackingEntity>? orderState,
     BaseState<void>? updateStatusState,
-    Position? currentDriverPosition,
+    mapbox.Position? currentDriverPosition,
     List<mapbox.Position>? routePoints,
     bool? showPickup,
     Map<String, DateTime>? statusHistory,

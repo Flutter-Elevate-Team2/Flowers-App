@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:flowers_app/Features/track_order/domain/entities/driver_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/store_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/tracking_location_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/user_location_entity.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
@@ -9,6 +9,7 @@ import 'package:flowers_app/Features/track_order/presentation/view_model/track_o
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
 import 'package:flowers_app/Features/track_order/presentation/widgets/track_order_button.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +23,34 @@ class FakeBuildContext extends Fake implements BuildContext {}
 void main() {
   late MockOrderStatusViewModel mockViewModel;
 
+  final tOrder = OrderTrackingEntity(
+    id: "order_123",
+    orderNumber: "ORD-123",
+    status: "accepted",
+    updatedAt: DateTime.now(),
+    totalPrice: 100,
+    paymentType: "Cash",
+    shippingAddress: "Cairo",
+    trackingLocation: TrackingLocationEntity(lat: 5.0, long: 10.0),
+    userLocationEntity: UserLocationEntity(lat: 6.0, long: 11.0),
+    driver: DriverEntity(
+      id: "1",
+      name: "Nagham",
+      phone: "010",
+      token: "driver_token",
+      vehicleNumber: "v123",
+      vehicleImage: "img",
+    ),
+    store: StoreEntity(storeLat: 7.0, storeLong: 12.5),
+  );
+
   setUpAll(() {
     registerFallbackValue(FakeBuildContext());
     registerFallbackValue(const TrackOrderStatusState());
-    registerFallbackValue(FetchOrderDetailsEvent(""));
+    registerFallbackValue(FetchOrderDetailsEvent("order_123"));
+    registerFallbackValue(
+      SendSilentNotificationEvent(orderId: "1", driverToken: "t"),
+    );
   });
 
   setUp(() {
@@ -53,10 +78,11 @@ void main() {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale('en'),
       home: Scaffold(
         body: BlocProvider<OrderStatusViewModel>.value(
           value: mockViewModel,
-          child: TrackOrderButton(isDelivered: isDelivered),
+          child: TrackOrderButton(isDelivered: isDelivered, order: tOrder),
         ),
       ),
     );
@@ -75,6 +101,7 @@ void main() {
       tester,
     ) async {
       final state = TrackOrderStatusState(
+        orderState: BaseState(data: tOrder),
         sendSilentNotificationState: const BaseState(isLoading: false),
       );
 
@@ -100,26 +127,6 @@ void main() {
     testWidgets(
       'triggers SendSilentNotificationEvent when "Order Delivered" is pressed',
       (tester) async {
-        final tOrder = OrderTrackingEntity(
-          id: "order_123",
-          driver: DriverEntity(
-            id: "1",
-            name: "Nagham",
-            phone: "0",
-            token: "driver_token",
-            vehicleNumber: "v",
-            vehicleImage: "i",
-          ),
-          orderNumber: "ORD-123",
-          status: "delivered",
-          updatedAt: DateTime.now(),
-          totalPrice: 100,
-          paymentType: "Cash",
-          shippingAddress: "Cairo",
-          trackingLocation: TrackingLocationEntity(lat: 0, long: 0),
-          userLocationEntity: UserLocationEntity(lat: 0, long: 0),
-        );
-
         final state = TrackOrderStatusState(
           orderState: BaseState(data: tOrder),
           sendSilentNotificationState: const BaseState(isLoading: false),
@@ -139,7 +146,7 @@ void main() {
       },
     );
 
-    testWidgets('shows success snackbar when notification sent successfully', (
+    testWidgets('shows success snack bar when notification sent successfully', (
       tester,
     ) async {
       final controller = StreamController<TrackOrderStatusState>.broadcast();
@@ -153,14 +160,23 @@ void main() {
       );
 
       controller.add(
-        const TrackOrderStatusState(
-          sendSilentNotificationState: BaseState(isLoading: false, data: true),
+        TrackOrderStatusState(
+          sendSilentNotificationState: const BaseState(
+            isLoading: false,
+            data: true,
+          ),
+          orderState: BaseState(data: tOrder),
         ),
       );
 
       await tester.pumpAndSettle();
 
       expect(find.byType(SnackBar), findsOneWidget);
+
+      final BuildContext context = tester.element(
+        find.byType(TrackOrderButton),
+      );
+      expect(find.text(context.l10n.confirmDeliverySuccess), findsOneWidget);
 
       await controller.close();
     });
