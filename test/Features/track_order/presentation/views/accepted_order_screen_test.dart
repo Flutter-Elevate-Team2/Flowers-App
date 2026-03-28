@@ -1,6 +1,7 @@
 import 'package:flowers_app/Features/track_order/domain/entities/driver_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_status.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/store_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/tracking_location_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/user_location_entity.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_state.dart';
@@ -115,6 +116,10 @@ void main() {
             vehicleNumber: "vehicleNumber",
             vehicleImage: "vehicleImage",
           ),
+            store: StoreEntity(
+              storeLat: 7.0,
+              storeLong: 12.5,
+            )
         );
 
          when(mockViewModel.state).thenReturn(

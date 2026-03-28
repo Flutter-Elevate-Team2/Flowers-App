@@ -84,6 +84,14 @@ class ErrorMapper {
       case ErrorStrings.firebaseUnavailable:
         return l10n.firebaseUnavailable;
 
+      // FCM
+      case ErrorStrings.fcmInvalidCredentials:
+        return l10n.fcmInvalidCredentials;
+      case ErrorStrings.fcmInvalidToken:
+        return l10n.fcmInvalidToken;
+      case ErrorStrings.fcmSendFailed:
+        return l10n.fcmSendFailed;
+
       // Others
       case ErrorStrings.hiveError:
         return l10n.hiveError;

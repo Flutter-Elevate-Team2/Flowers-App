@@ -21,10 +21,12 @@ import 'package:flowers_app/Features/order/presentation/orders/views/order_scree
 import 'package:flowers_app/Features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/profile_screen.dart';
 import 'package:flowers_app/Features/profile/presentation/views/reset_password_screen.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_event.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
 import 'package:flowers_app/Features/track_order/presentation/views/accepted_order_screen.dart';
 import 'package:flowers_app/Features/track_order/presentation/views/cancelled_order_screen.dart';
+import 'package:flowers_app/Features/track_order/presentation/views/order_map_screen.dart';
  import 'package:flowers_app/Features/track_order/presentation/views/track_order_screen.dart';
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/Features/user_address/presentation/views/screens/add_address_screen.dart';
@@ -102,6 +104,9 @@ class Routes {
 
   static const notificationsPath = '/notifications';
   static const notificationsName = 'notifications';
+
+  static const String mapPath = '/map';
+  static const String mapName = 'map';
 }
 
 class AppRouter {
@@ -342,6 +347,17 @@ class AppRouter {
         builder: (context, state) {
           final orderId = state.pathParameters['orderId'] ?? '';
           return CancelledOrderScreen(orderId: orderId);},
+      ),
+
+      GoRoute(
+        path: Routes.mapPath,
+        name: Routes.mapName,
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>;
+          final order = extras['order'] as OrderTrackingEntity;
+
+          return OrderMapScreen(order: order);
+        },
       ),
     ],
   );

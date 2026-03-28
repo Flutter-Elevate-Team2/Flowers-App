@@ -72,11 +72,10 @@ class FirebaseDataUploaderService {
   }
 
   Future<OrderTrackingFirebaseModel?> getTrackingOrderById(
-      String orderId,
-      ) async {
+    String orderId,
+  ) async {
     final doc = await _firestore.collection('active_orders').doc(orderId).get();
     if (!doc.exists) return null;
     return OrderTrackingFirebaseModel.fromJson(doc.data()!);
   }
-
 }

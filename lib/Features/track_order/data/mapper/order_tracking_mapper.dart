@@ -1,4 +1,5 @@
 import 'package:flowers_app/Features/track_order/domain/entities/driver_entity.dart';
+import 'package:flowers_app/Features/track_order/domain/entities/store_entity.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/tracking_location_entity.dart';
 import 'package:flowers_app/Features/track_order/data/models/order_tracking_firebase_model.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
@@ -19,16 +20,8 @@ extension OrderTrackingMapper on OrderTrackingFirebaseModel {
         long: (trackingLocation['long'] as num?)?.toDouble() ?? 0.0,
       ),
       userLocationEntity: UserLocationEntity(
-        lat: (orderData['shippingAddress'] is Map)
-            ? (orderData['shippingAddress']['location']?['lat'] as num?)
-                      ?.toDouble() ??
-                  0.0
-            : 0.0,
-        long: (orderData['shippingAddress'] is Map)
-            ? (orderData['shippingAddress']['location']?['long'] as num?)
-                      ?.toDouble() ??
-                  0.0
-            : 0.0,
+        lat: (orderData['shippingAddress']?['location']?['lat'] as num?)?.toDouble() ?? 30.0,
+        long: (orderData['shippingAddress']?['location']?['long'] as num?)?.toDouble() ?? 31.0,
       ),
       driver: DriverEntity(
         id: driverData['driverId'] ?? '',
@@ -37,6 +30,10 @@ extension OrderTrackingMapper on OrderTrackingFirebaseModel {
         token: driverData['driverToken'] ?? '',
         vehicleNumber: driverData['vehicleNumber'] ?? '',
         vehicleImage: driverData['vehicleImage'] ?? '',
+      ),
+      store: StoreEntity(
+        storeLat: (storeData['lat'] as num?)?.toDouble() ?? 29,
+        storeLong: (storeData['long'] as num?)?.toDouble() ?? 31,
       ),
     );
   }
