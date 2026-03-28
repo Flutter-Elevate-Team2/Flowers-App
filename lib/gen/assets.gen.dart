@@ -14,6 +14,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Delivery Boy.svg
+  String get deliveryBoy => 'assets/icons/Delivery Boy.svg';
+
   /// File path: assets/icons/Photo.svg
   String get photo => 'assets/icons/Photo.svg';
 
@@ -24,7 +27,7 @@ class $AssetsIconsGen {
   String get locationDot => 'assets/icons/location-dot.svg';
 
   /// List of all assets
-  List<String> get values => [photo, flowerLogo, locationDot];
+  List<String> get values => [deliveryBoy, photo, flowerLogo, locationDot];
 }
 
 class $AssetsImagesGen {
@@ -70,15 +73,22 @@ class $AssetsJsonGen {
   String get floweryTermsAndConditionsJSONWithArabicAndEnglish =>
       'assets/json/Flowery Terms and Conditions JSON with Arabic and English.json';
 
+  /// File path: assets/json/tracking-app-service.json
+  String get trackingAppService => 'assets/json/tracking-app-service.json';
+
   /// List of all assets
   List<String> get values => [
     floweryAboutSectionJSONWithExpandedContent,
     floweryTermsAndConditionsJSONWithArabicAndEnglish,
+    trackingAppService,
   ];
 }
 
 class $AssetsLottieGen {
   const $AssetsLottieGen();
+
+  /// File path: assets/lottie/Error animation.json
+  String get errorAnimation => 'assets/lottie/Error animation.json';
 
   /// File path: assets/lottie/Login.json
   String get login => 'assets/lottie/Login.json';
@@ -97,6 +107,7 @@ class $AssetsLottieGen {
 
   /// List of all assets
   List<String> get values => [
+    errorAnimation,
     login,
     cities,
     emptyCart,

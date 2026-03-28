@@ -1,19 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mapbox;
-import 'package:geolocator/geolocator.dart';
 import 'package:flowers_app/Features/track_order/domain/entities/order_tracking_entity.dart';
 import 'package:flowers_app/core/base_states/base_states.dart';
 
 class TrackOrderStatusState extends Equatable {
   final BaseState<OrderTrackingEntity>? orderState;
   final BaseState<void>? updateStatusState;
-  final Position? currentDriverPosition;
+  final mapbox.Position? currentDriverPosition;
   final List<mapbox.Position>? routePoints;
   final bool showPickup;
   final Map<String, DateTime> statusHistory;
+  final BaseState<bool>? sendSilentNotificationState;
 
 
   const TrackOrderStatusState({
+    this.sendSilentNotificationState = const BaseState(),
     this.orderState = const BaseState(),
     this.updateStatusState = const BaseState(),
     this.currentDriverPosition,
@@ -25,10 +26,11 @@ class TrackOrderStatusState extends Equatable {
   TrackOrderStatusState copyWith({
     BaseState<OrderTrackingEntity>? orderState,
     BaseState<void>? updateStatusState,
-    Position? currentDriverPosition,
+    mapbox.Position? currentDriverPosition,
     List<mapbox.Position>? routePoints,
     bool? showPickup,
     Map<String, DateTime>? statusHistory,
+    BaseState<bool>? sendSilentNotificationState,
   }) {
     return TrackOrderStatusState(
       orderState: orderState ?? this.orderState,
@@ -38,6 +40,7 @@ class TrackOrderStatusState extends Equatable {
       routePoints: routePoints ?? this.routePoints,
       showPickup: showPickup ?? this.showPickup,
       statusHistory: statusHistory ?? this.statusHistory,
+      sendSilentNotificationState: sendSilentNotificationState ?? this.sendSilentNotificationState,
     );
   }
 
@@ -49,5 +52,6 @@ class TrackOrderStatusState extends Equatable {
     routePoints,
     showPickup,
     statusHistory,
+    sendSilentNotificationState,
   ];
 }
