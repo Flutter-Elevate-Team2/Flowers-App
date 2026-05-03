@@ -4,6 +4,7 @@ import 'package:flowers_app/Features/auth/presentation/forget_password/view_mode
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/form_validators.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,9 +24,27 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
   bool _isNewPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _newPassword.addListener(_updateButtonState);
+    _confirmPassword.addListener(_updateButtonState);
+    _updateButtonState();
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isButtonEnabled =
+          _newPassword.text.isNotEmpty && _confirmPassword.text.isNotEmpty;
+    });
+  }
 
   @override
   void dispose() {
+    _newPassword.removeListener(_updateButtonState);
+    _confirmPassword.removeListener(_updateButtonState);
     _newPassword.dispose();
     _confirmPassword.dispose();
     super.dispose();
@@ -66,16 +85,14 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
             barrierDismissible: false,
             builder: (context) => AlertDialog(
               title: Text(context.l10n.success),
-              content:  Text(
-                context.l10n.resetSuccessfully,
-              ),
+              content: Text(context.l10n.resetSuccessfully),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context); // Pop dialog
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
-                  child:  Text(context.l10n.ok),
+                  child: Text(context.l10n.ok),
                 ),
               ],
             ),
@@ -99,7 +116,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
           child: Column(
             children: [
               TextFormField(
-                 style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) =>
                     FormValidators.validatePassword(context, value),
                 controller: _newPassword,
@@ -125,7 +142,7 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
               ),
               const SizedBox(height: 24),
               TextFormField(
-                 style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 validator: (value) => FormValidators.validateConfirmPassword(
                   context,
                   value,
@@ -153,22 +170,21 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
                 ),
               ),
               const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : _handleSubmit,
-                  child: isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(context.l10n.confirmButton),
-                ),
+              CustomButton(
+                title: context.l10n.confirmButton,
+                onPressed: (isLoading || !_isButtonEnabled)
+                    ? null
+                    : _handleSubmit,
+                // child: isLoading
+                //     ? const SizedBox(
+                //         height: 20,
+                //         width: 20,
+                //         child: CircularProgressIndicator(
+                //           strokeWidth: 2,
+                //           color: Colors.white,
+                //         ),
+                //       )
+                //     : Text(context.l10n.confirmButton),
               ),
             ],
           ),

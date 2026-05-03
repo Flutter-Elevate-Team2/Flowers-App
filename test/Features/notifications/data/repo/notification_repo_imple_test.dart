@@ -1,9 +1,7 @@
 import 'package:flowers_app/Features/notifications/data/data_source_contract/notification_remote_data_source_contract.dart';
-import 'package:flowers_app/Features/notifications/data/models/notification_response/metadata.dart';
-import 'package:flowers_app/Features/notifications/data/models/notification_response/notification_model.dart';
-import 'package:flowers_app/Features/notifications/data/models/notification_response/notification_response.dart';
+import 'package:flowers_app/Features/notifications/data/models/notification_model.dart';
 import 'package:flowers_app/Features/notifications/data/repo/notification_repo_imple.dart';
-import 'package:flowers_app/Features/notifications/domain/entities/notification_data.dart';
+import 'package:flowers_app/Features/notifications/domain/entities/notification_entity.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -21,109 +19,112 @@ void main() {
     repo = NotificationRepoImple(mockRemoteDataSource);
   });
 
-  group('NotificationRepoImple Tests', () {
-    group('getNotifications', () {
-      test(
-        'should return SuccessResponse with NotificationData when remote call succeeds',
-        () async {
-          // Arrange
-          final notificationModels = [
-            NotificationModel(title: 'Welcome', body: 'Welcome to our app'),
-            NotificationModel(
-              title: 'New Offer',
-              body: 'Check out our new offers',
-            ),
-          ];
-          final notificationResponse = NotificationResponse(
-            message: 'Success',
-            notifications: notificationModels,
-            metadata: Metadata(unreadCount: 2),
-          );
+  group('getNotifications', () {
+    final now = DateTime(2026, 3, 1);
 
-          when(
-            mockRemoteDataSource.getNotifications(),
-          ).thenAnswer((_) async => notificationResponse);
+    test('emits SuccessResponse with mapped entities on success', () {
+      // Arrange
+      final models = [
+        NotificationModel(
+          id: '1',
+          title: 'Title 1',
+          body: 'Body 1',
+          isRead: false,
+          sentAt: now,
+        ),
+        NotificationModel(
+          id: '2',
+          title: 'Title 2',
+          body: 'Body 2',
+          isRead: true,
+          sentAt: now,
+        ),
+      ];
 
-          // Act
-          final result = await repo.getNotifications();
+      when(
+        mockRemoteDataSource.getNotifications('user_1'),
+      ).thenAnswer((_) => Stream.value(models));
 
-          // Assert
-          expect(result, isA<SuccessResponse<NotificationData>>());
-          final data = (result as SuccessResponse<NotificationData>).data;
-          expect(data.notifications.length, 2);
-          expect(data.unreadCount, 2);
-          expect(data.notifications[0].title, 'Welcome');
-          expect(data.notifications[0].body, 'Welcome to our app');
-          expect(data.notifications[1].title, 'New Offer');
-          expect(data.notifications[1].body, 'Check out our new offers');
-          verify(mockRemoteDataSource.getNotifications()).called(1);
-        },
+      // Act
+      final stream = repo.getNotifications('user_1');
+
+      // Assert
+      expect(
+        stream,
+        emitsInOrder([
+          isA<SuccessResponse<List<NotificationEntity>>>().having(
+            (r) => r.data.length,
+            'entity count',
+            2,
+          ),
+        ]),
       );
+    });
 
-      test(
-        'should return SuccessResponse with empty list and zero unread count when notifications is null',
-        () async {
-          // Arrange
-          final notificationResponse = NotificationResponse(
-            message: 'Success',
-            notifications: null,
-            metadata: null,
-          );
+    test('emits SuccessResponse with empty list when no notifications', () {
+      // Arrange
+      when(
+        mockRemoteDataSource.getNotifications('user_1'),
+      ).thenAnswer((_) => Stream.value([]));
 
-          when(
-            mockRemoteDataSource.getNotifications(),
-          ).thenAnswer((_) async => notificationResponse);
+      // Act
+      final stream = repo.getNotifications('user_1');
 
-          // Act
-          final result = await repo.getNotifications();
-
-          // Assert
-          expect(result, isA<SuccessResponse<NotificationData>>());
-          final data = (result as SuccessResponse<NotificationData>).data;
-          expect(data.notifications, isEmpty);
-          expect(data.unreadCount, 0);
-          verify(mockRemoteDataSource.getNotifications()).called(1);
-        },
+      // Assert
+      expect(
+        stream,
+        emitsInOrder([
+          isA<SuccessResponse<List<NotificationEntity>>>().having(
+            (r) => r.data.isEmpty,
+            'empty list',
+            true,
+          ),
+        ]),
       );
+    });
 
-      test(
-        'should return SuccessResponse with empty list when notifications is empty',
-        () async {
-          // Arrange
-          final notificationResponse = NotificationResponse(
-            message: 'Success',
-            notifications: [],
-            metadata: Metadata(unreadCount: 0),
-          );
+    test('handles error from remote data source gracefully', () {
+      // Arrange
+      when(
+        mockRemoteDataSource.getNotifications('user_1'),
+      ).thenAnswer((_) => Stream.error(Exception('Network error')));
 
-          when(
-            mockRemoteDataSource.getNotifications(),
-          ).thenAnswer((_) async => notificationResponse);
+      // Act
+      final stream = repo.getNotifications('user_1');
 
-          // Act
-          final result = await repo.getNotifications();
+      // Assert – Stream.handleError swallows the error and the stream closes.
+      // No data event is emitted; the stream simply completes.
+      expect(stream, emitsDone);
+    });
+  });
 
-          // Assert
-          expect(result, isA<SuccessResponse<NotificationData>>());
-          final data = (result as SuccessResponse<NotificationData>).data;
-          expect(data.notifications, isEmpty);
-          expect(data.unreadCount, 0);
-          verify(mockRemoteDataSource.getNotifications()).called(1);
-        },
-      );
+  group('markNotificationAsRead', () {
+    test('returns SuccessResponse on success', () async {
+      // Arrange
+      when(
+        mockRemoteDataSource.markNotificationAsRead('notif_1'),
+      ).thenAnswer((_) async {});
 
-      test('should return ErrorResponse when remote call fails', () async {
-        // Arrange
-        final exception = Exception('Network error');
-        when(mockRemoteDataSource.getNotifications()).thenThrow(exception);
+      // Act
+      final result = await repo.markNotificationAsRead('notif_1');
 
-        // Act
-        final result = await repo.getNotifications();
+      // Assert
+      expect(result, isA<SuccessResponse<void>>());
+      verify(mockRemoteDataSource.markNotificationAsRead('notif_1')).called(1);
+    });
 
-        // Assert
-        expect(result, isA<ErrorResponse<NotificationData>>());
-        verify(mockRemoteDataSource.getNotifications()).called(1);
-      });
+    test('returns ErrorResponse when remote throws', () async {
+      // Arrange
+      when(
+        mockRemoteDataSource.markNotificationAsRead('notif_1'),
+      ).thenThrow(Exception('Firestore error'));
+
+      // Act
+      final result = await repo.markNotificationAsRead('notif_1');
+
+      // Assert
+      expect(result, isA<ErrorResponse<void>>());
+      verify(mockRemoteDataSource.markNotificationAsRead('notif_1')).called(1);
     });
   });
 }

@@ -8,6 +8,7 @@ import 'package:flowers_app/Features/track_order/presentation/widgets/map/custom
 import 'package:flowers_app/Features/track_order/presentation/widgets/map/order_map_body.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/di/di.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,8 +21,8 @@ class OrderMapScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-      getIt<OrderStatusViewModel>()
-        ..doIntent(context, FetchOrderDetailsEvent(order.id)),
+          getIt<OrderStatusViewModel>()
+            ..doIntent(context, FetchOrderDetailsEvent(order.id)),
       child: Scaffold(
         body: BlocBuilder<OrderStatusViewModel, TrackOrderStatusState>(
           builder: (context, state) {
@@ -73,9 +74,14 @@ class OrderMapScreen extends StatelessWidget {
                             children: [
                               EstimatedArrival(date: estimatedArrival),
                               const SizedBox(height: 16),
-                              Divider(color: AppColors.gray.withValues(alpha: 0.4)),
+                              Divider(
+                                color: AppColors.gray.withValues(alpha: 0.4),
+                              ),
                               const SizedBox(height: 16),
-                              DriverInfo(name: order.driver?.name ?? ""),
+                              DriverInfo(
+                                name: order.driver?.name ?? "",
+                                phone: order.driver?.phone ?? "",
+                              ),
                               const SizedBox(height: 24),
                               SizedBox(
                                 width: double.infinity,
@@ -89,9 +95,9 @@ class OrderMapScreen extends StatelessWidget {
                                     elevation: 0,
                                   ),
                                   onPressed: () {},
-                                  child: const Text(
-                                    "Order details",
-                                    style: TextStyle(
+                                  child: Text(
+                                    context.l10n.orderDetails,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,

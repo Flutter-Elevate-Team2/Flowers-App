@@ -33,9 +33,42 @@ class _SignUpFormState extends State<SignUpForm> {
   bool _isConfirmPasswordVisible = false;
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   Gender? _selectedGender;
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController.addListener(_updateButtonState);
+    _lastNameController.addListener(_updateButtonState);
+    _emailController.addListener(_updateButtonState);
+    _passwordController.addListener(_updateButtonState);
+    _confirmPasswordController.addListener(_updateButtonState);
+    _phoneController.addListener(_updateButtonState);
+    _updateButtonState();
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isButtonEnabled =
+          _firstNameController.text.isNotEmpty &&
+          _lastNameController.text.isNotEmpty &&
+          _emailController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty &&
+          _confirmPasswordController.text.isNotEmpty &&
+          _phoneController.text.isNotEmpty &&
+          _selectedGender != null;
+    });
+  }
 
   @override
   void dispose() {
+    _firstNameController.removeListener(_updateButtonState);
+    _lastNameController.removeListener(_updateButtonState);
+    _emailController.removeListener(_updateButtonState);
+    _passwordController.removeListener(_updateButtonState);
+    _confirmPasswordController.removeListener(_updateButtonState);
+    _phoneController.removeListener(_updateButtonState);
+
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
@@ -57,26 +90,22 @@ class _SignUpFormState extends State<SignUpForm> {
 
           if (signUpState?.data != null) {
             showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => AlertDialog(
-              title: Text(context.l10n.success),
-              content:  Text(
-                context.l10n.registerSuccessfully,
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => AlertDialog(
+                title: Text(context.l10n.success),
+                content: Text(context.l10n.registerSuccessfully),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Pop dialog
+                      context.goNamed(Routes.signInName);
+                    },
+                    child: Text(context.l10n.ok),
+                  ),
+                ],
               ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context); // Pop dialog
-                  context.goNamed(Routes.signInName);
-                  },
-                  child:  Text(context.l10n.ok),
-                ),
-            
-              ]
-            ),
-                );
-            
+            );
           } else if (signUpState?.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -126,7 +155,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
             TextFormField(
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.emailAddress,
@@ -141,7 +170,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 helperText: "",
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
 
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -214,43 +243,44 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 8),
             TextFormField(
               textInputAction: TextInputAction.done,
 
-               validator: (value) =>
+              validator: (value) =>
                   FormValidators.validatePhone(context, value),
               controller: _phoneController,
               style: Theme.of(context).textTheme.bodySmall,
               decoration: InputDecoration(
                 labelText: (context).l10n.phoneLabel,
-                hintText: (context).l10n.phoneHint,
+                hintText: "   ${(context).l10n.phoneHint}",
+                prefixText: '+2',
+                prefixStyle: Theme.of(context).textTheme.bodySmall,
                 helperText: "",
               ),
               keyboardType: TextInputType.phone,
             ),
-            const SizedBox(height: 24),
             GenderRadioListTile(
               selectedGender: _selectedGender,
               onChanged: (value) {
                 setState(() {
                   _selectedGender = value;
+                  _updateButtonState();
                 });
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             const TermsAndConditionsText(),
 
             SizedBox(height: 48),
             SizedBox(
               width: double.infinity,
-              height: 48,
               child: BlocBuilder<SignUpViewModel, SignUpStates>(
                 builder: (context, state) {
                   final isLoading = state.signUpState?.isLoading ?? false;
                   return CustomButton(
                     title: context.l10n.signUpTitle,
-                    onPressed: isLoading
+                    onPressed: (isLoading || !_isButtonEnabled)
                         ? null
                         : () {
                             setState(() {
@@ -262,7 +292,7 @@ class _SignUpFormState extends State<SignUpForm> {
                                   firstName: _firstNameController.text,
                                   lastName: _lastNameController.text,
                                   email: _emailController.text,
-                                  phone: _phoneController.text,
+                                  phone: "+2${_phoneController.text}",
                                   password: _passwordController.text,
                                   confirmPassword:
                                       _confirmPasswordController.text,

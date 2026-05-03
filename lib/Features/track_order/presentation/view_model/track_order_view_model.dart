@@ -33,6 +33,9 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
   Map<String, DateTime> _statusHistory = {};
   StreamSubscription<OrderTrackingFirebaseModel>? _orderSub;
 
+  // ✅ متغيرات حفظ الحالة لمنع الريكويستات العشوائية
+  mapbox.Position? _lastCalculatedDriverPos;
+
   Future<void> doIntent(
     BuildContext context,
     TrackOrderStatusEvent event,
@@ -151,6 +154,7 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
         orderEntity.trackingLocation.lat,
       );
 
+      // ✅ تحديد المسار الكامل دائماً (سائق -> متجر -> عميل)
       final waypoints = [
         driverPos,
         mapbox.Position(
@@ -163,25 +167,48 @@ class OrderStatusViewModel extends Cubit<TrackOrderStatusState> {
         ),
       ];
 
-      try {
-        final routePoints = await _getDirectionsUseCase.call(waypoints);
+      // ✅ فلترة الريكويستات: هل السائق تحرك فعلياً؟
+      bool shouldFetchRoute = false;
 
+      if (_lastCalculatedDriverPos == null ||
+          _lastCalculatedDriverPos!.lat != driverPos.lat ||
+          _lastCalculatedDriverPos!.lng != driverPos.lng) {
+        shouldFetchRoute = true;
+      }
+
+      if (shouldFetchRoute) {
+        try {
+          // نطلب المسار الجديد فقط لو السائق غير مكانه
+          final routePoints = await _getDirectionsUseCase.call(waypoints);
+
+          _lastCalculatedDriverPos = driverPos; // تحديث آخر مكان تم الحساب عنده
+
+          emit(
+            state.copyWith(
+              orderState: BaseState(isLoading: false, data: orderEntity),
+              routePoints: routePoints,
+              currentDriverPosition: driverPos,
+              statusHistory: _statusHistory,
+            ),
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              orderState: BaseState(isLoading: false, data: orderEntity),
+              statusHistory: _statusHistory,
+            ),
+          );
+          debugPrint("Directions Error: $e");
+        }
+      } else {
+        // ✅ السائق لم يتحرك؟ نحدث الـ UI فقط ببيانات الـ Firebase بدون Mapbox API
         emit(
           state.copyWith(
             orderState: BaseState(isLoading: false, data: orderEntity),
-            routePoints: routePoints,
             currentDriverPosition: driverPos,
             statusHistory: _statusHistory,
           ),
         );
-      } catch (e) {
-        emit(
-          state.copyWith(
-            orderState: BaseState(isLoading: false, data: orderEntity),
-            statusHistory: _statusHistory,
-          ),
-        );
-        debugPrint("Directions Error: $e");
       }
     });
   }

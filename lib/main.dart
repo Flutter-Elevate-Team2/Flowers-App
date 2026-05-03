@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_event.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
 import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
@@ -98,16 +99,15 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => getIt<ProfileViewModel>()),
         BlocProvider(
           create: (context) =>
-          getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
+              getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
         ),
         BlocProvider(create: (_) => SelectedAddressCubit()),
         BlocProvider(
           create: (context) =>
-          getIt<NotificationViewModel>()..doIntent(GetNotificationsEvent()),
+              getIt<NotificationViewModel>()..doIntent(GetNotificationsEvent()),
         ),
-        BlocProvider(
-          create: (_) => getIt<OrderStatusViewModel>(),
-        ),
+        BlocProvider(create: (_) => getIt<OrderStatusViewModel>()),
+        BlocProvider(create: (_) => getIt<OrdersViewModel>()),
       ],
       child: BlocBuilder<LanguageCubit, Locale>(
         builder: (context, locale) {
@@ -116,7 +116,7 @@ class _MyAppState extends State<MyApp> {
             routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,
             onGenerateTitle: (context) =>
-            AppLocalizations.of(context)!.appTitle,
+                AppLocalizations.of(context)!.appTitle,
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             theme: AppTheme.lightTheme,

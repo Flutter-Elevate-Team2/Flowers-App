@@ -39,6 +39,7 @@ class ApiConstants {
   static const String pending = "pending";
   static const String completed = "completed";
   static const String inProgress = "inProgress";
+  static const String cancelled = "canceled";
 
   // ================= Notifications Endpoints =================
   static const String notifications = "notifications/user";

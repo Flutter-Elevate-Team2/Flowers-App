@@ -10,6 +10,8 @@ import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flowers_app/gen/assets.gen.dart';
+import 'package:lottie/lottie.dart';
 
 class TrackOrderBody extends StatelessWidget {
   const TrackOrderBody({super.key});
@@ -61,11 +63,14 @@ class TrackOrderBody extends StatelessWidget {
                   child: Divider(color: AppColors.gray.withValues(alpha: 0.4)),
                 ),
 
-                DriverInfo(name: order.driver!.name),
+                DriverInfo(
+                  name: order.driver!.name,
+                  phone: order.driver!.phone,
+                ),
 
-                const SizedBox(height: 20),
-
-                VehicleImage(order.driver!.vehicleImage),
+                order.driver!.vehicleImage.isEmpty
+                    ? Lottie.asset(Assets.lottie.delivery)
+                    : VehicleImage(order.driver!.vehicleImage),
 
                 /// Timeline dynamic
                 OrderTimeline(currentStatus: order.status, history: history),

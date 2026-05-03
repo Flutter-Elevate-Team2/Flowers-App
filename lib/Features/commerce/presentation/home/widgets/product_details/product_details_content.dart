@@ -1,5 +1,6 @@
 import 'package:flowers_app/Features/commerce/domain/entities/product_entities/product_entity.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +100,7 @@ class ProductDetailsContent extends StatelessWidget {
 
             // Bouquet Include Section
             Text(
-              "Bouquet include",
+              context.l10n.bouquetInclude,
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: AppColors.black,

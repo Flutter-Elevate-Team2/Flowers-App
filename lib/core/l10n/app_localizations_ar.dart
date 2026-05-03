@@ -297,6 +297,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get firebaseUnavailable => 'Firebase service unavailable.';
 
   @override
+  String get firebaseNotFound => 'الإشعار غير موجود. ربما تم حذفه بالفعل.';
+
+  @override
   String get hiveError => 'Database error (Hive).';
 
   @override
@@ -728,4 +731,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get orderHasBeenCancelled => 'تم إلغاء طلبك، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get noNotifications => 'لا توجد إشعارات حتى الآن';
+
+  @override
+  String get notificationsErrorTitle => 'حدث خطأ ما';
+
+  @override
+  String get bouquetInclude => 'يتضمن البوكيه';
+
+  @override
+  String get orderDetails => 'تفاصيل الطلب';
+
+  @override
+  String get failedToLoadProducts => 'فشل في تحميل المنتجات';
+
+  @override
+  String get invalidPaymentSession => 'جلسة الدفع غير صالحة';
+
+  @override
+  String get orderNotFound => 'الطلب غير موجود';
+
+  @override
+  String get notifAcceptedTitle => 'تم قبول الطلب 🌸';
+
+  @override
+  String get notifAcceptedBody => 'سائقنا في طريقه الآن لاستلام زهورك.';
+
+  @override
+  String get notifArrivedPickupTitle => 'في المتجر 🏬';
+
+  @override
+  String get notifArrivedPickupBody =>
+      'نحن الآن نقوم باستلام باقتك الطازجة وتجهيزها.';
+
+  @override
+  String get notifStartDeliverTitle => 'في الطريق إليك 🚗';
+
+  @override
+  String get notifStartDeliverBody => 'زهورك في الطريق! تتبع موقع السائق الآن.';
+
+  @override
+  String get notifArrivedUserTitle => 'لقد وصلنا 📍';
+
+  @override
+  String get notifArrivedUserBody =>
+      'السائق بالخارج الآن ومعه زهورك، يرجى الاستلام.';
+
+  @override
+  String get notifDeliveredTitle => 'تم التوصيل 🎉';
+
+  @override
+  String get notifDeliveredBody =>
+      'نتمنى أن تكون زهورنا قد رسمت ابتسامة على وجهك!';
 }

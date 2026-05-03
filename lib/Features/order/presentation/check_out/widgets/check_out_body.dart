@@ -1,10 +1,5 @@
 import 'package:flowers_app/Features/order/data/models/checkout/order_request_dto.dart';
 import 'package:flowers_app/Features/order/data/models/checkout/shipping_address_request.dart';
-import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
-import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
-import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
-import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
-import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/view_model/checkout_events.dart';
@@ -17,9 +12,14 @@ import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/check_out_total_price.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/delivery_time_section.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/gift_section.dart';
+import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_option.dart';
 import 'package:flowers_app/Features/order/presentation/check_out/widgets/payment_method_section.dart';
-import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_state.dart';
+import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
+import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/widget/selected_address_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,16 +94,16 @@ class _CheckOutBodyState extends State<CheckOutBody> {
             state.redirectUrl != null ||
             state.cashResponse != null;
 
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              const DeliveryTimeSection(),
-              const SizedBox(height: 24),
-              BlocBuilder<SelectedAddressCubit, AddressEntity?>(
-                builder: (context, globalSelectedAddress) {
-                  selectedAddress = globalSelectedAddress;
+        return BlocBuilder<SelectedAddressCubit, AddressEntity?>(
+          builder: (context, globalSelectedAddress) {
+            selectedAddress = globalSelectedAddress;
 
-                  return BlocBuilder<UserAddressViewModel, UserAddressState>(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  const DeliveryTimeSection(),
+                  const SizedBox(height: 24),
+                  BlocBuilder<UserAddressViewModel, UserAddressState>(
                     builder: (context, addressState) {
                       final addresses =
                           addressState.getAddressesState?.data?.addresses ?? [];
@@ -113,7 +113,6 @@ class _CheckOutBodyState extends State<CheckOutBody> {
                         selectedAddress: selectedAddress,
                         onAddressSelected: (address) {
                           setState(() => selectedAddress = address);
-
                           context.read<SelectedAddressCubit>().select(address);
                         },
                         onAdd: () async {
@@ -141,51 +140,52 @@ class _CheckOutBodyState extends State<CheckOutBody> {
                         },
                       );
                     },
-                  );
-                },
-              ),
-              const SizedBox(height: 24),
-              PaymentMethodSection(
-                selectedMethod: _selectedPaymentMethod,
-                onChanged: (method) {
-                  setState(() => _selectedPaymentMethod = method);
-                },
-              ),
-              const SizedBox(height: 24),
-              const GiftSection(),
-              const SizedBox(height: 24),
-              const CheckoutTotalPrice(),
-              CheckOutSectionWrapper(
-                child: CheckoutButton(
-                  title: context.l10n.placeOrder,
-                  isLoading: isLoading,
-                  onPressed: selectedAddress == null
-                      ? null
-                      : () {
-                          final orderRequest = OrderRequest(
-                            shippingAddress: ShippingAddressRequest(
-                              street: selectedAddress!.street,
-                              city: selectedAddress!.city,
-                              phone: selectedAddress!.phone,
-                              lat: selectedAddress!.lat.toString(),
-                              long: selectedAddress!.long.toString(),
-                            ),
-                          );
+                  ),
+                  const SizedBox(height: 24),
+                  PaymentMethodSection(
+                    selectedMethod: _selectedPaymentMethod,
+                    onChanged: (method) {
+                      setState(() => _selectedPaymentMethod = method);
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  const GiftSection(),
+                  const SizedBox(height: 24),
+                  const CheckoutTotalPrice(),
+                  CheckOutSectionWrapper(
+                    child: CheckoutButton(
+                      title: context.l10n.checkout,
+                      isLoading: isLoading,
+                      onPressed: selectedAddress == null
+                          ? null
+                          : () {
+                              final orderRequest = OrderRequest(
+                                shippingAddress: ShippingAddressRequest(
+                                  street: selectedAddress!.street,
+                                  city: selectedAddress!.city,
+                                  phone: selectedAddress!.phone,
+                                  lat: selectedAddress!.lat.toString(),
+                                  long: selectedAddress!.long.toString(),
+                                ),
+                              );
 
-                          if (_selectedPaymentMethod == PaymentMethod.cash) {
-                            checkoutViewModel.doIntent(
-                              CashPaymentEvent(orderRequest),
-                            );
-                          } else {
-                            checkoutViewModel.doIntent(
-                              CreditCardPaymentEvent(orderRequest),
-                            );
-                          }
-                        },
-                ),
+                              if (_selectedPaymentMethod ==
+                                  PaymentMethod.cash) {
+                                checkoutViewModel.doIntent(
+                                  CashPaymentEvent(orderRequest),
+                                );
+                              } else {
+                                checkoutViewModel.doIntent(
+                                  CreditCardPaymentEvent(orderRequest),
+                                );
+                              }
+                            },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

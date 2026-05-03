@@ -18,8 +18,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class ProfileScreenBody extends StatelessWidget {
+class ProfileScreenBody extends StatefulWidget {
   const ProfileScreenBody({super.key});
+
+  @override
+  State<ProfileScreenBody> createState() => _ProfileScreenBodyState();
+}
+
+class _ProfileScreenBodyState extends State<ProfileScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+    // Load local notification preference when the screen initializes.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProfileViewModel>().loadNotificationPreference();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +94,16 @@ class ProfileScreenBody extends StatelessWidget {
                     context,
                   ).colorScheme.surfaceContainerHighest,
                   trailing: Switch(
-                    value: true,
-                    onChanged: (val) {},
+                    value: state.isNotificationsEnabled,
+                    onChanged: (val) {
+                      context.read<ProfileViewModel>().toggleNotifications(val);
+                    },
                     activeThumbColor: Theme.of(context).primaryColor,
                     activeTrackColor: Theme.of(
                       context,
                     ).colorScheme.primary.withValues(alpha: 0.2),
+                    inactiveThumbColor: Colors.grey,
+                    inactiveTrackColor: Colors.grey.withValues(alpha: 0.2),
                   ),
                 ),
                 Divider(color: AppColors.gray, height: 32),
@@ -119,7 +137,7 @@ class ProfileScreenBody extends StatelessWidget {
                 ProfileMenuItem(
                   title: context.l10n.aboutUs,
                   leadingIcon: Icons.info_outline,
-                  onTap: (){
+                  onTap: () {
                     context.pushNamed(Routes.aboutpageName);
                   },
                 ),
@@ -173,9 +191,10 @@ class ProfileAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NotificationViewModel, NotificationState>(
+      buildWhen: (previous, current) =>
+          previous.unreadCount != current.unreadCount,
       builder: (context, notificationState) {
         final unreadCount = notificationState.unreadCount;
-
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(

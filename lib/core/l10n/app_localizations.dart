@@ -662,6 +662,12 @@ abstract class AppLocalizations {
   /// **'Firebase service unavailable.'**
   String get firebaseUnavailable;
 
+  /// Firebase Firestore error when a document does not exist
+  ///
+  /// In en, this message translates to:
+  /// **'Notification not found. It may have already been removed.'**
+  String get firebaseNotFound;
+
   /// Error message for Hive database issues
   ///
   /// In en, this message translates to:
@@ -1513,6 +1519,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Order has been cancelled please try again'**
   String get orderHasBeenCancelled;
+
+  /// Empty state message for the notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get noNotifications;
+
+  /// Generic error title on the notifications screen
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get notificationsErrorTitle;
+
+  /// Bouquet include
+  ///
+  /// In en, this message translates to:
+  /// **'Bouquet include'**
+  String get bouquetInclude;
+
+  /// Order details
+  ///
+  /// In en, this message translates to:
+  /// **'Order details'**
+  String get orderDetails;
+
+  /// Error failed to load products
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load products'**
+  String get failedToLoadProducts;
+
+  /// Error invalid payment session
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid payment session'**
+  String get invalidPaymentSession;
+
+  /// Error order not found
+  ///
+  /// In en, this message translates to:
+  /// **'Order Not Found'**
+  String get orderNotFound;
+
+  /// Order Accepted Notification Title
+  ///
+  /// In en, this message translates to:
+  /// **'Order Accepted 🌸'**
+  String get notifAcceptedTitle;
+
+  /// Order Accepted Notification Body
+  ///
+  /// In en, this message translates to:
+  /// **'Your driver is heading to the store to pick up your blooms.'**
+  String get notifAcceptedBody;
+
+  /// Arrived Pickup Notification Title
+  ///
+  /// In en, this message translates to:
+  /// **'At the Store 🏬'**
+  String get notifArrivedPickupTitle;
+
+  /// Arrived Pickup Notification Body
+  ///
+  /// In en, this message translates to:
+  /// **'We are picking up your fresh bouquet right now.'**
+  String get notifArrivedPickupBody;
+
+  /// Start Deliver Notification Title
+  ///
+  /// In en, this message translates to:
+  /// **'On the Way 🚗'**
+  String get notifStartDeliverTitle;
+
+  /// Start Deliver Notification Body
+  ///
+  /// In en, this message translates to:
+  /// **'Your flowers are on the way! Track your driver now.'**
+  String get notifStartDeliverBody;
+
+  /// Arrived User Notification Title
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re Here 📍'**
+  String get notifArrivedUserTitle;
+
+  /// Arrived User Notification Body
+  ///
+  /// In en, this message translates to:
+  /// **'Your driver has arrived with your flowers. Please step out to receive them.'**
+  String get notifArrivedUserBody;
+
+  /// Delivered Notification Title
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered Successfully 🎉'**
+  String get notifDeliveredTitle;
+
+  /// Delivered Notification Body
+  ///
+  /// In en, this message translates to:
+  /// **'We hope our flowers brought a smile to your face today!'**
+  String get notifDeliveredBody;
 }
 
 class _AppLocalizationsDelegate

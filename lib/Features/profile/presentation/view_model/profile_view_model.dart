@@ -17,6 +17,8 @@ import 'package:flowers_app/core/base_states/base_states.dart';
 import 'package:flowers_app/core/controller/session_controller.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @lazySingleton
 class ProfileViewModel extends Cubit<ProfileState> {
@@ -27,6 +29,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
   final LogoutUseCase _logoutUseCase;
   final HasValidTokenUseCase _hasTokenUseCase;
   final SessionController _sessionController;
+  final SharedPreferences _sharedPreferences;
   StreamSubscription? _loginSubscription;
   StreamSubscription? _logoutSubscription;
 
@@ -38,6 +41,7 @@ class ProfileViewModel extends Cubit<ProfileState> {
     this._logoutUseCase,
     this._hasTokenUseCase,
     this._sessionController,
+    this._sharedPreferences,
   ) : super(ProfileState()) {
     _listenToSession();
   }
@@ -73,6 +77,29 @@ class ProfileViewModel extends Cubit<ProfileState> {
       case LogoutEvent():
         _logout();
         break;
+    }
+  }
+
+  void loadNotificationPreference() {
+    final isEnabled =
+        _sharedPreferences.getBool('is_notifications_enabled') ?? true;
+    if (!isClosed) {
+      emit(state.copyWith(isNotificationsEnabled: isEnabled));
+    }
+  }
+
+  Future<void> toggleNotifications(bool value) async {
+    if (value) {
+      final permission = await Permission.notification.request();
+      if (permission.isGranted) {
+        await _sharedPreferences.setBool('is_notifications_enabled', true);
+        if (!isClosed) emit(state.copyWith(isNotificationsEnabled: true));
+      } else if (permission.isPermanentlyDenied) {
+        openAppSettings();
+      }
+    } else {
+      await _sharedPreferences.setBool('is_notifications_enabled', false);
+      if (!isClosed) emit(state.copyWith(isNotificationsEnabled: false));
     }
   }
 

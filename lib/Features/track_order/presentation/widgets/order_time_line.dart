@@ -16,7 +16,11 @@ class OrderTimeline extends StatelessWidget {
   }
 
   String _formatTime(String key) {
-    final date = history[key];
+    var date = history[key];
+    if (date == null && key == 'delivered') {
+      date = history['completed'];
+    }
+
     return date != null ?  DateFormat(
       'dd MMM yyyy, hh:mm a',
     ).format(date) : "";

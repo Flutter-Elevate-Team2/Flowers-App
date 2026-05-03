@@ -3,6 +3,7 @@ import 'package:flowers_app/Features/auth/presentation/forget_password/view_mode
 import 'package:flowers_app/Features/auth/presentation/forget_password/view_model/forget_password_states.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
 import 'package:flowers_app/core/helpers/form_validators.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,9 +25,24 @@ class _EmailFormSectionState extends State<EmailFormSection> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_updateButtonState);
+    _updateButtonState();
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      _isButtonEnabled = _emailController.text.isNotEmpty;
+    });
+  }
 
   @override
   void dispose() {
+    _emailController.removeListener(_updateButtonState);
     _emailController.dispose();
     super.dispose();
   }
@@ -86,22 +102,21 @@ class _EmailFormSectionState extends State<EmailFormSection> {
                 ),
               ),
               const SizedBox(height: 48),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : _handleSubmit,
-                  child: isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(context.l10n.confirmButton),
-                ),
+              CustomButton(
+                title: context.l10n.confirmButton,
+                onPressed: (isLoading || !_isButtonEnabled)
+                    ? null
+                    : _handleSubmit,
+                // child: isLoading
+                //     ? const SizedBox(
+                //         height: 20,
+                //         width: 20,
+                //         child: CircularProgressIndicator(
+                //           strokeWidth: 2,
+                //           color: Colors.white,
+                //         ),
+                //       )
+                //     : Text(context.l10n.confirmButton),
               ),
             ],
           ),

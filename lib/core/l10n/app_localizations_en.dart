@@ -300,6 +300,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get firebaseUnavailable => 'Firebase service unavailable.';
 
   @override
+  String get firebaseNotFound =>
+      'Notification not found. It may have already been removed.';
+
+  @override
   String get hiveError => 'Database error (Hive).';
 
   @override
@@ -734,4 +738,60 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get orderHasBeenCancelled =>
       'Your Order has been cancelled please try again';
+
+  @override
+  String get noNotifications => 'No notifications yet';
+
+  @override
+  String get notificationsErrorTitle => 'Something went wrong';
+
+  @override
+  String get bouquetInclude => 'Bouquet include';
+
+  @override
+  String get orderDetails => 'Order details';
+
+  @override
+  String get failedToLoadProducts => 'Failed to load products';
+
+  @override
+  String get invalidPaymentSession => 'Invalid payment session';
+
+  @override
+  String get orderNotFound => 'Order Not Found';
+
+  @override
+  String get notifAcceptedTitle => 'Order Accepted 🌸';
+
+  @override
+  String get notifAcceptedBody =>
+      'Your driver is heading to the store to pick up your blooms.';
+
+  @override
+  String get notifArrivedPickupTitle => 'At the Store 🏬';
+
+  @override
+  String get notifArrivedPickupBody =>
+      'We are picking up your fresh bouquet right now.';
+
+  @override
+  String get notifStartDeliverTitle => 'On the Way 🚗';
+
+  @override
+  String get notifStartDeliverBody =>
+      'Your flowers are on the way! Track your driver now.';
+
+  @override
+  String get notifArrivedUserTitle => 'We\'re Here 📍';
+
+  @override
+  String get notifArrivedUserBody =>
+      'Your driver has arrived with your flowers. Please step out to receive them.';
+
+  @override
+  String get notifDeliveredTitle => 'Delivered Successfully 🎉';
+
+  @override
+  String get notifDeliveredBody =>
+      'We hope our flowers brought a smile to your face today!';
 }

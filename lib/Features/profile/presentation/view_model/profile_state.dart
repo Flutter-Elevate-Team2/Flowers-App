@@ -11,6 +11,7 @@ class ProfileState {
   final BaseState<String>? uploadPhotoState;
   final BaseState<void>? logoutState;
   final File? selectedProfileImage;
+  final bool isNotificationsEnabled;
 
   ProfileState({
     this.profileState,
@@ -19,6 +20,7 @@ class ProfileState {
     this.uploadPhotoState,
     this.logoutState,
     this.selectedProfileImage,
+    this.isNotificationsEnabled = true,
   });
 
   ProfileState copyWith({
@@ -29,6 +31,7 @@ class ProfileState {
     BaseState<void>? logoutState,
     File? selectedProfileImage,
     bool clearSelectedImage = false,
+    bool? isNotificationsEnabled,
   }) {
     return ProfileState(
       profileState: profileState ?? this.profileState,
@@ -39,6 +42,8 @@ class ProfileState {
       selectedProfileImage: clearSelectedImage
           ? null
           : (selectedProfileImage ?? this.selectedProfileImage),
+      isNotificationsEnabled:
+          isNotificationsEnabled ?? this.isNotificationsEnabled,
     );
   }
 }

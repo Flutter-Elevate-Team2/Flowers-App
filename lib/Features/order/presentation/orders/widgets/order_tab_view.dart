@@ -4,6 +4,7 @@ import 'package:flowers_app/Features/order/data/models/cart/cart_request_dto.dar
 import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_entity.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_events.dart';
 import 'package:flowers_app/Features/order/presentation/cart/view_model/cart_view_model.dart';
+import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_event.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_states.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_view_model.dart';
 import 'package:flowers_app/Features/order/presentation/orders/widgets/order_card_shimmer.dart';
@@ -16,6 +17,7 @@ import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'order_card.dart';
 
 enum OrdersTab { active, completed }
@@ -66,21 +68,27 @@ class OrdersTabView extends StatelessWidget {
       );
     }
 
-    return ListView.builder(
-      key: ValueKey('list_${tab.name}'),
-      itemCount: orders.length,
-      itemBuilder: (context, index) {
-        final locale = context.read<LanguageCubit>().state.languageCode;
-        final isCancelled = orders[index].state == "canceled";
-
-        return OrderCard(
-          order: orders[index],
-          isCompleted: tab == OrdersTab.completed,
-          onButtonPressed: () =>
-              _handleOrderAction(context, orders[index], isCancelled),
-          locale: locale,
-        );
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<OrdersViewModel>().doIntent(GetUserOrdersEvent());
+        await Future.delayed(const Duration(seconds: 1));
       },
+      child: ListView.builder(
+        key: ValueKey('list_${tab.name}'),
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          final locale = context.read<LanguageCubit>().state.languageCode;
+          final isCancelled = orders[index].state == "canceled";
+
+          return OrderCard(
+            order: orders[index],
+            isCompleted: tab == OrdersTab.completed,
+            onButtonPressed: () =>
+                _handleOrderAction(context, orders[index], isCancelled),
+            locale: locale,
+          );
+        },
+      ),
     );
   }
 
@@ -89,24 +97,13 @@ class OrdersTabView extends StatelessWidget {
     dynamic order,
     bool isCancelled,
   ) async {
-    final trackViewModel = context.read<OrderStatusViewModel>();
-    trackViewModel.doIntent(context, FetchOrderDetailsEvent(order.id ?? ''));
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    final orderState = trackViewModel.state.orderState?.data?.status ?? '';
-
-    bool isAccepted = orderState == OrderStatus.accepted.firebaseValue;
-    bool isReceived = orderState == OrderStatus.receivedYourOrder.firebaseValue;
-    bool isPreparing =
-        orderState == OrderStatus.preparingYourOrder.firebaseValue;
-    bool isArrived = orderState == OrderStatus.outForDelivery.firebaseValue;
-    bool isDelivered = orderState == OrderStatus.delivered.firebaseValue;
-
     if (tab == OrdersTab.completed) {
       final cartViewModel = context.read<CartViewModel>();
 
-      await cartViewModel.doIntent(ClearCartEvent());
+      // 1. تفريغ السلة (بدون تأخير)
+      cartViewModel.doIntent(ClearCartEvent());
 
+      // 2. إضافة المنتجات الجديدة
       for (var item in order.orderItems ?? []) {
         cartViewModel.doIntent(
           AddToCartEvent(
@@ -118,30 +115,52 @@ class OrdersTabView extends StatelessWidget {
         );
       }
 
-      await Future.delayed(const Duration(milliseconds: 300));
+      // 3. النقل الفوري لشاشة السلة ليعمل الـ Shimmer
       if (context.mounted) {
         context.goNamed(Routes.cartName);
       }
     } else {
+      // المنطق الخاص بالطلبات النشطة (Active)
+      final trackViewModel = context.read<OrderStatusViewModel>();
+      trackViewModel.doIntent(context, FetchOrderDetailsEvent(order.id ?? ''));
+      await Future.delayed(const Duration(milliseconds: 300));
+
+      final orderState = trackViewModel.state.orderState?.data?.status ?? '';
+
+      // تم التحديث ليتوافق مع Enum الجديد
+      bool isAccepted = orderState == OrderStatus.accepted.firebaseValue;
+      bool isArrivedPickup = orderState == OrderStatus.arrivedPickup.firebaseValue;
+      bool isOutForDelivery = orderState == OrderStatus.outForDelivery.firebaseValue;
+      bool isArrivedUser = orderState == OrderStatus.arrivedUser.firebaseValue;
+      bool isDelivered = orderState == OrderStatus.delivered.firebaseValue;
+      bool isCompleted = orderState == OrderStatus.completed.firebaseValue;
+
       /// Track Order
-      (isCancelled)
-          ? context.pushNamed(
-              Routes.cancelledOrderName,
-              pathParameters: {'orderId': order.id ?? ''},
-            )
-          : (isAccepted ||
-                isReceived ||
-                isPreparing ||
-                isArrived ||
-                isDelivered)
-          ? context.pushNamed(
-              Routes.trackOrderName,
-              pathParameters: {'orderId': order.id ?? ''},
-            )
-          : context.pushNamed(
-              Routes.placedSuccessfullyName,
-              pathParameters: {'orderId': order.id ?? ''},
-            );
+      if (isCancelled) {
+        await context.pushNamed(
+          Routes.cancelledOrderName,
+          pathParameters: {'orderId': order.id ?? ''},
+        );
+      } else if (isAccepted ||
+          isArrivedPickup ||
+          isOutForDelivery ||
+          isArrivedUser ||
+          isDelivered ||
+          isCompleted) {
+        await context.pushNamed(
+          Routes.trackOrderName,
+          pathParameters: {'orderId': order.id ?? ''},
+        );
+      } else {
+        await context.pushNamed(
+          Routes.placedSuccessfullyName,
+          pathParameters: {'orderId': order.id ?? ''},
+        );
+      }
+
+      if (context.mounted) {
+        context.read<OrdersViewModel>().doIntent(GetUserOrdersEvent());
+      }
     }
   }
 }

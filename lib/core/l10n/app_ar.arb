@@ -34,25 +34,20 @@
   "forgotPasswordLink": "نسيت كلمة المرور؟",
   "guestLogin": "المتابعة كزائر",
   "noAccountSignUp": "ليس لديك حساب؟",
-
   "termsAndConditions": "الشروط والأحكام",
-
   "signUpTitle": "إنشاء حساب",
   "genderLabel": "النوع",
   "genderMale": "ذكر",
   "genderFemale": "أنثى",
   "termsConditions": "بإنشائك حساباً، فإنك توافق على ",
   "haveAccountLogin": "لديك حساب بالفعل؟",
-
   "forgotPasswordTitle": "نسيت كلمة المرور",
   "forgotPasswordSubTitle": "يرجى إدخال البريد الإلكتروني المرتبط بحسابك",
   "confirmButton": "تأكيد",
-
   "verificationTitle": "تأكيد البريد الإلكتروني",
   "verificationSubTitle": "يرجى إدخال الرمز المرسل إلى بريدك الإلكتروني",
   "resendCode": "لم يصلك الرمز؟",
   "resend": "إعادة الإرسال",
-
   "resetPasswordTitle": "إعادة تعيين كلمة المرور",
   "resetPasswordSubTitle": "يجب ألا تكون كلمة المرور فارغة وأن تحتوي على 6 أحرف على الأقل، حرف كبير ورقم.",
   "newPasswordLabel": "كلمة مرور جديدة",
@@ -213,14 +208,31 @@
   "showMap": "عرض الخريطة",
   "orderDelivered": "تم تسليم الطلب",
   "arrived": "وصل المندوب",
-
   "fcmInvalidCredentials": "فشل في مصادقة خدمة الإشعارات. يرجى التواصل مع الدعم.",
   "fcmInvalidToken": "تعذر الوصول إلى السائق. قد يكون رمز الجهاز منتهي الصلاحية.",
   "fcmSendFailed": "فشل في إرسال الإشعار. يرجى المحاولة مرة أخرى.",
-
+  "appVersion": "v 6.3.0 - (446)",
+  "noNotifications": "لا توجد إشعارات حتى الآن",
+  "notificationsErrorTitle": "حدث خطأ ما",
+  "firebaseNotFound": "الإشعار غير موجود. ربما تم حذفه بالفعل.",
   "confirmDeliverySuccess": "تم تأكيد الاستلام بنجاح، جاري إنهاء الطلب..",
   "confirmingDelivery": "جاري التأكيد...",
   "driverDataIncomplete": "بيانات السائق غير مكتملة",
   "orderCancelled": "تم إلغاء الطلب",
-  "orderHasBeenCancelled": "تم إلغاء طلبك، يرجى المحاولة مرة أخرى"
+  "orderHasBeenCancelled": "تم إلغاء طلبك، يرجى المحاولة مرة أخرى",
+  "bouquetInclude": "يتضمن البوكيه",
+  "orderDetails": "تفاصيل الطلب",
+  "failedToLoadProducts": "فشل في تحميل المنتجات",
+  "invalidPaymentSession": "جلسة الدفع غير صالحة",
+  "orderNotFound": "الطلب غير موجود",
+  "notifAcceptedTitle": "تم قبول الطلب 🌸",
+  "notifAcceptedBody": "سائقنا في طريقه الآن لاستلام زهورك.",
+  "notifArrivedPickupTitle": "في المتجر 🏬",
+  "notifArrivedPickupBody": "نحن الآن نقوم باستلام باقتك الطازجة وتجهيزها.",
+  "notifStartDeliverTitle": "في الطريق إليك 🚗",
+  "notifStartDeliverBody": "زهورك في الطريق! تتبع موقع السائق الآن.",
+  "notifArrivedUserTitle": "لقد وصلنا 📍",
+  "notifArrivedUserBody": "السائق بالخارج الآن ومعه زهورك، يرجى الاستلام.",
+  "notifDeliveredTitle": "تم التوصيل 🎉",
+  "notifDeliveredBody": "نتمنى أن تكون زهورنا قد رسمت ابتسامة على وجهك!"
 }

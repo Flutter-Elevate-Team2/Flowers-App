@@ -12,6 +12,9 @@ class CheckoutButton extends StatelessWidget {
     this.isLoading = false,
   });
 
+  /// True when the button is logically disabled (no address selected).
+  bool get _isDisabled => !isLoading && onPressed == null;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -20,7 +23,10 @@ class CheckoutButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          disabledBackgroundColor: Theme.of(context).primaryColor,
+          // Grey when no address is selected, primary when loading (spinner).
+          disabledBackgroundColor: _isDisabled
+              ? const Color(0xFF878787)
+              : Theme.of(context).primaryColor,
           backgroundColor: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
@@ -28,20 +34,21 @@ class CheckoutButton extends StatelessWidget {
         ),
         child: isLoading
             ? const SizedBox(
-          height: 22,
-          width: 22,
-          child: CircularProgressIndicator(
-            strokeWidth: 2.5,
-            color: Colors.white,
-          ),
-        )
+                height: 22,
+                width: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: Colors.white,
+                ),
+              )
             : Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }
