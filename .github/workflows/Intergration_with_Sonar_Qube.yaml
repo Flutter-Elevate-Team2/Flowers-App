@@ -1,0 +1,59 @@
+name: Build and Analyze
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout Code
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      # 2. Setup Java 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      # 3. Setup Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true 
+
+      # 4. Install Dependencies
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # 5. Run Code Generator 
+      # خطوة مهمة جداً عشان Retrofit و JsonSerializable
+      - name: Run Build Runner
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      # 6. Run Tests & Generate Coverage
+      - name: Run Tests
+        run: flutter test --coverage
+
+      # 7. SonarQube Scan
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=MoHa270xX_Flowers-App
+            -Dsonar.organization=moha270xx
+            -Dsonar.sources=lib
+            -Dsonar.tests=test
+            -Dsonar.dart.lcov.reportPath=coverage/lcov.info
+            -Dsonar.sourceEncoding=UTF-8
