@@ -16,6 +16,13 @@ migrate_working_dir/
 *.lock
 *.config.dart
 *.env
+*flutter-code-review.md
+# Auto-generated files
+*.g.dart
+*.freezed.dart
+*.config.dart
+*.mocks.dart
+
 
 # ── Secret / sensitive files – NEVER commit these ───────────────────────────
 .env
