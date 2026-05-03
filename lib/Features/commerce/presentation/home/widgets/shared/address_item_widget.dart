@@ -1,4 +1,3 @@
-
 import 'package:flowers_app/Features/user_address/domain/entities/address_entity.dart';
 import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
@@ -22,8 +21,8 @@ class AddressItemWidget extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       leading: CircleAvatar(
         backgroundColor: isSelected
-            ? AppColors.mainColor.withOpacity(0.1)
-            : Colors.grey.withOpacity(0.1),
+            ? AppColors.mainColor.withValues(alpha: 0.1)
+            : Colors.grey.withValues(alpha: 0.1),
         child: Icon(
           Icons.location_on_outlined,
           color: isSelected ? AppColors.mainColor : AppColors.gray,

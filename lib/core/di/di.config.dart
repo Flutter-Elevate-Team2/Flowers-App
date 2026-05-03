@@ -31,6 +31,7 @@ import '../../Features/auth/domain/auth_repo_contract/auth_repo_contract.dart'
 import '../../Features/auth/domain/use_cases/check_auth_usecase.dart' as _i409;
 import '../../Features/auth/domain/use_cases/forget_password_usecase.dart'
     as _i762;
+import '../../Features/auth/domain/use_cases/get_user_id_usecase.dart' as _i666;
 import '../../Features/auth/domain/use_cases/guest_login_usecase.dart' as _i655;
 import '../../Features/auth/domain/use_cases/login_usecase.dart' as _i512;
 import '../../Features/auth/domain/use_cases/reset_password_usecase.dart'
@@ -120,6 +121,20 @@ import '../../Features/profile/domain/use_cases/upload_photo_use_case.dart'
     as _i417;
 import '../../Features/profile/presentation/view_model/profile_view_model.dart'
     as _i149;
+import '../../Features/track_order/data/data_sources/remote/send_silent_notification_remot_data_source_contract.dart'
+    as _i571;
+import '../../Features/track_order/data/data_sources/remote/send_silent_notification_remot_data_source_imple.dart'
+    as _i557;
+import '../../Features/track_order/data/repo/send_silent_notification_repo_imple.dart'
+    as _i896;
+import '../../Features/track_order/domain/repo/send_silent_notification_repo_contract.dart'
+    as _i33;
+import '../../Features/track_order/domain/use_cases/get_order_details_use_case.dart'
+    as _i757;
+import '../../Features/track_order/domain/use_cases/send_silent_notification_use_case.dart'
+    as _i632;
+import '../../Features/track_order/presentation/view_model/track_order_view_model.dart'
+    as _i734;
 import '../../Features/user_address/api/api_client/user_address_api.dart'
     as _i87;
 import '../../Features/user_address/api/data_sources_imple/user_address_remote_data_source_imple.dart'
@@ -142,6 +157,7 @@ import '../auth_interceptors/auth_interceptors.dart' as _i453;
 import '../controller/session_controller.dart' as _i306;
 import '../modules/dio_module.dart' as _i948;
 import '../modules/register_module.dart' as _i505;
+import '../services/firebase_data_uploader_service.dart' as _i176;
 import '../utils/debouncer/debouncer.dart' as _i442;
 import '../utils/debouncer/timer_debouncer.dart' as _i427;
 
@@ -158,6 +174,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
+    gh.factory<_i176.FirebaseDataUploaderService>(
+      () => _i176.FirebaseDataUploaderService(),
+    );
     gh.singleton<_i306.SessionController>(
       () => _i306.SessionController(),
       dispose: (i) => i.dispose(),
@@ -166,6 +185,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i695.MemCacheStore>(() => dioModule.memCacheStore);
     gh.factory<_i164.AuthLocalDataSourceContract>(
       () => _i1051.AuthLocalDataSourceImple(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i571.SendSilentNotificationDataSourceContract>(
+      () => _i557.SendSilentNotificationDataSourceImple(),
     );
     gh.factory<_i453.AuthInterceptor>(
       () => _i453.AuthInterceptor(
@@ -177,17 +199,37 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i655.GuestLoginUseCase>(
       () => _i655.GuestLoginUseCase(gh<_i164.AuthLocalDataSourceContract>()),
     );
+    gh.factory<_i757.GetOrderDetailsUseCase>(
+      () =>
+          _i757.GetOrderDetailsUseCase(gh<_i176.FirebaseDataUploaderService>()),
+    );
+    gh.lazySingleton<_i33.SendSilentNotificationRepositoryContract>(
+      () => _i896.SendSilentNotificationRepositoryImple(
+        gh<_i571.SendSilentNotificationDataSourceContract>(),
+      ),
+    );
     gh.factory<_i187.HasValidTokenUseCase>(
       () => _i187.HasValidTokenUseCase(gh<_i164.AuthLocalDataSourceContract>()),
     );
     gh.singleton<_i695.CacheOptions>(
       () => dioModule.cacheOptions(gh<_i695.MemCacheStore>()),
     );
+    gh.factory<_i632.SendSilentNotificationUseCase>(
+      () => _i632.SendSilentNotificationUseCase(
+        gh<_i33.SendSilentNotificationRepositoryContract>(),
+      ),
+    );
     gh.singleton<_i361.Dio>(
       () => dioModule.dio(
         gh<_i453.AuthInterceptor>(),
         gh<_i528.PrettyDioLogger>(),
         gh<_i695.CacheOptions>(),
+      ),
+    );
+    gh.factory<_i734.OrderStatusViewModel>(
+      () => _i734.OrderStatusViewModel(
+        gh<_i757.GetOrderDetailsUseCase>(),
+        gh<_i632.SendSilentNotificationUseCase>(),
       ),
     );
     gh.lazySingleton<_i888.AuthApi>(() => _i888.AuthApi(gh<_i361.Dio>()));
@@ -301,14 +343,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i164.AuthLocalDataSourceContract>(),
       ),
     );
-    gh.factory<_i1071.CheckoutViewModel>(
-      () => _i1071.CheckoutViewModel(
-        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
-        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
-      ),
-    );
     gh.factory<_i762.ForgetPasswordUsecase>(
       () => _i762.ForgetPasswordUsecase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i666.GetUserIdUseCase>(
+      () => _i666.GetUserIdUseCase(gh<_i30.AuthRepoContract>()),
     );
     gh.factory<_i785.ResetPasswordUsecase>(
       () => _i785.ResetPasswordUsecase(gh<_i30.AuthRepoContract>()),
@@ -346,6 +385,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i179.SignupUseCase>(
       () => _i179.SignupUseCase(gh<_i30.AuthRepoContract>()),
+    );
+    gh.factory<_i1071.CheckoutViewModel>(
+      () => _i1071.CheckoutViewModel(
+        cashOrderCheckout: gh<_i331.CashOrderCheckout>(),
+        creditCardCheckout: gh<_i640.CreditCardCheckout>(),
+        getUserIdUseCase: gh<_i666.GetUserIdUseCase>(),
+      ),
     );
     gh.factory<_i713.NotificationViewModel>(
       () => _i713.NotificationViewModel(gh<_i932.GetNotificationUseCase>()),

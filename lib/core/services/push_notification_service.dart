@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -25,6 +24,9 @@ class PushNotificationService {
       StreamController.broadcast();
   static Stream<void> get onNotificationReceived =>
       _notificationStreamController.stream;
+
+  static String? _deviceToken;
+  static String? get deviceToken => _deviceToken;
 
   static Future<void> init() async {
     await _requestPermission();
@@ -81,6 +83,8 @@ class PushNotificationService {
     } else {
       token = await _firebaseMessaging.getToken();
     }
+
+    _deviceToken = token;
 
     if (kDebugMode) {
       print('Device Token: $token');
@@ -142,4 +146,5 @@ class PushNotificationService {
       );
     }
   }
+
 }

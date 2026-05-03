@@ -2,6 +2,7 @@ import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_
 import 'package:flowers_app/Features/order/domain/use_cases/get_user_orders.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_event.dart';
 import 'package:flowers_app/Features/order/presentation/orders/view_model/orders_states.dart';
+import 'package:flowers_app/core/constants/api_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flowers_app/core/base_response/base_response.dart';
@@ -16,55 +17,43 @@ class OrdersViewModel extends Cubit<OrdersState> {
     if (event is GetUserOrdersEvent) {
       _getOrders();
     } else if (event is ChangeOrdersFilterEvent) {
-      _changeFilter(event.filter);
+      emit(state.copyWith(selectedFilter: event.filter));
     }
   }
 
   Future<void> _getOrders() async {
     emit(state.copyWith(isLoading: true, errorMessage: null));
 
-    final response = await getUserOrders.call(filter: state.selectedFilter);
+    final response = await getUserOrders.call();
 
     if (response is SuccessResponse<List<OrdersEntity>>) {
-      if (state.selectedFilter == OrderFilter.pending) {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            allOrders: response.data,
-            activeOrders: response.data,
-          ),
-        );
-      } else {
-        emit(
-          state.copyWith(
-            isLoading: false,
-            allOrders: response.data,
-            completedOrders: response.data,
-          ),
-        );
-      }
+      final allOrders = response.data;
+
+      final active = allOrders
+          .where(
+            (o) =>
+                o.state == ApiConstants.pending ||
+                o.state == ApiConstants.inProgress ||
+                o.isPaid == false,
+          )
+          .toList();
+
+      final completed = allOrders
+          .where((o) => o.state == ApiConstants.completed)
+          .toList();
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+          allOrders: allOrders,
+          activeOrders: active,
+          completedOrders: completed,
+        ),
+      );
     } else if (response is ErrorResponse<List<OrdersEntity>>) {
       emit(
         state.copyWith(isLoading: false, errorMessage: response.errorMessage),
       );
-    }
-  }
-
-  Future<void> _changeFilter(OrderFilter filter) async {
-    emit(state.copyWith(isFiltering: true, selectedFilter: filter));
-
-    final response = await getUserOrders.call(filter: filter);
-
-    if (response is SuccessResponse<List<OrdersEntity>>) {
-      if (filter == OrderFilter.pending) {
-        emit(state.copyWith(activeOrders: response.data, isFiltering: false));
-      } else {
-        emit(
-          state.copyWith(completedOrders: response.data, isFiltering: false),
-        );
-      }
-    } else {
-      emit(state.copyWith(isFiltering: false));
     }
   }
 }

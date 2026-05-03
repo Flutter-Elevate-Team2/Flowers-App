@@ -1046,72 +1046,6 @@ abstract class AppLocalizations {
   /// **'guest'**
   String get guest;
 
-  /// Label for address input field
-  ///
-  /// In en, this message translates to:
-  /// **'Address'**
-  String get addressLabel;
-
-  /// Hint for address input field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your address'**
-  String get addressHint;
-
-  /// Label for phone number input field
-  ///
-  /// In en, this message translates to:
-  /// **'Phone Number'**
-  String get phoneNumberLabel;
-
-  /// Hint for phone number input field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your phone number'**
-  String get phoneNumberHint;
-
-  /// Label for recipient name input field
-  ///
-  /// In en, this message translates to:
-  /// **'Recipient name'**
-  String get recipientNameLabel;
-
-  /// Hint for recipient name input field
-  ///
-  /// In en, this message translates to:
-  /// **'Enter recipient name'**
-  String get recipientNameHint;
-
-  /// Label for city dropdown
-  ///
-  /// In en, this message translates to:
-  /// **'City'**
-  String get cityLabel;
-
-  /// Hint for city dropdown
-  ///
-  /// In en, this message translates to:
-  /// **'Cairo'**
-  String get cityHint;
-
-  /// Label for area dropdown
-  ///
-  /// In en, this message translates to:
-  /// **'Area'**
-  String get areaLabel;
-
-  /// Hint for area dropdown
-  ///
-  /// In en, this message translates to:
-  /// **'October'**
-  String get areaHint;
-
-  /// Button text to save a new address
-  ///
-  /// In en, this message translates to:
-  /// **'Save Address'**
-  String get saveAddress;
-
   /// Button text to add a new address
   ///
   /// In en, this message translates to:
@@ -1142,11 +1076,35 @@ abstract class AppLocalizations {
   /// **'Tap to change'**
   String get tapToChange;
 
+  /// Label for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get addressLabel;
+
+  /// Hint for address input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your address'**
+  String get addressHint;
+
   /// Validation message when address is empty
   ///
   /// In en, this message translates to:
   /// **'Please enter address'**
   String get addressRequired;
+
+  /// Label for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumberLabel;
+
+  /// Hint for phone number input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get phoneNumberHint;
 
   /// Validation message when phone is empty
   ///
@@ -1154,17 +1112,41 @@ abstract class AppLocalizations {
   /// **'Please enter phone'**
   String get phoneNumberRequired;
 
+  /// Label for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient name'**
+  String get recipientNameLabel;
+
+  /// Hint for recipient name input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter recipient name'**
+  String get recipientNameHint;
+
   /// Validation message when recipient name is empty
   ///
   /// In en, this message translates to:
   /// **'Please enter name'**
   String get recipientNameRequired;
 
+  /// Label for city dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
   /// Hint text for city dropdown
   ///
   /// In en, this message translates to:
   /// **'Cairo'**
   String get cairoHint;
+
+  /// Label for area dropdown
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaLabel;
 
   /// Hint text for area dropdown
   ///
@@ -1177,6 +1159,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Address'**
   String get updateAddress;
+
+  /// Button text to save a new address
+  ///
+  /// In en, this message translates to:
+  /// **'Save Address'**
+  String get saveAddress;
 
   /// Validation message when location is not selected
   ///
@@ -1406,11 +1394,125 @@ abstract class AppLocalizations {
   /// **'Order Number'**
   String get orderNumber;
 
-  /// No description provided for @noOrdersFound.
+  /// Message displayed when no orders are found
   ///
   /// In en, this message translates to:
   /// **'No orders found'**
   String get noOrdersFound;
+
+  /// No description provided for @accepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Accepted'**
+  String get accepted;
+
+  /// No description provided for @picked.
+  ///
+  /// In en, this message translates to:
+  /// **'Being Prepared'**
+  String get picked;
+
+  /// No description provided for @outForDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Out for Delivery'**
+  String get outForDelivery;
+
+  /// No description provided for @delivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get delivered;
+
+  /// No description provided for @receivedYourOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Received Your Order'**
+  String get receivedYourOrder;
+
+  /// No description provided for @preparingYourOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing Your Order'**
+  String get preparingYourOrder;
+
+  /// No description provided for @estimatedArrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated arrival'**
+  String get estimatedArrival;
+
+  /// No description provided for @isYourDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'is your delivery hero for today'**
+  String get isYourDelivery;
+
+  /// No description provided for @showMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Show map'**
+  String get showMap;
+
+  /// No description provided for @orderDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Delivered'**
+  String get orderDelivered;
+
+  /// No description provided for @arrived.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrived'**
+  String get arrived;
+
+  /// FCM error: Invalid service account credentials (401)
+  ///
+  /// In en, this message translates to:
+  /// **'Notification service authentication failed. Please contact support.'**
+  String get fcmInvalidCredentials;
+
+  /// FCM error: Invalid or expired device token (404)
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the driver. The device token may be expired.'**
+  String get fcmInvalidToken;
+
+  /// FCM error: Generic send failure
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send notification. Please try again.'**
+  String get fcmSendFailed;
+
+  /// Snackbar message when silent notification sent successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery confirmed successfully, finalizing order..'**
+  String get confirmDeliverySuccess;
+
+  /// Button text while sending silent notification
+  ///
+  /// In en, this message translates to:
+  /// **'Confirming...'**
+  String get confirmingDelivery;
+
+  /// Snackbar message when driver token or order ID is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Driver data is incomplete'**
+  String get driverDataIncomplete;
+
+  /// No description provided for @orderCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Cancelled'**
+  String get orderCancelled;
+
+  /// No description provided for @orderHasBeenCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Order has been cancelled please try again'**
+  String get orderHasBeenCancelled;
 }
 
 class _AppLocalizationsDelegate

@@ -14,6 +14,8 @@
 .swiftpm/
 migrate_working_dir/
 *.mocks.dart
+assets/json/tracking-app-service.json
+firebase.json
 
 
 # IntelliJ related
@@ -39,6 +41,9 @@ migrate_working_dir/
 
 # Symbolication related
 app.*.symbols
+
+# Firebase config
+/lib/firebase_options.dart
 
 # Obfuscation related
 app.*.map.json

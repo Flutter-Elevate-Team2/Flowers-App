@@ -34,20 +34,32 @@ class ProfileRepoImpl with ApiExecutionMixin implements ProfileRepoContract {
 
   @override
   Future<BaseResponse<UserEntity>> getProfileData() async {
-    return execute<ProfileDto, UserEntity>(
+    final result = await execute<ProfileDto, UserEntity>(
       action: () async => await _remoteDataSource.getProfile(),
       mapper: (response) => response.toEntity(),
     );
+
+    if (result is SuccessResponse<UserEntity>) {
+      await _authLocalDataSource.saveUserId(result.data.id);
+    }
+
+    return result;
   }
 
   @override
   Future<BaseResponse<UserEntity>> editProfile(
     EditProfileRequest request,
   ) async {
-    return execute<ProfileDto, UserEntity>(
+    final result = await execute<ProfileDto, UserEntity>(
       action: () async => await _remoteDataSource.editProfile(request),
       mapper: (response) => response.toEntity(),
     );
+
+    if (result is SuccessResponse<UserEntity>) {
+      await _authLocalDataSource.saveUserId(result.data.id);
+    }
+
+    return result;
   }
 
   @override
@@ -74,7 +86,6 @@ class ProfileRepoImpl with ApiExecutionMixin implements ProfileRepoContract {
     );
 
     if (result is SuccessResponse<ChangePasswordEntity>) {
-
       final newToken = result.data.token;
       await _authLocalDataSource.clearUserData();
       await _authLocalDataSource.saveToken(newToken);

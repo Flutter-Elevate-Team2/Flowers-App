@@ -38,6 +38,11 @@ class ErrorStrings {
   static const String firebasePermissionDenied = "FIREBASE_PERMISSION_DENIED";
   static const String firebaseUnavailable = "FIREBASE_UNAVAILABLE";
 
+  // --- Firebase Cloud Messaging (FCM) ---
+  static const String fcmInvalidCredentials = "FCM_INVALID_CREDENTIALS";
+  static const String fcmInvalidToken = "FCM_INVALID_TOKEN";
+  static const String fcmSendFailed = "FCM_SEND_FAILED";
+
   // --- Local Storage ---
   static const String hiveError = "HIVE_ERROR";
   static const String platformError = "PLATFORM_ERROR";

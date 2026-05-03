@@ -1,6 +1,7 @@
 import 'package:flowers_app/Features/commerce/presentation/products/widgets/shared/product_card/product_card_image.dart';
-import 'package:flowers_app/core/constants/app_colors.dart';
+ import 'package:flowers_app/core/constants/app_colors.dart';
 import 'package:flowers_app/core/extension/context_extension.dart';
+import 'package:flowers_app/core/widget/custom_button.dart';
 import 'package:flowers_app/core/widget/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flowers_app/Features/order/domain/entities/checkout/user_orders_entity.dart';
@@ -78,30 +79,15 @@ class OrderCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 38,
-                      child: ElevatedButton(
-                        onPressed: onButtonPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.mainColor,
-                          foregroundColor: AppColors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-                        child: Text(
-                          isCompleted
-                              ? context.l10n.reorder
-                              : context.l10n.trackOrder,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontSize: 13,
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                     isCompleted
+                          ? CustomButton(
+                              title: context.l10n.reorder,
+                              onPressed: onButtonPressed,
+                            )
+                          : CustomButton(
+                              title: context.l10n.trackOrder,
+                              onPressed:onButtonPressed
+                            ),
                   ],
                 ),
               ),

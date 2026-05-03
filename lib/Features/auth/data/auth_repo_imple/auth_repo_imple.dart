@@ -34,10 +34,22 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
 
   @override
   Future<BaseResponse<SignupEntity>> signUp(SignupRequest request) async {
-    return execute<SignupResponse, SignupEntity>(
+    final result = await execute<SignupResponse, SignupEntity>(
       action: () async => await _remoteDataSource.signUp(request),
       mapper: (response) => response.toEntity(),
     );
+
+    if (result is SuccessResponse<SignupEntity>) {
+      final token = result.data.token;
+      final userId = result.data.user?.id;
+      if (token != null && token.isNotEmpty) {
+        await _localDataSource.saveToken(token);
+      }
+      if (userId != null && userId.isNotEmpty) {
+        await _localDataSource.saveUserId(userId);
+      }
+    }
+    return result;
   }
 
   @override
@@ -55,9 +67,13 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
 
     if (result is SuccessResponse<LoginEntity>) {
       final token = result.data.token;
+      final userId = result.data.user?.id;
       if (token != null && token.isNotEmpty) {
         await _localDataSource.saveToken(token);
         await _localDataSource.saveRememberMe(isRememberMe);
+      }
+      if (userId != null && userId.isNotEmpty) {
+        await _localDataSource.saveUserId(userId);
       }
     }
     return result;
@@ -69,6 +85,11 @@ class AuthRepoImple with ApiExecutionMixin implements AuthRepoContract {
     final isRememberMe = await _localDataSource.getRememberMe();
 
     return (token != null && token.isNotEmpty) && isRememberMe;
+  }
+
+  @override
+  Future<String?> getUserId() async {
+    return await _localDataSource.getUserId();
   }
 
   @override

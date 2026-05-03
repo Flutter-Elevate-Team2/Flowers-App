@@ -15,15 +15,14 @@ class EmptyAddressStateWidget extends StatelessWidget {
           Icon(
             Icons.location_off_outlined,
             size: 60,
-            color: AppColors.gray.withOpacity(0.5),
+            color: AppColors.gray.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 12),
           Text(
             context.l10n.noSavedAddresses,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: AppColors.gray),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.gray),
             textAlign: TextAlign.center,
           ),
         ],

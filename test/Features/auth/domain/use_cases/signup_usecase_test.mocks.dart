@@ -93,6 +93,14 @@ class MockAuthRepoContract extends _i1.Mock implements _i2.AuthRepoContract {
           as _i3.Future<bool>);
 
   @override
+  _i3.Future<String?> getUserId() =>
+      (super.noSuchMethod(
+            Invocation.method(#getUserId, []),
+            returnValue: _i3.Future<String?>.value(),
+          )
+          as _i3.Future<String?>);
+
+  @override
   _i3.Future<_i4.BaseResponse<_i9.ForgetPasswordEntity>> forgetPassword(
     _i10.ForgetPasswordRequest? request,
   ) =>

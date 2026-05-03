@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flowers_app/Features/auth/data/auth_data_source_contract/auth_local_data_source_contract.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_event.dart';
 import 'package:flowers_app/Features/notifications/presentation/view_model/notification_view_model.dart';
 import 'package:flowers_app/Features/profile/presentation/view_model/profile_view_model.dart';
+import 'package:flowers_app/Features/track_order/presentation/view_model/track_order_view_model.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_event.dart';
 import 'package:flowers_app/Features/user_address/presentation/view_model/user_address_view_model.dart';
 import 'package:flowers_app/core/app_router/app_router.dart';
@@ -13,6 +15,7 @@ import 'package:flowers_app/core/di/di.dart';
 import 'package:flowers_app/core/helpers/session_expired_handler.dart';
 import 'package:flowers_app/core/l10n/app_localizations.dart';
 import 'package:flowers_app/core/l10n/view_model/language_cubit.dart';
+import 'package:flowers_app/core/services/firebase_data_uploader_service.dart';
 import 'package:flowers_app/core/services/push_notification_service.dart';
 import 'package:flowers_app/core/theming/app_theming.dart';
 import 'package:flowers_app/core/widget/selected_address_cubit.dart';
@@ -27,9 +30,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
   await configureDependencies();
   await PushNotificationService.init();
@@ -52,22 +53,37 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _sessionController = getIt<SessionController>();
   late StreamSubscription? _subscription;
+  late StreamSubscription? _loginSubscription;
+
   @override
   void initState() {
     super.initState();
+    _uploadUserData();
     _subscription = _sessionController.onSessionExpired.listen((_) {
-      // Fix: Check mounted and pass correct context
       final context = AppRouter.rootNavigatorKey.currentContext;
-      if (context != null && mounted) {
+      if (context != null && context.mounted) {
         SessionExpiredHandler.handle(context);
       }
     });
+
+    _loginSubscription = _sessionController.onLogin.listen((_) {
+      _uploadUserData();
+    });
+  }
+
+  Future<void> _uploadUserData() async {
+    final authLocalDataSource = getIt<AuthLocalDataSourceContract>();
+    final userId = await authLocalDataSource.getUserId();
+    if (userId != null && userId.isNotEmpty) {
+      FirebaseDataUploaderService.uploadUserDataOnOpen(userId);
+    }
   }
 
   @override
   void dispose() {
     // Fix: Safe cancel
     _subscription?.cancel();
+    _loginSubscription?.cancel();
     super.dispose();
   }
 
@@ -82,12 +98,15 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => getIt<ProfileViewModel>()),
         BlocProvider(
           create: (context) =>
-              getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
+          getIt<UserAddressViewModel>()..doIntent(GetAddressesEvent()),
         ),
         BlocProvider(create: (_) => SelectedAddressCubit()),
         BlocProvider(
           create: (context) =>
-              getIt<NotificationViewModel>()..doIntent(GetNotificationsEvent()),
+          getIt<NotificationViewModel>()..doIntent(GetNotificationsEvent()),
+        ),
+        BlocProvider(
+          create: (_) => getIt<OrderStatusViewModel>(),
         ),
       ],
       child: BlocBuilder<LanguageCubit, Locale>(
@@ -97,7 +116,7 @@ class _MyAppState extends State<MyApp> {
             routerConfig: AppRouter.router,
             debugShowCheckedModeBanner: false,
             onGenerateTitle: (context) =>
-                AppLocalizations.of(context)!.appTitle,
+            AppLocalizations.of(context)!.appTitle,
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             theme: AppTheme.lightTheme,
