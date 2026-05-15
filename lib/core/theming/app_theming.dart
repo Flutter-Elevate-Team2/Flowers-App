@@ -1,0 +1,146 @@
+import 'package:flowers_app/core/constants/app_colors.dart';
+import 'package:flowers_app/core/constants/constant_keys.dart';
+import 'package:flutter/material.dart';
+
+abstract class AppTheme {
+  static ThemeData lightTheme = ThemeData(
+    useMaterial3: true,
+    scaffoldBackgroundColor: AppColors.white,
+    fontFamily: ConstKeys.interFont,
+    colorScheme: ColorScheme(
+      brightness: Brightness.light,
+      primary: AppColors.mainColor,
+      onPrimary: AppColors.white,
+      secondary: AppColors.black,
+      onSecondary: AppColors.white,
+      error: AppColors.red,
+      onError: AppColors.white,
+      surface: AppColors.white,
+      onSurface: AppColors.mainColor,
+      surfaceContainerHighest: AppColors.gray,
+      tertiary: AppColors.green,
+      shadow: AppColors.black.withValues(alpha: 0.1),
+    ),
+    textTheme: TextTheme(
+      titleMedium: getTextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+        color: AppColors.gray,
+      ),
+      bodySmall: getTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+      bodyMedium: getTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      bodyLarge: getTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+      headlineMedium: getTextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.white,
+      titleTextStyle: getTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      iconTheme: IconThemeData(color: AppColors.black),
+    ),
+
+    inputDecorationTheme: InputDecorationTheme(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      alignLabelWithHint: true,
+
+      filled: true,
+      fillColor: AppColors.white,
+      contentPadding: EdgeInsets.only(left: 16, top: 20, bottom: 20),
+      hintStyle: getTextStyle(
+        color: AppColors.white[70],
+        fontFamily: ConstKeys.robotoFont,
+        fontWeight: FontWeight.w400,
+      ),
+      labelStyle: getTextStyle(
+        color: AppColors.gray,
+        fontFamily: ConstKeys.robotoFont,
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
+      ),
+      floatingLabelStyle: WidgetStateTextStyle.resolveWith((states) {
+        if (states.contains(WidgetState.error)) {
+          return getTextStyle(color: AppColors.red);
+        }
+        return getTextStyle(color: AppColors.gray, fontSize: 16);
+      }),
+      errorStyle: getTextStyle(color: AppColors.red),
+      border: getOutlineInputBorder(color: AppColors.gray),
+      focusedBorder: getOutlineInputBorder(color: AppColors.gray),
+      enabledBorder: getOutlineInputBorder(color: AppColors.gray),
+      errorBorder: getOutlineInputBorder(color: AppColors.red),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedIconTheme: IconThemeData(
+        color: AppColors.mainColor,
+        applyTextScaling: true,
+      ),
+      selectedItemColor: AppColors.mainColor,
+      unselectedItemColor: AppColors.gray,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      type: BottomNavigationBarType.shifting,
+    ),
+
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        iconSize: 16,
+        backgroundColor: AppColors.mainColor,
+        disabledBackgroundColor: AppColors.black[30],
+        foregroundColor: AppColors.white,
+        textStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+      ),
+    ),
+
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      extendedSizeConstraints: BoxConstraints(minWidth: 80, minHeight: 34),
+      backgroundColor: AppColors.mainColor,
+      foregroundColor: AppColors.white,
+      extendedTextStyle: getTextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
+    ),
+    dialogTheme: DialogThemeData(
+      titleTextStyle: getTextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+      contentTextStyle: getTextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    ),
+  );
+
+  static InputBorder getOutlineInputBorder({required Color color}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(4),
+      borderSide: BorderSide(color: color, width: 1),
+    );
+  }
+
+  static TextStyle getTextStyle({
+    Color? color,
+    double? fontSize,
+    String? fontFamily,
+    FontWeight? fontWeight,
+  }) {
+    return TextStyle(
+      color: color ?? AppColors.black,
+      fontSize: fontSize ?? 14,
+      fontFamily: fontFamily ?? ConstKeys.interFont,
+      fontWeight: fontWeight ?? FontWeight.w400,
+    );
+  }
+
+  // ── Notification-specific text styles ──────────────────────────────────────
+
+  /// Title: Inter Medium 500 · 16px · #0C1015
+  static TextStyle notificationTitleStyle = getTextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.black, // #0C1015
+  );
+
+  /// Body: Inter Regular 400 · 12px · #535353
+  static TextStyle notificationBodyStyle = getTextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.gray, // #535353
+  );
+}
